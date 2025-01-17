@@ -1,0 +1,77 @@
+// 1. Load your project's USWDS settings configuration
+// https://designsystem.digital.gov/documentation/settings/
+@use "uswds-core" with (
+  $theme-font-path: "../../../../../../dist/fonts",
+  $theme-image-path: "../../../../../../dist/img",
+  $theme-show-notifications: false,
+);
+
+// 2. Load USWDS source code
+// @forward "uswds";
+@forward "usa-prose";
+@forward "usa-button";
+// @forward "usa-header";
+
+:root{
+    --font-body: "Public Sans", -apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.template-default__wrap > * {
+    margin-left: 10%;
+    max-width: 80%;
+}
+
+.doc-controls {
+    font-size: 16px !important;
+}
+
+.document-fields label {
+    font-size: 16px !important;
+    margin-bottom: 1rem;
+}
+
+.editor > *, .fixed-toolbar > * {
+    font-family: "Public Sans", -apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.collection-edit {
+    line-height: 25px;
+}
+
+.render-title {
+    font-family: "Merriweather", Georgia, Cambria, "Times New Roman", Times, serif;
+    font-weight: 700;
+}
+
+// the button styles mess up with main page links so
+// restrict them a bit
+.list-header, .doc-controls__wrapper, .login {
+    .btn {
+        @extend .usa-button;
+    }
+
+    .btn--style-secondary {
+        @extend .usa-button--outline;
+    }
+
+    .btn--style-none {
+        @extend .usa-button--unstyled;
+    }
+}
+
+
+.preview-btn {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+button {
+    font-family: "Public Sans", -apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 16px;
+}
+
+.oauth {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}

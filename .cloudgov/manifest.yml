@@ -1,0 +1,29 @@
+---
+applications:
+  - name: ((name))
+    buildpack: nodejs_buildpack
+    routes:
+      - route: payload-test.app.cloud.gov
+    processes:
+      - type: web
+        command: npm run start
+        disk_quota: 5G
+        instances: ((instances))
+        memory: 1G
+    services:
+      - pages-editor-((env))-rds
+      - payload-secret
+    env:
+      NODE_ENV: ((node_env))
+      APP_ENV: ((env))
+      OAUTH_AUTH_ENDPOINT: https://login.fr.cloud.gov/oauth/authorize
+      OAUTH_TOKEN_ENDPOINT: https://uaa.fr.cloud.gov/oauth/token
+      OAUTH_JWT_SET: https://uaa.fr.cloud.gov/token_keys
+      LOG_LEVEL: ((log_level))
+      NPM_CONFIG_PRODUCTION: true
+      NODE_MODULES_CACHE: false
+      SHARP_IGNORE_GLOBAL_LIBVIPS: true
+      OPTIMIZE_MEMORY: true
+      PUBLIC_URL: https://payload-test.app.cloud.gov
+    health-check-type: http
+    health-check-http-endpoint: /admin
