@@ -8,4 +8,4 @@ run:
   path: bash
   args:
     - -c
-    - npm run build
+    - npm run generate:types && npm run build

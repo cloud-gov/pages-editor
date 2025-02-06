@@ -48,7 +48,7 @@ jobs:
         file: src/ci/partials/deploy.yml
         image: general-task
         params:
-          _: #@ template.replace(data.values.env_cf_payload)
+          _: #@ template.replace(data.values.env_cf_editor)
           CF_APP_NAME: pages-editor-((deploy-env))
           CF_MANIFEST: src/.cloudgov/manifest.yml
           CF_VARS_FILE: src/.cloudgov/vars/pages-((deploy-env)).yml
@@ -59,7 +59,7 @@ jobs:
             file: pipeline-tasks/tasks/cancel-deployment.yml
             image: general-task
             params:
-              _: #@ template.replace(data.values.env_cf_payload)
+              _: #@ template.replace(data.values.env_cf_editor)
               CF_APP_NAME: pages-((deploy-env))
 
 #!  RESOURCES
