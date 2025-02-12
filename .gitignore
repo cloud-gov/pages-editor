@@ -12,5 +12,5 @@ public/media/
 public/robots.txt
 public/sitemap*.xml
 
-# payload-types should be dynamically generated for now
-# src/payload-types.ts
+# payload-types should be dynamically generated
+src/payload-types.ts

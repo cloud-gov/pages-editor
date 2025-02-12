@@ -18,12 +18,28 @@ export const Users: CollectionConfig = {
   },
   auth: {
     disableLocalStrategy: true,
+    useAPIKey: true
   },
   fields: [
     {
       name: 'name',
       type: 'text',
     },
+    {
+      name: 'email',
+      type: 'email'
+    },
+    {
+      name: 'sub', // we have to create this manually or it isn't added to the JWT payload-token
+      type: 'text',
+      saveToJWT: true,
+    },
+    {
+      name: 'sites',
+      type: 'array',
+      fields: [{ name: 'site', type: 'text' }],
+      saveToJWT: true,
+    }
   ],
   timestamps: true,
 }
