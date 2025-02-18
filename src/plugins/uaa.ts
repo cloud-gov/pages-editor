@@ -9,7 +9,7 @@ export const uaaOauth = OAuth2Plugin({
     typeof process.env.OAUTH_CLIENT_ID === "string" &&
     typeof process.env.OAUTH_CLIENT_SECRET === "string",
   strategyName: "uaa",
-  useEmailAsIdentity: true,
+  useEmailAsIdentity: false,
   serverURL: process.env.PUBLIC_URL || "http://localhost:3000",
   clientId: process.env.OAUTH_CLIENT_ID || "",
   clientSecret: process.env.OAUTH_CLIENT_SECRET || "",
@@ -20,17 +20,10 @@ export const uaaOauth = OAuth2Plugin({
   scopes: [ 'openid'],
   providerAuthorizationUrl: process.env.OAUTH_AUTH_ENDPOINT || "",
   getUserInfo: async (accessToken: string) => {
-    console.log(`fetching user, token ${accessToken}`)
-    // TODO: how do we remove this, local cannot do claim verification
-    let user: JWTPayload = {};
-    if ((process.env.OAUTH_TOKEN_ENDPOINT || '').includes('localhost')) {
-        user = decodeJwt(accessToken);
-    } else {
-        const JWKS = createRemoteJWKSet(new URL(process.env.OAUTH_JWT_SET || ''))
-        const { payload } = await jwtVerify(accessToken, JWKS)
-        user = payload;
-    }
-    return { email: user.email, sub: user.sub };
+    const user: JWTPayload = decodeJwt(accessToken);
+    // db lookup
+    const sites = [{ site: 'test' }]
+    return { email: user.email, sub: user.sub, sites };
   },
   /**
    * This param is optional to demonstrate how to customize your own
@@ -50,7 +43,9 @@ export const uaaOauth = OAuth2Plugin({
     // Consider this section afterToken hook
     ////////////////////////////////////////////////////////////////////////////
     req.payload.logger.info(`Received token: ${token} 👀`);
+    req.payload.logger.info(`${req.user}`);
     if (req.user) {
+      console.log('trying update')
       req.payload.update({
         collection: "users",
         id: req.user.id,
