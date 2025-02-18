@@ -7,10 +7,7 @@ import { lexicalEditor, lexicalHTML, HTMLConverterFeature } from '@payloadcms/ri
 
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
-import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
-
-import { getServerSideURL } from '@/utilities/getURL'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
