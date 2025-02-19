@@ -18,7 +18,10 @@ export const Users: CollectionConfig = {
   },
   auth: {
     disableLocalStrategy: true,
-    useAPIKey: true
+    useAPIKey: true,
+    cookies: {
+      domain: process.env.COOKIE_DOMAIN
+    }
   },
   fields: [
     {

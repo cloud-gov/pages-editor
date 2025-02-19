@@ -26,5 +26,6 @@ applications:
       OPTIMIZE_MEMORY: true
       PUBLIC_URL: https://pages-editor-((env)).app.cloud.gov
       PREVIEW_URL: https://pages-editor-preview-((env)).app.cloud.gov
+      COOKIE_DOMAIN: app.cloud.gov
     health-check-type: http
     health-check-http-endpoint: /admin
