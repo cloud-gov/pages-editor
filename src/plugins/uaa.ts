@@ -32,28 +32,27 @@ export const uaaOauth = OAuth2Plugin({
    */
   getToken: async (code: string, req: PayloadRequest) => {
     const redirectUri = `${process.env.PUBLIC_URL || "http://localhost:3000"}/api/users/oauth/uaa/callback`;
-    const token = await defaultGetToken(
-      process.env.OAUTH_TOKEN_ENDPOINT || "",
-      process.env.OAUTH_CLIENT_ID || "",
-      process.env.OAUTH_CLIENT_SECRET || "",
-      redirectUri,
-      code,
-    );
-    ////////////////////////////////////////////////////////////////////////////
-    // Consider this section afterToken hook
-    ////////////////////////////////////////////////////////////////////////////
-    req.payload.logger.info(`Received token: ${token} 👀`);
-    req.payload.logger.info(`${req.user}`);
-    if (req.user) {
-      console.log('trying update')
-      req.payload.update({
-        collection: "users",
-        id: req.user.id,
-        data: {},
-      });
+    const tokenResponse = await fetch(process.env.OAUTH_TOKEN_ENDPOINT || "", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Accept: "application/json",
+        },
+        body: new URLSearchParams({
+            code,
+            client_id: process.env.OAUTH_CLIENT_ID || "",
+            client_secret: process.env.OAUTH_CLIENT_SECRET || "",
+            redirect_uri: redirectUri,
+            grant_type: "authorization_code",
+        }).toString(),
+    });
+    const tokenData = await tokenResponse.json();
+    const uaaUser: JWTPayload = decodeJwt(tokenData?.access_token);
+    if ((uaaUser?.email as string).includes('@cloud.gov')){
+      return tokenData.access_token
     }
 
-    return token;
+    return null;
   },
   successRedirect: (req) => {
     return "/admin";
