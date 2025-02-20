@@ -48,7 +48,7 @@ export const uaaOauth = OAuth2Plugin({
     });
     const tokenData = await tokenResponse.json();
     const uaaUser: JWTPayload = decodeJwt(tokenData?.access_token);
-    if ((uaaUser?.email as string).includes('@cloud.gov')){
+    if ((uaaUser?.email as string).includes('@gsa.gov')){
       return tokenData.access_token
     }
 

@@ -18,7 +18,7 @@ const debouncedFetch = pDebounce(fetch, DEBOUNCE_TIME, { before: true });
 export const previewWebhook: CollectionAfterChangeHook<Post> = async ({
   doc,
 }) => {
-  await debouncedFetch(process.env.PROMPT_URL || '')
+  await debouncedFetch(`${process.env.PREVIEW_URL}/reload`)
   return doc
 }
 
