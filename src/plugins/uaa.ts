@@ -1,7 +1,7 @@
-import { decodeJwt, createRemoteJWKSet, jwtVerify } from "jose";
+import { decodeJwt } from "jose";
 import type { JWTPayload } from "jose";
 import { PayloadRequest } from "payload";
-import { OAuth2Plugin, defaultGetToken } from "payload-oauth2";
+import { OAuth2Plugin } from "payload-oauth2";
 
 
 export const uaaOauth = OAuth2Plugin({

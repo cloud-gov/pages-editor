@@ -1,12 +1,13 @@
 import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
+import { admin, adminField } from '@/access/admin'
 
 export const Users: CollectionConfig = {
   slug: 'users',
   access: {
     admin: authenticated,
-    create: authenticated,
+    create: admin,
     delete: authenticated,
     read: authenticated,
     update: authenticated,
@@ -39,9 +40,25 @@ export const Users: CollectionConfig = {
     },
     {
       name: 'sites',
-      type: 'array',
-      fields: [{ name: 'site', type: 'text' }],
-      saveToJWT: true,
+      type: 'relationship',
+      relationTo: 'sites',
+      hasMany: true,
+      minRows: 1,
+      access: {
+        create: adminField,
+        read: adminField,
+        update: adminField,
+      },
+    },
+    {
+      name: 'role',
+      type: 'select',
+      options: [
+        { label: 'Admin', value: 'admin' },
+        { label: 'Manager', value: 'manager' },
+        { label: 'User', value: 'user' },
+        { label: 'Bot', value: 'bot' },
+      ]
     }
   ],
   timestamps: true,

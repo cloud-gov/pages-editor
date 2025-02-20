@@ -15,6 +15,7 @@ export interface Config {
     posts: Post;
     media: Media;
     categories: Category;
+    sites: Site;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -30,6 +31,7 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    sites: SitesSelect<false> | SitesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -154,17 +156,23 @@ export interface User {
   name?: string | null;
   email?: string | null;
   sub?: string | null;
-  sites?:
-    | {
-        site?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  sites?: (number | null) | Site;
+  role?: ('admin' | 'manager' | 'user' | 'bot') | null;
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
   apiKey?: string | null;
   apiKeyIndex?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sites".
+ */
+export interface Site {
+  id: number;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -547,6 +555,10 @@ export interface PayloadLockedDocument {
         value: number | Category;
       } | null)
     | ({
+        relationTo: 'sites';
+        value: number | Site;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -759,6 +771,15 @@ export interface CategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sites_select".
+ */
+export interface SitesSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -955,12 +976,8 @@ export interface UsersSelect<T extends boolean = true> {
   name?: T;
   email?: T;
   sub?: T;
-  sites?:
-    | T
-    | {
-        site?: T;
-        id?: T;
-      };
+  sites?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   enableAPIKey?: T;
