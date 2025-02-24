@@ -8,13 +8,14 @@ import { lexicalEditor, lexicalHTML, HTMLConverterFeature } from '@payloadcms/ri
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+import { previewWebhook } from '@/utilities/previews'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   access: {
     create: authenticated,
     delete: authenticated,
-    read: authenticatedOrPublished,
+    read: authenticated,
     update: authenticated,
   },
   // This config controls what's populated by default when a page is referenced
@@ -64,7 +65,7 @@ export const Pages: CollectionConfig<'pages'> = {
     ...slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePage],
+    afterChange: [revalidatePage, previewWebhook],
     beforeChange: [populatePublishedAt],
     beforeDelete: [revalidateDelete],
   },
