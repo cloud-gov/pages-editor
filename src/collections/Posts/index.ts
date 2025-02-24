@@ -1,26 +1,15 @@
-import type { CollectionConfig, CollectionAfterChangeHook } from 'payload'
-import type { Post } from '../../payload-types'
+import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
+import { previewWebhook } from '@/utilities/previews'
 
 import { lexicalEditor, HTMLConverterFeature, lexicalHTML } from '@payloadcms/richtext-lexical';
 import { slugField } from '@/fields/slug'
 
 import { customFields } from './custom'
-import pDebounce from 'p-debounce';
 
-const DEBOUNCE_TIME = 1000
-const debouncedFetch = pDebounce(fetch, DEBOUNCE_TIME, { before: true });
-
-// webhook to update preview
-export const previewWebhook: CollectionAfterChangeHook<Post> = async ({
-  doc,
-}) => {
-  await debouncedFetch(`${process.env.PREVIEW_URL}/reload`)
-  return doc
-}
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',

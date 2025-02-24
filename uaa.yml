@@ -9,7 +9,7 @@ scim:
   userids_enabled: true
   username_pattern: '[a-z0-9+\-_.@]+'
   users:
-    - admin@cloud.gov|password|admin@cloud.gov|Admin|Admin|group.admin
+    - admin@gsa.gov|password|admin@gsa.gov|Admin|Admin|group.admin
 
 disableInternalAuth: false
 disableInternalUserManagement: false
