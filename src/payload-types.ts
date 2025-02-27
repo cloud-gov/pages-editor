@@ -116,6 +116,7 @@ export interface Page {
 export interface Post {
   id: number;
   title: string;
+  site: number | Site;
   content?: {
     root: {
       type: string;
@@ -149,30 +150,36 @@ export interface Post {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sites".
+ */
+export interface Site {
+  id: number;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
   id: number;
   name?: string | null;
-  email?: string | null;
+  email: string;
   sub?: string | null;
-  sites?: (number | null) | Site;
-  role?: ('admin' | 'manager' | 'user' | 'bot') | null;
+  sites?:
+    | {
+        site: number | Site;
+        role: 'manager' | 'user' | 'bot';
+        id?: string | null;
+      }[]
+    | null;
+  isAdmin?: boolean | null;
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
   apiKey?: string | null;
   apiKeyIndex?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "sites".
- */
-export interface Site {
-  id: number;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -641,6 +648,7 @@ export interface PagesSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
+  site?: T;
   content?: T;
   content_html?: T;
   authors?: T;
@@ -976,8 +984,14 @@ export interface UsersSelect<T extends boolean = true> {
   name?: T;
   email?: T;
   sub?: T;
-  sites?: T;
-  role?: T;
+  sites?:
+    | T
+    | {
+        site?: T;
+        role?: T;
+        id?: T;
+      };
+  isAdmin?: T;
   updatedAt?: T;
   createdAt?: T;
   enableAPIKey?: T;

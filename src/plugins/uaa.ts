@@ -1,7 +1,7 @@
 import { decodeJwt } from "jose";
 import type { JWTPayload } from "jose";
 import { PayloadRequest } from "payload";
-import { OAuth2Plugin } from "payload-oauth2";
+import { OAuth2Plugin } from "./payload-oauth2";
 
 
 export const uaaOauth = OAuth2Plugin({
@@ -9,7 +9,8 @@ export const uaaOauth = OAuth2Plugin({
     typeof process.env.OAUTH_CLIENT_ID === "string" &&
     typeof process.env.OAUTH_CLIENT_SECRET === "string",
   strategyName: "uaa",
-  useEmailAsIdentity: false,
+  useEmailAsIdentity: true,
+  excludeEmailFromJwtToken: true,
   serverURL: process.env.PUBLIC_URL || "http://localhost:3000",
   clientId: process.env.OAUTH_CLIENT_ID || "",
   clientSecret: process.env.OAUTH_CLIENT_SECRET || "",
@@ -21,6 +22,7 @@ export const uaaOauth = OAuth2Plugin({
   providerAuthorizationUrl: process.env.OAUTH_AUTH_ENDPOINT || "",
   getUserInfo: async (accessToken: string) => {
     const user: JWTPayload = decodeJwt(accessToken);
+    console.log(user)
     // db lookup
     const sites = [{ site: 'test' }]
     return { email: user.email, sub: user.sub, sites };

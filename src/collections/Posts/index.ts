@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionBeforeChangeHook, CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { populateAuthors } from './hooks/populateAuthors'
@@ -10,6 +10,10 @@ import { slugField } from '@/fields/slug'
 
 import { customFields } from './custom'
 
+// const addSite: CollectionBeforeChangeHook = async ({ data, req: { payload, user }} => {
+//   // data.site = document.cookie['payload-site']
+//   return data
+// })
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
@@ -43,6 +47,13 @@ export const Posts: CollectionConfig<'posts'> = {
       name: 'title',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'site',
+      type: 'relationship',
+      relationTo: 'sites',
+      required: true,
+      hidden: true,
     },
     {
       name: 'content',
@@ -117,6 +128,7 @@ export const Posts: CollectionConfig<'posts'> = {
     afterChange: [revalidatePost, previewWebhook],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
+    // beforeChange: [addSite]
   },
   versions: {
     drafts: {

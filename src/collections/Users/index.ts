@@ -1,20 +1,16 @@
 import type { CollectionConfig } from 'payload'
 
-import { authenticated } from '../../access/authenticated'
-import { admin, adminField } from '@/access/admin'
+export const roles = ['manager', 'user', 'bot'] as const
+
+const capitalize = (str: string) => {
+  return `${str[0].toLocaleUpperCase()}${str.slice(1)}`
+}
 
 export const Users: CollectionConfig = {
   slug: 'users',
-  access: {
-    admin: authenticated,
-    create: admin,
-    delete: authenticated,
-    read: authenticated,
-    update: authenticated,
-  },
   admin: {
-    defaultColumns: ['email', 'id', 'updatedAt', 'createdAt'],
-    useAsTitle: 'name',
+    defaultColumns: ['email', 'updatedAt', 'siteRoles'],
+    useAsTitle: 'email',
     hidden: false,
   },
   auth: {
@@ -31,7 +27,8 @@ export const Users: CollectionConfig = {
     },
     {
       name: 'email',
-      type: 'email'
+      type: 'email',
+      required: true,
     },
     {
       name: 'sub', // we have to create this manually or it isn't added to the JWT payload-token
@@ -40,26 +37,41 @@ export const Users: CollectionConfig = {
     },
     {
       name: 'sites',
-      type: 'relationship',
-      relationTo: 'sites',
-      hasMany: true,
-      minRows: 1,
-      access: {
-        create: adminField,
-        read: adminField,
-        update: adminField,
-      },
+      type: 'array',
+      saveToJWT: true,
+      // TODO: custom display component
+      // admin: {
+      //   components: {
+      //     RowLabel:
+      //   }
+      // },
+      fields: [
+        {
+          name: 'site',
+          type: 'relationship',
+          relationTo: 'sites',
+          required: true,
+          index: true,
+          saveToJWT: true,
+        },
+        {
+          name: 'role',
+          type: 'select',
+          defaultValue: 'user',
+          required: true,
+          options: roles.map(role => ({ label: capitalize(role), value: role })),
+        },
+      ],
     },
     {
-      name: 'role',
-      type: 'select',
-      options: [
-        { label: 'Admin', value: 'admin' },
-        { label: 'Manager', value: 'manager' },
-        { label: 'User', value: 'user' },
-        { label: 'Bot', value: 'bot' },
-      ]
-    }
+      name: 'isAdmin',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        hidden: true,
+        readOnly: true,
+      }
+    },
   ],
   timestamps: true,
 }
