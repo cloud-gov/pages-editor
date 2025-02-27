@@ -94,30 +94,27 @@ export const createCallbackEndpoint = (
       // ensure user exists
       // /////////////////////////////////////
       let existingUser: PaginatedDocs<JsonObject & TypeWithID>;
-      if (useEmailAsIdentity) {
-        // Use email as the unique identifier
-        existingUser = await req.payload.find({
-          req,
-          collection: authCollection,
-          where: { email: { equals: userInfo.email } },
-          showHiddenFields: true,
-          limit: 1,
-        });
-      } else {
-        // Use provider's sub field as the unique identifier
-        existingUser = await req.payload.find({
-          req,
-          collection: authCollection,
-          where: { [subFieldName]: { equals: userInfo[subFieldName] } },
-          showHiddenFields: true,
-          limit: 1,
-        });
-      }
 
+      // CUSTOM BEHAVIOR
+      // Use email as the unique identifier
+      existingUser = await req.payload.find({
+        req,
+        collection: authCollection,
+        where: { email: { equals: userInfo.email } },
+        showHiddenFields: true,
+        limit: 1,
+      });
       let user = existingUser.docs[0] as User;
       // don't create new users
       if (!user) throw new Error(`No user matching ${userInfo.email}`);
-
+      // update the sub to match UAA
+      await req.payload.update({
+        collection: authCollection,
+        id: user.id,
+        data: {
+          sub: userInfo.sub as string
+        }
+      })
 
       // /////////////////////////////////////
       // beforeLogin - Collection

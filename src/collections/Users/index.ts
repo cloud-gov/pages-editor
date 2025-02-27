@@ -1,9 +1,19 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionAfterChangeHook, CollectionConfig, User } from 'payload'
 
 export const roles = ['manager', 'user', 'bot'] as const
 
 const capitalize = (str: string) => {
   return `${str[0].toLocaleUpperCase()}${str.slice(1)}`
+}
+
+const userEmail: CollectionAfterChangeHook<User> = async ({
+  doc, operation
+}) => {
+  if (operation === 'create') {
+    // email the user
+    // TBD
+  }
+  return doc
 }
 
 export const Users: CollectionConfig = {
@@ -73,5 +83,8 @@ export const Users: CollectionConfig = {
       }
     },
   ],
+  hooks: {
+    afterChange: [userEmail]
+  },
   timestamps: true,
 }

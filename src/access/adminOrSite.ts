@@ -13,9 +13,7 @@ export const adminOrSiteUser: Access = ({ req: { user }, data }) => {
   if (user.isAdmin) return true
   // if the user doesn't have access to the site in the
   // new data (create/update), deny access
-  console.log(user)
   const userSites = user.siteRoles?.map(role => ((role as SiteRole).site as Site).id) || []
-  console.log(userSites)
   if (!userSites.includes(data?.site)) {
     return false
   }
