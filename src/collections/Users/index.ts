@@ -36,6 +36,7 @@ export const Users: CollectionConfig = {
   auth: {
     disableLocalStrategy: true,
     useAPIKey: true,
+    tokenExpiration: 86400, // one day
     cookies: {
       domain: process.env.COOKIE_DOMAIN,
       secure: !process.env.ORIGIN?.includes('http://localhost')

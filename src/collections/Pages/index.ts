@@ -9,6 +9,7 @@ import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 import { previewWebhook } from '@/utilities/previews'
+import { adminField } from '@/access/admin'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -42,6 +43,17 @@ export const Pages: CollectionConfig<'pages'> = {
       name: 'title',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'site',
+      type: 'relationship',
+      relationTo: 'sites',
+      required: true,
+      access: {
+        create: adminField,
+        update: adminField,
+        read: () => true,
+      }
     },
     {
       type: 'richText',

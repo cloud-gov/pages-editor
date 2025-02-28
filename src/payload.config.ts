@@ -3,7 +3,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 
 import sharp from 'sharp' // sharp-import
 import path from 'path'
-import { buildConfig } from 'payload'
+import { addDataAndFileToRequest, buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
@@ -28,7 +28,12 @@ export default buildConfig({
     },
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
-      beforeDashboard: ['@/components/BeforeDashboard']
+      beforeDashboard: ['@/components/BeforeDashboard'],
+      // graphics: { // TODO custom logo
+      // whitelabeling example: https://github.com/payloadcms/payload/blob/main/examples/whitelabel/src/payload.config.ts
+      //   Icon: '/graphics/Icon/index.tsx#Icon',
+      //   Logo: '/graphics/Logo/index.tsx#Logo',
+      // },
     },
     user: Users.slug,
     livePreview: {
@@ -54,7 +59,6 @@ export default buildConfig({
       ],
     },
     custom: {
-      site: null,
       sites: []
     }
   },
@@ -77,5 +81,5 @@ export default buildConfig({
   telemetry: false,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
-  },
+  }
 })

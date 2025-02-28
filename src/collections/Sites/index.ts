@@ -18,6 +18,7 @@ const createSiteBot: CollectionAfterChangeHook<Site> = async ({
             role: 'bot',
           }
         ],
+        sub: uuidv4(),
         enableAPIKey: true,
         apiKey: uuidv4()
       },

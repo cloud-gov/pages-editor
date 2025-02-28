@@ -51,8 +51,7 @@ export const createAuthStrategy = (
         user = { ...usersQuery.docs[0], collection: userCollection }
 
         // any time we authenticate with non-admins
-        // set the tenant like this
-        payload.config.admin.custom.site = user.sites[0]?.site
+        // set the available tenants like this
         payload.config.admin.custom.sites = user.sites.map(site => site.site)
         // Return the user object
         return { user };
