@@ -3,7 +3,6 @@ import { JWTPayload, jwtVerify } from "jose";
 import {
   AuthStrategy,
   AuthStrategyResult,
-  CollectionSlug,
   User,
   parseCookies,
 } from "payload";
@@ -51,6 +50,10 @@ export const createAuthStrategy = (
         if (!usersQuery.docs.length) throw new Error(`no matching sub: ${jwtUser.sub}`)
         user = { ...usersQuery.docs[0], collection: userCollection }
 
+        // any time we authenticate with non-admins
+        // set the tenant like this
+        payload.config.admin.custom.site = user.sites[0]?.site
+        payload.config.admin.custom.sites = user.sites.map(site => site.site)
         // Return the user object
         return { user };
       } catch (e) {

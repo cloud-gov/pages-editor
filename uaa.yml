@@ -11,7 +11,7 @@ scim:
   users:
     - admin@gsa.gov|password|admin@gsa.gov|Admin|Admin|group.admin
     - siteuser1@gsa.gov|password|siteuser1@gsa.gov|User|User|group.user
-    - siteuser2@gsa.gov|password|siteuser1@gsa.gov|User|User|group.user
+    - siteuser2@gsa.gov|password|siteuser2@gsa.gov|User|User|group.user
 
 disableInternalAuth: false
 disableInternalUserManagement: false

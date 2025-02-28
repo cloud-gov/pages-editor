@@ -166,7 +166,7 @@ export interface User {
   id: number;
   name?: string | null;
   email: string;
-  sub?: string | null;
+  sub: string;
   sites?:
     | {
         site: number | Site;

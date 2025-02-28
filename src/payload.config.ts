@@ -28,6 +28,7 @@ export default buildConfig({
     },
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
+      beforeDashboard: ['@/components/BeforeDashboard']
     },
     user: Users.slug,
     livePreview: {
@@ -52,6 +53,10 @@ export default buildConfig({
         },
       ],
     },
+    custom: {
+      site: null,
+      sites: []
+    }
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,

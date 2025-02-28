@@ -9,11 +9,17 @@ import { lexicalEditor, HTMLConverterFeature, lexicalHTML } from '@payloadcms/ri
 import { slugField } from '@/fields/slug'
 
 import { customFields } from './custom'
+import { Post, Site } from '@/payload-types'
+import { adminField } from '@/access/admin'
 
-// const addSite: CollectionBeforeChangeHook = async ({ data, req: { payload, user }} => {
-//   // data.site = document.cookie['payload-site']
-//   return data
-// })
+const addSite: CollectionBeforeChangeHook<Post> = async ({
+  data, req: { payload, user }, operation
+}) => {
+  if (operation === 'create' && user && !user.isAdmin) {
+    data.site = payload.config.admin.custom.site as Site
+  }
+  return data
+}
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
@@ -53,7 +59,11 @@ export const Posts: CollectionConfig<'posts'> = {
       type: 'relationship',
       relationTo: 'sites',
       required: true,
-      hidden: true,
+      access: {
+        create: adminField,
+        update: adminField,
+        read: () => true,
+      }
     },
     {
       name: 'content',
@@ -128,7 +138,7 @@ export const Posts: CollectionConfig<'posts'> = {
     afterChange: [revalidatePost, previewWebhook],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
-    // beforeChange: [addSite]
+    beforeChange: [addSite]
   },
   versions: {
     drafts: {

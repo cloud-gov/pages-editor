@@ -1,4 +1,6 @@
-import type { CollectionAfterChangeHook, CollectionConfig, User } from 'payload'
+import { admin, adminField } from '@/access/admin'
+import type { CollectionAfterChangeHook, CollectionBeforeChangeHook, CollectionConfig, User } from 'payload'
+import { v4 as uuidv4 } from 'uuid'
 
 export const roles = ['manager', 'user', 'bot'] as const
 
@@ -7,13 +9,21 @@ const capitalize = (str: string) => {
 }
 
 const userEmail: CollectionAfterChangeHook<User> = async ({
-  doc, operation
+  doc, req: { payload }, operation
 }) => {
   if (operation === 'create') {
     // email the user
-    // TBD
+    // payload.sendEmail
   }
   return doc
+}
+
+const addSub: CollectionBeforeChangeHook<User> = async ({
+  data, req: { payload }, operation
+}) => {
+  if (operation === 'create') {
+    data.sub = uuidv4()
+  }
 }
 
 export const Users: CollectionConfig = {
@@ -27,7 +37,8 @@ export const Users: CollectionConfig = {
     disableLocalStrategy: true,
     useAPIKey: true,
     cookies: {
-      domain: process.env.COOKIE_DOMAIN
+      domain: process.env.COOKIE_DOMAIN,
+      secure: !process.env.ORIGIN?.includes('http://localhost')
     }
   },
   fields: [
@@ -43,7 +54,13 @@ export const Users: CollectionConfig = {
     {
       name: 'sub', // we have to create this manually or it isn't added to the JWT payload-token
       type: 'text',
+      required: true,
       saveToJWT: true,
+      access: {
+        read: adminField,
+        create: () => true, // TODO: update to admin/sitemanager
+        update: adminField,
+      }
     },
     {
       name: 'sites',
@@ -84,7 +101,8 @@ export const Users: CollectionConfig = {
     },
   ],
   hooks: {
-    afterChange: [userEmail]
+    afterChange: [userEmail],
+    beforeChange: [addSub]
   },
   timestamps: true,
 }

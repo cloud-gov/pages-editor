@@ -69,17 +69,13 @@ export const createCallbackEndpoint = (
       // /////////////////////////////////////
       let token: string;
 
-      if (pluginOptions.getToken) {
-        token = await pluginOptions.getToken(code, req);
-      } else {
-        token = await defaultGetToken(
-          pluginOptions.tokenEndpoint,
-          pluginOptions.clientId,
-          pluginOptions.clientSecret,
-          redirectUri,
-          code,
-        );
-      }
+      token = await defaultGetToken(
+        pluginOptions.tokenEndpoint,
+        pluginOptions.clientId,
+        pluginOptions.clientSecret,
+        redirectUri,
+        code,
+      );
 
       if (typeof token !== "string") {
         throw new Error(`Invalid token response: ${token}`);
@@ -89,7 +85,6 @@ export const createCallbackEndpoint = (
       // get user info
       // /////////////////////////////////////
       const userInfo = await pluginOptions.getUserInfo(token, req);
-
       // /////////////////////////////////////
       // ensure user exists
       // /////////////////////////////////////
@@ -104,6 +99,7 @@ export const createCallbackEndpoint = (
         showHiddenFields: true,
         limit: 1,
       });
+
       let user = existingUser.docs[0] as User;
       // don't create new users
       if (!user) throw new Error(`No user matching ${userInfo.email}`);
@@ -115,6 +111,7 @@ export const createCallbackEndpoint = (
           sub: userInfo.sub as string
         }
       })
+      user.sub = userInfo.sub
 
       // /////////////////////////////////////
       // beforeLogin - Collection
