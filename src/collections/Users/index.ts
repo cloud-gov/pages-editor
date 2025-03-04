@@ -99,7 +99,7 @@ export const Users: CollectionConfig = {
         hidden: true,
         readOnly: true,
       }
-    },
+    }
   ],
   hooks: {
     afterChange: [userEmail],

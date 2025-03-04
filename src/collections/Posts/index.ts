@@ -11,6 +11,7 @@ import { slugField } from '@/fields/slug'
 import { customFields } from './custom'
 import { Post, Site } from '@/payload-types'
 import { adminField } from '@/access/admin'
+import { adminOrSiteUser } from '@/access/adminOrSite'
 
 const addSite: CollectionBeforeChangeHook<Post> = async ({
   data, req: { payload, user }, operation
@@ -26,7 +27,7 @@ export const Posts: CollectionConfig<'posts'> = {
   access: {
     create: authenticated,
     delete: authenticated,
-    read: authenticated,
+    read: adminOrSiteUser,
     update: authenticated,
   },
   // This config controls what's populated by default when a post is referenced

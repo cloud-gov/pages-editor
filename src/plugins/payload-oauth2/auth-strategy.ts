@@ -50,9 +50,6 @@ export const createAuthStrategy = (
         if (!usersQuery.docs.length) throw new Error(`no matching sub: ${jwtUser.sub}`)
         user = { ...usersQuery.docs[0], collection: userCollection }
 
-        // any time we authenticate with non-admins
-        // set the available tenants like this
-        payload.config.admin.custom.sites = user.sites.map(site => site.site)
         // Return the user object
         return { user };
       } catch (e) {

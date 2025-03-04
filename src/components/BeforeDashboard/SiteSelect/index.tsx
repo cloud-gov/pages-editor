@@ -1,80 +1,84 @@
 'use client'
-import React, { useState } from 'react'
-import { Banner } from '@payloadcms/ui/elements/Banner'
+import React, { useEffect, useState } from 'react'
+import { Select, usePreferences } from '@payloadcms/ui'
 
 import '../index.scss'
-import { Select } from '@payloadcms/ui'
-import { Site } from '@/payload-types'
-import { v4 as uuidv4 } from 'uuid'
-
-const defaultCookieKey = 'payload-site'
-
-function setCookie(cname, cvalue, exdays = 1) {
-  const d = new Date()
-  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000)
-  const expires = 'expires=' + d.toUTCString()
-  document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
-}
-
-const getSite = (
-  cookieKey = defaultCookieKey
-) => {
-  if (window === undefined) return null
-
-  return window.document.cookie
-    .split('; ')
-    .find((row) => row.startsWith(`${cookieKey}=`))
-    ?.split('=')[1]
-}
-
-function onChange (event, sites, refresh) {
-  const site = sites.find(s => s.name === event.value)
-  setCookie(defaultCookieKey, site.id)
-  refresh(uuidv4())
-}
-
-interface SiteSelectProps {
-  sites: Site[],
-}
+import { Banner } from '@payloadcms/ui/elements/Banner'
+import { Site, User } from '@/payload-types'
 
 const baseClass = 'before-dashboard'
+const siteKey = 'site-key'
 
-const SiteInfo: React.FC<SiteSelectProps> = (props: SiteSelectProps) => {
-  const { sites } = props;
-  // dummy useState for refreshing on cookie changes
-  const [siteRefresh, setSiteRefresh] = useState(false)
-
-  const siteOptions = sites.map(site => ({ label: site.name, value: site.name }))
-
-  // cookie value represents the id (as a string)
-  const site = getSite()
-  // does the user have access and/or does the cookie exist
-  const match =  sites.find(s => String(s.id) === site)
-
-  let currentSiteName = ''
-
-  if (!match) {
-    // if this isn't already set or valid, we HAVE to set it
-    setCookie(defaultCookieKey, sites[0].id)
-    currentSiteName = sites[0].name
-  } else {
-    currentSiteName = match.name
-  }
-  const currentSiteOption = { value: currentSiteName, label: currentSiteName }
-
-  return (
-    <Banner className={`${baseClass}__banner`} type="success">
-    <h4>Welcome to your dashboard! Signed in to {currentSiteName}</h4>
-    {siteOptions.length > 1 &&
-          <Select
-          options={siteOptions}
-          value={currentSiteOption}
-          onChange={(event) => onChange(event, sites, setSiteRefresh)}
-        />
-    }
-  </Banner>
-
-  )
+interface SitePreferenceLoaded {
+    loaded: true,
+    siteId: number
 }
 
-export default SiteInfo
+interface SitePreferenceInitial {
+    loaded: false
+}
+
+type SitePreference = SitePreferenceLoaded | SitePreferenceInitial
+
+interface SiteSelectProps {
+    sites: Site[]
+}
+
+type LocalUpdateType = React.Dispatch<React.SetStateAction<SitePreference>>
+type PreferenceUpdateType = <T = any>(key: string, value: T, merge?: boolean) => Promise<void>
+
+function onChange(event, localUpdate: LocalUpdateType, preferenceUpdate: PreferenceUpdateType) {
+  if (event.value) {
+    const valueAsNumber = Number(event.value)
+    localUpdate({ loaded: true, siteId: valueAsNumber})
+    preferenceUpdate(siteKey, valueAsNumber)
+  }
+}
+
+const SiteSelect: React.FC<SiteSelectProps> = (props: SiteSelectProps) => {
+    const { sites } = props
+    const [ userSite, setUserSite ] = useState<SitePreference>({ loaded: false })
+    const { getPreference, setPreference } = usePreferences()
+
+    useEffect(() => {
+        async function getSiteId () {
+            let siteId: number | undefined = await getPreference(siteKey)
+            // if the user doesn't have a set site preferences, set it now
+            if (!siteId) {
+                siteId = sites[0].id
+                await setPreference(siteKey, siteId)
+            }
+            setUserSite({ loaded: true, siteId })
+        }
+        getSiteId()
+    }, [getPreference, setPreference, sites])
+
+    if (!userSite.loaded) return null
+
+    const match = sites.find(site => site.id == userSite.siteId)
+    if (!match) return 'Unexpected error. Please contact pages-support@cloud.gov'
+
+    const siteOptions = sites.map(site => ({
+        value: site.id,
+        label: site.name,
+    }))
+
+    const currentSiteOption = { value: match.id, label: match.name }
+
+    return (
+        <div className={baseClass}>
+            <Banner className={`${baseClass}__banner`} type="success">
+                <h4>Welcome to your dashboard! Signed in to {currentSiteOption.label}</h4>
+                {siteOptions.length > 1 &&
+                    <Select
+                        options={siteOptions}
+                        value={currentSiteOption}
+                        onChange={(event) => onChange(event, setUserSite, setPreference)}
+                    />
+                }
+            </Banner>
+        </div>
+    )
+}
+
+export default SiteSelect

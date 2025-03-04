@@ -1,22 +1,30 @@
 import React from 'react'
 
 import './index.scss'
+import SiteSelect from './SiteSelect'
 import { BasePayload } from 'payload'
-import SiteInfo from './SiteSelect'
+import { headers as nextHeaders } from 'next/headers'
+import { Site } from '@/payload-types'
 
 const baseClass = 'before-dashboard'
 
-const BeforeDashboard: React.FC = (props: { payload: BasePayload} ) => {
-  const { config } = props.payload
+const BeforeDashboard: React.FC = async (props: { payload: BasePayload }) => {
+  const { payload } = props;
+  const headers = await nextHeaders()
+  const { user, permissions } = await payload.auth({ headers })
+  console.log(user, permissions)
+  // don't render:
+  // 1. without a user
+  // 2. for admins
+  // 3. with no sites
+  if (!user || user?.isAdmin || !user.sites) return null
 
-  // don't render this for admins
-  if (!config.admin.custom.sites.length) return null
-
-  const { sites } = config.admin.custom
+  // in server rendered components, we know the shape
+  const sites = user.sites.map(site => site.site as Site)
 
   return (
     <div className={baseClass}>
-      <SiteInfo sites={sites} />
+      <SiteSelect sites={sites}/>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import type { Access } from 'payload'
 import type { Where } from 'payload'
-import type { Site, SiteRole } from '@/payload-types'
+import type { Site } from '@/payload-types'
+import { getSiteId } from './preferenceHelper'
 
 // Access control function signatures by method:
 // create: req, data
@@ -8,20 +9,22 @@ import type { Site, SiteRole } from '@/payload-types'
 // update: req, id, data
 // delete: req, id
 
-export const adminOrSiteUser: Access = ({ req: { user }, data }) => {
+export const adminOrSiteUser: Access = async ({ req: { user, payload }, data }) => {
   if (!user) return false
   if (user.isAdmin) return true
+
+  const siteId = await getSiteId(payload, user)
+  if (!siteId) return false
+
   // if the user doesn't have access to the site in the
   // new data (create/update), deny access
-  const userSites = user.siteRoles?.map(role => ((role as SiteRole).site as Site).id) || []
-  if (!userSites.includes(data?.site)) {
-    return false
-  }
+  if (data && siteId !== (data?.site?.id)) return false
+
   // pass a query ensuring the user has access to the prior
-  // data, matching on site
+  // data, matching on site.id
   const query: Where = {
-    site: {
-      in: userSites.join()
+    "site.id": {
+      equals: siteId
     }
   }
   return query
