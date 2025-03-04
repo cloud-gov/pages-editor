@@ -1,4 +1,5 @@
 import { admin, adminField } from '@/access/admin'
+import { adminOrSiteUser, adminOrSiteUserUserCollection } from '@/access/adminOrSite'
 import type { CollectionAfterChangeHook, CollectionBeforeChangeHook, CollectionConfig, User } from 'payload'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -28,6 +29,12 @@ const addSub: CollectionBeforeChangeHook<User> = async ({
 
 export const Users: CollectionConfig = {
   slug: 'users',
+  access: {
+    read: adminOrSiteUserUserCollection,
+    update: admin, // TODO: update to admin/sitemanager
+    delete: admin, // TODO: update to admin/sitemanager
+    create: admin, // TODO: update to admin/sitemanager
+  },
   admin: {
     defaultColumns: ['email', 'updatedAt', 'siteRoles'],
     useAsTitle: 'email',
@@ -59,7 +66,7 @@ export const Users: CollectionConfig = {
       saveToJWT: true,
       access: {
         read: adminField,
-        create: () => true, // TODO: update to admin/sitemanager
+        create: adminField, // TODO: update to admin/sitemanager
         update: adminField,
       }
     },
@@ -67,6 +74,11 @@ export const Users: CollectionConfig = {
       name: 'sites',
       type: 'array',
       saveToJWT: true,
+      access: {
+        read: adminField,
+        create: adminField, // TODO: update to admin/sitemanager
+        update: adminField,
+      },
       // TODO: custom display component
       // admin: {
       //   components: {

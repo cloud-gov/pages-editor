@@ -12,7 +12,6 @@ const BeforeDashboard: React.FC = async (props: { payload: BasePayload }) => {
   const { payload } = props;
   const headers = await nextHeaders()
   const { user, permissions } = await payload.auth({ headers })
-  console.log(user, permissions)
   // don't render:
   // 1. without a user
   // 2. for admins

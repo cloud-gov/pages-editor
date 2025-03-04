@@ -1,4 +1,4 @@
-import type { CollectionBeforeChangeHook, CollectionConfig } from 'payload'
+import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { populateAuthors } from './hooks/populateAuthors'
@@ -9,26 +9,17 @@ import { lexicalEditor, HTMLConverterFeature, lexicalHTML } from '@payloadcms/ri
 import { slugField } from '@/fields/slug'
 
 import { customFields } from './custom'
-import { Post, Site } from '@/payload-types'
 import { adminField } from '@/access/admin'
 import { adminOrSiteUser } from '@/access/adminOrSite'
-
-const addSite: CollectionBeforeChangeHook<Post> = async ({
-  data, req: { payload, user }, operation
-}) => {
-  if (operation === 'create' && user && !user.isAdmin) {
-    data.site = payload.config.admin.custom.site as Site
-  }
-  return data
-}
+import { addSite } from '@/hooks/addSite'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
   access: {
-    create: authenticated,
-    delete: authenticated,
+    create: adminOrSiteUser,
+    delete: adminOrSiteUser,
     read: adminOrSiteUser,
-    update: authenticated,
+    update: adminOrSiteUser,
   },
   // This config controls what's populated by default when a post is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property

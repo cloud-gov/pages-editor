@@ -1,7 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
-import { authenticated } from '../../access/authenticated'
-import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+import { adminOrSiteUser } from '../../access/adminOrSite'
 
 import { lexicalEditor, lexicalHTML, HTMLConverterFeature } from '@payloadcms/richtext-lexical'
 
@@ -11,13 +10,15 @@ import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 import { previewWebhook } from '@/utilities/previews'
 import { adminField } from '@/access/admin'
 
+import { addSite } from '@/hooks/addSite'
+
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   access: {
-    create: authenticated,
-    delete: authenticated,
-    read: authenticated,
-    update: authenticated,
+    create: adminOrSiteUser,
+    delete: adminOrSiteUser,
+    read: adminOrSiteUser,
+    update: adminOrSiteUser,
   },
   // This config controls what's populated by default when a page is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
@@ -78,7 +79,7 @@ export const Pages: CollectionConfig<'pages'> = {
   ],
   hooks: {
     afterChange: [revalidatePage, previewWebhook],
-    beforeChange: [populatePublishedAt],
+    beforeChange: [populatePublishedAt, addSite],
     beforeDelete: [revalidateDelete],
   },
   versions: {
