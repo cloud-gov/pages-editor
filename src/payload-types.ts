@@ -15,6 +15,7 @@ export interface Config {
     posts: Post;
     media: Media;
     categories: Category;
+    sites: Site;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -30,6 +31,7 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    sites: SitesSelect<false> | SitesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -84,6 +86,7 @@ export interface UserAuthOperations {
 export interface Page {
   id: number;
   title: string;
+  site: number | Site;
   content?: {
     root: {
       type: string;
@@ -109,11 +112,22 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sites".
+ */
+export interface Site {
+  id: number;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
  */
 export interface Post {
   id: number;
   title: string;
+  site: number | Site;
   content?: {
     root: {
       type: string;
@@ -152,14 +166,16 @@ export interface Post {
 export interface User {
   id: number;
   name?: string | null;
-  email?: string | null;
-  sub?: string | null;
+  email: string;
+  sub: string;
   sites?:
     | {
-        site?: string | null;
+        site: number | Site;
+        role: 'manager' | 'user' | 'bot';
         id?: string | null;
       }[]
     | null;
+  isAdmin?: boolean | null;
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
@@ -547,6 +563,10 @@ export interface PayloadLockedDocument {
         value: number | Category;
       } | null)
     | ({
+        relationTo: 'sites';
+        value: number | Site;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -614,6 +634,7 @@ export interface PayloadMigration {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
+  site?: T;
   content?: T;
   content_html?: T;
   publishedAt?: T;
@@ -629,6 +650,7 @@ export interface PagesSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
+  site?: T;
   content?: T;
   content_html?: T;
   authors?: T;
@@ -754,6 +776,15 @@ export interface CategoriesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sites_select".
+ */
+export interface SitesSelect<T extends boolean = true> {
+  name?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -959,8 +990,10 @@ export interface UsersSelect<T extends boolean = true> {
     | T
     | {
         site?: T;
+        role?: T;
         id?: T;
       };
+  isAdmin?: T;
   updatedAt?: T;
   createdAt?: T;
   enableAPIKey?: T;

@@ -1,5 +1,4 @@
 name: pages-editor-dev
-#! domain: pages-editor-dev.cloud.gov
 instances: 2
 env: dev
 log_level: verbose
