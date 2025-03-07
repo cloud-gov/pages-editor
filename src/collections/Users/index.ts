@@ -1,6 +1,8 @@
 import { admin, adminField } from '@/access/admin'
-import { adminOrSiteUser, adminOrSiteUserUserCollection } from '@/access/adminOrSite'
-import type { CollectionAfterChangeHook, CollectionBeforeChangeHook, CollectionConfig, User } from 'payload'
+import { getAdminOrSiteUser } from '@/access/adminOrSite'
+import { getSiteId } from '@/access/preferenceHelper'
+import { Site } from '@/payload-types'
+import { APIError, ValidationError, type CollectionAfterChangeHook, type CollectionBeforeChangeHook, type CollectionConfig, type FieldHook, type User } from 'payload'
 import { v4 as uuidv4 } from 'uuid'
 
 export const roles = ['manager', 'user', 'bot'] as const
@@ -20,23 +22,75 @@ const userEmail: CollectionAfterChangeHook<User> = async ({
 }
 
 const addSub: CollectionBeforeChangeHook<User> = async ({
-  data, req: { payload }, operation
+  data, operation
 }) => {
   if (operation === 'create') {
     data.sub = uuidv4()
   }
 }
 
+const testEmailUniqueness: FieldHook<User> = async({
+  data, originalDoc, req: { payload, user }, value, operation
+}) => {
+  if (operation === 'create' || operation == 'update')
+  // if value is unchanged, skip validation
+  if (originalDoc?.email === value) {
+    return value
+  }
+
+  const match = await payload.find({
+    collection: 'users',
+    depth: 2,
+    where: {
+      email: {
+        equals: value
+      }
+    }
+  })
+  if (match.docs.length && user ) {
+    const existingUser = match.docs[0]
+    if (existingUser && user.isAdmin) {
+      throw new ValidationError({
+        errors: [{
+          message: `User with email ${value} exists.`,
+          path: 'email',
+        }]
+      })
+    }
+    // if the user matches the current site, this is a true validation error
+    // if the user exists but on another site, treat this essentially like a new user
+    const siteId = await getSiteId(payload, user.id)
+    if (siteId && existingUser.sites.map(s => (s.site as Site).id).includes(siteId)) {
+      throw new ValidationError({
+        errors: [{
+          message: `User with email ${value} exists for this site`,
+          path: 'email',
+        }]
+      })
+    } else if (data) {
+      await payload.update({
+        collection: 'users',
+        id: existingUser.id,
+        data: {
+          sites: data.sites.concat(existingUser.sites)
+        }
+      })
+      return false
+    }
+  }
+  return value
+}
+
 export const Users: CollectionConfig = {
   slug: 'users',
   access: {
-    read: adminOrSiteUserUserCollection,
-    update: admin, // TODO: update to admin/sitemanager
-    delete: admin, // TODO: update to admin/sitemanager
-    create: admin, // TODO: update to admin/sitemanager
+    read: getAdminOrSiteUser('users'),
+    // update: getAdminOrSiteUser('users'), // TODO: update to admin/sitemanager
+    // delete: getAdminOrSiteUser('users'), // TODO: update to admin/sitemanager
+    // create: getAdminOrSiteUser('users'), // TODO: update to admin/sitemanager
   },
   admin: {
-    defaultColumns: ['email', 'updatedAt', 'siteRoles'],
+    defaultColumns: ['email', 'updatedAt', 'sites'],
     useAsTitle: 'email',
     hidden: false,
   },
@@ -51,13 +105,17 @@ export const Users: CollectionConfig = {
   },
   fields: [
     {
-      name: 'name',
-      type: 'text',
-    },
-    {
       name: 'email',
       type: 'email',
       required: true,
+      access: {
+        // read: adminField,
+        // create: adminField, // TODO: update to admin/sitemanager
+        // update: adminField,
+      },
+      hooks: {
+        beforeValidate: [testEmailUniqueness]
+      }
     },
     {
       name: 'sub', // we have to create this manually or it isn't added to the JWT payload-token
@@ -68,18 +126,23 @@ export const Users: CollectionConfig = {
         read: adminField,
         create: adminField, // TODO: update to admin/sitemanager
         update: adminField,
+      },
+      admin: {
+        condition: (_a, _b, { user }) => Boolean(user?.isAdmin),
+        disableListColumn: true,
+        disableListFilter: true
       }
     },
     {
       name: 'sites',
       type: 'array',
       saveToJWT: true,
+      required: true,
       access: {
-        read: adminField,
-        create: adminField, // TODO: update to admin/sitemanager
-        update: adminField,
+        // read: adminField,
+        // create: adminField, // TODO: update to admin/sitemanager
+        // update: adminField,
       },
-      // TODO: custom display component
       // admin: {
       //   components: {
       //     RowLabel:
@@ -93,6 +156,11 @@ export const Users: CollectionConfig = {
           required: true,
           index: true,
           saveToJWT: true,
+          access: {
+            // read: adminField,
+            // create: adminField,
+            // update: adminField,
+          }
         },
         {
           name: 'role',

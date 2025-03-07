@@ -7,7 +7,7 @@ const siteKey = 'site-key'
 // TODO: this will become easier after https://github.com/payloadcms/payload/pull/9511
 // is merged
 
-export async function getSiteId (payload: BasePayload, user: User & { collection: "users"}): Promise<number | undefined> {
+export async function getSiteId (payload: BasePayload, userId: number): Promise<number | undefined> {
     const siteIds = await payload.find({
         collection: 'payload-preferences',
         limit: 1,
@@ -20,12 +20,12 @@ export async function getSiteId (payload: BasePayload, user: User & { collection
             },
             {
               'user.relationTo': {
-                equals: user.collection,
+                equals: 'users',
               },
             },
             {
               'user.value': {
-                equals: user.id,
+                equals: userId,
               },
             },
           ],

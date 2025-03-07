@@ -10,16 +10,16 @@ import { slugField } from '@/fields/slug'
 
 import { customFields } from './custom'
 import { adminField } from '@/access/admin'
-import { adminOrSiteUser } from '@/access/adminOrSite'
+import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
   access: {
-    create: adminOrSiteUser,
-    delete: adminOrSiteUser,
-    read: adminOrSiteUser,
-    update: adminOrSiteUser,
+    create: getAdminOrSiteUser('posts'),
+    delete: getAdminOrSiteUser('posts'),
+    read: getAdminOrSiteUser('posts'),
+    update: getAdminOrSiteUser('posts'),
   },
   // This config controls what's populated by default when a post is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property

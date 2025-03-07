@@ -1,50 +1,56 @@
-import type { Access, PayloadRequest } from 'payload'
-import type { Where } from 'payload'
+import type { Access, CollectionSlug, Where } from 'payload'
+import type { Post, Page, User, Site } from '@/payload-types'
 import { getSiteId } from './preferenceHelper'
 
-// Access control function signatures by method:
-// create: req, data
-// read: req, id
-// update: req, id, data
-// delete: req, id
+// ideally this code could be handled via a single generic but
+// certain access operations don't pass `data` which is the only
+// way to infer the shape of the documents we're operating on
 
-export const adminOrSiteUser: Access = async ({ req: { user, payload }, data }) => {
-  if (!user) return false
-  if (user.isAdmin) return true
+export function getAdminOrSiteUser(slug: CollectionSlug) {
+  const adminOrSiteUser: Access<Post | Page | User | Site > = async ({ req: { user, payload }, data }) => {
+    if (!user) return false
+    if (user.isAdmin) return true
 
-  const siteId = await getSiteId(payload, user)
-  if (!siteId) return false
+    const siteId = await getSiteId(payload, user.id)
+    if (!siteId) return false
 
-  // if the user doesn't have access to the site in the
-  // new data (create/update), deny access
-  if (data && siteId !== (data?.site?.id)) return false
+    // if collection data exists, extract the site id and match against it
+    // false for no match.
+    // note that this block is potentially unnecessary/paranoid:
+    // it prevents a user from changing data TO a site they don't have access to,
+    // the queries below already prevent them from changing existing data they don't
+    // have access to
+    if (data) {
+      if ('site' in data) {
+        const dataSiteId = typeof data.site === 'number' ? data.site : data.site.id
+        if (siteId !== dataSiteId) return false
 
-  // pass a query ensuring the user has access to the prior
-  // data, matching on site.id
-  const query: Where = {
-    "site.id": {
-      equals: siteId
+      } else if ('sites' in data) {
+        const dataSiteIds = data.sites.map(site => typeof site.site === 'number' ? site.site : site.site.id)
+        if (!(dataSiteIds && dataSiteIds.includes(siteId))) return false
+
+      } else if ('id' in data){
+        if (data.id !== siteId) return false
+      }
     }
-  }
-  return query
-}
 
-// TODO: try to handle this via generic and/or DRY this up
-// I couldn't find a suitable argument to use to help decide which field to query on
-// it's only used for reads against the user collection
-export const adminOrSiteUserUserCollection: Access = async ({ req: { user, payload } }) => {
-  if (!user) return false
-  if (user.isAdmin) return true
-
-  const siteId = await getSiteId(payload, user)
-  if (!siteId) return false
-
-  // pass a query ensuring the user has access to the prior
-  // data, matching on sites -> site.id
-  const query: Where = {
-    "sites.site.id": {
-      equals: siteId
+    let queryPath: string
+    if (slug === 'users') {
+      queryPath = "sites.site.id"
+    } else if (slug === 'sites') {
+      queryPath = "id"
+    } else {
+      queryPath = "site.id"
     }
+
+    // pass a query ensuring the user has access to the queried data
+    const query: Where = {
+      [queryPath]: {
+        equals: siteId
+      }
+    }
+
+    return query
   }
-  return query
+  return adminOrSiteUser
 }

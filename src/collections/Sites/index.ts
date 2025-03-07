@@ -1,17 +1,17 @@
 import type { CollectionAfterChangeHook, CollectionConfig } from 'payload'
-import { admin } from '../../access/admin'
 import { Site } from '@/payload-types'
 import { v4 as uuidv4 } from 'uuid'
+import { getAdminOrSiteUser } from '@/access/adminOrSite'
 
 const createSiteBot: CollectionAfterChangeHook<Site> = async ({
-  doc, req, operation
+  doc, req, operation,
 }) => {
   const { payload } = req
   if (operation === 'create') {
     const bot = await payload.create({
       collection: 'users',
       data: {
-        email: 'cloud-gov-pages-operations@gsa.gov',
+        email: `cloud-gov-pages-operations+${doc.name}@gsa.gov`,
         sites: [
           {
             site: doc.id,
@@ -32,16 +32,15 @@ const createSiteBot: CollectionAfterChangeHook<Site> = async ({
 export const Sites: CollectionConfig = {
   slug: 'sites',
   access: {
-    admin: admin,
-    create: admin,
-    delete: admin,
-    read: admin,
-    update: admin,
+    create: getAdminOrSiteUser('sites'),
+    delete: getAdminOrSiteUser('sites'),
+    read: getAdminOrSiteUser('sites'),
+    update: getAdminOrSiteUser('sites'),
   },
   admin: {
     defaultColumns: ['name', 'updatedAt', 'createdAt'],
     useAsTitle: 'name',
-    hidden: false,
+    hidden: ({ user }) => !(user && user.isAdmin)
   },
   fields: [
     {
