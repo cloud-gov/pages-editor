@@ -11,6 +11,7 @@ import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
+import { Sites } from './collections/Sites'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
@@ -27,6 +28,12 @@ export default buildConfig({
     },
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
+      beforeDashboard: ['@/components/BeforeDashboard'],
+      // graphics: { // TODO custom logo
+      // whitelabeling example: https://github.com/payloadcms/payload/blob/main/examples/whitelabel/src/payload.config.ts
+      //   Icon: '/graphics/Icon/index.tsx#Icon',
+      //   Logo: '/graphics/Logo/index.tsx#Logo',
+      // },
     },
     user: Users.slug,
     livePreview: {
@@ -59,7 +66,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, Media, Categories, Users, Sites],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
@@ -71,5 +78,5 @@ export default buildConfig({
   telemetry: false,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
-  },
+  }
 })

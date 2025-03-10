@@ -9,15 +9,17 @@ import { lexicalEditor, HTMLConverterFeature, lexicalHTML } from '@payloadcms/ri
 import { slugField } from '@/fields/slug'
 
 import { customFields } from './custom'
-
+import { adminField } from '@/access/admin'
+import { getAdminOrSiteUser } from '@/access/adminOrSite'
+import { addSite } from '@/hooks/addSite'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
   access: {
-    create: authenticated,
-    delete: authenticated,
-    read: authenticated,
-    update: authenticated,
+    create: getAdminOrSiteUser('posts'),
+    delete: getAdminOrSiteUser('posts'),
+    read: getAdminOrSiteUser('posts'),
+    update: getAdminOrSiteUser('posts'),
   },
   // This config controls what's populated by default when a post is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
@@ -43,6 +45,17 @@ export const Posts: CollectionConfig<'posts'> = {
       name: 'title',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'site',
+      type: 'relationship',
+      relationTo: 'sites',
+      required: true,
+      access: {
+        create: adminField,
+        update: adminField,
+        read: () => true,
+      }
     },
     {
       name: 'content',
@@ -117,6 +130,7 @@ export const Posts: CollectionConfig<'posts'> = {
     afterChange: [revalidatePost, previewWebhook],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
+    beforeChange: [addSite]
   },
   versions: {
     drafts: {

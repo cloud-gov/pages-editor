@@ -27,6 +27,7 @@ const nextConfig = {
       './node_modules/@uswds/uswds/src/stylesheets',
       ],
   },
+  productionBrowserSourceMaps: process.env.APP_ENV === 'dev',
 }
 
 export default withPayload(nextConfig)
