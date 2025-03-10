@@ -1,84 +1,17 @@
 import { admin, adminField } from '@/access/admin'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { getSiteId } from '@/access/preferenceHelper'
-import { Site } from '@/payload-types'
-import { APIError, ValidationError, type CollectionAfterChangeHook, type CollectionBeforeChangeHook, type CollectionConfig, type FieldHook, type User } from 'payload'
-import { v4 as uuidv4 } from 'uuid'
+import { Site, User } from '@/payload-types'
+import type { CollectionConfig } from 'payload'
+
+import { ensureEmailUniqueness } from './hooks/emailUniqueness'
+import { addSub } from './hooks/addSub'
+import { sendEmail } from './hooks/sendEmail'
 
 export const roles = ['manager', 'user', 'bot'] as const
 
 const capitalize = (str: string) => {
   return `${str[0].toLocaleUpperCase()}${str.slice(1)}`
-}
-
-const userEmail: CollectionAfterChangeHook<User> = async ({
-  doc, req: { payload }, operation
-}) => {
-  if (operation === 'create') {
-    // email the user
-    // payload.sendEmail
-  }
-  return doc
-}
-
-const addSub: CollectionBeforeChangeHook<User> = async ({
-  data, operation
-}) => {
-  if (operation === 'create') {
-    data.sub = uuidv4()
-  }
-}
-
-const testEmailUniqueness: FieldHook<User> = async({
-  data, originalDoc, req: { payload, user }, value, operation
-}) => {
-  if (operation === 'create' || operation == 'update')
-  // if value is unchanged, skip validation
-  if (originalDoc?.email === value) {
-    return value
-  }
-
-  const match = await payload.find({
-    collection: 'users',
-    depth: 2,
-    where: {
-      email: {
-        equals: value
-      }
-    }
-  })
-  if (match.docs.length && user ) {
-    const existingUser = match.docs[0]
-    if (existingUser && user.isAdmin) {
-      throw new ValidationError({
-        errors: [{
-          message: `User with email ${value} exists.`,
-          path: 'email',
-        }]
-      })
-    }
-    // if the user matches the current site, this is a true validation error
-    // if the user exists but on another site, treat this essentially like a new user
-    const siteId = await getSiteId(payload, user.id)
-    if (siteId && existingUser.sites.map(s => (s.site as Site).id).includes(siteId)) {
-      throw new ValidationError({
-        errors: [{
-          message: `User with email ${value} exists for this site`,
-          path: 'email',
-        }]
-      })
-    } else if (data) {
-      await payload.update({
-        collection: 'users',
-        id: existingUser.id,
-        data: {
-          sites: data.sites.concat(existingUser.sites)
-        }
-      })
-      return false
-    }
-  }
-  return value
 }
 
 export const Users: CollectionConfig = {
@@ -114,7 +47,7 @@ export const Users: CollectionConfig = {
         // update: adminField,
       },
       hooks: {
-        beforeValidate: [testEmailUniqueness]
+        beforeValidate: [ensureEmailUniqueness]
       }
     },
     {
@@ -143,11 +76,13 @@ export const Users: CollectionConfig = {
         // create: adminField, // TODO: update to admin/sitemanager
         // update: adminField,
       },
-      // admin: {
-      //   components: {
-      //     RowLabel:
-      //   }
-      // },
+      admin: {
+        components: {
+          // RowLabel: '@/components/UserSite/Row',
+          Field: '@/components/UserSite/Field',
+          Label: '@/components/UserSite/FieldLabel'
+        }
+      },
       fields: [
         {
           name: 'site',
@@ -182,7 +117,7 @@ export const Users: CollectionConfig = {
     }
   ],
   hooks: {
-    afterChange: [userEmail],
+    afterChange: [sendEmail],
     beforeChange: [addSub]
   },
   timestamps: true,
