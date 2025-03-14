@@ -47,6 +47,7 @@ export const Sites: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
+      unique: true
     },
   ],
   hooks: {
