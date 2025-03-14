@@ -21,7 +21,7 @@ import { getServerSideURL } from './utilities/getURL'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-export default buildConfig({
+const config = {
   admin: {
     importMap: {
       baseDir: path.resolve(dirname),
@@ -79,4 +79,7 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   }
-})
+}
+
+export default buildConfig(config)
+export { config }
