@@ -1,5 +1,5 @@
 import { PayloadPreference, User } from "@/payload-types";
-import { BasePayload } from "payload";
+import { PayloadRequest } from "payload";
 
 const siteKey = 'site-key'
 
@@ -7,8 +7,9 @@ const siteKey = 'site-key'
 // TODO: this will become easier after https://github.com/payloadcms/payload/pull/9511
 // is merged
 
-export async function getSiteId (payload: BasePayload, userId: number): Promise<number | undefined> {
-    const siteIds = await payload.find({
+export async function getSiteId (req: PayloadRequest, userId: number): Promise<number | undefined> {
+  const { payload } = req;
+  const siteIds = await payload.find({
         collection: 'payload-preferences',
         limit: 1,
         where: {
@@ -30,6 +31,7 @@ export async function getSiteId (payload: BasePayload, userId: number): Promise<
             },
           ],
         },
+        req
       })
      return siteIds.docs.length ? siteIds.docs[0].value as number : undefined
 }

@@ -7,11 +7,12 @@ import { getSiteId } from './preferenceHelper'
 // way to infer the shape of the documents we're operating on
 
 export function getAdminOrSiteUser(slug: CollectionSlug) {
-  const adminOrSiteUser: Access<Post | Page | User | Site > = async ({ req: { user, payload }, data }) => {
+  const adminOrSiteUser: Access<Post | Page | User | Site > = async ({ req, data }) => {
+    const { user, payload } = req;
     if (!user) return false
     if (user.isAdmin) return true
 
-    const siteId = await getSiteId(payload, user.id)
+    const siteId = await getSiteId(req, user.id)
     if (!siteId) return false
 
     // if collection data exists, extract the site id and match against it
