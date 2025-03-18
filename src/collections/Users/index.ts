@@ -30,8 +30,9 @@ const addSub: CollectionBeforeChangeHook<User> = async ({
 }
 
 const testEmailUniqueness: FieldHook<User> = async({
-  data, originalDoc, req: { payload, user }, value, operation
+  data, originalDoc, req, value, operation
 }) => {
+  const { payload, user } = req
   if (operation === 'create' || operation == 'update')
   // if value is unchanged, skip validation
   if (originalDoc?.email === value) {
@@ -59,7 +60,7 @@ const testEmailUniqueness: FieldHook<User> = async({
     }
     // if the user matches the current site, this is a true validation error
     // if the user exists but on another site, treat this essentially like a new user
-    const siteId = await getSiteId(payload, user.id)
+    const siteId = await getSiteId(req, user.id)
     if (siteId && existingUser.sites.map(s => (s.site as Site).id).includes(siteId)) {
       throw new ValidationError({
         errors: [{
@@ -72,7 +73,7 @@ const testEmailUniqueness: FieldHook<User> = async({
         collection: 'users',
         id: existingUser.id,
         data: {
-          sites: data.sites.concat(existingUser.sites)
+          sites: [...data.sites, ...existingUser.sites]
         }
       })
       return false
@@ -85,9 +86,9 @@ export const Users: CollectionConfig = {
   slug: 'users',
   access: {
     read: getAdminOrSiteUser('users'),
-    // update: getAdminOrSiteUser('users'), // TODO: update to admin/sitemanager
-    // delete: getAdminOrSiteUser('users'), // TODO: update to admin/sitemanager
-    // create: getAdminOrSiteUser('users'), // TODO: update to admin/sitemanager
+    update: getAdminOrSiteUser('users', ['manager']),
+    delete: admin,
+    create: getAdminOrSiteUser('users', ['manager']),
   },
   admin: {
     defaultColumns: ['email', 'updatedAt', 'sites'],
@@ -109,9 +110,7 @@ export const Users: CollectionConfig = {
       type: 'email',
       required: true,
       access: {
-        // read: adminField,
-        // create: adminField, // TODO: update to admin/sitemanager
-        // update: adminField,
+        update: adminField,
       },
       hooks: {
         beforeValidate: [testEmailUniqueness]
@@ -123,8 +122,6 @@ export const Users: CollectionConfig = {
       required: true,
       saveToJWT: true,
       access: {
-        read: adminField,
-        create: adminField, // TODO: update to admin/sitemanager
         update: adminField,
       },
       admin: {
@@ -156,6 +153,9 @@ export const Users: CollectionConfig = {
           required: true,
           index: true,
           saveToJWT: true,
+          admin: {
+            condition: (_a, _b, { user }) => Boolean(user?.isAdmin)
+          },
           access: {
             // read: adminField,
             // create: adminField,
@@ -175,6 +175,11 @@ export const Users: CollectionConfig = {
       name: 'isAdmin',
       type: 'checkbox',
       defaultValue: false,
+      access: {
+        read: adminField,
+        create: () => false,
+        update: () => false,
+      },
       admin: {
         hidden: true,
         readOnly: true,

@@ -1,5 +1,6 @@
-import { PayloadPreference, User } from "@/payload-types";
+import { User, Site } from "@/payload-types";
 import { PayloadRequest } from "payload";
+import { siteIdHelper } from "@/utilities/idHelper";
 
 const siteKey = 'site-key'
 
@@ -34,4 +35,20 @@ export async function getSiteId (req: PayloadRequest, userId: number): Promise<n
         req
       })
      return siteIds.docs.length ? siteIds.docs[0].value as number : undefined
+}
+
+export async function setUserSite(req: PayloadRequest, user: User, site: Site | number) {
+    const { payload } = req;
+    return payload.create({
+        collection: 'payload-preferences',
+        data: {
+          key: siteKey,
+          user: {
+            relationTo: 'users',
+            value: user.id
+          },
+          value: siteIdHelper(site)
+        },
+        req
+      })
 }

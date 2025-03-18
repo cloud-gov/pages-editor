@@ -2,7 +2,8 @@ import { expect } from 'vitest'
 import { create, find, setUserSite } from './utils/localHelpers';
 import { test } from './utils/test'
 
-test('generic starter test',  async ({ tid }) => {
+test('generic starter test',  async ({ transactions, payload }) => {
+    const tid = transactions.get('tid') ?? 1
 
     const siteName = 'test-site'
 

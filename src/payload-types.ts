@@ -223,7 +223,7 @@ export interface User {
   email: string;
   sub?: string | null;
   sites: {
-    site: number | Site;
+    site?: (number | null) | Site;
     role: 'manager' | 'user' | 'bot';
     id?: string | null;
   }[];
