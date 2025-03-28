@@ -1,61 +1,48 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import { Select, usePreferences } from '@payloadcms/ui'
+import React from 'react'
+import { Select } from '@payloadcms/ui'
 
 import '../index.scss'
 import { Banner } from '@payloadcms/ui/elements/Banner'
-import { Site, User } from '@/payload-types'
+import { Site } from '@/payload-types'
+import { useState } from 'react'
 
 const baseClass = 'before-dashboard'
-const siteKey = 'site-key'
-
-interface SitePreferenceLoaded {
-    loaded: true,
-    siteId: number
-}
-
-interface SitePreferenceInitial {
-    loaded: false
-}
-
-type SitePreference = SitePreferenceLoaded | SitePreferenceInitial
 
 interface SiteSelectProps {
     sites: Site[]
-}
-
-type LocalUpdateType = React.Dispatch<React.SetStateAction<SitePreference>>
-type PreferenceUpdateType = <T = any>(key: string, value: T, merge?: boolean) => Promise<void>
-
-function onChange(event, localUpdate: LocalUpdateType, preferenceUpdate: PreferenceUpdateType) {
-  if (event.value) {
-    const valueAsNumber = Number(event.value)
-    localUpdate({ loaded: true, siteId: valueAsNumber})
-    preferenceUpdate(siteKey, valueAsNumber)
-  }
+    selectedSiteId: number
 }
 
 const SiteSelect: React.FC<SiteSelectProps> = (props: SiteSelectProps) => {
-    const { sites } = props
-    const [ userSite, setUserSite ] = useState<SitePreference>({ loaded: false })
-    const { getPreference, setPreference } = usePreferences()
+    // this is sent down from the server component so that the sites shape and content
+    // can be guaranteed/unfiltered by access controls
+    const { sites, selectedSiteId } = props
+    // this is duplicated state but it helps refresh this component when needed
+    const [localSiteId, setLocalSiteId ] = useState(selectedSiteId)
 
-    useEffect(() => {
-        async function getSiteId () {
-            let siteId: number | undefined = await getPreference(siteKey)
-            // if the user doesn't have a set site preferences, set it now
-            if (!siteId) {
-                siteId = sites[0].id
-                await setPreference(siteKey, siteId)
-            }
-            setUserSite({ loaded: true, siteId })
+    async function onChange(event) {
+        if (event.value) {
+          const valueAsNumber = Number(event.value)
+          await fetch(`${process.env.ORIGIN}/api/siteSelect`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ value: valueAsNumber })
+          })
+          setLocalSiteId(valueAsNumber)
         }
-        getSiteId()
-    }, [getPreference, setPreference, sites])
+      }
 
-    if (!userSite.loaded) return null
+    // set this now if the user doesn't have this present
+    if (!selectedSiteId) {
+        const firstSite = sites[0]
+        if (!firstSite) return null
+        onChange({ value: firstSite.id })
+        setLocalSiteId(firstSite.id)
+        return null
+    }
 
-    const match = sites.find(site => site.id == userSite.siteId)
+    const match = sites.find(site => site.id == localSiteId)
     if (!match) return 'Unexpected error. Please contact pages-support@cloud.gov'
 
     const siteOptions = sites.map(site => ({
@@ -73,7 +60,7 @@ const SiteSelect: React.FC<SiteSelectProps> = (props: SiteSelectProps) => {
                     <Select
                         options={siteOptions}
                         value={currentSiteOption}
-                        onChange={(event) => onChange(event, setUserSite, setPreference)}
+                        onChange={onChange}
                     />
                 }
             </Banner>

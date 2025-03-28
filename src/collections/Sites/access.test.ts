@@ -2,7 +2,7 @@ import { expect, describe } from 'vitest'
 import { create, find, findByID, update, del, setUserSite } from '@test/utils/localHelpers';
 import { test } from '@test/utils/test';
 import { siteIdHelper } from '@/utilities/idHelper';
-import { isAccessError } from '@test/utils/errors';
+import { isAccessError, notFoundError } from '@test/utils/errors';
 
 
 describe('Sites access',  () => {
@@ -65,22 +65,28 @@ describe('Sites access',  () => {
         // TODO: this is a bug in https://github.com/vitest-dev/vitest/pull/7233
         test.scoped({ defaultUserAdmin: false })
 
-        test('read their Sites', async ({ tid, testUser }) => {
-            const siteId = siteIdHelper(testUser.sites[0].site)
+        test('read their Sites', async ({ tid, testUser, sites }) => {
+            const siteId = testUser.selectedSiteId
+
             const foundSites = await find(payload, tid, {
                 collection: 'sites'
             }, testUser)
-            expect(foundSites.docs).toHaveLength(1)
-            expect(foundSites.docs[0].id).toBe(siteId)
+
+            const expectedSites = sites.filter(site => site.id === siteId)
+
+            expect(foundSites.docs).toHaveLength(expectedSites.length)
+            foundSites.docs.forEach(site => {
+                expect(site.id).toBe(siteId)
+            })
         })
 
         test('not read not-their Sites', async ({ tid, testUser, sites }) => {
-            const notTheirSites = sites.filter(site => {
-                site.id !== siteIdHelper(testUser.sites[0].site)
-            })
+            const siteId = testUser.selectedSiteId
+
+            const notTheirSites = sites.filter(site => site.id !== siteId)
 
             await Promise.all(notTheirSites.map(async site => {
-                return isAccessError(findByID(payload, tid, {
+                return notFoundError(findByID(payload, tid, {
                     collection: 'sites',
                     id: site.id
                 }, testUser))
@@ -97,7 +103,7 @@ describe('Sites access',  () => {
         })
 
         test('not update Sites', async ({ tid, testUser }) => {
-            const siteId = siteIdHelper(testUser.sites[0].site)
+            const siteId = testUser.selectedSiteId
 
             await isAccessError(update(payload, tid, {
                 collection: 'sites',
@@ -109,7 +115,7 @@ describe('Sites access',  () => {
         })
 
         test('not delete Sites', async ({ tid, testUser }) => {
-            const siteId = siteIdHelper(testUser.sites[0].site)
+            const siteId = testUser.selectedSiteId
 
             await isAccessError(del(payload, tid, {
                 collection: 'sites',
@@ -133,23 +139,33 @@ describe('Sites access',  () => {
 
         test('read all their Sites, upon site selection', async ({ tid, testUser, sites }) => {
             testUser = await addSiteToUser(testUser, tid, { site: sites[1], role: 'user'})
+            const siteId = testUser.selectedSiteId
 
             let foundSites = await find(payload, tid, {
                 collection: 'sites'
             }, testUser)
 
-            expect(foundSites.docs).toHaveLength(1)
-            expect(foundSites.docs[0].id).toBe(sites[0].id)
+            let expectedSites = sites.filter(site => site.id === siteId)
+
+            expect(foundSites.docs).toHaveLength(expectedSites.length)
+            foundSites.docs.forEach(site => {
+                expect(site.id).toBe(siteId)
+            })
 
             // switch site
-            const pref = await setUserSite(payload, tid, testUser, sites[1])
+            testUser = await setUserSite(payload, tid, testUser, sites[1].id)
+            const newSiteId = testUser.selectedSiteId
 
             foundSites = await find(payload, tid, {
                 collection: 'sites'
             }, testUser)
 
-            expect(foundSites.docs).toHaveLength(1)
-            expect(foundSites.docs[0].id).toBe(sites[1].id)
+            expectedSites = sites.filter(site => site.id === newSiteId)
+
+            expect(foundSites.docs).toHaveLength(expectedSites.length)
+            foundSites.docs.forEach(site => {
+                expect(site.id).toBe(newSiteId)
+            })
         })
     })
 
@@ -157,20 +173,26 @@ describe('Sites access',  () => {
         test.scoped({ defaultUserAdmin: false, defaultUserRole: 'bot' })
 
         test('read their Sites', async ({ tid, testUser, sites }) => {
+            const siteId = testUser.selectedSiteId
+
             const foundSites = await find(payload, tid, {
                 collection: 'sites'
             }, testUser)
-            expect(foundSites.docs).toHaveLength(1)
-            expect(foundSites.docs[0].id).toStrictEqual(siteIdHelper(testUser.sites[0].site))
+
+            const expectedSites = sites.filter(site => site.id === siteId)
+
+            expect(foundSites.docs).toHaveLength(expectedSites.length)
+            foundSites.docs.forEach(site => {
+                expect(site.id).toBe(siteId)
+            })
         })
 
         test('not read not-their Sites', async ({ tid, testUser, sites }) => {
-            const notTheirSites = sites.filter(site => {
-                site.id !== siteIdHelper(testUser.sites[0].site)
-            })
+            const siteId = testUser.selectedSiteId
+            const notTheirSites = sites.filter(site => site.id !== siteId)
 
             await Promise.all(notTheirSites.map(async site => {
-                return isAccessError(findByID(payload, tid, {
+                return notFoundError(findByID(payload, tid, {
                     collection: 'sites',
                     id: site.id
                 }, testUser))

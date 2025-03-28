@@ -1,6 +1,6 @@
 import { test as vitest } from 'vitest'
 import type { LocalTestContext } from './context.types'
-import { create, find, setUserSite } from './localHelpers';
+import { create, find } from './localHelpers';
 
 export const test = vitest.extend<LocalTestContext>({
     tid: async ({ payload }, use) => {
@@ -8,13 +8,12 @@ export const test = vitest.extend<LocalTestContext>({
         if (!tid) throw new Error('no transaction')
         await use(tid)
         await payload.db.rollbackTransaction(tid)
-
     },
     defaultUserRole: 'user',
     defaultUserAdmin: false,
     siteNames: ['site1', 'site2', 'site3'],
     sites: [async({ payload, tid, siteNames }, use) => {
-            const sites = await Promise.all(siteNames.map(name => {
+            const sites = await Promise.all(siteNames.map(async name => {
                 return create(payload, tid, {
                     collection: 'sites',
                     data: {
@@ -57,24 +56,20 @@ export const test = vitest.extend<LocalTestContext>({
             collection: 'users',
             depth: 3,
         })).docs
-        await Promise.all(bots.map(bot => {
-            return setUserSite(payload, tid, bot, bot.sites[0].site)
-        }))
 
         // create a user per site
         let users = await Promise.all(sites.map(async site => {
-            const user = await create(payload, tid, {
+            return create(payload, tid, {
                 collection: 'users',
                 data: {
                     email: `user@${site.name}.gov`,
                     sites: [{
                         site,
                         role: 'user'
-                    }]
+                    }],
+                    selectedSiteId: site.id
                 }
             })
-            await setUserSite(payload, tid, user, site)
-            return user
         }))
 
         users = [ ...users, ...bots]
@@ -92,11 +87,10 @@ export const test = vitest.extend<LocalTestContext>({
                     site: sites[0],
                     role: defaultUserRole
                 }],
-                isAdmin: defaultUserAdmin
+                isAdmin: defaultUserAdmin,
+                selectedSiteId: sites[0].id
             }
         })
-        await setUserSite(payload, tid, defaultUser, sites[0])
-
         await use(defaultUser)
     },
     payload: global.payload

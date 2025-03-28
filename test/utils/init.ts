@@ -7,7 +7,7 @@ const initOptions = {
     secret: uuid(),
     db: postgresAdapter({
         pool: {
-            connectionString: process.env.DATABASE_URI || 'http://localhost:5432/pages_editor_test',
+            connectionString: process.env.TEST_DATABASE_URI || 'http://localhost:5432/pages_editor_test',
         },
         // TODO: remove once this is resolved
         // https://github.com/payloadcms/payload/issues/11177

@@ -3,7 +3,7 @@ import { Site } from '@/payload-types'
 import { v4 as uuidv4 } from 'uuid'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { admin } from '@/access/admin'
-import { setUserSite } from '@/access/preferenceHelper'
+
 const createSiteBot: CollectionAfterChangeHook<Site> = async ({
   doc, req, operation,
 }) => {
@@ -12,7 +12,7 @@ const createSiteBot: CollectionAfterChangeHook<Site> = async ({
     const bot = await payload.create({
       collection: 'users',
       data: {
-        email: `cloud-gov-pages-operations+${doc.name}@gsa.gov`,
+        email: `cloud-gov-pages-operations+${doc.id}@gsa.gov`,
         sites: [
           {
             site: doc.id,
@@ -21,18 +21,11 @@ const createSiteBot: CollectionAfterChangeHook<Site> = async ({
         ],
         sub: uuidv4(),
         enableAPIKey: true,
-        apiKey: uuidv4()
+        apiKey: uuidv4(),
+        selectedSiteId: doc.id
       },
       req // passing the request keeps this as a single transaction
     })
-
-    // set the bots "site preference"
-    // TODO: it seems like a bug that this can't be included in the same req/transaction
-    // wait on https://github.com/payloadcms/payload/pull/9511
-    // then try to recreate
-    setTimeout(async () => {
-      setUserSite(req, bot, doc)
-    }, 1000)
   }
   return doc
 }
