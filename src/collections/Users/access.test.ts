@@ -224,6 +224,43 @@ describe('Users access',  () => {
                 }, testUser))
             }))
         })
+
+        // TODO: this is impossible to test right now because of transactions and how
+        // we've implemented this: https://github.com/payloadcms/payload/discussions/11943
+        test.skip('add a site role to users from other sites', async ({tid, testUser, users }) => {
+            const siteId = testUser.selectedSiteId
+
+            const notTheirUser = users.find(user => {
+                return !getUserSiteIds(user).includes(siteId)
+            })
+
+            if (!notTheirUser) throw new Error('fixture error')
+
+            // the validation in this operation fails but we still need the result
+            try {
+                await create(payload, tid, {
+                    collection: 'users',
+                    data: {
+                        email: notTheirUser.email,
+                        sites: [{
+                            site: siteId,
+                            role: 'user'
+                        }],
+                        selectedSiteId: notTheirUser.selectedSiteId
+                    }
+                }, testUser)
+            } catch (e) {
+                expect(e.message).toBe('The following field is invalid: Email')
+            }
+
+            const user = await findByID(payload, tid, {
+                collection: 'users',
+                id: notTheirUser.id
+            })
+
+            expect(user.sites).toHaveLength((notTheirUser.sites ?? []).length + 1)
+            expect(getUserSiteIds(user)).toContain(siteId)
+        })
     })
 
     describe('site managers with multiple sites can...', async () => {
@@ -521,5 +558,7 @@ describe('Users access',  () => {
 
             expect(newUser).toHaveProperty('isAdmin', false)
         })
+
+
     })
 })

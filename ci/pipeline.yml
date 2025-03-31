@@ -26,6 +26,32 @@ jobs:
         instance_vars:
           deploy-env: ((deploy-env))
 
+  - name: test-db
+    plan:
+      - get: src
+        params:
+          depth: 1
+        trigger: true
+        passed: [set-pipeline]
+      - in_parallel:
+          - get: general-task
+          - get: postgres
+            params:
+              format: oci
+          - get: node
+          - get: node-oci
+            resource: node
+            params:
+              format: oci
+          - get: pipeline-tasks
+      - task: install-deps
+        file: src/ci/partials/install-deps.yml
+        image: node
+
+      - task: test
+        file: src/ci/partials/test.yml
+        privileged: true
+
   - name: deploy-pages-editor
     plan:
       - get: src
@@ -77,6 +103,7 @@ resources:
   - name: node
   - name: general-task
   - name: pipeline-tasks
+  - name: postgres
 
 #!  RESOURCE TYPES
 

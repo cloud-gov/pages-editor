@@ -1,6 +1,7 @@
 import { admin, adminField } from '@/access/admin'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { Site } from '@/payload-types'
+import { getUserSiteIds, siteIdHelper } from '@/utilities/idHelper'
 // import { redirect } from 'next/navigation'
 import { CollectionAfterLogoutHook, ValidationError, type CollectionAfterChangeHook, type CollectionBeforeChangeHook, type CollectionConfig, type FieldHook, type User } from 'payload'
 import { v4 as uuidv4 } from 'uuid'
@@ -39,6 +40,11 @@ const testEmailUniqueness: FieldHook<User> = async({
       return value
     }
 
+    // this particular validation should be part of the same transaction
+    // but not the same full request because it needs broader permissions
+    // than the individual user
+    const partialReq = { transactionID: req.transactionID }
+
     const match = await payload.find({
       collection: 'users',
       depth: 2,
@@ -46,7 +52,8 @@ const testEmailUniqueness: FieldHook<User> = async({
         email: {
           equals: value
         }
-      }
+      },
+      req: partialReq
     })
     if (match.docs.length && user ) {
       const existingUser = match.docs[0]
@@ -61,7 +68,7 @@ const testEmailUniqueness: FieldHook<User> = async({
       // if the user matches the current site, this is a true validation error
       // if the user exists but on another site, treat this essentially like a new user
       const siteId = user.selectedSiteId;
-      if (siteId && existingUser.sites?.map(s => (s.site as Site).id).includes(siteId)) {
+      if (siteId && getUserSiteIds(existingUser).includes(siteId)) {
         throw new ValidationError({
           errors: [{
             message: `User with email ${value} exists for this site`,
@@ -69,13 +76,15 @@ const testEmailUniqueness: FieldHook<User> = async({
           }]
         })
       } else if (data) {
-        await payload.update({
+        const update = await payload.update({
           collection: 'users',
           id: existingUser.id,
           data: {
             sites: [...data.sites, ...(existingUser.sites ?? [])]
-          }
+          },
+          req: partialReq
         })
+        console.log(update)
         return false
       }
       return value

@@ -1,0 +1,55 @@
+# Local config
+config/local.js
+config/local-from-staging.js
+config/local-site-build-tasks.json
+
+# Webpack-generated assets
+public/js/bundle.js
+public/js/report*
+public/js/bundle.*.js*
+public/js/uswds*.js*
+public/js/bundle.*
+public/styles/styles.css
+public/styles.css
+public/styles/styles.*.css*
+public/styles/uswds.*.css*
+public/img/*
+public/uswds3/*
+!public/uswds3/.keep
+public/fonts/*
+public/bundle.js
+public/report.js
+webpack-manifest.json
+webpackAssets
+public/stats.json
+dist
+
+
+# Node.js / NPM
+lib-cov
+*.seed
+*.log
+*.out
+*.pid
+npm-debug.log
+node_modules/
+coverage
+.nyc_output
+.yarn-cache
+
+# Miscellaneous
+*~
+*#
+.git
+.DS_STORE
+.netbeans
+nbproject
+.idea
+.node_history
+.env
+.sass-cache
+.vscode
+credentials*.json
+tmp
+ci/vars/.*
+uaa/cloudfoundry-identity-uaa-4.19.0.war

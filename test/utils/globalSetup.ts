@@ -5,17 +5,17 @@ import { Client } from 'pg'
 // https://github.com/vitest-dev/vitest/blob/main/test/global-setup/globalSetup/default-export.js
 let teardownHappened = false
 
-const client = new Client({ connectionString: process.env.TEST_DATABASE_URI })
 
 export default async function () {
 
+    const client = new Client({ connectionString: process.env.TEST_DATABASE_URI })
+    await client.connect()
+
     async function clearDatabase() {
-        await client.connect()
-        await client.query('DELETE from users;')
-        await client.query('DELETE from sites;')
-        await client.query('DELETE from posts;')
-        await client.query('DELETE from pages;')
-        return client.end()
+        await client.query('DELETE from users;').catch(e => console.log(e))
+        await client.query('DELETE from sites;').catch(e => console.log(e))
+        await client.query('DELETE from posts;').catch(e => console.log(e))
+        await client.query('DELETE from pages;').catch(e => console.log(e))
     }
 
     // setup
@@ -27,6 +27,7 @@ export default async function () {
         }
         // tear it down here
         teardownHappened = true
-        return clearDatabase()
+        await clearDatabase()
+        return client.end()
       }
 }

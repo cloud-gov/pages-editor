@@ -1,8 +1,0 @@
-services:
-  uaa:
-    build:
-      dockerfile: ./Dockerfile-uaa
-      context: .
-    ports:
-      - 9001:8080
-    command: ['/tomcat/bin/catalina.sh', 'run']

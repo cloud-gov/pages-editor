@@ -6,8 +6,7 @@ import { siteIdHelper } from '@/utilities/idHelper'
 // certain access operations don't pass `data` which is the only
 // way to infer the shape of the documents we're operating on
 
-// type Role = User["sites"][number]["role"]
-type Role = 'manager' | 'user' | 'bot'
+export type Role = NonNullable<Required<User>["sites"]>[number]["role"]
 
 export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = ['manager', 'user']) {
   const adminOrSiteUser: Access<Post | Page | User | Site > = async ({ req, data }) => {
