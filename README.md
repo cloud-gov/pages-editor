@@ -35,6 +35,17 @@ docker compose up
   - ...
 - Relies on [pages-site-gantry](https://github.com/cloud-gov/pages-site-gantry) for live previewing
 
+### Cloud Foundry Setup
+
+This repository's CI deploys the `pages-editor-((env))` application and [`pages-site-gantry`](https://github.com/cloud-gov/pages-site-gantry) deploys the preview application. There are four other services which are manually created per-environment:
+
+| name                          | service                     | plan           | notes |
+| ----------------------------- | --------------------------- | -------------- | ----- |
+| pages-editor-((env))-rds      | aws-rds                     | micro-psql     | Primary database |
+| pages-editor-deployer-((env)) | cloud-gov-service-account   | space-deployer | [Create account](https://cloud.gov/docs/services/cloud-gov-service-account/). Add these credentials to cred-hub |
+| pages-editor-auth-((env))     | cloud-gov-identity-provider | oauth-client   | [Create the service](https://cloud.gov/docs/services/cloud-gov-identity-provider/). Add these credentials to `pages-editor-creds-((env))` |
+| pages-editor-creds-((env))    | user-provided               |                |  Credentials here are captured in the `.profile` script for different applications  |
+
 ### Test framework and structure
 
 #### DB Tests

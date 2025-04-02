@@ -12,7 +12,10 @@ jobs:
     plan:
       - get: src
         params:
+          #@ if/end env != 'dev':
           depth: 1
+          #@ if/end env == 'dev':
+          integration_tool: checkout
         trigger: true
       - get: pipeline-tasks
       - get: general-task
@@ -30,7 +33,10 @@ jobs:
     plan:
       - get: src
         params:
+          #@ if/end env != 'dev':
           depth: 1
+          #@ if/end env == 'dev':
+          integration_tool: checkout
         trigger: true
         passed: [set-pipeline]
       - in_parallel:
@@ -56,8 +62,14 @@ jobs:
     plan:
       - get: src
         params:
+          #@ if/end env != 'dev':
           depth: 1
+          #@ if/end env == 'dev':
+          integration_tool: checkout
         trigger: true
+      #@ if/end env != 'dev':
+        passed: [set-pipeline, test-db]
+      #@ if/end env == 'dev':
         passed: [set-pipeline]
       - get: general-task
       - get: node
@@ -91,6 +103,18 @@ jobs:
 #!  RESOURCES
 
 resources:
+  #@ if/end env == 'dev':
+  - name: src
+    type: pull-request
+    check_every: 1m
+    source:
+      repository: ((pages-editor-repository-path))
+      access_token: ((pages-operations-ci-github-token))
+      base_branch: main
+      disable_forks: true
+      ignore_drafts: false
+
+  #@ if/end env == 'staging':
   - name: src
     type: git
     icon: github
@@ -99,6 +123,18 @@ resources:
       branch: main
       commit_verification_keys: ((cloud-gov-pages-gpg-keys))
       private_key: ((pages-gpg-operations-github-sshkey.private_key))
+
+  #@ if/end env == 'production':
+  - name: src
+    type: git
+    icon: github
+    source:
+      uri: ((git-base-url))/((pages-editor-repository-path))
+      branch: main
+      commit_verification_keys: ((cloud-gov-pages-gpg-keys))
+      tag_filter: 0.*.*
+      fetch_tags: true
+
 
   - name: node
   - name: general-task
@@ -110,3 +146,5 @@ resources:
 resource_types:
   - name: git
   - name: registry-image
+  #@ if/end env == 'dev':
+  - name: pull-request
