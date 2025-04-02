@@ -33,11 +33,18 @@ export const revalidatePost: CollectionAfterChangeHook<Post> = ({
 }
 
 export const revalidateDelete: CollectionAfterDeleteHook<Post> = ({ doc, req: { context } }) => {
-  if (!context.disableRevalidate) {
+  if (!context.disableRevalidate && doc) {
     const path = `/posts/${doc?.slug}`
+    try {
+      revalidatePath(path)
+      revalidateTag('posts-sitemap')
+    } catch (e) {
+      // TODO: investigate this further
+      // throws Error: Invariant: static generation store missing in revalidatePath
+      // on delete operations
+      console.warn(e)
+    }
 
-    revalidatePath(path)
-    revalidateTag('posts-sitemap')
   }
 
   return doc

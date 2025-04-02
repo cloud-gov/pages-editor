@@ -1,0 +1,60 @@
+volumes:
+  db-data:
+  nm-app:
+
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    command: ['npm', 'run', 'dev']
+    volumes:
+      - .:/app
+      - nm-app:/app/node_modules
+    ports:
+      - '3000:3000'
+    depends_on:
+      db:
+        condition: service_healthy
+      uaa:
+        condition: service_started
+    environment:
+      DATABASE_URI: postgresql://postgres:password@db:5432/pages_editor
+      PAYLOAD_SECRET: mysecret
+      NEXT_PUBLIC_SERVER_URL: http://localhost:3000
+      PREVIEW_URL: http://localhost:5000
+      OAUTH_CLIENT_ID: pages-client
+      OAUTH_CLIENT_SECRET: client-secret
+      OAUTH_AUTH_ENDPOINT: http://localhost:9001/oauth/authorize
+      OAUTH_TOKEN_ENDPOINT: http://uaa:8080/oauth/token
+      OAUTH_USERINFO_ENDPOINT: http://uaa:8080/userinfo
+      LOGOUT_ENDPOINT: http://uaa:8080/logout.do
+      ORIGIN: http://localhost:3000
+      PROMPT_URL: http://localhost:5000/reload
+      TEST_DATABASE_URI: postgresql://postgres:password@db:5432/pages_editor_test
+  db:
+    build:
+      dockerfile: Dockerfile-db
+      context: .
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_DB: pages_editor
+      POSTGRES_TEST_DB: pages_editor_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    user: postgres
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready', '-h', 'db', '-d', 'pages_editor']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  uaa:
+    build:
+      dockerfile: ./Dockerfile-uaa
+      context: .
+    ports:
+      - 9001:8080
+    command: ['/tomcat/bin/catalina.sh', 'run']

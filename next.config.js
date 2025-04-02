@@ -28,6 +28,9 @@ const nextConfig = {
       ],
   },
   productionBrowserSourceMaps: process.env.APP_ENV === 'dev',
+  env: {
+    ORIGIN: process.env.ORIGIN
+  }
 }
 
-export default withPayload(nextConfig)
+export default withPayload(nextConfig, { devBundleServerPackages: false })

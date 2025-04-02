@@ -42,6 +42,7 @@ export const createAuthStrategy = (
         if (!jwtUser) return { user: null };
         const userCollection = "users";
         let user: User | null = null;
+
         const usersQuery = await payload.find({
           collection: userCollection,
           where: { [subFieldName]: { equals: jwtUser[subFieldName] } },

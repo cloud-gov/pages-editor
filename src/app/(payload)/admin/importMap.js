@@ -24,6 +24,10 @@ import { SlugComponent as SlugComponent_92cc057d0a2abb4f6cf0307edf59f986 } from 
 import { FixedToolbarFeatureClient as FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
+import { default as default_00bfee99199127ed2fb3a6d7b4404ac0 } from '@/components/SiteLabel'
+import { default as default_2e6cf1b1b850543a1bd5771a5b86ee4d } from '@/components/SiteRowLabel'
+import { default as default_aba816a7620722f6f5a29b462f001c53 } from '@/components/VirtualRole/Field'
+import { default as default_8748524792ccc359ce34a02635054b6a } from '@/components/VirtualRole/Cell'
 import { RowLabel as RowLabel_ec255a65fa6fa8d1faeb09cf35284224 } from '@/Header/RowLabel'
 import { RowLabel as RowLabel_1f6ff6ff633e3695d348f4f3c58f1466 } from '@/Footer/RowLabel'
 import { default as default_1a7510af427896d367a49dbf838d2de6 } from '@/components/BeforeDashboard'
@@ -56,6 +60,10 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#FixedToolbarFeatureClient": FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
+  "@/components/SiteLabel#default": default_00bfee99199127ed2fb3a6d7b4404ac0,
+  "@/components/SiteRowLabel#default": default_2e6cf1b1b850543a1bd5771a5b86ee4d,
+  "@/components/VirtualRole/Field#default": default_aba816a7620722f6f5a29b462f001c53,
+  "@/components/VirtualRole/Cell#default": default_8748524792ccc359ce34a02635054b6a,
   "@/Header/RowLabel#RowLabel": RowLabel_ec255a65fa6fa8d1faeb09cf35284224,
   "@/Footer/RowLabel#RowLabel": RowLabel_1f6ff6ff633e3695d348f4f3c58f1466,
   "@/components/BeforeDashboard#default": default_1a7510af427896d367a49dbf838d2de6,

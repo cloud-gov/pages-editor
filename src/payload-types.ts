@@ -54,6 +54,7 @@ export type SupportedTimezones =
   | 'Asia/Singapore'
   | 'Asia/Tokyo'
   | 'Asia/Seoul'
+  | 'Australia/Brisbane'
   | 'Australia/Sydney'
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
@@ -222,12 +223,15 @@ export interface User {
   id: number;
   email: string;
   sub?: string | null;
-  sites: {
-    site: number | Site;
-    role: 'manager' | 'user' | 'bot';
-    id?: string | null;
-  }[];
+  sites?:
+    | {
+        site: number | Site;
+        role: 'manager' | 'user' | 'bot';
+        id?: string | null;
+      }[]
+    | null;
   isAdmin?: boolean | null;
+  selectedSiteId: number;
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
@@ -443,6 +447,7 @@ export interface Form {
             label?: string | null;
             width?: number | null;
             defaultValue?: string | null;
+            placeholder?: string | null;
             options?:
               | {
                   label: string;
@@ -921,6 +926,7 @@ export interface FormsSelect<T extends boolean = true> {
               label?: T;
               width?: T;
               defaultValue?: T;
+              placeholder?: T;
               options?:
                 | T
                 | {
@@ -1045,6 +1051,7 @@ export interface UsersSelect<T extends boolean = true> {
         id?: T;
       };
   isAdmin?: T;
+  selectedSiteId?: T;
   updatedAt?: T;
   createdAt?: T;
   enableAPIKey?: T;

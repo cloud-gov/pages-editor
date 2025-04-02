@@ -1,19 +1,25 @@
 import type { Access, CollectionSlug, Where } from 'payload'
 import type { Post, Page, User, Site } from '@/payload-types'
-import { getSiteId } from './preferenceHelper'
+import { siteIdHelper } from '@/utilities/idHelper'
 
 // ideally this code could be handled via a single generic but
 // certain access operations don't pass `data` which is the only
 // way to infer the shape of the documents we're operating on
 
-export function getAdminOrSiteUser(slug: CollectionSlug) {
+export type Role = NonNullable<Required<User>["sites"]>[number]["role"]
+
+export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = ['manager', 'user']) {
   const adminOrSiteUser: Access<Post | Page | User | Site > = async ({ req, data }) => {
-    const { user, payload } = req;
+    const { payload } = req;
+    let { user } = req;
     if (!user) return false
     if (user.isAdmin) return true
 
-    const siteId = await getSiteId(req, user.id)
+    const siteId = user.selectedSiteId
     if (!siteId) return false
+
+    const matchedSite = user.sites?.find(site => siteIdHelper(site.site) === siteId)
+    if (!(matchedSite && requiredRole.includes(matchedSite.role))) return false
 
     // if collection data exists, extract the site id and match against it
     // false for no match.
@@ -27,7 +33,7 @@ export function getAdminOrSiteUser(slug: CollectionSlug) {
         if (siteId !== dataSiteId) return false
 
       } else if ('sites' in data) {
-        const dataSiteIds = data.sites.map(site => typeof site.site === 'number' ? site.site : site.site.id)
+        const dataSiteIds = data.sites?.map(site => siteIdHelper(site.site))
         if (!(dataSiteIds && dataSiteIds.includes(siteId))) return false
 
       } else if ('id' in data){

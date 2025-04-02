@@ -18,7 +18,7 @@ export const Posts: CollectionConfig<'posts'> = {
   access: {
     create: getAdminOrSiteUser('posts'),
     delete: getAdminOrSiteUser('posts'),
-    read: getAdminOrSiteUser('posts'),
+    read: getAdminOrSiteUser('posts', ['manager', 'user', 'bot']),
     update: getAdminOrSiteUser('posts'),
   },
   // This config controls what's populated by default when a post is referenced
@@ -127,7 +127,7 @@ export const Posts: CollectionConfig<'posts'> = {
     ...customFields,
   ],
   hooks: {
-    afterChange: [revalidatePost, previewWebhook],
+    afterChange: [revalidatePost, /* previewWebhook */],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
     beforeChange: [addSite]
