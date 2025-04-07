@@ -1,7 +1,7 @@
 {
-  "name": "prototype",
-  "version": "1.0.0",
-  "description": "Website template for Payload",
+  "name": "pages-editor",
+  "version": "0.1.0",
+  "description": "A customized Payload CMS editor for creating and managing federal websites",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -18,7 +18,8 @@
     "reinstall": "cross-env NODE_OPTIONS=--no-deprecation rm -rf node_modules && rm pnpm-lock.yaml && pnpm --ignore-workspace install",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "vitest",
-    "test:ci": "vitest --run"
+    "test:ci": "vitest --run",
+    "seed": "yes | payload migrate:fresh && payload run scripts/seed.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "latest",
@@ -88,8 +89,8 @@
     "vitest": "^3.1.0-beta.2"
   },
   "engines": {
-    "node": "^20.9.x",
-    "npm": "^10.x.x"
+    "node": "^22.12.x",
+    "npm": "^10.9.x"
   },
   "overrides": {
     "@types/react": "npm:types-react@19.0.0-rc.1",
