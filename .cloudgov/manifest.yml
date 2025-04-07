@@ -12,7 +12,7 @@ applications:
         memory: 1G
     services:
       - pages-editor-((env))-rds
-      - pages-editor-creds
+      - pages-editor-((env))-creds
     env:
       NODE_ENV: ((node_env))
       APP_ENV: ((env))
