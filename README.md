@@ -1,6 +1,6 @@
 # Pages Editor
 
-A customized [Payload CMS](https://github.com/payloadcms/payload) editor for editing [Cloud.gov Pages](https://cloud.gov/pages) content.
+A customized [Payload CMS](https://github.com/payloadcms/payload) editor for creating and managing federal websites.
 
 ## Initial Goals
 
@@ -18,13 +18,14 @@ Content Editors can:
 
 ### Running Locally
 
-WIP (it needs seed data to work)
-
 ```sh
 docker compose build
 docker compose run app npm ci
+docker compose run app npm run seed # manually respond Y
 docker compose up
 ```
+
+After this, the editor is available at localhost:3000/admin; the first load will take a few seconds while the app is compiled.
 
 ### Infrastructure Notes
 - Based on the Payload CMS [website template](https://github.com/payloadcms/payload/tree/main/templates/website)
@@ -42,9 +43,9 @@ This repository's CI deploys the `pages-editor-((env))` application and [`pages-
 | name                          | service                     | plan           | notes |
 | ----------------------------- | --------------------------- | -------------- | ----- |
 | pages-editor-((env))-rds      | aws-rds                     | micro-psql     | Primary database |
-| pages-editor-deployer-((env)) | cloud-gov-service-account   | space-deployer | [Create account](https://cloud.gov/docs/services/cloud-gov-service-account/). Add these credentials to cred-hub |
-| pages-editor-auth-((env))     | cloud-gov-identity-provider | oauth-client   | [Create the service](https://cloud.gov/docs/services/cloud-gov-identity-provider/). Add these credentials to `pages-editor-creds-((env))` |
-| pages-editor-creds-((env))    | user-provided               |                |  Credentials here are captured in the `.profile` script for different applications  |
+| pages-editor-((env))-deployer | cloud-gov-service-account   | space-deployer | [Create account](https://cloud.gov/docs/services/cloud-gov-service-account/). Add these credentials to cred-hub |
+| pages-editor-((env)) -auth    | cloud-gov-identity-provider | oauth-client   | [Create the service](https://cloud.gov/docs/services/cloud-gov-identity-provider/). Add these credentials to `pages-editor-((env))-creds` |
+| pages-editor-((env))-creds    | user-provided               |                |  Credentials here are captured in the `.profile` script for different applications  |
 
 ### Test framework and structure
 
