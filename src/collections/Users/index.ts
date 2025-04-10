@@ -1,98 +1,20 @@
 import { admin, adminField } from '@/access/admin'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
-import { Site } from '@/payload-types'
-import { getUserSiteIds, siteIdHelper } from '@/utilities/idHelper'
-// import { redirect } from 'next/navigation'
-import { CollectionAfterLogoutHook, ValidationError, type CollectionAfterChangeHook, type CollectionBeforeChangeHook, type CollectionConfig, type FieldHook, type User } from 'payload'
-import { v4 as uuidv4 } from 'uuid'
+import type { CollectionConfig} from 'payload'
+import {
+  testEmailUniqueness,
+  userEmail,
+  addSub,
+  addSelectedSiteId,
+  ensureSites,
+  removeDummyUsers,
+} from './hooks'
+import { siteIdHelper } from '@/utilities/idHelper'
 
 export const roles = ['manager', 'user', 'bot'] as const
 
 const capitalize = (str: string) => {
   return `${str[0].toLocaleUpperCase()}${str.slice(1)}`
-}
-
-const userEmail: CollectionAfterChangeHook<User> = async ({
-  doc, req: { payload }, operation
-}) => {
-  if (operation === 'create') {
-    // email the user
-    // payload.sendEmail
-  }
-  return doc
-}
-
-const addSub: CollectionBeforeChangeHook<User> = async ({
-  data, operation
-}) => {
-  if (operation === 'create') {
-    data.sub = uuidv4()
-  }
-}
-
-const testEmailUniqueness: FieldHook<User> = async({
-  data, originalDoc, req, value, operation
-}) => {
-  const { payload, user } = req
-  if (operation === 'create' || operation == 'update') {
-    // if value is unchanged, skip validation
-    if (originalDoc?.email === value) {
-      return value
-    }
-
-    // this particular validation should be part of the same transaction
-    // but not the same full request because it needs broader permissions
-    // than the individual user
-    const partialReq = { transactionID: req.transactionID }
-
-    const match = await payload.find({
-      collection: 'users',
-      depth: 2,
-      where: {
-        email: {
-          equals: value
-        }
-      },
-      req: partialReq
-    })
-    if (match.docs.length && user ) {
-      const existingUser = match.docs[0]
-      if (existingUser && user.isAdmin) {
-        throw new ValidationError({
-          errors: [{
-            message: `User with email ${value} exists.`,
-            path: 'email',
-          }]
-        })
-      }
-      // if the user matches the current site, this is a true validation error
-      // if the user exists but on another site, treat this essentially like a new user
-      const siteId = user.selectedSiteId;
-      if (siteId && getUserSiteIds(existingUser).includes(siteId)) {
-        throw new ValidationError({
-          errors: [{
-            message: `User with email ${value} exists for this site`,
-            path: 'email',
-          }]
-        })
-      } else if (data) {
-        const update = await payload.update({
-          collection: 'users',
-          id: existingUser.id,
-          data: {
-            sites: [...data.sites, ...(existingUser.sites ?? [])]
-          },
-          req: partialReq
-        })
-        console.log(update)
-        return false
-      }
-      return value
-    }
-    return value
-  }
-
-  return value
 }
 
 export const Users: CollectionConfig = {
@@ -104,7 +26,7 @@ export const Users: CollectionConfig = {
     create: getAdminOrSiteUser('users', ['manager']),
   },
   admin: {
-    defaultColumns: ['email', 'updatedAt', 'role'],
+    defaultColumns: ['email', 'updatedAt', 'sites'],
     useAsTitle: 'email',
     hidden: false,
   },
@@ -114,7 +36,7 @@ export const Users: CollectionConfig = {
     tokenExpiration: 86400, // one day
     cookies: {
       domain: process.env.COOKIE_DOMAIN,
-      secure: !process.env.ORIGIN?.includes('http://localhost')
+      secure: !process.env.PUBLIC_URL?.includes('http://localhost')
     }
   },
   fields: [
@@ -125,9 +47,6 @@ export const Users: CollectionConfig = {
       access: {
         update: adminField,
       },
-      hooks: {
-        beforeValidate: [testEmailUniqueness]
-      }
     },
     {
       name: 'sub', // we have to create this manually or it isn't added to the JWT payload-token
@@ -145,31 +64,28 @@ export const Users: CollectionConfig = {
     {
       name: 'sites',
       type: 'array',
-      saveToJWT: true,
       required: true,
+      label: 'Role',
+      labels: {
+        plural: 'Roles',
+        singular: 'Role'
+      },
+      saveToJWT: true,
+      hooks: {
+        afterRead: [async ({ value, req, data }) => {
+          const { user } = req
+          if (!user) return value
+          if (user.isAdmin) return value
+          return value.filter(v => siteIdHelper(v.site) === user.selectedSiteId)
+        }]
+      },
       admin: {
         isSortable: false,
         components: {
+          Cell: '@/components/SiteCell',
           RowLabel: '@/components/SiteRowLabel',
-          Label: '@/components/SiteLabel'
         },
-        disableListColumn: true,
         disableListFilter: true,
-        condition: (data, _, ctx) => {
-          return Boolean(ctx.user?.isAdmin) || data.sites.length > 1
-        }
-      },
-      hooks: {
-        // this hook filters out sites for non-admins or when not on the account page
-        // it also provides a useful hack: this data is then provided to `data` in the
-        // admin.condition functions and we can variably display things based on that
-        // although it feels unreliable :(
-        afterRead: [async ({ value, req }) => {
-          if (!req.user || req.user.isAdmin || ['/admin/account', '/api/users/me'].includes(req.pathname)) return value
-          const siteId = req.user.selectedSiteId
-          if (!siteId) return value
-          return value.filter(v => v.site === siteId)
-        }]
       },
       fields: [
         {
@@ -179,6 +95,11 @@ export const Users: CollectionConfig = {
           required: true,
           index: true,
           saveToJWT: true,
+          admin: {
+            condition: (_, __, ctx) => {
+              return Boolean(ctx.user?.isAdmin)
+            }
+          }
         },
         {
           name: 'role',
@@ -208,7 +129,6 @@ export const Users: CollectionConfig = {
     {
       name: 'selectedSiteId',
       type: 'number',
-      required: true,
       admin: {
         hidden: true,
         readOnly: true,
@@ -216,21 +136,50 @@ export const Users: CollectionConfig = {
         disableListFilter: true
       }
     },
+    // hide api key info
+    // https://github.com/payloadcms/payload/issues/12089
     {
-      name: 'role',
+      name: 'enableAPIKey',
+      type: 'checkbox',
+      access: {
+        read: adminField,
+        update: adminField,
+      },
+      admin: {
+        disableListColumn: true,
+        disableListFilter: true
+      }
+    },
+    {
+      name: 'apiKey',
+      type: 'text',
+      access: {
+        read: adminField,
+        update: adminField,
+      },
+      admin: {
+        disableListColumn: true,
+        disableListFilter: true
+      }
+    },
+    {
+      name: 'actions',
+      label: 'User Actions',
       type: 'ui',
       admin: {
-        // condition: (_a, _b, ctx) => Boolean(ctx.user && !ctx.user.isAdmin),
+        position: 'sidebar',
+        disableListColumn: true,
         components: {
-          Field: '@/components/VirtualRole/Field',
-          Cell: '@/components/VirtualRole/Cell',
+          Field: '@/components/RemoveUser',
         }
       }
     }
   ],
   hooks: {
-    afterChange: [userEmail],
-    beforeChange: [addSub],
+    afterChange: [removeDummyUsers, userEmail],
+    beforeOperation: [ensureSites],
+    beforeValidate: [addSub, addSelectedSiteId],
+    beforeChange: [testEmailUniqueness],
     // afterLogout: [fullLogout]
   },
   timestamps: true,

@@ -90,10 +90,13 @@
   },
   "engines": {
     "node": "^22.12.x",
-    "npm": "^10.9.x"
+    "npm": "^10.9.2"
   },
   "overrides": {
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.39.0"
   }
 }

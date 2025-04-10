@@ -9,7 +9,7 @@ applications:
         command: npm run start
         disk_quota: 5G
         instances: ((instances))
-        memory: 1G
+        memory: 2G
     services:
       - pages-editor-((env))-rds
       - pages-editor-((env))-creds

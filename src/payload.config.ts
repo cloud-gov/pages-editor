@@ -3,7 +3,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 
 import sharp from 'sharp' // sharp-import
 import path from 'path'
-import { buildConfig, Config, PayloadRequest } from 'payload'
+import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
@@ -15,14 +15,12 @@ import { Sites } from './collections/Sites'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
+import endpoints from './endpoints'
 import { defaultLexical } from '@/fields/defaultLexical'
-import { getServerSideURL } from './utilities/getURL'
-import { getUserSiteIds } from './utilities/idHelper'
+import { getServerSideURL } from '@/utilities/getURL'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
-
-const post: Required<Config>["endpoints"][number]["method"] = "post"
 
 const config = {
   admin: {
@@ -81,32 +79,27 @@ const config = {
   telemetry: false,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
+    schema: [
+      ({ jsonSchema }) => {
+        // we have to override some inferences that are made about our
+        // User type. These fields should all be added or required by
+        // User hooks on model creation and are required
+        jsonSchema.definitions.users.properties.selectedSiteId.type = 'number'
+        jsonSchema.definitions.users.properties.sub.type = 'string'
+        jsonSchema.definitions.users.properties.sites.items.properties.site.oneOf[0].type = 'number'
+        jsonSchema.definitions.users.properties.sites.items.required = [
+          ...jsonSchema.definitions.users.properties.sites.items.required,
+          'site',
+        ]
+        jsonSchema.definitions.users.required = [
+          ...jsonSchema.definitions.users.required,
+          'sub', 'selectedSiteId',
+        ]
+        return jsonSchema
+      },
+    ]
   },
-  endpoints: [{
-    path: '/siteSelect',
-    method: post,
-    handler: async (req: PayloadRequest & { json: CallableFunction }) => {
-      if (!req.user) {
-        return Response.json({ error: 'forbidden' }, { status: 403 })
-      }
-
-      const data = await req.json()
-
-      if (getUserSiteIds(req.user).includes(data.value)) {
-        return Response.json({ error: 'forbidden' }, { status: 403 })
-      }
-
-      await req.payload.update({
-        collection: 'users',
-        id: req.user.id,
-        data: {
-          selectedSiteId: data.value
-        }
-      })
-
-      return Response.json({ message: 'ok' })
-    }
-  }]
+  endpoints
 }
 
 export default buildConfig(config)
