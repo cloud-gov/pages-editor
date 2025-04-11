@@ -21,11 +21,28 @@ Content Editors can:
 ```sh
 docker compose build
 docker compose run app npm ci
-docker compose run app npm run seed # manually respond Y
+docker compose run app npm run seed
 docker compose up
 ```
 
 After this, the editor is available at localhost:3000/admin; the first load will take a few seconds while the app is compiled.
+
+The database is seeded with the following for local development:
+- Three sites, one of which is a "dummy" site for admins
+- At least five users:
+  - `admin@gsa.gov`: Global admin representing a Pages operator
+  - `site1manager@gsa.gov`, `site2manager@gsa.gov`: Website managers with access to one site each.
+  - `site1user@gsa.gov`, `site2user@gsa.gov`: Website users with access to one site each.
+  - By default, sites create a `bot` user with read-only access to site data.
+  - To login as a user, use the password `password`
+
+If the database schema is changed in response to changes in the collections/globals, the development may prompt to accept certain changes (e.g. `Accept warnings and push schema to database?`). Developers can attach to the development server via:
+
+```sh
+docker attach <container_name> # pages-editor-app-1 by default
+```
+
+To detach without exiting the process: `ctrl + p`, then `ctrl + q`
 
 ### Infrastructure Notes
 - Based on the Payload CMS [website template](https://github.com/payloadcms/payload/tree/main/templates/website)
@@ -46,6 +63,8 @@ This repository's CI deploys the `pages-editor-((env))` application and [`pages-
 | pages-editor-((env))-deployer | cloud-gov-service-account   | space-deployer | [Create account](https://cloud.gov/docs/services/cloud-gov-service-account/). Add these credentials to cred-hub |
 | pages-editor-((env)) -auth    | cloud-gov-identity-provider | oauth-client   | [Create the service](https://cloud.gov/docs/services/cloud-gov-identity-provider/). Add these credentials to `pages-editor-((env))-creds` |
 | pages-editor-((env))-creds    | user-provided               |                |  Credentials here are captured in the `.profile` script for different applications  |
+
+Each environment has a network access policy for sending email per [these instructions](https://github.com/cloud-gov/pages-mailer/?tab=readme-ov-file#usage) (make sure to specify additional ports if needed to match the `EMAIL_HOST` environment variable)
 
 ### Test framework and structure
 

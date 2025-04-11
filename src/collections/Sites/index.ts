@@ -1,7 +1,7 @@
 import type { CollectionAfterChangeHook, CollectionConfig } from 'payload'
 import { Site } from '@/payload-types'
 import { v4 as uuidv4 } from 'uuid'
-import { getAdminOrSiteUser } from '@/access/adminOrSite'
+import { adminOrAnySite, getAdminOrSiteUser } from '@/access/adminOrSite'
 import { admin } from '@/access/admin'
 
 const createSiteBot: CollectionAfterChangeHook<Site> = async ({
@@ -36,13 +36,13 @@ export const Sites: CollectionConfig = {
   access: {
     create: admin,
     delete: admin,
-    read: getAdminOrSiteUser('sites', ['manager', 'user', 'bot']),
+    read: adminOrAnySite,
     update: admin,
   },
   admin: {
     defaultColumns: ['name', 'updatedAt', 'createdAt'],
     useAsTitle: 'name',
-    hidden: ({ user }) => !(user && user.isAdmin)
+    hidden: ({ user }) => !user?.isAdmin
   },
   fields: [
     {
@@ -51,6 +51,12 @@ export const Sites: CollectionConfig = {
       required: true,
       unique: true
     },
+    {
+      name: 'users',
+      type: 'join',
+      collection: 'users',
+      on: 'sites.site',
+    }
   ],
   hooks: {
     afterChange: [createSiteBot]

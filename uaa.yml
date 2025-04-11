@@ -10,8 +10,10 @@ scim:
   username_pattern: '[a-z0-9+\-_.@]+'
   users:
     - admin@gsa.gov|password|admin@gsa.gov|Admin|Admin|group.admin
-    - siteuser1@gsa.gov|password|siteuser1@gsa.gov|User|User|group.user
-    - siteuser2@gsa.gov|password|siteuser2@gsa.gov|User|User|group.user
+    - site1manager@gsa.gov|password|site1manager@gsa.gov|User|User|group.user
+    - site1user@gsa.gov|password|site1user@gsa.gov|User|User|group.user
+    - site2manager@gsa.gov|password|site2manager@gsa.gov|User|User|group.user
+    - site2user@gsa.gov|password|site2user@gsa.gov|User|User|group.user
 
 disableInternalAuth: false
 disableInternalUserManagement: false

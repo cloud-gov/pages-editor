@@ -1,6 +1,7 @@
 import { test as vitest } from 'vitest'
 import type { LocalTestContext } from './context.types'
 import { create, find } from './localHelpers';
+import { v4 as uuid } from 'uuid';
 
 export const test = vitest.extend<LocalTestContext>({
     tid: async ({ payload }, use) => {
@@ -67,7 +68,8 @@ export const test = vitest.extend<LocalTestContext>({
                         site,
                         role: 'user'
                     }],
-                    selectedSiteId: site.id
+                    selectedSiteId: site.id,
+                    sub: uuid(),
                 }
             })
         }))
@@ -88,7 +90,8 @@ export const test = vitest.extend<LocalTestContext>({
                     role: defaultUserRole
                 }],
                 isAdmin: defaultUserAdmin,
-                selectedSiteId: sites[0].id
+                selectedSiteId: sites[0].id,
+                sub: uuid(),
             }
         })
         await use(defaultUser)

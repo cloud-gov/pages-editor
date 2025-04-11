@@ -81,7 +81,11 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    sites: {
+      users: 'users';
+    };
+  };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
@@ -173,8 +177,34 @@ export interface Page {
 export interface Site {
   id: number;
   name: string;
+  users?: {
+    docs?: (number | User)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  email: string;
+  sub: string;
+  sites: {
+    site: number | Site;
+    role: 'manager' | 'user' | 'bot';
+    id?: string | null;
+  }[];
+  isAdmin?: boolean | null;
+  selectedSiteId: number;
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -214,29 +244,6 @@ export interface Post {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: number;
-  email: string;
-  sub?: string | null;
-  sites?:
-    | {
-        site: number | Site;
-        role: 'manager' | 'user' | 'bot';
-        id?: string | null;
-      }[]
-    | null;
-  isAdmin?: boolean | null;
-  selectedSiteId: number;
-  updatedAt: string;
-  createdAt: string;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -842,6 +849,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface SitesSelect<T extends boolean = true> {
   name?: T;
+  users?: T;
   updatedAt?: T;
   createdAt?: T;
 }

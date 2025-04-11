@@ -4,6 +4,7 @@ import { test } from '@test/utils/test';
 import { siteIdHelper } from '@/utilities/idHelper';
 import { isAccessError, notFoundError } from '@test/utils/errors';
 import { getUserSiteIds } from '@/utilities/idHelper';
+import { v4 as uuid } from 'uuid';
 
 describe('Users access',  () => {
     describe('admins can...', async () => {
@@ -27,7 +28,9 @@ describe('Users access',  () => {
                             site,
                             role: 'user'
                         }],
-                        selectedSiteId: site.id
+                        selectedSiteId: site.id,
+                        sub: uuid(),
+
                     }
                 }, testUser)
             }))
@@ -114,7 +117,8 @@ describe('Users access',  () => {
                         site: siteId,
                         role: 'user'
                     }],
-                    selectedSiteId: siteId
+                    selectedSiteId: siteId,
+                    sub: uuid(),
                 }
             }, testUser)
 
@@ -137,7 +141,8 @@ describe('Users access',  () => {
                             site,
                             role: 'user'
                         }],
-                        selectedSiteId: site.id
+                        selectedSiteId: site.id,
+                        sub: uuid(),
                     }
                 }, testUser))
             }))
@@ -225,9 +230,7 @@ describe('Users access',  () => {
             }))
         })
 
-        // TODO: this is impossible to test right now because of transactions and how
-        // we've implemented this: https://github.com/payloadcms/payload/discussions/11943
-        test.skip('add a site role to users from other sites', async ({tid, testUser, users }) => {
+        test('add a site role to Users from other sites', async ({tid, testUser, users }) => {
             const siteId = testUser.selectedSiteId
 
             const notTheirUser = users.find(user => {
@@ -236,22 +239,18 @@ describe('Users access',  () => {
 
             if (!notTheirUser) throw new Error('fixture error')
 
-            // the validation in this operation fails but we still need the result
-            try {
-                await create(payload, tid, {
-                    collection: 'users',
-                    data: {
-                        email: notTheirUser.email,
-                        sites: [{
-                            site: siteId,
-                            role: 'user'
-                        }],
-                        selectedSiteId: notTheirUser.selectedSiteId
-                    }
-                }, testUser)
-            } catch (e) {
-                expect(e.message).toBe('The following field is invalid: Email')
-            }
+            await create(payload, tid, {
+                collection: 'users',
+                data: {
+                    email: notTheirUser.email,
+                    sites: [{
+                        site: siteId,
+                        role: 'user'
+                    }],
+                    selectedSiteId: notTheirUser.selectedSiteId,
+                    sub: uuid(),
+                }
+            }, testUser)
 
             const user = await findByID(payload, tid, {
                 collection: 'users',
@@ -325,7 +324,8 @@ describe('Users access',  () => {
                         site: siteId,
                         role: 'user'
                     }],
-                    selectedSiteId: siteId
+                    selectedSiteId: siteId,
+                    sub: uuid(),
                 }
             }, testUser)
 
@@ -343,7 +343,8 @@ describe('Users access',  () => {
                         site: newSiteId,
                         role: 'user'
                     }],
-                    selectedSiteId: newSiteId
+                    selectedSiteId: newSiteId,
+                    sub: uuid(),
                 }
             }, testUser)
 
@@ -453,7 +454,8 @@ describe('Users access',  () => {
                             site,
                             role: 'user'
                         }],
-                        selectedSiteId: site.id
+                        selectedSiteId: site.id,
+                        sub: uuid(),
                     }
                 }, testUser))
             }))
@@ -508,7 +510,8 @@ describe('Users access',  () => {
                             site,
                             role: 'user'
                         }],
-                        selectedSiteId: site.id
+                        selectedSiteId: site.id,
+                        sub: uuid(),
                     }
                 }, testUser))
             }))
@@ -552,7 +555,8 @@ describe('Users access',  () => {
                         role: 'manager'
                     }],
                     selectedSiteId: sites[0].id,
-                    isAdmin: true
+                    isAdmin: true,
+                    sub: uuid(),
                 }
             }, testUser)
 

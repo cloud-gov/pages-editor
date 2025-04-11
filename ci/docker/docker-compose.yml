@@ -22,7 +22,7 @@ services:
       OAUTH_TOKEN_ENDPOINT: http://uaa:8080/oauth/token
       OAUTH_USERINFO_ENDPOINT: http://uaa:8080/userinfo
       LOGOUT_ENDPOINT: http://uaa:8080/logout.do
-      ORIGIN: http://localhost:3000
+      PUBLIC_URL: http://localhost:3000
       PROMPT_URL: http://localhost:5000/reload
       TEST_DATABASE_URI: postgresql://postgres:postgres@db:5432/db
   db:

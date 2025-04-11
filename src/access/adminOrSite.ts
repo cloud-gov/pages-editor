@@ -1,6 +1,7 @@
 import type { Access, CollectionSlug, Where } from 'payload'
 import type { Post, Page, User, Site } from '@/payload-types'
-import { siteIdHelper } from '@/utilities/idHelper'
+import { getUserSiteIds, siteIdHelper } from '@/utilities/idHelper'
+import { isRoleForSelectedSite } from '@/utilities/access'
 
 // ideally this code could be handled via a single generic but
 // certain access operations don't pass `data` which is the only
@@ -10,7 +11,6 @@ export type Role = NonNullable<Required<User>["sites"]>[number]["role"]
 
 export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = ['manager', 'user']) {
   const adminOrSiteUser: Access<Post | Page | User | Site > = async ({ req, data }) => {
-    const { payload } = req;
     let { user } = req;
     if (!user) return false
     if (user.isAdmin) return true
@@ -18,8 +18,7 @@ export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = 
     const siteId = user.selectedSiteId
     if (!siteId) return false
 
-    const matchedSite = user.sites?.find(site => siteIdHelper(site.site) === siteId)
-    if (!(matchedSite && requiredRole.includes(matchedSite.role))) return false
+    if (!isRoleForSelectedSite(user, requiredRole)) return false
 
     // if collection data exists, extract the site id and match against it
     // false for no match.
@@ -33,10 +32,10 @@ export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = 
         if (siteId !== dataSiteId) return false
 
       } else if ('sites' in data) {
-        const dataSiteIds = data.sites?.map(site => siteIdHelper(site.site))
+        const dataSiteIds = data.sites.map(site => siteIdHelper(site.site))
         if (!(dataSiteIds && dataSiteIds.includes(siteId))) return false
 
-      } else if ('id' in data){
+      } else if ('id' in data) {
         if (data.id !== siteId) return false
       }
     }
@@ -60,4 +59,26 @@ export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = 
     return query
   }
   return adminOrSiteUser
+}
+
+// site reads use a slightly different function since users don't need to have
+// a site selected to read its name
+export const adminOrAnySite: Access<Site> = async ({ req, data }) => {
+  let { user } = req;
+  if (!user) return false
+  if (user.isAdmin) return true
+
+  const userSiteIds = getUserSiteIds(user)
+
+  if (data) {
+    if (!userSiteIds.includes(data.id)) return false
+  }
+
+  const query: Where = {
+    id: {
+      in: userSiteIds.join()
+    }
+  }
+
+  return query
 }

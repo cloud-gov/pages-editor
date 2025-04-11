@@ -24,7 +24,7 @@ const SiteSelect: React.FC<SiteSelectProps> = (props: SiteSelectProps) => {
     async function onChange(event) {
         if (event.value) {
           const valueAsNumber = Number(event.value)
-          await fetch(`${process.env.ORIGIN}/api/siteSelect`, {
+          await fetch(`${process.env.PUBLIC_URL}/api/siteSelect`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ value: valueAsNumber })
