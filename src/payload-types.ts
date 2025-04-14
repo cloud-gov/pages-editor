@@ -72,6 +72,7 @@ export interface Config {
     media: Media;
     categories: Category;
     sites: Site;
+    'site-config-site-collection': SiteConfigSiteCollection;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -92,6 +93,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
+    'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -105,12 +107,10 @@ export interface Config {
     defaultIDType: number;
   };
   globals: {
-    header: Header;
-    footer: Footer;
+    'site-config': SiteConfig;
   };
   globalsSelect: {
-    header: HeaderSelect<false> | HeaderSelect<true>;
-    footer: FooterSelect<false> | FooterSelect<true>;
+    'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
   };
   locale: null;
   user: User & {
@@ -353,6 +353,17 @@ export interface Category {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-config-site-collection".
+ */
+export interface SiteConfigSiteCollection {
+  id: number;
+  font?: string | null;
+  site: number | Site;
   updatedAt: string;
   createdAt: string;
 }
@@ -631,6 +642,10 @@ export interface PayloadLockedDocument {
         value: number | Site;
       } | null)
     | ({
+        relationTo: 'site-config-site-collection';
+        value: number | SiteConfigSiteCollection;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -850,6 +865,16 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface SitesSelect<T extends boolean = true> {
   name?: T;
   users?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-config-site-collection_select".
+ */
+export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
+  font?: T;
+  site?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1100,94 +1125,20 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "header".
+ * via the `definition` "site-config".
  */
-export interface Header {
+export interface SiteConfig {
   id: number;
-  navItems?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?: {
-            relationTo: 'pages';
-            value: number | Page;
-          } | null;
-          url?: string | null;
-          label: string;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  font?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "footer".
+ * via the `definition` "site-config_select".
  */
-export interface Footer {
-  id: number;
-  navItems?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?: {
-            relationTo: 'pages';
-            value: number | Page;
-          } | null;
-          url?: string | null;
-          label: string;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "header_select".
- */
-export interface HeaderSelect<T extends boolean = true> {
-  navItems?:
-    | T
-    | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "footer_select".
- */
-export interface FooterSelect<T extends boolean = true> {
-  navItems?:
-    | T
-    | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
-        id?: T;
-      };
+export interface SiteConfigSelect<T extends boolean = true> {
+  font?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

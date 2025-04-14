@@ -12,12 +12,14 @@ import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { Sites } from './collections/Sites'
-import { Footer } from './Footer/config'
-import { Header } from './Header/config'
+import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
 import { plugins } from './plugins'
 import endpoints from './endpoints'
 import { defaultLexical } from '@/fields/defaultLexical'
-import { getServerSideURL } from '@/utilities/getURL'
+import { getServerSideURL } from './utilities/getURL'
+import { createSiteGlobal } from './utilities/siteGlobal'
+
+const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig);
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -67,9 +69,9 @@ const config = {
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Sites],
+  collections: [Pages, Posts, Media, Categories, Users, Sites, SiteConfigCollection],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
+  globals: [SiteConfig],
   plugins: [
     ...plugins,
     // storage-adapter-placeholder
