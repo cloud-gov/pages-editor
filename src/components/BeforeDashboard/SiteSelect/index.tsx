@@ -6,6 +6,7 @@ import '../index.scss'
 import { Banner } from '@payloadcms/ui/elements/Banner'
 import { Site } from '@/payload-types'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation';
 
 const baseClass = 'before-dashboard'
 
@@ -20,16 +21,18 @@ const SiteSelect: React.FC<SiteSelectProps> = (props: SiteSelectProps) => {
     const { sites, selectedSiteId } = props
     // this is duplicated state but it helps refresh this component when needed
     const [localSiteId, setLocalSiteId ] = useState(selectedSiteId)
+    const router = useRouter()
 
     async function onChange(event) {
         if (event.value) {
           const valueAsNumber = Number(event.value)
-          await fetch(`${process.env.ORIGIN}/api/siteSelect`, {
+          await fetch(`${process.env.PUBLIC_URL}/api/siteSelect`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ value: valueAsNumber })
           })
           setLocalSiteId(valueAsNumber)
+          router.refresh()
         }
       }
 

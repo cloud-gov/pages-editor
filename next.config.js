@@ -29,7 +29,7 @@ const nextConfig = {
   },
   productionBrowserSourceMaps: process.env.APP_ENV === 'dev',
   env: {
-    ORIGIN: process.env.ORIGIN
+    PUBLIC_URL: process.env.PUBLIC_URL
   }
 }
 

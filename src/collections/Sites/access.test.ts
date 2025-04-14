@@ -1,7 +1,7 @@
 import { expect, describe } from 'vitest'
 import { create, find, findByID, update, del, setUserSite } from '@test/utils/localHelpers';
 import { test } from '@test/utils/test';
-import { siteIdHelper } from '@/utilities/idHelper';
+import { getUserSiteIds, siteIdHelper } from '@/utilities/idHelper';
 import { isAccessError, notFoundError } from '@test/utils/errors';
 
 
@@ -137,35 +137,16 @@ describe('Sites access',  () => {
             })
         }
 
-        test('read all their Sites, upon site selection', async ({ tid, testUser, sites }) => {
+        test('read all their Sites (non-selection dependent)', async ({ tid, testUser, sites }) => {
             testUser = await addSiteToUser(testUser, tid, { site: sites[1], role: 'user'})
-            const siteId = testUser.selectedSiteId
 
             let foundSites = await find(payload, tid, {
                 collection: 'sites'
             }, testUser)
 
-            let expectedSites = sites.filter(site => site.id === siteId)
+            let expectedSites = sites.filter(site => getUserSiteIds(testUser).includes(site.id))
 
             expect(foundSites.docs).toHaveLength(expectedSites.length)
-            foundSites.docs.forEach(site => {
-                expect(site.id).toBe(siteId)
-            })
-
-            // switch site
-            testUser = await setUserSite(payload, tid, testUser, sites[1].id)
-            const newSiteId = testUser.selectedSiteId
-
-            foundSites = await find(payload, tid, {
-                collection: 'sites'
-            }, testUser)
-
-            expectedSites = sites.filter(site => site.id === newSiteId)
-
-            expect(foundSites.docs).toHaveLength(expectedSites.length)
-            foundSites.docs.forEach(site => {
-                expect(site.id).toBe(newSiteId)
-            })
         })
     })
 

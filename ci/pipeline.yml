@@ -81,6 +81,8 @@ jobs:
       - task: build
         file: src/ci/partials/build.yml
         image: node
+        params:
+          PUBLIC_URL: https://pages-editor-((deploy-env)).app.cloud.gov
 
       - task: deploy
         file: src/ci/partials/deploy.yml

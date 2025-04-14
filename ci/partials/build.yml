@@ -8,4 +8,7 @@ run:
   path: bash
   args:
     - -c
-    - npm run generate:types && npm run build
+    - |
+      npm run generate:types
+      npm install @img/sharp-linux-x64 --save-optional
+      npm run build
