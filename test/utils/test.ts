@@ -18,7 +18,8 @@ export const test = vitest.extend<LocalTestContext>({
                 return create(payload, tid, {
                     collection: 'sites',
                     data: {
-                        name
+                        name,
+                        initialManagerEmail: `${name}manager@gsa.gov`
                     }
                 })
             }))
@@ -51,30 +52,13 @@ export const test = vitest.extend<LocalTestContext>({
         await use(posts)
     },
     users: async({ payload, tid, sites }, use) => {
-        // site creation creates bot users, find them and include them
+        // site creation creates bot users & managers, find them and include them
         // in the fixture
-        const bots = (await find(payload, tid, {
+        const users = (await find(payload, tid, {
             collection: 'users',
             depth: 3,
         })).docs
 
-        // create a user per site
-        let users = await Promise.all(sites.map(async site => {
-            return create(payload, tid, {
-                collection: 'users',
-                data: {
-                    email: `user@${site.name}.gov`,
-                    sites: [{
-                        site,
-                        role: 'user'
-                    }],
-                    selectedSiteId: site.id,
-                    sub: uuid(),
-                }
-            })
-        }))
-
-        users = [ ...users, ...bots]
         await use(users)
     },
     testUser: async({ payload, tid, sites, defaultUserRole, defaultUserAdmin }, use) => {

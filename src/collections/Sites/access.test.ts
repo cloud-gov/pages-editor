@@ -21,6 +21,7 @@ describe('Sites access',  () => {
                 collection: 'sites',
                 data: {
                     name: 'A New Site',
+                    initialManagerEmail: 'manager@site.gov'
                 }
             }, testUser)
 
@@ -97,7 +98,8 @@ describe('Sites access',  () => {
             await isAccessError(create(payload, tid, {
                 collection: 'sites',
                 data: {
-                    name: 'A New Site'
+                    name: 'A New Site',
+                    initialManagerEmail: 'manager@site.gov'
                 }
             }, testUser))
         })
@@ -184,7 +186,8 @@ describe('Sites access',  () => {
             await isAccessError(create(payload, tid, {
                 collection: 'sites',
                 data: {
-                    name: 'A New Site'
+                    name: 'A New Site',
+                    initialManagerEmail: 'manager@site.gov'
                 }
             }, testUser))
         })

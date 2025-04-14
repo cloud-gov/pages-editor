@@ -2,4 +2,5 @@ name: pages-editor-dev
 instances: 2
 env: dev
 log_level: verbose
-node_env: production
+node_env: development
+postfix: -dev
