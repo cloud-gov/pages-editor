@@ -31,11 +31,17 @@ export const Posts: CollectionConfig<'posts'> = {
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
-      url: ({ data }) => {
-        return `${process.env.PREVIEW_URL}/posts/${data.slug}`
+      url: async ({ data, req }) => {
+        // site isn't fetched at the necessary depth in `data`
+        const site = await req.payload.findByID({
+          collection: 'sites',
+          id: data.site
+        })
+        return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/posts/${data.slug}`
       },
     },
     preview: (data) => {
+      // TODO: fix per above
       return `${process.env.PREVIEW_URL}/posts/${data.slug}`
     },
     useAsTitle: 'title',
@@ -127,7 +133,7 @@ export const Posts: CollectionConfig<'posts'> = {
     ...customFields,
   ],
   hooks: {
-    afterChange: [revalidatePost, /* previewWebhook */],
+    afterChange: [revalidatePost, previewWebhook],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
     beforeChange: [addSite]

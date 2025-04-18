@@ -177,6 +177,8 @@ export interface Page {
 export interface Site {
   id: number;
   name: string;
+  initialManagerEmail: string;
+  pagesOrg?: string | null;
   users?: {
     docs?: (number | User)[];
     hasNextPage?: boolean;
@@ -864,6 +866,8 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface SitesSelect<T extends boolean = true> {
   name?: T;
+  initialManagerEmail?: T;
+  pagesOrg?: T;
   users?: T;
   updatedAt?: T;
   createdAt?: T;

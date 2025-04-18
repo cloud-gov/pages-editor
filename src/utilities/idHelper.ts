@@ -1,4 +1,5 @@
 import type { Site, User } from "@/payload-types"
+import { BasePayload } from "payload"
 
 export const siteIdHelper = (site: Site | number) => {
     if (typeof site === 'number') return site
@@ -8,7 +9,5 @@ export const siteIdHelper = (site: Site | number) => {
 export function getUserSiteIds(
     user: User
   ) {
-    // this theoretically can't happen but technically can
-    if (!user.sites) return []
     return user.sites.map(site => siteIdHelper(site.site))
   }

@@ -1,35 +1,7 @@
-import type { CollectionAfterChangeHook, CollectionConfig } from 'payload'
-import { Site } from '@/payload-types'
-import { v4 as uuidv4 } from 'uuid'
-import { adminOrAnySite, getAdminOrSiteUser } from '@/access/adminOrSite'
+import type { CollectionConfig } from 'payload'
+import { adminOrAnySite } from '@/access/adminOrSite'
 import { admin } from '@/access/admin'
-
-const createSiteBot: CollectionAfterChangeHook<Site> = async ({
-  doc, req, operation,
-}) => {
-  const { payload } = req
-  if (operation === 'create') {
-    const bot = await payload.create({
-      collection: 'users',
-      data: {
-        email: `cloud-gov-pages-operations+${doc.id}@gsa.gov`,
-        sites: [
-          {
-            site: doc.id,
-            role: 'bot',
-          }
-        ],
-        sub: uuidv4(),
-        enableAPIKey: true,
-        apiKey: uuidv4(),
-        selectedSiteId: doc.id
-      },
-      req // passing the request keeps this as a single transaction
-    })
-  }
-  return doc
-}
-
+import { createSiteBot, createManager, saveInfoToS3 } from './hooks'
 
 export const Sites: CollectionConfig = {
   slug: 'sites',
@@ -52,6 +24,17 @@ export const Sites: CollectionConfig = {
       unique: true
     },
     {
+      name: 'initialManagerEmail',
+      type: 'email',
+      required: true,
+      defaultValue: 'placeholder@agency.gov'  // provided for migrations
+    },
+    {
+      name: 'pagesOrg',
+      label: 'Pages Organization',
+      type: 'text',
+    },
+    {
       name: 'users',
       type: 'join',
       collection: 'users',
@@ -59,7 +42,7 @@ export const Sites: CollectionConfig = {
     }
   ],
   hooks: {
-    afterChange: [createSiteBot]
+    afterChange: [createSiteBot, createManager, saveInfoToS3]
   },
   timestamps: true,
 }
