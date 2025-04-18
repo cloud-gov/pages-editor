@@ -35,11 +35,25 @@ export const Sites: CollectionConfig = {
       type: 'text',
     },
     {
+      name: 'pagesSiteId',
+      type: 'number',
+      admin: {
+        readOnly: true
+      }
+    },
+    {
+      name: 'orgId',
+      type: 'number',
+      admin: {
+        readOnly: true
+      }
+    },
+    {
       name: 'users',
       type: 'join',
       collection: 'users',
       on: 'sites.site',
-    }
+    },
   ],
   hooks: {
     afterChange: [createSiteBot, createManager, saveInfoToS3]

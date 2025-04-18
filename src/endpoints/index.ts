@@ -1,6 +1,9 @@
 import siteSelect from './siteSelect';
 import removeUser from './removeUser';
+import siteWebhook from './siteWebhook';
 
-export default [
-    siteSelect, removeUser
+const endpoints = [
+    siteSelect, removeUser, siteWebhook,
 ]
+
+export default endpoints
