@@ -51,6 +51,21 @@ export const test = vitest.extend<LocalTestContext>({
         }))
         await use(posts)
     },
+    events: async({ payload, tid, sites }, use) => {
+        const events = await Promise.all(sites.map(async site => {
+            return create(payload, tid, {
+                collection: 'events',
+                data: {
+                    title: `${site.name} Title`,
+                    site,
+                    startDate: new Date().toISOString(),
+                    format: 'inperson',
+                    description: 'a fixture event'
+                }
+            })
+        }))
+        await use(events)
+    },
     users: async({ payload, tid, sites }, use) => {
         // site creation creates bot users & managers, find them and include them
         // in the fixture

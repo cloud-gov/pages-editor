@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     pages: Page;
     posts: Post;
+    events: Event;
     media: Media;
     categories: Category;
     sites: Site;
@@ -90,6 +91,7 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
@@ -245,6 +247,27 @@ export interface Post {
   slug?: string | null;
   slugLock?: boolean | null;
   'Example Custom Field'?: ('radio' | 'television' | 'podcast' | 'video') | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title: string;
+  site: number | Site;
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  startDate: string;
+  endDate?: string | null;
+  location?: string | null;
+  format: 'inperson' | 'virtual';
+  registrationUrl?: string | null;
+  description: string;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -634,6 +657,10 @@ export interface PayloadLockedDocument {
         value: number | Post;
       } | null)
     | ({
+        relationTo: 'events';
+        value: number | Event;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -747,6 +774,26 @@ export interface PostsSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   'Example Custom Field'?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  site?: T;
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
+  startDate?: T;
+  endDate?: T;
+  location?: T;
+  format?: T;
+  registrationUrl?: T;
+  description?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

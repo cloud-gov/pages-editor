@@ -7,6 +7,7 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
+import { Events } from './collections/Events'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
@@ -69,7 +70,7 @@ const config = {
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Sites, SiteConfigCollection],
+  collections: [Pages, Posts, Events, Media, Categories, Users, Sites, SiteConfigCollection],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [SiteConfig],
   plugins: [
