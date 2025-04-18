@@ -5,3 +5,8 @@ export OAUTH_CLIENT_SECRET="$(echo "$VCAP_SERVICES" | jq --raw-output --arg serv
 export EMAIL_HOST="$(echo "$VCAP_SERVICES" | jq --raw-output --arg service_name "pages-editor-$APP_ENV-creds" ".[][] | select(.name == \$service_name) | .credentials.EMAIL_HOST")"
 export EMAIL_USERNAME="$(echo "$VCAP_SERVICES" | jq --raw-output --arg service_name "pages-editor-$APP_ENV-creds" ".[][] | select(.name == \$service_name) | .credentials.EMAIL_USERNAME")"
 export EMAIL_PASSWORD="$(echo "$VCAP_SERVICES" | jq --raw-output --arg service_name "pages-editor-$APP_ENV-creds" ".[][] | select(.name == \$service_name) | .credentials.EMAIL_PASSWORD")"
+export PAGES_ENCRYPTION_KEY="$(echo "$VCAP_SERVICES" | jq --raw-output --arg service_name "pages-editor-$APP_ENV-creds" ".[][] | select(.name == \$service_name) | .credentials.PAGES_ENCRYPTION_KEY")"
+export SITE_METADATA_BUCKET="$(echo "$VCAP_SERVICES" | jq --raw-output --arg service_name "pages-editor-$APP_ENV-s3" ".[][] | select(.name == \$service_name) | .credentials.bucket")"
+export AWS_ACCESS_KEY_ID="$(echo "$VCAP_SERVICES" | jq --raw-output --arg service_name "pages-editor-$APP_ENV-s3" ".[][] | select(.name == \$service_name) | .credentials.access_key_id")"
+export AWS_SECRET_ACCESS_KEY="$(echo "$VCAP_SERVICES" | jq --raw-output --arg service_name "pages-editor-$APP_ENV-s3" ".[][] | select(.name == \$service_name) | .credentials.secret_access_key")"
+export AWS_REGION="$(echo "$VCAP_SERVICES" | jq --raw-output --arg service_name "pages-editor-$APP_ENV-s3" ".[][] | select(.name == \$service_name) | .credentials.region")"

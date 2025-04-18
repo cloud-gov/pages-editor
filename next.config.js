@@ -4,6 +4,8 @@ import redirects from './redirects.js'
 
 const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
 
+const isDev = process.env.APP_ENV === 'dev'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -27,9 +29,15 @@ const nextConfig = {
       './node_modules/@uswds/uswds/src/stylesheets',
       ],
   },
-  productionBrowserSourceMaps: process.env.APP_ENV === 'dev',
+  productionBrowserSourceMaps: isDev,
   env: {
     PUBLIC_URL: process.env.PUBLIC_URL
+  },
+  webpack: (config, { isServer }) => {
+    if (isServer && isDev) {
+      config.devtool = 'source-map'
+    }
+    return config
   }
 }
 
