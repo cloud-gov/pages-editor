@@ -137,18 +137,16 @@ export const testEmailUniqueness: CollectionBeforeChangeHook<User> = async({
       },
       req: partialReq
     })
-    if (match.docs.length && user) {
+    if (match.docs.length && user && data.sites) {
       const existingUser = match.docs[0]
-      if (existingUser && user.isAdmin) {
-        throw new ValidationError({
-          errors: [{
-            message: `User with email ${data.email} exists.`,
-            path: 'email',
-          }]
-        })
+      // for admins, we could end up here via site creation so check the site
+      let siteId;
+      if (user.isAdmin) {
+        siteId = siteIdHelper(data.sites[0].site)
+      } else {
+        siteId = user.selectedSiteId;
       }
       // if the user matches the current site, this is a true validation error
-      const siteId = user.selectedSiteId;
       if (siteId && getUserSiteIds(existingUser).includes(siteId)) {
         throw new ValidationError({
           errors: [{

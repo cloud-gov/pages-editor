@@ -9,44 +9,32 @@ async function seed () {
   const site = await payload.create({
     collection: 'sites',
     data: {
-        name: 'admin-site'
+        name: 'admin-site',
+        initialManagerEmail: 'admin@gsa.gov'
     }
   })
-  await payload.create({
+  await payload.update({
     collection: 'users',
-    data: {
-        email: 'admin@gsa.gov',
-        sub: uuid(),
-        sites: [{
-            site,
-            role: 'manager'
-        }],
-        selectedSiteId: site.id,
+    where: {
+        email: {
+          equals: 'admin@gsa.gov',
+        }
+      },
+      data: {
         isAdmin: true
     }
   })
 
   // create two extra sites, each with a manager and user
+  // note that managers are created automatically
   // TODO: explicity tie this to uaa.yml
   const siteNames = ['site1', 'site2']
   await Promise.all(siteNames.map(async name => {
     const site = await payload.create({
       collection: 'sites',
       data: {
-        name
-      }
-    })
-
-    await payload.create({
-      collection: 'users',
-      data: {
-        email: `${name}manager@gsa.gov`,
-        sub: uuid(),
-        sites: [{
-          site,
-          role: 'manager'
-        }],
-        selectedSiteId: site.id
+        name,
+        initialManagerEmail: `${name}manager@gsa.gov`
       }
     })
 

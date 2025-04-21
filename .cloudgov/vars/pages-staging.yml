@@ -3,3 +3,4 @@ instances: 2
 env: staging
 log_level: verbose
 node_env: production
+postfix: -dev

@@ -22,6 +22,7 @@
     "seed": "yes | payload migrate:fresh && payload run scripts/seed.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.787.0",
     "@payloadcms/db-postgres": "latest",
     "@payloadcms/live-preview-react": "latest",
     "@payloadcms/next": "latest",
@@ -97,6 +98,7 @@
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
   },
   "optionalDependencies": {
+    "@esbuild/darwin-arm64": "^0.25.2",
     "@rollup/rollup-linux-x64-gnu": "^4.39.0"
   }
 }
