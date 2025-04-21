@@ -5,6 +5,9 @@ export const SiteConfig: GlobalConfig = {
   access: {
     read: () => true,
   },
+  admin: {
+    group: 'Information'
+  },
   fields: [
     {
         name: 'font',

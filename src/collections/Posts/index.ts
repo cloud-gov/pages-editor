@@ -5,13 +5,13 @@ import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 import { previewWebhook } from '@/utilities/previews'
 
-import { lexicalEditor, HTMLConverterFeature, lexicalHTML } from '@payloadcms/richtext-lexical';
 import { slugField } from '@/fields/slug'
 
 import { customFields } from './custom'
 import { adminField } from '@/access/admin'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
+import { editor } from '@/utilities/editor'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
@@ -67,15 +67,8 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'content',
       type: 'richText',
-      editor: lexicalEditor({
-        features: ({ defaultFeatures }) => [
-          ...defaultFeatures,
-          // The HTMLConverter Feature is the feature which manages the HTML serializers. If you do not pass any arguments to it, it will use the default serializers.
-          HTMLConverterFeature({}),
-        ],
-      })
+      editor
     },
-    lexicalHTML('content', { name: 'content_html' }),
     {
       name: 'authors',
       type: 'relationship',

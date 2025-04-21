@@ -1,7 +1,7 @@
 import { adminField } from '@/access/admin';
 import { getAdminOrSiteUser } from '@/access/adminOrSite';
 import { SiteConfig } from '@/payload-types';
-import type { GlobalConfig, CollectionConfig, Config } from 'payload'
+import type { GlobalConfig, CollectionConfig, Config, CollectionSlug } from 'payload'
 
 export const createSiteGlobal = (
     config: GlobalConfig
@@ -10,7 +10,8 @@ export const createSiteGlobal = (
     // hardcoded type assertion is required since we'll be writing `payload.find|create|update` and a valid collection name is required`
     // TODO: this collection should really be generated from the slug but it will break typing on the payload local
     // API response
-    const collectionName = 'site-config-site-collection'
+    // const collectionName = 'site-config-site-collection'
+    const collectionName: CollectionSlug = `${config.slug}-site-collection` as CollectionSlug
 
     const global: GlobalConfig = {
       ...config,
@@ -91,7 +92,8 @@ export const createSiteGlobal = (
       graphQL: {},
       admin: {
         ...config.admin,
-        hidden: ({ user }) => !(user && user.isAdmin)
+        hidden: ({ user }) => !(user && user.isAdmin),
+        group: 'Global Collections'
       },
        // hooks should be passed to the global, not the collection, since the global is the main interface.
       hooks: {},

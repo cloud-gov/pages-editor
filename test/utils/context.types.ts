@@ -1,4 +1,4 @@
-import { Site, Post, User, Page, Event } from '@/payload-types'
+import { Site, Post, User, Event, News } from '@/payload-types'
 import { BasePayload } from 'payload'
 import type { Role } from '@/access/adminOrSite'
 
@@ -9,8 +9,8 @@ export interface LocalTestContext {
     defaultUserAdmin: boolean,
     testUser: User,
     posts: Post[],
-    pages: Page[],
     events: Event[],
+    news: News[],
     users: User[],
     sites: Site[],
     payload: BasePayload,

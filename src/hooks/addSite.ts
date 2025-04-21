@@ -1,7 +1,7 @@
 import type { CollectionBeforeChangeHook } from 'payload'
-import type { Post, Page } from '@/payload-types'
+import type { Post, Event, News } from '@/payload-types'
 
-export const addSite: CollectionBeforeChangeHook<Post | Page> = async ({
+export const addSite: CollectionBeforeChangeHook<Post | Event | News> = async ({
   data, req, operation
 }) => {
   const { user } = req

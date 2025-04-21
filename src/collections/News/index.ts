@@ -5,14 +5,15 @@ import { slugField } from '@/fields/slug'
 import { adminField } from '@/access/admin'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
+import { editor } from '@/utilities/editor'
 
-export const Events: CollectionConfig<'events'> = {
-  slug: 'events',
+export const News: CollectionConfig<'news'> = {
+  slug: 'news',
   access: {
-    create: getAdminOrSiteUser('events'),
-    delete: getAdminOrSiteUser('events'),
-    read: getAdminOrSiteUser('events', ['manager', 'user', 'bot']),
-    update: getAdminOrSiteUser('events'),
+    create: getAdminOrSiteUser('news'),
+    delete: getAdminOrSiteUser('news'),
+    read: getAdminOrSiteUser('news', ['manager', 'user', 'bot']),
+    update: getAdminOrSiteUser('news'),
   },
   defaultPopulate: {
     title: true,
@@ -27,12 +28,12 @@ export const Events: CollectionConfig<'events'> = {
           collection: 'sites',
           id: data.site
         })
-        return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/events/${data.slug}`
+        return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/news/${data.slug}`
       },
     },
     preview: (data) => {
       // TODO: fix per above
-      return `${process.env.PREVIEW_URL}/events/${data.slug}`
+      return `${process.env.PREVIEW_URL}/news/${data.slug}`
     },
     useAsTitle: 'title',
     hideAPIURL: true,
@@ -42,6 +43,11 @@ export const Events: CollectionConfig<'events'> = {
       name: 'title',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'content',
+      type: 'richText',
+      editor
     },
     {
       name: 'site',
@@ -75,58 +81,6 @@ export const Events: CollectionConfig<'events'> = {
       },
     },
     ...slugField(),
-    {
-      name: 'startDate',
-      type: 'date',
-      required: true,
-      admin: {
-        position: 'sidebar',
-        date: {
-          pickerAppearance: 'dayAndTime',
-        },
-      },
-    },
-    {
-      name: 'endDate',
-      type: 'date',
-      admin: {
-        position: 'sidebar',
-        date: {
-          pickerAppearance: 'dayAndTime',
-        },
-      },
-    },
-    {
-      name: 'location',
-      type: 'text'
-    },
-    {
-      name: 'format',
-      type: 'radio',
-      required: true,
-      admin: {
-        position: 'sidebar'
-      },
-      defaultValue: 'inperson',
-      options: [
-        { label: 'In-Person', value: 'inperson'},
-        { label: 'Virtual', value: 'virtual' }
-      ]
-    },
-    {
-      name: 'registrationUrl',
-      label: 'Registration URL',
-      type: 'text'
-    },
-    {
-      name: 'description',
-      type: 'textarea',
-      required: true,
-    },
-    // {
-    //   name: 'attachments',
-    //   type: 'upload'
-    // }
   ],
   hooks: {
     afterChange: [previewWebhook],

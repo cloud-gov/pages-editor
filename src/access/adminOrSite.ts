@@ -1,5 +1,5 @@
 import type { Access, CollectionSlug, Where } from 'payload'
-import type { Post, Page, User, Site } from '@/payload-types'
+import type { Post, User, Site } from '@/payload-types'
 import { getUserSiteIds, siteIdHelper } from '@/utilities/idHelper'
 import { isRoleForSelectedSite } from '@/utilities/access'
 
@@ -10,7 +10,7 @@ import { isRoleForSelectedSite } from '@/utilities/access'
 export type Role = NonNullable<Required<User>["sites"]>[number]["role"]
 
 export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = ['manager', 'user']) {
-  const adminOrSiteUser: Access<Post | Page | User | Site > = async ({ req, data }) => {
+  const adminOrSiteUser: Access<Post | User | Site > = async ({ req, data }) => {
     let { user } = req;
     if (!user) return false
     if (user.isAdmin) return true

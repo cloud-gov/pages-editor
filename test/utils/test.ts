@@ -27,18 +27,6 @@ export const test = vitest.extend<LocalTestContext>({
         },
         { auto: true }
     ],
-    pages: async({ payload, tid, sites }, use) => {
-        const pages = await Promise.all(sites.map(async site => {
-            return create(payload, tid, {
-                collection: 'pages',
-                data: {
-                    title: `${site.name} Title`,
-                    site
-                }
-            })
-        }))
-        await use(pages)
-    },
     posts: async({ payload, tid, sites }, use) => {
         const posts = await Promise.all(sites.map(async site => {
             return create(payload, tid, {
@@ -65,6 +53,18 @@ export const test = vitest.extend<LocalTestContext>({
             })
         }))
         await use(events)
+    },
+    news: async({ payload, tid, sites }, use) => {
+        const news = await Promise.all(sites.map(async site => {
+            return create(payload, tid, {
+                collection: 'news',
+                data: {
+                    title: `${site.name} Title`,
+                    site,
+                }
+            })
+        }))
+        await use(news)
     },
     users: async({ payload, tid, sites }, use) => {
         // site creation creates bot users & managers, find them and include them

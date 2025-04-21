@@ -9,11 +9,12 @@ import { fileURLToPath } from 'url'
 import { Categories } from './collections/Categories'
 import { Events } from './collections/Events'
 import { Media } from './collections/Media'
-import { Pages } from './collections/Pages'
+import { News } from './collections/News'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { Sites } from './collections/Sites'
 import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
+import { AboutUs as AboutUsConfig } from './globals/AboutUs'
 import { plugins } from './plugins'
 import endpoints from './endpoints'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -21,6 +22,7 @@ import { getServerSideURL } from './utilities/getURL'
 import { createSiteGlobal } from './utilities/siteGlobal'
 
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig);
+const [AboutUs, AboutUsCollection] = createSiteGlobal(AboutUsConfig)
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -70,9 +72,9 @@ const config = {
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Events, Media, Categories, Users, Sites, SiteConfigCollection],
+  collections: [Posts, Events, News, Media, Categories, Users, Sites, SiteConfigCollection, AboutUsCollection],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [SiteConfig],
+  globals: [SiteConfig, AboutUs],
   plugins: [
     ...plugins,
     // storage-adapter-placeholder
