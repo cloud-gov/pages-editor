@@ -43,6 +43,7 @@ export const Pages: CollectionConfig<'pages'> = {
       return `${process.env.PREVIEW_URL}/${data.slug}`
     },
     useAsTitle: 'title',
+    hideAPIURL: true,
   },
   fields: [
     {

@@ -45,6 +45,7 @@ export const Posts: CollectionConfig<'posts'> = {
       return `${process.env.PREVIEW_URL}/posts/${data.slug}`
     },
     useAsTitle: 'title',
+    hideAPIURL: true,
   },
   fields: [
     {

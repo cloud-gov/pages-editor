@@ -39,6 +39,7 @@ export const Events: CollectionConfig<'events'> = {
       return `${process.env.PREVIEW_URL}/events/${data.slug}`
     },
     useAsTitle: 'title',
+    hideAPIURL: true,
   },
   fields: [
     {

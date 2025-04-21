@@ -16,7 +16,8 @@ export const createSiteGlobal = (
       ...config,
       admin: {
         ...config.admin,
-        hidden: ({ user }) => Boolean(user && user.isAdmin)
+        hidden: ({ user }) => Boolean(user && user.isAdmin),
+        hideAPIURL: true,
       },
       hooks: {
         beforeChange: [

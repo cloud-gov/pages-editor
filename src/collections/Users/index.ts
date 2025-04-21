@@ -28,7 +28,7 @@ export const Users: CollectionConfig = {
   admin: {
     defaultColumns: ['email', 'updatedAt', 'sites'],
     useAsTitle: 'email',
-    hidden: false,
+    hideAPIURL: true,
   },
   auth: {
     disableLocalStrategy: true,
