@@ -4,7 +4,7 @@ import type { Config, PayloadRequest } from 'payload'
 const post: Required<Config>["endpoints"][number]["method"] = "post"
 
 const endpoint = {
-    path: '/webhooks/site/:id',
+    path: '/webhook/site/:id',
     method: post,
     handler: async (req: PayloadRequest & { json: CallableFunction, routeParams: { id?: string } }) => {
       const { id } = req.routeParams

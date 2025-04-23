@@ -34,19 +34,21 @@ export const createSiteBot: CollectionAfterChangeHook<Site> = async ({
 
     // send this info to Pages
     if (process.env.PAGES_URL) {
-        await fetch(`${process.env.PAGES_URL}/webhooks/site`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application-json'
-            },
-            body: encryptObjectValues({
-                apiKey: bot.apiKey,
-                siteId: doc.id,
-                siteName: doc.name,
-                org: doc.pagesOrg ?? '',
-                userEmail: doc.initialManagerEmail,
-            }, process.env.PAGES_ENCRYPTION_KEY)
-        })
+      const payload = encryptObjectValues({
+        apiKey: bot.apiKey,
+        siteId: doc.id,
+        siteName: doc.name,
+        org: doc.pagesOrg ?? '',
+        userEmail: doc.initialManagerEmail,
+      }, process.env.PAGES_ENCRYPTION_KEY)
+
+      await fetch(`${process.env.PAGES_URL}/webhook/site`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
     }
   }
   return doc
