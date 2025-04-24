@@ -20,6 +20,7 @@ import endpoints from './endpoints'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { createSiteGlobal } from './utilities/siteGlobal'
+import { afterSchemaInit } from './utilities/cascade'
 
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig);
 const [AboutUs, AboutUsCollection] = createSiteGlobal(AboutUsConfig)
@@ -71,6 +72,7 @@ const config = {
     pool: {
       connectionString: process.env.DATABASE_URI || '',
     },
+    afterSchemaInit
   }),
   collections: [Posts, Events, News, Media, Categories, Users, Sites, SiteConfigCollection, AboutUsCollection],
   cors: [getServerSideURL()].filter(Boolean),

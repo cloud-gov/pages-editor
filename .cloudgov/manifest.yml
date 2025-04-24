@@ -29,5 +29,6 @@ applications:
       COOKIE_DOMAIN: app.cloud.gov
       PAGES_URL: https://pages((postfix)).cloud.gov
       PREVIEW_ROOT: https://pages-editor-((env))-preview # end is filled in per site
+      NEXT_TELEMETRY_DISABLED: 1
     health-check-type: http
     health-check-http-endpoint: /admin

@@ -103,7 +103,6 @@ describe('News access',  () => {
                 data: {
                     title: `News Title - ${siteId}`,
                     site: siteId,
-                    ...fieldsToFill,
                 }
             }, testUser)
 
@@ -121,7 +120,6 @@ describe('News access',  () => {
                     data: {
                         title: `${site.name} - Title`,
                         site,
-                        ...fieldsToFill,
                     }
                 }, testUser))
             }))
@@ -250,7 +248,6 @@ describe('News access',  () => {
                 data: {
                     title: `News Title - ${siteId}`,
                     site: siteId,
-                    ...fieldsToFill,
                 }
             }, testUser)
 
@@ -266,7 +263,6 @@ describe('News access',  () => {
                 data: {
                     title: `News Title - ${newSiteId}`,
                     site: newSiteId,
-                    ...fieldsToFill,
                 }
             }, testUser)
 
@@ -349,7 +345,6 @@ describe('News access',  () => {
                     data: {
                         title: `${site.name} - Title`,
                         site,
-                        ...fieldsToFill,
                     }
                 }, testUser))
             }))

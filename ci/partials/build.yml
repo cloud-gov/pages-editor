@@ -11,4 +11,4 @@ run:
     - |
       npm run generate:types
       npm install @img/sharp-linux-x64 --save-optional
-      npm run build
+      NEXT_TELEMETRY_DISABLED=1 npm run build
