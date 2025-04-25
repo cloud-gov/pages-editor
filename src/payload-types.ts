@@ -67,12 +67,14 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    pages: Page;
     posts: Post;
+    events: Event;
+    news: News;
     media: Media;
     categories: Category;
     sites: Site;
     'site-config-site-collection': SiteConfigSiteCollection;
+    'about-us-site-collection': AboutUsSiteCollection;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -88,12 +90,14 @@ export interface Config {
     };
   };
   collectionsSelect: {
-    pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    news: NewsSelect<false> | NewsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
+    'about-us-site-collection': AboutUsSiteCollectionSelect<false> | AboutUsSiteCollectionSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -108,9 +112,11 @@ export interface Config {
   };
   globals: {
     'site-config': SiteConfig;
+    'about-us': AboutUs;
   };
   globalsSelect: {
     'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
+    'about-us': AboutUsSelect<false> | AboutUsSelect<true>;
   };
   locale: null;
   user: User & {
@@ -141,9 +147,9 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
+ * via the `definition` "posts".
  */
-export interface Page {
+export interface Post {
   id: number;
   title: string;
   site: number | Site;
@@ -162,10 +168,17 @@ export interface Page {
     };
     [k: string]: unknown;
   } | null;
-  content_html?: string | null;
+  authors?: (number | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
   publishedAt?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
+  'Example Custom Field'?: ('radio' | 'television' | 'podcast' | 'video') | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -212,12 +225,32 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
+ * via the `definition` "events".
  */
-export interface Post {
+export interface Event {
   id: number;
   title: string;
   site: number | Site;
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  startDate: string;
+  endDate?: string | null;
+  location?: string | null;
+  format: 'inperson' | 'virtual';
+  registrationUrl?: string | null;
+  description: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news".
+ */
+export interface News {
+  id: number;
+  title: string;
   content?: {
     root: {
       type: string;
@@ -233,18 +266,10 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
-  content_html?: string | null;
-  authors?: (number | User)[] | null;
-  populatedAuthors?:
-    | {
-        id?: string | null;
-        name?: string | null;
-      }[]
-    | null;
+  site: number | Site;
   publishedAt?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
-  'Example Custom Field'?: ('radio' | 'television' | 'podcast' | 'video') | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -373,6 +398,32 @@ export interface SiteConfigSiteCollection {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-us-site-collection".
+ */
+export interface AboutUsSiteCollection {
+  id: number;
+  subtitle?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -383,15 +434,10 @@ export interface Redirect {
   from: string;
   to?: {
     type?: ('reference' | 'custom') | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null)
-      | ({
-          relationTo: 'posts';
-          value: number | Post;
-        } | null);
+    reference?: {
+      relationTo: 'posts';
+      value: number | Post;
+    } | null;
     url?: string | null;
   };
   updatedAt: string;
@@ -626,12 +672,16 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'pages';
-        value: number | Page;
-      } | null)
-    | ({
         relationTo: 'posts';
         value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'news';
+        value: number | News;
       } | null)
     | ({
         relationTo: 'media';
@@ -648,6 +698,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'site-config-site-collection';
         value: number | SiteConfigSiteCollection;
+      } | null)
+    | ({
+        relationTo: 'about-us-site-collection';
+        value: number | AboutUsSiteCollection;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -713,29 +767,12 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages_select".
- */
-export interface PagesSelect<T extends boolean = true> {
-  title?: T;
-  site?: T;
-  content?: T;
-  content_html?: T;
-  publishedAt?: T;
-  slug?: T;
-  slugLock?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   site?: T;
   content?: T;
-  content_html?: T;
   authors?: T;
   populatedAuthors?:
     | T
@@ -747,6 +784,41 @@ export interface PostsSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   'Example Custom Field'?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  site?: T;
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
+  startDate?: T;
+  endDate?: T;
+  location?: T;
+  format?: T;
+  registrationUrl?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news_select".
+ */
+export interface NewsSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  site?: T;
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -882,6 +954,17 @@ export interface SitesSelect<T extends boolean = true> {
  */
 export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
   font?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-us-site-collection_select".
+ */
+export interface AboutUsSiteCollectionSelect<T extends boolean = true> {
+  subtitle?: T;
+  content?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1143,10 +1226,46 @@ export interface SiteConfig {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-us".
+ */
+export interface AboutUs {
+  id: number;
+  subtitle?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config_select".
  */
 export interface SiteConfigSelect<T extends boolean = true> {
   font?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-us_select".
+ */
+export interface AboutUsSelect<T extends boolean = true> {
+  subtitle?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

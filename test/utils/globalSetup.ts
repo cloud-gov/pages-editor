@@ -15,7 +15,8 @@ export default async function () {
         await client.query('DELETE from users;').catch(e => console.log(e))
         await client.query('DELETE from sites;').catch(e => console.log(e))
         await client.query('DELETE from posts;').catch(e => console.log(e))
-        await client.query('DELETE from pages;').catch(e => console.log(e))
+        await client.query('DELETE from events;').catch(e => console.log(e))
+        await client.query('DELETE from news;').catch(e => console.log(e))
     }
 
     // setup

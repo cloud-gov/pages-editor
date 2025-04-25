@@ -14,7 +14,8 @@ export const Sites: CollectionConfig = {
   admin: {
     defaultColumns: ['name', 'updatedAt', 'createdAt'],
     useAsTitle: 'name',
-    hidden: ({ user }) => !user?.isAdmin
+    hidden: ({ user }) => !user?.isAdmin,
+    group: 'Sites'
   },
   fields: [
     {
