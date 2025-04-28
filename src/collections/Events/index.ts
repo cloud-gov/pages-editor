@@ -5,6 +5,7 @@ import { slugField } from '@/fields/slug'
 import { adminField } from '@/access/admin'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
+import { publish } from '@/hooks/publish'
 
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
@@ -129,7 +130,7 @@ export const Events: CollectionConfig<'events'> = {
     // }
   ],
   hooks: {
-    afterChange: [previewWebhook],
+    afterChange: [previewWebhook, publish],
     beforeChange: [addSite]
   },
   versions: {
