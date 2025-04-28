@@ -12,6 +12,7 @@ import { adminField } from '@/access/admin'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
+import { publish } from '@/hooks/publish'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
@@ -127,7 +128,7 @@ export const Posts: CollectionConfig<'posts'> = {
     ...customFields,
   ],
   hooks: {
-    afterChange: [revalidatePost, previewWebhook],
+    afterChange: [revalidatePost, previewWebhook, publish],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
     beforeChange: [addSite]

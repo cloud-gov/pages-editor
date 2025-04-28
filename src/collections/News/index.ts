@@ -6,6 +6,7 @@ import { adminField } from '@/access/admin'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
+import { publish } from '@/hooks/publish'
 
 export const News: CollectionConfig<'news'> = {
   slug: 'news',
@@ -83,7 +84,7 @@ export const News: CollectionConfig<'news'> = {
     ...slugField(),
   ],
   hooks: {
-    afterChange: [previewWebhook],
+    afterChange: [previewWebhook, publish],
     beforeChange: [addSite]
   },
   versions: {
