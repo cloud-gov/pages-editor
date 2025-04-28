@@ -78,6 +78,20 @@ jobs:
         file: src/ci/partials/install-deps.yml
         image: node
 
+      - task: get-app-env
+        image: general-task
+        file: pipeline-tasks/tasks/get-app-env.yml
+        params:
+          _: #@ template.replace(data.values.env_cf_editor)
+          APP_ENV: ((deploy-env))
+          CF_APP_NAME: pages-editor-((deploy-env))
+
+      - task: check-migrations
+        file: src/ci/partials/check-migrations.yml
+        image: node
+        params:
+          PAYLOAD_SECRET: citmpsecret
+
       - task: build
         file: src/ci/partials/build.yml
         image: node

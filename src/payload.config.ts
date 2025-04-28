@@ -21,6 +21,8 @@ import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { createSiteGlobal } from './utilities/siteGlobal'
 import { afterSchemaInit } from './utilities/cascade'
+import { migrations } from './migrations'
+
 
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig);
 const [AboutUs, AboutUsCollection] = createSiteGlobal(AboutUsConfig)
@@ -72,7 +74,8 @@ const config = {
     pool: {
       connectionString: process.env.DATABASE_URI || '',
     },
-    afterSchemaInit
+    afterSchemaInit,
+    prodMigrations: migrations,
   }),
   collections: [Posts, Events, News, Media, Categories, Users, Sites, SiteConfigCollection, AboutUsCollection],
   cors: [getServerSideURL()].filter(Boolean),
