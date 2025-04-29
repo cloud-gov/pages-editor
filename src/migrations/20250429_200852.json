@@ -1,5 +1,5 @@
 {
-  "id": "4d1e9e88-14dd-4a6a-ba67-1c8f6c26cad7",
+  "id": "9744e580-b373-4d99-8dd6-741328889d73",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -111,6 +111,12 @@
         "content": {
           "name": "content",
           "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "review_ready": {
+          "name": "review_ready",
+          "type": "boolean",
           "primaryKey": false,
           "notNull": false
         },
@@ -511,6 +517,12 @@
         "version_content": {
           "name": "version_content",
           "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_review_ready": {
+          "name": "version_review_ready",
+          "type": "boolean",
           "primaryKey": false,
           "notNull": false
         },
@@ -983,6 +995,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "review_ready": {
+          "name": "review_ready",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp(3) with time zone",
@@ -1186,6 +1204,12 @@
         "version_description": {
           "name": "version_description",
           "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_review_ready": {
+          "name": "version_review_ready",
+          "type": "boolean",
           "primaryKey": false,
           "notNull": false
         },
@@ -1450,6 +1474,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "review_ready": {
+          "name": "review_ready",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
         "published_at": {
           "name": "published_at",
           "type": "timestamp(3) with time zone",
@@ -1621,6 +1651,12 @@
         "version_site_id": {
           "name": "version_site_id",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_review_ready": {
+          "name": "version_review_ready",
+          "type": "boolean",
           "primaryKey": false,
           "notNull": false
         },
@@ -2643,12 +2679,6 @@
         "org_id": {
           "name": "org_id",
           "type": "numeric",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "bucket": {
-          "name": "bucket",
-          "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },

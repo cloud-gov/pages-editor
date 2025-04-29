@@ -168,6 +168,7 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
+  reviewReady?: boolean | null;
   authors?: (number | User)[] | null;
   populatedAuthors?:
     | {
@@ -241,6 +242,7 @@ export interface Event {
   format: 'inperson' | 'virtual';
   registrationUrl?: string | null;
   description: string;
+  reviewReady?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -268,6 +270,7 @@ export interface News {
     [k: string]: unknown;
   } | null;
   site: number | Site;
+  reviewReady?: boolean | null;
   publishedAt?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
@@ -774,6 +777,7 @@ export interface PostsSelect<T extends boolean = true> {
   title?: T;
   site?: T;
   content?: T;
+  reviewReady?: T;
   authors?: T;
   populatedAuthors?:
     | T
@@ -805,6 +809,7 @@ export interface EventsSelect<T extends boolean = true> {
   format?: T;
   registrationUrl?: T;
   description?: T;
+  reviewReady?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -817,6 +822,7 @@ export interface NewsSelect<T extends boolean = true> {
   title?: T;
   content?: T;
   site?: T;
+  reviewReady?: T;
   publishedAt?: T;
   slug?: T;
   slugLock?: T;

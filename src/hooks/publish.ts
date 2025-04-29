@@ -7,6 +7,9 @@ export const publish: CollectionAfterChangeHook<Post | Event | News> = async ({
   doc, req, operation, previousDoc
 }) => {
   if (operation === 'update' && doc._status === 'published' && previousDoc._status !== 'published') {
+    // on publish we reset the review status
+    doc.reviewReady = false
+
     if (process.env.PAGES_URL) {
       // needs pages site id
       const site = await req.payload.findByID({
