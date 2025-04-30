@@ -194,6 +194,7 @@ export interface Site {
   pagesOrg?: string | null;
   pagesSiteId?: number | null;
   orgId?: number | null;
+  bucket?: string | null;
   users?: {
     docs?: (number | User)[];
     hasNextPage?: boolean;
@@ -944,6 +945,7 @@ export interface SitesSelect<T extends boolean = true> {
   pagesOrg?: T;
   pagesSiteId?: T;
   orgId?: T;
+  bucket?: T;
   users?: T;
   updatedAt?: T;
   createdAt?: T;
