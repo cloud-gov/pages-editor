@@ -71,6 +71,11 @@ export const Posts: CollectionConfig<'posts'> = {
       editor
     },
     {
+      name: 'reviewReady',
+      label: 'Ready for Review',
+      type: 'checkbox',
+    },
+    {
       name: 'authors',
       type: 'relationship',
       admin: {

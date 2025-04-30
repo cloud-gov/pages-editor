@@ -124,6 +124,11 @@ export const Events: CollectionConfig<'events'> = {
       type: 'textarea',
       required: true,
     },
+    {
+      name: 'reviewReady',
+      label: 'Ready for Review',
+      type: 'checkbox',
+    },
     // {
     //   name: 'attachments',
     //   type: 'upload'

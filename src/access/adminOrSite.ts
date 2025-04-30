@@ -1,5 +1,5 @@
 import type { Access, CollectionSlug, Where } from 'payload'
-import type { Post, User, Site } from '@/payload-types'
+import type { Post, User, Site, Event, News } from '@/payload-types'
 import { getUserSiteIds, siteIdHelper } from '@/utilities/idHelper'
 import { isRoleForSelectedSite } from '@/utilities/access'
 
@@ -10,7 +10,7 @@ import { isRoleForSelectedSite } from '@/utilities/access'
 export type Role = NonNullable<Required<User>["sites"]>[number]["role"]
 
 export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = ['manager', 'user']) {
-  const adminOrSiteUser: Access<Post | User | Site > = async ({ req, data }) => {
+  const adminOrSiteUser: Access<Post | User | Site | Event | News > = async ({ req, data }) => {
     let { user } = req;
     if (!user) return false
     if (user.isAdmin) return true
@@ -18,16 +18,22 @@ export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = 
     const siteId = user.selectedSiteId
     if (!siteId) return false
 
-    if (!isRoleForSelectedSite(user, requiredRole)) return false
+    // if (!isRoleForSelectedSite(user, requiredRole)) return false
+    // NOTE: skip the utility function to keep our site role for other checks
+    const matchedSite = user.sites.find(site => siteIdHelper(site.site) === siteId)
+    if (!(matchedSite && requiredRole.includes(matchedSite.role))) return false
 
     // if collection data exists, extract the site id and match against it
     // false for no match.
-    // note that this block is potentially unnecessary/paranoid:
+    // note that part of this block is potentially unnecessary/paranoid:
     // it prevents a user from changing data TO a site they don't have access to,
     // the queries below already prevent them from changing existing data they don't
     // have access to
     if (data) {
       if ('site' in data) {
+        // TODO, unhardcode this role or store elsewhere
+        if (data._status === 'published' && matchedSite.role !== 'manager') return false
+
         const dataSiteId = typeof data.site === 'number' ? data.site : data.site.id
         if (siteId !== dataSiteId) return false
 
