@@ -11,18 +11,21 @@ const endpoint = {
       if (!id) return Response.json({ message: 'error' })
       const {
         siteId: encryptedPagesSiteId,
-        orgId: encryptedOrgId
+        orgId: encryptedOrgId,
+        bucket: encryptypedBucketName
       } = await req.json()
       try {
         const pagesSiteId = Number(decrypt(encryptedPagesSiteId, process.env.PAGES_ENCRYPTION_KEY))
         const orgId = Number(decrypt(encryptedOrgId, process.env.PAGES_ENCRYPTION_KEY))
+        const bucket = decrypt(encryptypedBucketName, process.env.PAGES_ENCRYPTION_KEY)
 
         const site = await req.payload.update({
           collection: 'sites',
           id: Number(req.routeParams.id),
           data: {
             pagesSiteId,
-            orgId
+            orgId,
+            bucket
           }
         })
         return Response.json(site)

@@ -50,6 +50,13 @@ export const Sites: CollectionConfig = {
       }
     },
     {
+      name: 'bucket',
+      type: 'text',
+      admin: {
+        readOnly: true
+      }
+    },
+    {
       name: 'users',
       type: 'join',
       collection: 'users',
