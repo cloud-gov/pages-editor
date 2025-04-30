@@ -50,6 +50,8 @@ jobs:
             params:
               format: oci
           - get: pipeline-tasks
+      #@ if/end env == 'dev':
+      - #@ pr_hook("pending", "test-pages-editor")
       - task: install-deps
         file: src/ci/partials/install-deps.yml
         image: node
@@ -57,6 +59,17 @@ jobs:
       - task: test
         file: src/ci/partials/test.yml
         privileged: true
+    on_failure:
+      in_parallel:
+        -  #@ slack_hook("failure", "test")
+        #@ if/end env == 'dev':
+        -  #@ pr_hook("failure", "test-pages-editor")
+    on_success:
+      in_parallel:
+        -  #@ slack_hook("success", "test")
+        #@ if/end env == 'dev':
+        -  #@ pr_hook("success", "test-pages-editor")
+
 
   - name: deploy-pages-editor
     plan:
@@ -77,7 +90,8 @@ jobs:
       - task: install-deps
         file: src/ci/partials/install-deps.yml
         image: node
-
+      #@ if/end env == 'dev':
+      -  #@ pr_hook("pending", "deploy-pages-editor")
       - task: get-app-env
         image: general-task
         file: pipeline-tasks/tasks/get-app-env.yml
@@ -116,6 +130,16 @@ jobs:
             params:
               _: #@ template.replace(data.values.env_cf_editor)
               CF_APP_NAME: pages-((deploy-env))
+    on_failure:
+      in_parallel:
+        -  #@ slack_hook("failure", "deployment")
+        #@ if/end env == 'dev':
+        -  #@ pr_hook("failure", "deploy-pages-editor")
+    on_success:
+      in_parallel:
+        -  #@ slack_hook("success", "deployment")
+        #@ if/end env == 'dev':
+        -  #@ pr_hook("success", "deploy-pages-editor")
 
 #!  RESOURCES
 
@@ -154,6 +178,7 @@ resources:
 
 
   - name: node
+  - name: slack
   - name: general-task
   - name: pipeline-tasks
   - name: postgres
@@ -162,6 +187,7 @@ resources:
 
 resource_types:
   - name: git
+  - name: slack-notification
   - name: registry-image
   #@ if/end env == 'dev':
   - name: pull-request
