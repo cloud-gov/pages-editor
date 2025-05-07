@@ -132,7 +132,8 @@ export const beforeDeleteHook: CollectionBeforeDeleteHook = async ({
 
   const site = await payload.findByID({
     collection: 'sites',
-    id
+    id,
+    req
   })
 
   const siteUsers = await payload.find({
