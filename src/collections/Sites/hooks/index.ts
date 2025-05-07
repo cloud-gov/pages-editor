@@ -1,7 +1,8 @@
-import type { CollectionAfterChangeHook } from 'payload'
+import type { CollectionAfterChangeHook, CollectionBeforeDeleteHook } from 'payload'
 import { Site } from '@/payload-types'
 import { v4 as uuidv4 } from 'uuid'
 import {
+  DeleteObjectCommand,
     PutObjectCommand,
     S3Client,
     S3ServiceException,
@@ -120,4 +121,61 @@ export const saveInfoToS3: CollectionAfterChangeHook<Site> = async ({
             }
         }
     }
+}
+
+
+export const beforeDeleteHook: CollectionBeforeDeleteHook = async ({
+  req,
+  id,
+}) => {
+  const { payload } = req;
+
+  const site = await payload.findByID({
+    collection: 'sites',
+    id
+  })
+
+  const siteUsers = await payload.find({
+    collection: 'users',
+    where: {
+      "sites.site.id": { equals: id }
+    },
+    req
+  })
+
+  const soloUserIds = siteUsers.docs
+    .filter(user => user.sites.length === 1)
+    .map(user => user.id)
+    .join(', ')
+
+  await payload.delete({
+    collection: 'users',
+    where: {
+      id: {
+        in: soloUserIds
+      }
+    },
+    req
+  })
+
+  // TODO: send info to Pages to remove the site
+
+  if (process.env.SITE_METADATA_BUCKET) {
+      try {
+          const client = new S3Client();
+          const command = new DeleteObjectCommand({
+              Bucket: process.env.SITE_METADATA_BUCKET,
+              Key: `${site.name}.json`,
+          })
+          await client.send(command)
+      } catch (error) {
+          if (error instanceof S3ServiceException) {
+          console.error(
+            `Error from S3 while deleting object. ${error.name}: ${error.message}`,
+          );
+        } else {
+          throw (error)
+        }
+      }
+  }
 }

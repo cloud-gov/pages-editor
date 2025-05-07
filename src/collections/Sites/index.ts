@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { adminOrAnySite } from '@/access/adminOrSite'
 import { admin } from '@/access/admin'
-import { createSiteBot, createManager, saveInfoToS3 } from './hooks'
+import { createSiteBot, createManager, saveInfoToS3, beforeDeleteHook } from './hooks'
 
 export const Sites: CollectionConfig = {
   slug: 'sites',
@@ -64,7 +64,8 @@ export const Sites: CollectionConfig = {
     },
   ],
   hooks: {
-    afterChange: [createSiteBot, createManager, saveInfoToS3]
+    afterChange: [createSiteBot, createManager, saveInfoToS3],
+    beforeDelete: [beforeDeleteHook]
   },
   timestamps: true,
 }
