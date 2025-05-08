@@ -12,6 +12,12 @@ export const SiteConfig: GlobalConfig = {
     {
         name: 'font',
         type: 'text'
+    },
+    {
+      name: 'agencyName',
+      type: 'text',
+      required: true,
+      defaultValue: 'Agency Name'
     }
   ],
 }

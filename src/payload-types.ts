@@ -396,6 +396,7 @@ export interface Category {
 export interface SiteConfigSiteCollection {
   id: number;
   font?: string | null;
+  agencyName: string;
   site: number | Site;
   updatedAt: string;
   createdAt: string;
@@ -962,6 +963,7 @@ export interface SitesSelect<T extends boolean = true> {
  */
 export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
   font?: T;
+  agencyName?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1229,6 +1231,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface SiteConfig {
   id: number;
   font?: string | null;
+  agencyName: string;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1263,6 +1266,7 @@ export interface AboutUs {
  */
 export interface SiteConfigSelect<T extends boolean = true> {
   font?: T;
+  agencyName?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
