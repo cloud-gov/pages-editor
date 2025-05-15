@@ -1,13 +1,15 @@
 volumes:
   db-data:
   nm-app:
+  storage-data:
+
 
 services:
   app:
     build:
       dockerfile: Dockerfile
       context: .
-    command: ['npm', 'run', 'dev']
+    command: [ 'npm', 'run', 'dev' ]
     stdin_open: true
     tty: true
     volumes:
@@ -17,6 +19,8 @@ services:
       - '3000:3000'
     depends_on:
       db:
+        condition: service_healthy
+      storage:
         condition: service_healthy
       uaa:
         condition: service_started
@@ -34,6 +38,12 @@ services:
       PUBLIC_URL: http://localhost:3000
       PROMPT_URL: http://localhost:5000/reload
       TEST_DATABASE_URI: postgresql://postgres:password@db:5432/pages_editor_test
+      STORAGE_ENDPOINT_URL: http://storage:9000
+      STORAGE_FORCE_PATH_STYLE: true
+      SITE_METADATA_BUCKET: pages-editor-bucket
+      AWS_ACCESS_KEY_ID: pages-editor-access-key
+      AWS_SECRET_ACCESS_KEY: pages-editor-secret-key
+      AWS_REGION: us-gov-west-1
   db:
     build:
       dockerfile: Dockerfile-db
@@ -49,14 +59,49 @@ services:
       POSTGRES_PASSWORD: password
     user: postgres
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready', '-h', 'db', '-d', 'pages_editor']
+      test: [ 'CMD-SHELL', 'pg_isready', '-h', 'db', '-d', 'pages_editor' ]
       interval: 10s
       timeout: 5s
       retries: 5
+
+  storage:
+    image: minio/minio
+    ports:
+      - "9100:9000"
+      - "9101:9001"
+    healthcheck:
+      test: [ "CMD", "curl", "-I", http://storage:9000/minio/health/live ]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    command: 'server --console-address=":9001" /data'
+    environment:
+      MINIO_ROOT_USER: pages-editor-access-key
+      MINIO_ROOT_PASSWORD: pages-editor-secret-key
+      MINIO_ENDPOINT_URL: http://storage:9000
+    volumes:
+      - storage-data:/data
+      - .:/app
+
+  storage-bootstrap:
+    image: minio/mc
+    depends_on:
+      storage:
+        condition: service_healthy
+    restart: "no"
+    environment:
+      MINIO_ROOT_USER: pages-editor-access-key
+      MINIO_ROOT_PASSWORD: pages-editor-secret-key
+      MINIO_ENDPOINT_URL: http://storage:9000
+      BUCKET_NAME: pages-editor-bucket
+    entrypoint: >
+      sh -c "mc alias set localminio http://storage:9000 pages-editor-access-key pages-editor-secret-key && mc mb localminio/pages-editor-bucket"
+
   uaa:
     build:
       dockerfile: ./Dockerfile-uaa
       context: .
     ports:
       - 9001:8080
-    command: ['/tomcat/bin/catalina.sh', 'run']
+    command: [ '/tomcat/bin/catalina.sh', 'run' ]

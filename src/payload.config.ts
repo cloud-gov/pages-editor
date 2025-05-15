@@ -109,7 +109,7 @@ const config = {
       },
     ]
   },
-  endpoints
+  endpoints,
 }
 
 export default buildConfig(config)
