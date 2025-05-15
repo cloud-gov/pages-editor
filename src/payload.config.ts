@@ -82,7 +82,6 @@ const config = {
   globals: [SiteConfig, AboutUs],
   plugins: [
     ...plugins,
-    // storage-adapter-placeholder
   ],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
@@ -109,7 +108,7 @@ const config = {
       },
     ]
   },
-  endpoints
+  endpoints,
 }
 
 export default buildConfig(config)

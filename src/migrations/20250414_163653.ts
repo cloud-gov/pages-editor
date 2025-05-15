@@ -9,14 +9,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-  
+
   CREATE TABLE IF NOT EXISTS "site_config" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"font" varchar,
   	"updated_at" timestamp(3) with time zone,
   	"created_at" timestamp(3) with time zone
   );
-  
+
   ALTER TABLE "header_nav_items" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "header" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "header_rels" DISABLE ROW LEVEL SECURITY;
@@ -37,7 +37,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
-  
+
   CREATE INDEX IF NOT EXISTS "site_config_site_collection_site_idx" ON "site_config_site_collection" USING btree ("site_id");
   CREATE INDEX IF NOT EXISTS "site_config_site_collection_updated_at_idx" ON "site_config_site_collection" USING btree ("updated_at");
   CREATE INDEX IF NOT EXISTS "site_config_site_collection_created_at_idx" ON "site_config_site_collection" USING btree ("created_at");
@@ -46,7 +46,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
-  
+
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_site_config_site_collection_id_idx" ON "payload_locked_documents_rels" USING btree ("site_config_site_collection_id");
   DROP TYPE "public"."enum_header_nav_items_link_type";
   DROP TYPE "public"."enum_footer_nav_items_link_type";`)
@@ -65,13 +65,13 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   	"link_url" varchar,
   	"link_label" varchar NOT NULL
   );
-  
+
   CREATE TABLE IF NOT EXISTS "header" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"updated_at" timestamp(3) with time zone,
   	"created_at" timestamp(3) with time zone
   );
-  
+
   CREATE TABLE IF NOT EXISTS "header_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -79,7 +79,7 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   	"path" varchar NOT NULL,
   	"pages_id" integer
   );
-  
+
   CREATE TABLE IF NOT EXISTS "footer_nav_items" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -89,13 +89,13 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   	"link_url" varchar,
   	"link_label" varchar NOT NULL
   );
-  
+
   CREATE TABLE IF NOT EXISTS "footer" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"updated_at" timestamp(3) with time zone,
   	"created_at" timestamp(3) with time zone
   );
-  
+
   CREATE TABLE IF NOT EXISTS "footer_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -103,13 +103,13 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   	"path" varchar NOT NULL,
   	"pages_id" integer
   );
-  
+
   ALTER TABLE "site_config_site_collection" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "site_config" DISABLE ROW LEVEL SECURITY;
   DROP TABLE "site_config_site_collection" CASCADE;
   DROP TABLE "site_config" CASCADE;
-  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT "payload_locked_documents_rels_site_config_site_collection_fk";
-  
+  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT IF EXISTS "payload_locked_documents_rels_site_config_site_collection_fk";
+
   DROP INDEX IF EXISTS "payload_locked_documents_rels_site_config_site_collection_id_idx";
   ALTER TABLE "users_sites" ALTER COLUMN "role" DROP NOT NULL;
   ALTER TABLE "users" ALTER COLUMN "selected_site_id" SET NOT NULL;
@@ -118,37 +118,37 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
-  
+
   DO $$ BEGIN
    ALTER TABLE "header_rels" ADD CONSTRAINT "header_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."header"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
-  
+
   DO $$ BEGIN
    ALTER TABLE "header_rels" ADD CONSTRAINT "header_rels_pages_fk" FOREIGN KEY ("pages_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
-  
+
   DO $$ BEGIN
    ALTER TABLE "footer_nav_items" ADD CONSTRAINT "footer_nav_items_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."footer"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
-  
+
   DO $$ BEGIN
    ALTER TABLE "footer_rels" ADD CONSTRAINT "footer_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."footer"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
-  
+
   DO $$ BEGIN
    ALTER TABLE "footer_rels" ADD CONSTRAINT "footer_rels_pages_fk" FOREIGN KEY ("pages_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
-  
+
   CREATE INDEX IF NOT EXISTS "header_nav_items_order_idx" ON "header_nav_items" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "header_nav_items_parent_id_idx" ON "header_nav_items" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "header_rels_order_idx" ON "header_rels" USING btree ("order");
