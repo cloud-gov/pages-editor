@@ -2,6 +2,7 @@ import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
+import { s3Storage } from '@payloadcms/storage-s3'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { uaaOauth } from './uaa'
@@ -84,6 +85,23 @@ export const plugins: Plugin[] = [
     },
     formSubmissionOverrides: {
       admin: { hidden: true },
+    },
+  }),
+  s3Storage({
+    collections: {
+      media: {
+        prefix: '_uploads',
+      },
+    },
+    bucket: process.env.SITE_METADATA_BUCKET || '',
+    config: {
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+      },
+      endpoint: process.env.STORAGE_ENDPOINT_URL || '',
+      region: process.env.AWS_REGION,
+      forcePathStyle: process.env.STORAGE_FORCE_PATH_STYLE ? true : false,
     },
   }),
   searchPlugin({

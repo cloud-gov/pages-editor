@@ -101,11 +101,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "_pages_v" DISABLE ROW LEVEL SECURITY;
   DROP TABLE "pages" CASCADE;
   DROP TABLE "_pages_v" CASCADE;
-  -- ALTER TABLE "redirects_rels" DROP CONSTRAINT "redirects_rels_pages_fk";
+  -- ALTER TABLE "redirects_rels" DROP CONSTRAINT IF EXISTS "redirects_rels_pages_fk";
 
-  ALTER TABLE "users_sites" DROP CONSTRAINT "users_sites_site_id_sites_id_fk";
+  ALTER TABLE "users_sites" DROP CONSTRAINT IF EXISTS "users_sites_site_id_sites_id_fk";
 
-  -- ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT "payload_locked_documents_rels_pages_fk";
+  -- ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT IF EXISTS "payload_locked_documents_rels_pages_fk";
 
   DROP INDEX IF EXISTS "redirects_rels_pages_id_idx";
   DROP INDEX IF EXISTS "payload_locked_documents_rels_pages_id_idx";
@@ -271,13 +271,13 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "_news_v" CASCADE;
   DROP TABLE "about_us_site_collection" CASCADE;
   DROP TABLE "about_us" CASCADE;
-  ALTER TABLE "users_sites" DROP CONSTRAINT "users_sites_site_id_sites_id_fk";
+  ALTER TABLE "users_sites" DROP CONSTRAINT IF EXISTS "users_sites_site_id_sites_id_fk";
 
-  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT "payload_locked_documents_rels_events_fk";
+  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT IF EXISTS "payload_locked_documents_rels_events_fk";
 
-  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT "payload_locked_documents_rels_news_fk";
+  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT IF EXISTS "payload_locked_documents_rels_news_fk";
 
-  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT "payload_locked_documents_rels_about_us_site_collection_fk";
+  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT IF EXISTS "payload_locked_documents_rels_about_us_site_collection_fk";
 
   DROP INDEX IF EXISTS "payload_locked_documents_rels_events_id_idx";
   DROP INDEX IF EXISTS "payload_locked_documents_rels_news_id_idx";

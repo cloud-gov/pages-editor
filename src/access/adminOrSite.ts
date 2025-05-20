@@ -1,7 +1,7 @@
-import type { Access, CollectionSlug, Where } from 'payload'
-import type { Post, User, Site, Event, News } from '@/payload-types'
+import type { Access, FieldAccess, CollectionSlug, Where } from 'payload'
+import type { Post, User, Site, Event, Media, News } from '@/payload-types'
 import { getUserSiteIds, siteIdHelper } from '@/utilities/idHelper'
-import { isRoleForSelectedSite } from '@/utilities/access'
+// import { isRoleForSelectedSite } from '@/utilities/access'
 
 // ideally this code could be handled via a single generic but
 // certain access operations don't pass `data` which is the only
@@ -9,8 +9,29 @@ import { isRoleForSelectedSite } from '@/utilities/access'
 
 export type Role = NonNullable<Required<User>["sites"]>[number]["role"]
 
+// Checks if the user is an admin or has a specific role in the site to be used at
+// the field level
+export const getAdminOrUserField = (requiredRole: Role[] = ['manager', 'user']) => {
+  const adminOrFieldUser: FieldAccess = ({ req: { user } }) => {
+    if (!user) return false
+    if (user.isAdmin) return true
+
+    const siteId = user.selectedSiteId
+    if (!siteId) return false
+
+    const matchedSite = user.sites.find(site => siteIdHelper(site.site) === siteId)
+    if (matchedSite && requiredRole.includes(matchedSite.role)) return true
+
+    return false
+  }
+
+  return adminOrFieldUser
+}
+
+// Checks if the user is an admin or has a specific role in the site to be used at
+// the collection level
 export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = ['manager', 'user']) {
-  const adminOrSiteUser: Access<Post | User | Site | Event | News > = async ({ req, data }) => {
+  const adminOrSiteUser: Access<Post | User | Site | Event | Media | News> = async ({ req, data }) => {
     let { user } = req;
     if (!user) return false
     if (user.isAdmin) return true
