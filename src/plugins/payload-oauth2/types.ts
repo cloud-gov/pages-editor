@@ -21,7 +21,7 @@ export interface PluginTypes {
   useEmailAsIdentity?: boolean;
 
   /**
-   * Exclude email from jwt token. This is overriden to false if
+   * Exclude email from jwt token. This is overridden to false if
    * useEmailAsIdentity is true because email is required to identify the user.
    * @default false
    */

@@ -27,7 +27,7 @@ async function seed () {
 
   // create two extra sites, each with a manager and user
   // note that managers are created automatically
-  // TODO: explicity tie this to uaa.yml
+  // TODO: explicitly tie this to uaa.yml
   const siteNames = ['site1', 'site2']
   await Promise.all(siteNames.map(async name => {
     const site = await payload.create({
