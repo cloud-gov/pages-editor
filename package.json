@@ -17,8 +17,8 @@
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "reinstall": "cross-env NODE_OPTIONS=--no-deprecation rm -rf node_modules && rm pnpm-lock.yaml && pnpm --ignore-workspace install",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
-    "test": "vitest",
-    "test:ci": "vitest --run",
+    "test": "NODE_ENV=test vitest",
+    "test:ci": "NODE_ENV=test vitest --run",
     "seed": "yes | payload migrate:fresh && payload run scripts/seed.ts"
   },
   "dependencies": {

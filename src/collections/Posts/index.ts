@@ -5,6 +5,7 @@ import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 import { previewWebhook } from '@/utilities/previews'
 
+import { siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 
 import { customFields } from './custom'
@@ -36,7 +37,7 @@ export const Posts: CollectionConfig<'posts'> = {
         // site isn't fetched at the necessary depth in `data`
         const site = await req.payload.findByID({
           collection: 'sites',
-          id: data.site
+          id: data.site,
         })
         return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/posts/${data.slug}`
       },
@@ -54,26 +55,17 @@ export const Posts: CollectionConfig<'posts'> = {
       type: 'text',
       required: true,
     },
-    {
-      name: 'site',
-      type: 'relationship',
-      relationTo: 'sites',
-      required: true,
-      access: {
-        create: adminField,
-        update: adminField,
-        read: () => true,
-      }
-    },
+    siteField,
     {
       name: 'content',
       type: 'richText',
-      editor
+      editor,
     },
     {
       name: 'reviewReady',
       label: 'Ready for Review',
       type: 'checkbox',
+      defaultValue: false,
     },
     {
       name: 'authors',
@@ -136,7 +128,7 @@ export const Posts: CollectionConfig<'posts'> = {
     afterChange: [revalidatePost, previewWebhook, publish],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
-    beforeChange: [addSite]
+    beforeChange: [addSite],
   },
   versions: {
     drafts: {
@@ -145,5 +137,5 @@ export const Posts: CollectionConfig<'posts'> = {
       },
     },
     maxPerDoc: 50,
-  }
+  },
 }

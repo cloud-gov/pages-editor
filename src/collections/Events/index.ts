@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { previewWebhook } from '@/utilities/previews'
+import { siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { adminField } from '@/access/admin'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
@@ -26,7 +27,7 @@ export const Events: CollectionConfig<'events'> = {
         // site isn't fetched at the necessary depth in `data`
         const site = await req.payload.findByID({
           collection: 'sites',
-          id: data.site
+          id: data.site,
         })
         return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/events/${data.slug}`
       },
@@ -44,17 +45,7 @@ export const Events: CollectionConfig<'events'> = {
       type: 'text',
       required: true,
     },
-    {
-      name: 'site',
-      type: 'relationship',
-      relationTo: 'sites',
-      required: true,
-      access: {
-        create: adminField,
-        update: adminField,
-        read: () => true,
-      }
-    },
+    siteField,
     {
       name: 'publishedAt',
       type: 'date',
@@ -99,25 +90,25 @@ export const Events: CollectionConfig<'events'> = {
     },
     {
       name: 'location',
-      type: 'text'
+      type: 'text',
     },
     {
       name: 'format',
       type: 'radio',
       required: true,
       admin: {
-        position: 'sidebar'
+        position: 'sidebar',
       },
       defaultValue: 'inperson',
       options: [
-        { label: 'In-Person', value: 'inperson'},
-        { label: 'Virtual', value: 'virtual' }
-      ]
+        { label: 'In-Person', value: 'inperson' },
+        { label: 'Virtual', value: 'virtual' },
+      ],
     },
     {
       name: 'registrationUrl',
       label: 'Registration URL',
-      type: 'text'
+      type: 'text',
     },
     {
       name: 'description',
@@ -128,6 +119,7 @@ export const Events: CollectionConfig<'events'> = {
       name: 'reviewReady',
       label: 'Ready for Review',
       type: 'checkbox',
+      defaultValue: false,
     },
     // {
     //   name: 'attachments',
@@ -136,7 +128,7 @@ export const Events: CollectionConfig<'events'> = {
   ],
   hooks: {
     afterChange: [previewWebhook, publish],
-    beforeChange: [addSite]
+    beforeChange: [addSite],
   },
   versions: {
     drafts: {
@@ -145,5 +137,5 @@ export const Events: CollectionConfig<'events'> = {
       },
     },
     maxPerDoc: 50,
-  }
+  },
 }

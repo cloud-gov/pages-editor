@@ -1,7 +1,6 @@
 import { test as vitest } from 'vitest'
 import { v4 as uuid } from 'uuid'
 import type { LocalTestContext } from './context.types'
-// import { uploadField } from './fields'
 import { create, find } from './localHelpers'
 
 export const test = vitest.extend<LocalTestContext>({
@@ -44,6 +43,21 @@ export const test = vitest.extend<LocalTestContext>({
       }),
     )
     await use(posts)
+  },
+  categories: async ({ payload, tid, sites }, use) => {
+    const categories = await Promise.all(
+      sites.map(async (site) => {
+        return create(payload, tid, {
+          collection: 'categories',
+          data: {
+            title: `Foo`,
+            site,
+          },
+        })
+      }
+    )
+    )
+    await use(categories)
   },
   events: async ({ payload, tid, sites }, use) => {
     const events = await Promise.all(
@@ -88,6 +102,21 @@ export const test = vitest.extend<LocalTestContext>({
       }),
     )
     await use(news)
+  },
+  reports: async ({ payload, tid, sites }, use) => {
+    const reports = await Promise.all(
+      sites.map(async (site) => {
+        return create(payload, tid, {
+          collection: 'reports',
+          data: {
+            title: `${site.name} Title`,
+            subtitle: `${site.name} Subtitle`,
+            site,
+          },
+        })
+      }),
+    )
+    await use(reports)
   },
   users: async ({ payload, tid, sites }, use) => {
     // site creation creates bot users & managers, find them and include them
