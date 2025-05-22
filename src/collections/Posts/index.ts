@@ -65,6 +65,7 @@ export const Posts: CollectionConfig<'posts'> = {
       name: 'reviewReady',
       label: 'Ready for Review',
       type: 'checkbox',
+      defaultValue: false,
     },
     {
       name: 'authors',

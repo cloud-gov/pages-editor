@@ -39,6 +39,7 @@ export async function find<TSlug extends CollectionSlug, TSelect extends SelectT
     localOptions = { ...localOptions, overrideAccess: false, user }
   }
 
+  // @ts-ignore
   return payload.find(localOptions)
 }
 

@@ -55,6 +55,7 @@ export const News: CollectionConfig<'news'> = {
       name: 'reviewReady',
       label: 'Ready for Review',
       type: 'checkbox',
+      defaultValue: false,
     },
     {
       name: 'publishedAt',

@@ -3,7 +3,6 @@ import type { CollectionConfig } from 'payload'
 import { previewWebhook } from '@/utilities/previews'
 import { categoriesField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
-import { adminField } from '@/access/admin'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { publish } from '@/hooks/publish'
@@ -23,6 +22,10 @@ export const Reports: CollectionConfig<'reports'> = {
   },
   admin: {
     defaultColumns: ['title', '_status', 'reviewReady'],
+    meta: {
+      title: 'Reports',
+      description: 'Reports allow you to categorize and publish report content and files.',
+    },
     livePreview: {
       url: async ({ data, req }) => {
         // site isn't fetched at the necessary depth in `data`
@@ -47,9 +50,10 @@ export const Reports: CollectionConfig<'reports'> = {
       required: true,
     },
     {
-      name: 'subtitle',
+      name: 'excerpt',
+      label: 'Report excerpt',
+      maxLength: 300,
       type: 'text',
-      required: true,
     },
     {
       name: 'image',
@@ -91,6 +95,7 @@ export const Reports: CollectionConfig<'reports'> = {
       name: 'reviewReady',
       label: 'Ready for Review',
       type: 'checkbox',
+      defaultValue: false,
     },
     {
       name: 'publishedAt',

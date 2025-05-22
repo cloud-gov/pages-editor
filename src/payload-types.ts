@@ -383,7 +383,7 @@ export interface Media {
 export interface Report {
   id: number;
   title: string;
-  subtitle: string;
+  excerpt?: string | null;
   image?: (number | null) | Media;
   reportFiles?:
     | {
@@ -988,7 +988,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface ReportsSelect<T extends boolean = true> {
   title?: T;
-  subtitle?: T;
+  excerpt?: T;
   image?: T;
   reportFiles?:
     | T

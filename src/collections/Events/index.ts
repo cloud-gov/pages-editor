@@ -119,6 +119,7 @@ export const Events: CollectionConfig<'events'> = {
       name: 'reviewReady',
       label: 'Ready for Review',
       type: 'checkbox',
+      defaultValue: false,
     },
     // {
     //   name: 'attachments',
