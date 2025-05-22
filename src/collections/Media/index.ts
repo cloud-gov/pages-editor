@@ -12,6 +12,7 @@ import { adminField } from '@/access/admin'
 import { getAdminOrUserField, getAdminOrSiteUser } from '@/access/adminOrSite'
 import { validateFileFields } from './hooks'
 import { addSite } from '@/hooks/addSite'
+import { siteField } from '@/fields/relationships'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -34,20 +35,7 @@ export const Media: CollectionConfig = {
       name: 'alt',
       type: 'text',
     },
-    {
-      name: 'site',
-      type: 'relationship',
-      relationTo: 'sites',
-      required: true,
-      defaultValue: ({ req }) => {
-        return req.user?.selectedSiteId
-      },
-      access: {
-        create: adminField,
-        update: adminField,
-        read: () => true,
-      },
-    },
+    siteField,
     {
       name: 'caption',
       type: 'richText',

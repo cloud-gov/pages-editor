@@ -86,7 +86,7 @@ export const saveInfoToS3: CollectionAfterChangeHook<Site> = async ({
 }) => {
     const { payload } = req;
     if (operation === 'create') {
-        if (process.env.SITE_METADATA_BUCKET) {
+        if (process.env.SITE_METADATA_BUCKET && process.env.NODE_ENV !== 'test') {
           // TODO: ideally the bot User would be passed via hook `context`
           // but it was seemingly being overwritten, potentially by the "trick"
           // return from Users/hooks/removeDummyUsers
@@ -161,7 +161,7 @@ export const beforeDeleteHook: CollectionBeforeDeleteHook = async ({
 
   // TODO: send info to Pages to remove the site
 
-  if (process.env.SITE_METADATA_BUCKET) {
+  if (process.env.SITE_METADATA_BUCKET && process.env.NODE_ENV !== 'test') {
       try {
           const client = new S3Client();
           const command = new DeleteObjectCommand({

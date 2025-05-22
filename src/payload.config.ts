@@ -12,6 +12,7 @@ import { Media } from './collections/Media'
 import { News } from './collections/News'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
+import { Reports } from './collections/Reports'
 import { Sites } from './collections/Sites'
 import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
 import { AboutUs as AboutUsConfig } from './globals/AboutUs'
@@ -77,7 +78,7 @@ const config = {
     afterSchemaInit,
     prodMigrations: migrations,
   }),
-  collections: [Posts, Events, News, Media, Categories, Users, Sites, SiteConfigCollection, AboutUsCollection],
+  collections: [Posts, Events, News, Media, Reports, Categories, Users, Sites, SiteConfigCollection, AboutUsCollection],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [SiteConfig, AboutUs],
   plugins: [

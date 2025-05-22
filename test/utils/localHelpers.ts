@@ -21,6 +21,7 @@ export async function create<TSlug extends CollectionSlug, TSelect extends Selec
     localOptions = { ...localOptions, overrideAccess: false, user }
   }
 
+  // @ts-ignore
   return payload.create(localOptions)
 }
 

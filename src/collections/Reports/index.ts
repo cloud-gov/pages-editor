@@ -1,27 +1,28 @@
 import type { CollectionConfig } from 'payload'
 
 import { previewWebhook } from '@/utilities/previews'
+import { categoriesField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
+import { adminField } from '@/access/admin'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
-import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
-import { siteField } from '@/fields/relationships'
+import { editor } from '@/utilities/editor'
 
-export const News: CollectionConfig<'news'> = {
-  slug: 'news',
+export const Reports: CollectionConfig<'reports'> = {
+  slug: 'reports',
   access: {
-    create: getAdminOrSiteUser('news'),
-    delete: getAdminOrSiteUser('news'),
-    read: getAdminOrSiteUser('news', ['manager', 'user', 'bot']),
-    update: getAdminOrSiteUser('news'),
+    create: getAdminOrSiteUser('reports'),
+    delete: getAdminOrSiteUser('reports'),
+    read: getAdminOrSiteUser('reports', ['manager', 'user', 'bot']),
+    update: getAdminOrSiteUser('reports'),
   },
   defaultPopulate: {
     title: true,
     slug: true,
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', '_status', 'reviewReady'],
     livePreview: {
       url: async ({ data, req }) => {
         // site isn't fetched at the necessary depth in `data`
@@ -29,12 +30,12 @@ export const News: CollectionConfig<'news'> = {
           collection: 'sites',
           id: data.site,
         })
-        return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/news/${data.slug}`
+        return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/reports/${data.slug}`
       },
     },
     preview: (data) => {
       // TODO: fix per above
-      return `${process.env.PREVIEW_URL}/news/${data.slug}`
+      return `${process.env.PREVIEW_URL}/reports/${data.slug}`
     },
     useAsTitle: 'title',
     hideAPIURL: true,
@@ -46,11 +47,46 @@ export const News: CollectionConfig<'news'> = {
       required: true,
     },
     {
+      name: 'subtitle',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'image',
+      label: 'This image will be used as the thumbnail for the report',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
+      name: 'reportFiles',
+      label: 'Report Files',
+      type: 'array',
+      fields: [
+        {
+          name: 'file',
+          type: 'upload',
+          relationTo: 'media',
+        },
+      ],
+    },
+    ...slugField(),
+    {
+      name: 'reportDate',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+      },
+    },
+    categoriesField,
+    siteField,
+    {
       name: 'content',
       type: 'richText',
       editor,
     },
-    siteField,
     {
       name: 'reviewReady',
       label: 'Ready for Review',
@@ -76,7 +112,6 @@ export const News: CollectionConfig<'news'> = {
         ],
       },
     },
-    ...slugField(),
   ],
   hooks: {
     afterChange: [previewWebhook, publish],
@@ -85,7 +120,7 @@ export const News: CollectionConfig<'news'> = {
   versions: {
     drafts: {
       autosave: {
-        interval: 100, // We set this interval for optimal live preview
+        interval: 100,
       },
     },
     maxPerDoc: 50,

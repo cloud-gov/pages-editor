@@ -71,6 +71,7 @@ export interface Config {
     events: Event;
     news: News;
     media: Media;
+    reports: Report;
     categories: Category;
     sites: Site;
     'site-config-site-collection': SiteConfigSiteCollection;
@@ -94,6 +95,7 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     news: NewsSelect<false> | NewsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    reports: ReportsSelect<false> | ReportsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
@@ -376,11 +378,55 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reports".
+ */
+export interface Report {
+  id: number;
+  title: string;
+  subtitle: string;
+  image?: (number | null) | Media;
+  reportFiles?:
+    | {
+        file?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  reportDate?: string | null;
+  categories?: (number | Category)[] | null;
+  site: number | Site;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  reviewReady?: boolean | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
 export interface Category {
   id: number;
   title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  site: number | Site;
   parent?: (number | null) | Category;
   breadcrumbs?:
     | {
@@ -697,6 +743,10 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
+        relationTo: 'reports';
+        value: number | Report;
+      } | null)
+    | ({
         relationTo: 'categories';
         value: number | Category;
       } | null)
@@ -934,10 +984,39 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reports_select".
+ */
+export interface ReportsSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  image?: T;
+  reportFiles?:
+    | T
+    | {
+        file?: T;
+        id?: T;
+      };
+  slug?: T;
+  slugLock?: T;
+  reportDate?: T;
+  categories?: T;
+  site?: T;
+  content?: T;
+  reviewReady?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories_select".
  */
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
+  slug?: T;
+  slugLock?: T;
+  site?: T;
   parent?: T;
   breadcrumbs?:
     | T
