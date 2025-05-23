@@ -76,6 +76,8 @@ export interface Config {
     sites: Site;
     'site-config-site-collection': SiteConfigSiteCollection;
     'about-us-site-collection': AboutUsSiteCollection;
+    'contact-site-collection': ContactSiteCollection;
+    'history-site-collection': HistorySiteCollection;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -100,6 +102,8 @@ export interface Config {
     sites: SitesSelect<false> | SitesSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
     'about-us-site-collection': AboutUsSiteCollectionSelect<false> | AboutUsSiteCollectionSelect<true>;
+    'contact-site-collection': ContactSiteCollectionSelect<false> | ContactSiteCollectionSelect<true>;
+    'history-site-collection': HistorySiteCollectionSelect<false> | HistorySiteCollectionSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -115,10 +119,14 @@ export interface Config {
   globals: {
     'site-config': SiteConfig;
     'about-us': AboutUs;
+    contact: Contact;
+    history: History;
   };
   globalsSelect: {
     'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
     'about-us': AboutUsSelect<false> | AboutUsSelect<true>;
+    contact: ContactSelect<false> | ContactSelect<true>;
+    history: HistorySelect<false> | HistorySelect<true>;
   };
   locale: null;
   user: User & {
@@ -450,6 +458,7 @@ export interface SiteConfigSiteCollection {
   site: number | Site;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -476,6 +485,61 @@ export interface AboutUsSiteCollection {
   site: number | Site;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-site-collection".
+ */
+export interface ContactSiteCollection {
+  id: number;
+  subtitle?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "history-site-collection".
+ */
+export interface HistorySiteCollection {
+  id: number;
+  subtitle?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -761,6 +825,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'about-us-site-collection';
         value: number | AboutUsSiteCollection;
+      } | null)
+    | ({
+        relationTo: 'contact-site-collection';
+        value: number | ContactSiteCollection;
+      } | null)
+    | ({
+        relationTo: 'history-site-collection';
+        value: number | HistorySiteCollection;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1054,6 +1126,7 @@ export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
   site?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1065,6 +1138,31 @@ export interface AboutUsSiteCollectionSelect<T extends boolean = true> {
   site?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-site-collection_select".
+ */
+export interface ContactSiteCollectionSelect<T extends boolean = true> {
+  subtitle?: T;
+  content?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "history-site-collection_select".
+ */
+export interface HistorySiteCollectionSelect<T extends boolean = true> {
+  subtitle?: T;
+  content?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1319,6 +1417,7 @@ export interface SiteConfig {
   id: number;
   font?: string | null;
   agencyName: string;
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1344,6 +1443,59 @@ export interface AboutUs {
     };
     [k: string]: unknown;
   } | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact".
+ */
+export interface Contact {
+  id: number;
+  subtitle?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "history".
+ */
+export interface History {
+  id: number;
+  subtitle?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1354,6 +1506,7 @@ export interface AboutUs {
 export interface SiteConfigSelect<T extends boolean = true> {
   font?: T;
   agencyName?: T;
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -1365,6 +1518,31 @@ export interface SiteConfigSelect<T extends boolean = true> {
 export interface AboutUsSelect<T extends boolean = true> {
   subtitle?: T;
   content?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact_select".
+ */
+export interface ContactSelect<T extends boolean = true> {
+  subtitle?: T;
+  content?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "history_select".
+ */
+export interface HistorySelect<T extends boolean = true> {
+  subtitle?: T;
+  content?: T;
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

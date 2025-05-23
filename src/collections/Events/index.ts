@@ -121,10 +121,6 @@ export const Events: CollectionConfig<'events'> = {
       type: 'checkbox',
       defaultValue: false,
     },
-    // {
-    //   name: 'attachments',
-    //   type: 'upload'
-    // }
   ],
   hooks: {
     afterChange: [previewWebhook, publish],

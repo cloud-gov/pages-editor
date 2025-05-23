@@ -16,6 +16,8 @@ import { Reports } from './collections/Reports'
 import { Sites } from './collections/Sites'
 import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
 import { AboutUs as AboutUsConfig } from './globals/AboutUs'
+import { Contact as ContactUsConfig } from './globals/Contact'
+import { History as HistoryConfig } from './globals/History'
 import { plugins } from './plugins'
 import endpoints from './endpoints'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -24,9 +26,10 @@ import { createSiteGlobal } from './utilities/siteGlobal'
 import { afterSchemaInit } from './utilities/cascade'
 import { migrations } from './migrations'
 
-
-const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig);
+const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
 const [AboutUs, AboutUsCollection] = createSiteGlobal(AboutUsConfig)
+const [Contact, ContactUsCollection] = createSiteGlobal(ContactUsConfig)
+const [History, HistoryCollection] = createSiteGlobal(HistoryConfig)
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -78,12 +81,23 @@ const config = {
     afterSchemaInit,
     prodMigrations: migrations,
   }),
-  collections: [Posts, Events, News, Media, Reports, Categories, Users, Sites, SiteConfigCollection, AboutUsCollection],
-  cors: [getServerSideURL()].filter(Boolean),
-  globals: [SiteConfig, AboutUs],
-  plugins: [
-    ...plugins,
+  collections: [
+    Posts,
+    Events,
+    News,
+    Media,
+    Reports,
+    Categories,
+    Users,
+    Sites,
+    SiteConfigCollection,
+    AboutUsCollection,
+    ContactUsCollection,
+    HistoryCollection,
   ],
+  cors: [getServerSideURL()].filter(Boolean),
+  globals: [SiteConfig, AboutUs, Contact, History],
+  plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   telemetry: false,
@@ -103,11 +117,12 @@ const config = {
         ]
         jsonSchema.definitions.users.required = [
           ...jsonSchema.definitions.users.required,
-          'sub', 'selectedSiteId',
+          'sub',
+          'selectedSiteId',
         ]
         return jsonSchema
       },
-    ]
+    ],
   },
   endpoints,
 }

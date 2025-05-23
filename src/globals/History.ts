@@ -1,26 +1,26 @@
 import type { GlobalConfig } from 'payload'
+import { editor } from '@/utilities/editor'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 
-export const SiteConfig: GlobalConfig = {
-  slug: 'site-config',
+export const History: GlobalConfig = {
+  slug: 'history',
   access: {
     read: getAdminOrSiteUserGlobals(['manager', 'user', 'bot']),
     update: getAdminOrSiteUserGlobals(),
     readVersions: getAdminOrSiteUserGlobals(),
   },
   admin: {
-    group: 'Information',
+    group: 'Single Pages',
   },
   fields: [
     {
-      name: 'font',
+      name: 'subtitle',
       type: 'text',
     },
     {
-      name: 'agencyName',
-      type: 'text',
-      required: true,
-      defaultValue: 'Agency Name',
+      name: 'content',
+      type: 'richText',
+      editor,
     },
   ],
 }
