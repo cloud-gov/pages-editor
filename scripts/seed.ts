@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid';
 
 const payload = await getPayload({ config })
 
+
 async function seed () {
   // creates a base site and admin user
   const site = await payload.create({

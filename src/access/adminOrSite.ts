@@ -1,5 +1,5 @@
 import type { Access, FieldAccess, CollectionSlug, Where } from 'payload'
-import type { Post, User, Site, Event, Media, News } from '@/payload-types'
+import type { Post, User, Site, Event, Media, News, Singlepage, SiteConfig } from '@/payload-types'
 import { getUserSiteIds, siteIdHelper } from '@/utilities/idHelper'
 // import { isRoleForSelectedSite } from '@/utilities/access'
 
@@ -7,7 +7,7 @@ import { getUserSiteIds, siteIdHelper } from '@/utilities/idHelper'
 // certain access operations don't pass `data` which is the only
 // way to infer the shape of the documents we're operating on
 
-export type Role = NonNullable<Required<User>["sites"]>[number]["role"]
+export type Role = NonNullable<Required<User>['sites']>[number]['role']
 
 // Checks if the user is an admin or has a specific role in the site to be used at
 // the field level
@@ -19,7 +19,7 @@ export const getAdminOrUserField = (requiredRole: Role[] = ['manager', 'user']) 
     const siteId = user.selectedSiteId
     if (!siteId) return false
 
-    const matchedSite = user.sites.find(site => siteIdHelper(site.site) === siteId)
+    const matchedSite = user.sites.find((site) => siteIdHelper(site.site) === siteId)
     if (matchedSite && requiredRole.includes(matchedSite.role)) return true
 
     return false
@@ -30,9 +30,15 @@ export const getAdminOrUserField = (requiredRole: Role[] = ['manager', 'user']) 
 
 // Checks if the user is an admin or has a specific role in the site to be used at
 // the collection level
-export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = ['manager', 'user']) {
-  const adminOrSiteUser: Access<Post | User | Site | Event | Media | News> = async ({ req, data }) => {
-    let { user } = req;
+export function getAdminOrSiteUser(
+  slug: CollectionSlug,
+  requiredRole: Role[] = ['manager', 'user'],
+) {
+  const adminOrSiteUser: Access<Post | User | Site | Event | Media | News | Singlepage> = async ({
+    req,
+    data,
+  }) => {
+    let { user } = req
     if (!user) return false
     if (user.isAdmin) return true
 
@@ -41,7 +47,7 @@ export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = 
 
     // if (!isRoleForSelectedSite(user, requiredRole)) return false
     // NOTE: skip the utility function to keep our site role for other checks
-    const matchedSite = user.sites.find(site => siteIdHelper(site.site) === siteId)
+    const matchedSite = user.sites.find((site) => siteIdHelper(site.site) === siteId)
     if (!(matchedSite && requiredRole.includes(matchedSite.role))) return false
 
     // if collection data exists, extract the site id and match against it
@@ -57,11 +63,9 @@ export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = 
 
         const dataSiteId = typeof data.site === 'number' ? data.site : data.site.id
         if (siteId !== dataSiteId) return false
-
       } else if ('sites' in data) {
-        const dataSiteIds = data.sites.map(site => siteIdHelper(site.site))
+        const dataSiteIds = data.sites.map((site) => siteIdHelper(site.site))
         if (!(dataSiteIds && dataSiteIds.includes(siteId))) return false
-
       } else if ('id' in data) {
         if (data.id !== siteId) return false
       }
@@ -69,18 +73,18 @@ export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = 
 
     let queryPath: string
     if (slug === 'users') {
-      queryPath = "sites.site.id"
+      queryPath = 'sites.site.id'
     } else if (slug === 'sites') {
-      queryPath = "id"
+      queryPath = 'id'
     } else {
-      queryPath = "site.id"
+      queryPath = 'site.id'
     }
 
     // pass a query ensuring the user has access to the queried data
     const query: Where = {
       [queryPath]: {
-        equals: siteId
-      }
+        equals: siteId,
+      },
     }
 
     return query
@@ -88,10 +92,45 @@ export function getAdminOrSiteUser(slug: CollectionSlug, requiredRole: Role[] = 
   return adminOrSiteUser
 }
 
+// Checks if the user is an admin or has a specific role in the site to be used at
+// the site globals level
+export function getAdminOrSiteUserGlobals(
+  requiredRole: Role[] = ['manager', 'user'],
+  isUpdate = false,
+) {
+  const adminOrSiteUser: Access<SiteConfig> = async ({ req, data }) => {
+    let { user } = req
+    if (!user) return false
+    if (user.isAdmin) return true
+
+    const siteId = user.selectedSiteId
+    if (!siteId) return false
+
+    const matchedSite = user.sites.find((site) => siteIdHelper(site.site) === siteId)
+
+    if (!(matchedSite && requiredRole.includes(matchedSite.role))) return false
+
+    if (isUpdate && data && data._status === 'published' && matchedSite.role !== 'manager')
+      return false
+
+    return true
+  }
+  return adminOrSiteUser
+}
+
+// Checks if the user is an admin
+export function getAdmin({ req }) {
+  let { user } = req
+  if (!user) return false
+  if (user.isAdmin) return true
+
+  return false
+}
+
 // site reads use a slightly different function since users don't need to have
 // a site selected to read its name
 export const adminOrAnySite: Access<Site> = async ({ req, data }) => {
-  let { user } = req;
+  let { user } = req
   if (!user) return false
   if (user.isAdmin) return true
 
@@ -103,8 +142,8 @@ export const adminOrAnySite: Access<Site> = async ({ req, data }) => {
 
   const query: Where = {
     id: {
-      in: userSiteIds.join()
-    }
+      in: userSiteIds.join(),
+    },
   }
 
   return query

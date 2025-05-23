@@ -19,7 +19,19 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "NODE_ENV=test vitest",
     "test:ci": "NODE_ENV=test vitest --run",
-    "seed": "yes | payload migrate:fresh && payload run scripts/seed.ts"
+    "seed": "yes | payload migrate:fresh && payload run scripts/seed.ts",
+    "dc:build": "docker compose build",
+    "dc:down": "docker compose down",
+    "dc:generate:importmap": "docker compose run --rm app npm run generate:importmap",
+    "dc:generate:types": "docker compose run --rm app npm run generate:types",
+    "dc:migrate:create": "docker compose run --rm app npx payload migrate:create",
+    "dc:migrate:down": "docker compose run --rm app npx payload migrate:down",
+    "dc:migrate:status": "docker compose run --rm app npx payload migrate:status",
+    "dc:migrate:up": "docker compose run --rm app npx payload migrate",
+    "dc:seed": "docker compose run --rm app npm run seed",
+    "dc:test": "docker compose run --rm app npm run test",
+    "dc:test:ci": "docker compose run --rm app npm run test:ci",
+    "dc:up": "docker compose up"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.787.0",

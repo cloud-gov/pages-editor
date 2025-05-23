@@ -72,10 +72,10 @@ export interface Config {
     news: News;
     media: Media;
     reports: Report;
+    singlepages: Singlepage;
     categories: Category;
     sites: Site;
     'site-config-site-collection': SiteConfigSiteCollection;
-    'about-us-site-collection': AboutUsSiteCollection;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -96,10 +96,10 @@ export interface Config {
     news: NewsSelect<false> | NewsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     reports: ReportsSelect<false> | ReportsSelect<true>;
+    singlepages: SinglepagesSelect<false> | SinglepagesSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
-    'about-us-site-collection': AboutUsSiteCollectionSelect<false> | AboutUsSiteCollectionSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -114,11 +114,9 @@ export interface Config {
   };
   globals: {
     'site-config': SiteConfig;
-    'about-us': AboutUs;
   };
   globalsSelect: {
     'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
-    'about-us': AboutUsSelect<false> | AboutUsSelect<true>;
   };
   locale: null;
   user: User & {
@@ -440,24 +438,19 @@ export interface Category {
   createdAt: string;
 }
 /**
+ * Manage single pages that are shown in the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "site-config-site-collection".
+ * via the `definition` "singlepages".
  */
-export interface SiteConfigSiteCollection {
+export interface Singlepage {
   id: number;
-  font?: string | null;
-  agencyName: string;
-  site: number | Site;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "about-us-site-collection".
- */
-export interface AboutUsSiteCollection {
-  id: number;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
   subtitle?: string | null;
+  label: string;
+  image?: (number | null) | Media;
   content?: {
     root: {
       type: string;
@@ -474,8 +467,24 @@ export interface AboutUsSiteCollection {
     [k: string]: unknown;
   } | null;
   site: number | Site;
+  reviewReady?: boolean | null;
+  publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-config-site-collection".
+ */
+export interface SiteConfigSiteCollection {
+  id: number;
+  font?: string | null;
+  agencyName: string;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -747,6 +756,10 @@ export interface PayloadLockedDocument {
         value: number | Report;
       } | null)
     | ({
+        relationTo: 'singlepages';
+        value: number | Singlepage;
+      } | null)
+    | ({
         relationTo: 'categories';
         value: number | Category;
       } | null)
@@ -757,10 +770,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'site-config-site-collection';
         value: number | SiteConfigSiteCollection;
-      } | null)
-    | ({
-        relationTo: 'about-us-site-collection';
-        value: number | AboutUsSiteCollection;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1010,6 +1019,25 @@ export interface ReportsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "singlepages_select".
+ */
+export interface SinglepagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  slugLock?: T;
+  subtitle?: T;
+  label?: T;
+  image?: T;
+  content?: T;
+  site?: T;
+  reviewReady?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories_select".
  */
 export interface CategoriesSelect<T extends boolean = true> {
@@ -1054,17 +1082,7 @@ export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
   site?: T;
   updatedAt?: T;
   createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "about-us-site-collection_select".
- */
-export interface AboutUsSiteCollectionSelect<T extends boolean = true> {
-  subtitle?: T;
-  content?: T;
-  site?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1319,31 +1337,7 @@ export interface SiteConfig {
   id: number;
   font?: string | null;
   agencyName: string;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "about-us".
- */
-export interface AboutUs {
-  id: number;
-  subtitle?: string | null;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1354,17 +1348,7 @@ export interface AboutUs {
 export interface SiteConfigSelect<T extends boolean = true> {
   font?: T;
   agencyName?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "about-us_select".
- */
-export interface AboutUsSelect<T extends boolean = true> {
-  subtitle?: T;
-  content?: T;
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

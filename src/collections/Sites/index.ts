@@ -1,7 +1,13 @@
 import type { CollectionConfig } from 'payload'
 import { adminOrAnySite } from '@/access/adminOrSite'
 import { admin } from '@/access/admin'
-import { createSiteBot, createManager, saveInfoToS3, beforeDeleteHook } from './hooks'
+import {
+  createSiteSinglePages,
+  createSiteBot,
+  createManager,
+  saveInfoToS3,
+  beforeDeleteHook,
+} from './hooks'
 
 export const Sites: CollectionConfig = {
   slug: 'sites',
@@ -15,20 +21,20 @@ export const Sites: CollectionConfig = {
     defaultColumns: ['name', 'updatedAt', 'createdAt'],
     useAsTitle: 'name',
     hidden: ({ user }) => !user?.isAdmin,
-    group: 'Sites'
+    group: 'Sites',
   },
   fields: [
     {
       name: 'name',
       type: 'text',
       required: true,
-      unique: true
+      unique: true,
     },
     {
       name: 'initialManagerEmail',
       type: 'email',
       required: true,
-      defaultValue: 'placeholder@agency.gov'  // provided for migrations
+      defaultValue: 'placeholder@agency.gov', // provided for migrations
     },
     {
       name: 'pagesOrg',
@@ -39,22 +45,22 @@ export const Sites: CollectionConfig = {
       name: 'pagesSiteId',
       type: 'number',
       admin: {
-        readOnly: true
-      }
+        readOnly: true,
+      },
     },
     {
       name: 'orgId',
       type: 'number',
       admin: {
-        readOnly: true
-      }
+        readOnly: true,
+      },
     },
     {
       name: 'bucket',
       type: 'text',
       admin: {
-        readOnly: true
-      }
+        readOnly: true,
+      },
     },
     {
       name: 'users',
@@ -64,8 +70,8 @@ export const Sites: CollectionConfig = {
     },
   ],
   hooks: {
-    afterChange: [createSiteBot, createManager, saveInfoToS3],
-    beforeDelete: [beforeDeleteHook]
+    afterChange: [createSiteSinglePages, createSiteBot, createManager, saveInfoToS3],
+    beforeDelete: [beforeDeleteHook],
   },
   timestamps: true,
 }
