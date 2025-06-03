@@ -1,23 +1,26 @@
 import type { GlobalConfig } from 'payload'
+import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 
 export const SiteConfig: GlobalConfig = {
   slug: 'site-config',
   access: {
-    read: () => true,
+    read: getAdminOrSiteUserGlobals(['manager', 'user', 'bot']),
+    update: getAdminOrSiteUserGlobals(),
+    readVersions: getAdminOrSiteUserGlobals(),
   },
   admin: {
-    group: 'Information'
+    group: 'Information',
   },
   fields: [
     {
-        name: 'font',
-        type: 'text'
+      name: 'font',
+      type: 'text',
     },
     {
       name: 'agencyName',
       type: 'text',
       required: true,
-      defaultValue: 'Agency Name'
-    }
+      defaultValue: 'Agency Name',
+    },
   ],
 }

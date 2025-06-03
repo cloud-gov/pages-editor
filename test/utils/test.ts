@@ -2,6 +2,7 @@ import { test as vitest } from 'vitest'
 import { v4 as uuid } from 'uuid'
 import type { LocalTestContext } from './context.types'
 import { create, find } from './localHelpers'
+import { singlePageNames } from '@/utilities/generateSinglePages'
 
 export const test = vitest.extend<LocalTestContext>({
   tid: async ({ payload }, use) => {
@@ -54,8 +55,7 @@ export const test = vitest.extend<LocalTestContext>({
             site,
           },
         })
-      }
-    )
+      }),
     )
     await use(categories)
   },
@@ -110,13 +110,33 @@ export const test = vitest.extend<LocalTestContext>({
           collection: 'reports',
           data: {
             title: `${site.name} Title`,
-            subtitle: `${site.name} Subtitle`,
             site,
           },
         })
       }),
     )
     await use(reports)
+  },
+  pages: async ({ payload, tid, sites }, use) => {
+    const pages = await Promise.all(
+      sites.map(async (site) => {
+        return Promise.all(
+          singlePageNames.map(async (name) => {
+            return create(payload, tid, {
+              collection: 'pages',
+              data: {
+                title: `${name}`,
+                slug: name,
+                site,
+                label: `${name}`,
+              },
+            })
+          }),
+        )
+      }),
+    )
+
+    await use(pages.flat())
   },
   users: async ({ payload, tid, sites }, use) => {
     // site creation creates bot users & managers, find them and include them

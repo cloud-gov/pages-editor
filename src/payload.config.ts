@@ -13,9 +13,9 @@ import { News } from './collections/News'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { Reports } from './collections/Reports'
+import { Pages } from './collections/Pages'
 import { Sites } from './collections/Sites'
 import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
-import { AboutUs as AboutUsConfig } from './globals/AboutUs'
 import { plugins } from './plugins'
 import endpoints from './endpoints'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -24,9 +24,7 @@ import { createSiteGlobal } from './utilities/siteGlobal'
 import { afterSchemaInit } from './utilities/cascade'
 import { migrations } from './migrations'
 
-
-const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig);
-const [AboutUs, AboutUsCollection] = createSiteGlobal(AboutUsConfig)
+const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -78,12 +76,21 @@ const config = {
     afterSchemaInit,
     prodMigrations: migrations,
   }),
-  collections: [Posts, Events, News, Media, Reports, Categories, Users, Sites, SiteConfigCollection, AboutUsCollection],
-  cors: [getServerSideURL()].filter(Boolean),
-  globals: [SiteConfig, AboutUs],
-  plugins: [
-    ...plugins,
+  collections: [
+    Posts,
+    Events,
+    News,
+    Media,
+    Reports,
+    Pages,
+    Categories,
+    Users,
+    Sites,
+    SiteConfigCollection,
   ],
+  cors: [getServerSideURL()].filter(Boolean),
+  globals: [SiteConfig],
+  plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   telemetry: false,
@@ -103,11 +110,12 @@ const config = {
         ]
         jsonSchema.definitions.users.required = [
           ...jsonSchema.definitions.users.required,
-          'sub', 'selectedSiteId',
+          'sub',
+          'selectedSiteId',
         ]
         return jsonSchema
       },
-    ]
+    ],
   },
   endpoints,
 }

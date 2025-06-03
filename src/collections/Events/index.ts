@@ -3,7 +3,6 @@ import type { CollectionConfig } from 'payload'
 import { previewWebhook } from '@/utilities/previews'
 import { siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
-import { adminField } from '@/access/admin'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { publish } from '@/hooks/publish'
@@ -121,10 +120,6 @@ export const Events: CollectionConfig<'events'> = {
       type: 'checkbox',
       defaultValue: false,
     },
-    // {
-    //   name: 'attachments',
-    //   type: 'upload'
-    // }
   ],
   hooks: {
     afterChange: [previewWebhook, publish],
