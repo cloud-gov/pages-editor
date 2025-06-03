@@ -72,7 +72,7 @@ export interface Config {
     news: News;
     media: Media;
     reports: Report;
-    singlepages: Singlepage;
+    pages: Page;
     categories: Category;
     sites: Site;
     'site-config-site-collection': SiteConfigSiteCollection;
@@ -96,7 +96,7 @@ export interface Config {
     news: NewsSelect<false> | NewsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     reports: ReportsSelect<false> | ReportsSelect<true>;
-    singlepages: SinglepagesSelect<false> | SinglepagesSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
@@ -441,9 +441,9 @@ export interface Category {
  * Manage single pages that are shown in the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "singlepages".
+ * via the `definition` "pages".
  */
-export interface Singlepage {
+export interface Page {
   id: number;
   title: string;
   slug?: string | null;
@@ -756,8 +756,8 @@ export interface PayloadLockedDocument {
         value: number | Report;
       } | null)
     | ({
-        relationTo: 'singlepages';
-        value: number | Singlepage;
+        relationTo: 'pages';
+        value: number | Page;
       } | null)
     | ({
         relationTo: 'categories';
@@ -1019,9 +1019,9 @@ export interface ReportsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "singlepages_select".
+ * via the `definition` "pages_select".
  */
-export interface SinglepagesSelect<T extends boolean = true> {
+export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   slugLock?: T;

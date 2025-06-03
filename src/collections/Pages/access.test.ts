@@ -3,37 +3,37 @@ import { create, find, findByID, update, del, setUserSite } from '@test/utils/lo
 import { test } from '@test/utils/test'
 import { siteIdHelper } from '@/utilities/idHelper'
 import { isAccessError, notFoundError } from '@test/utils/errors'
-import { Singlepage } from '@/payload-types'
+import { Page } from '@/payload-types'
 
-describe('SinglePages access', () => {
+describe('Pages access', () => {
   describe('admins can...', async () => {
     test.scoped({ defaultUserAdmin: true })
 
-    test('read all SinglePages', async ({ tid, testUser, singlePages }) => {
+    test('read all Pages', async ({ tid, testUser, pages }) => {
       const result = await find(
         payload,
         tid,
         {
-          collection: 'singlepages',
+          collection: 'pages',
           limit: 20,
         },
         testUser,
       )
 
-      expect(result.docs).toHaveLength(singlePages.length)
+      expect(result.docs).toHaveLength(pages.length)
     })
 
-    test('write a Singlepage to any site', async ({ tid, testUser, sites }) => {
+    test('write a Page to any site', async ({ tid, testUser, sites }) => {
       const result = await Promise.all(
         sites.map(async (site) => {
           return create(
             payload,
             tid,
             {
-              collection: 'singlepages',
+              collection: 'pages',
               data: {
-                title: `${site.name} - Single Page`,
-                label: `${site.name} - Single Page Label`,
+                title: `${site.name} - Page`,
+                label: `${site.name} - Page Label`,
                 site,
               },
             },
@@ -45,14 +45,14 @@ describe('SinglePages access', () => {
       expect(result).toHaveLength(sites.length)
     })
 
-    test('update any Singlepage', async ({ tid, testUser, singlePages }) => {
+    test('update any Page', async ({ tid, testUser, pages }) => {
       const result = await Promise.all(
-        singlePages.map(async (item) => {
+        pages.map(async (item) => {
           return update(
             payload,
             tid,
             {
-              collection: 'singlepages',
+              collection: 'pages',
               id: item.id,
               data: {
                 title: `${item.title} (Edited)`,
@@ -68,14 +68,14 @@ describe('SinglePages access', () => {
       })
     })
 
-    test('delete any Singlepage', async ({ tid, testUser, singlePages }) => {
+    test('delete any Page', async ({ tid, testUser, pages }) => {
       await Promise.all(
-        singlePages.map(async (item) => {
+        pages.map(async (item) => {
           return del(
             payload,
             tid,
             {
-              collection: 'singlepages',
+              collection: 'pages',
               id: item.id,
             },
             testUser,
@@ -84,7 +84,7 @@ describe('SinglePages access', () => {
       )
 
       const result = await find(payload, tid, {
-        collection: 'singlepages',
+        collection: 'pages',
       })
       expect(result.docs.length).toBe(0)
     })
@@ -94,19 +94,19 @@ describe('SinglePages access', () => {
     // TODO: this is a bug in https://github.com/vitest-dev/vitest/pull/7233
     test.scoped({ defaultUserAdmin: false })
 
-    test('read their SinglePages', async ({ tid, testUser, singlePages }) => {
+    test('read their Pages', async ({ tid, testUser, pages }) => {
       const siteId = testUser.selectedSiteId
 
       const result = await find(
         payload,
         tid,
         {
-          collection: 'singlepages',
+          collection: 'pages',
         },
         testUser,
       )
 
-      const expectedEvents = singlePages.filter((item) => siteIdHelper(item.site) === siteId)
+      const expectedEvents = pages.filter((item) => siteIdHelper(item.site) === siteId)
 
       expect(result.docs).toHaveLength(expectedEvents.length)
       result.docs.forEach((item) => {
@@ -114,10 +114,10 @@ describe('SinglePages access', () => {
       })
     })
 
-    test('not read not-their SinglePages', async ({ tid, testUser, singlePages }) => {
+    test('not read not-their Pages', async ({ tid, testUser, pages }) => {
       const siteId = testUser.selectedSiteId
 
-      const notTheirResult = singlePages.filter((item) => siteIdHelper(item.site) !== siteId)
+      const notTheirResult = pages.filter((item) => siteIdHelper(item.site) !== siteId)
 
       await Promise.all(
         notTheirResult.map(async (item) => {
@@ -126,7 +126,7 @@ describe('SinglePages access', () => {
               payload,
               tid,
               {
-                collection: 'singlepages',
+                collection: 'pages',
                 id: item.id,
               },
               testUser,
@@ -136,7 +136,7 @@ describe('SinglePages access', () => {
       )
     })
 
-    test('not write a Singlepage to their site', async ({ tid, testUser }) => {
+    test('not write a Page to their site', async ({ tid, testUser }) => {
       const siteId = testUser.selectedSiteId
 
       await isAccessError(
@@ -144,10 +144,10 @@ describe('SinglePages access', () => {
           payload,
           tid,
           {
-            collection: 'singlepages',
+            collection: 'pages',
             data: {
-              title: `Singlepage Title - ${siteId}`,
-              label: `Singlepage Label - ${siteId}`,
+              title: `Page Title - ${siteId}`,
+              label: `Page Label - ${siteId}`,
               site: siteId,
             },
           },
@@ -156,7 +156,7 @@ describe('SinglePages access', () => {
       )
     })
 
-    test('not write a Singlepage to not-their site', async ({ tid, testUser, sites }) => {
+    test('not write a Page to not-their site', async ({ tid, testUser, sites }) => {
       const siteId = testUser.selectedSiteId
 
       const notTheirSites = sites.filter((site) => site.id !== siteId)
@@ -168,7 +168,7 @@ describe('SinglePages access', () => {
               payload,
               tid,
               {
-                collection: 'singlepages',
+                collection: 'pages',
                 data: {
                   title: `${site.name} - Title`,
                   label: `${site.name} - Label`,
@@ -182,10 +182,10 @@ describe('SinglePages access', () => {
       )
     })
 
-    test('not update their SinglePages title', async ({ tid, testUser, singlePages }) => {
+    test('not update their Pages title', async ({ tid, testUser, pages }) => {
       const siteId = testUser.selectedSiteId
 
-      const theirResults = singlePages.filter((item) => siteIdHelper(item.site) === siteId)
+      const theirResults = pages.filter((item) => siteIdHelper(item.site) === siteId)
       const theirTitles = theirResults.map((item) => item.title)
 
       const newResults = await Promise.all(
@@ -194,7 +194,7 @@ describe('SinglePages access', () => {
             payload,
             tid,
             {
-              collection: 'singlepages',
+              collection: 'pages',
               id: item.id,
               data: {
                 title: `${item.title} (Edited)`,
@@ -210,10 +210,10 @@ describe('SinglePages access', () => {
       })
     })
 
-    test('update their SinglePages subtitle', async ({ tid, testUser, singlePages }) => {
+    test('update their Pages subtitle', async ({ tid, testUser, pages }) => {
       const siteId = testUser.selectedSiteId
 
-      const theirResults = singlePages.filter((item) => siteIdHelper(item.site) === siteId)
+      const theirResults = pages.filter((item) => siteIdHelper(item.site) === siteId)
 
       const newResults = await Promise.all(
         theirResults.map(async (item) => {
@@ -221,7 +221,7 @@ describe('SinglePages access', () => {
             payload,
             tid,
             {
-              collection: 'singlepages',
+              collection: 'pages',
               id: item.id,
               data: {
                 subtitle: `${item.subtitle} (Edited)`,
@@ -237,10 +237,10 @@ describe('SinglePages access', () => {
       })
     })
 
-    test('not update not-their SinglePages', async ({ tid, testUser, singlePages }) => {
+    test('not update not-their Pages', async ({ tid, testUser, pages }) => {
       const siteId = testUser.selectedSiteId
 
-      const notTheirResult = singlePages.filter((item) => siteIdHelper(item.site) !== siteId)
+      const notTheirResult = pages.filter((item) => siteIdHelper(item.site) !== siteId)
 
       await Promise.all(
         notTheirResult.map(async (item) => {
@@ -249,7 +249,7 @@ describe('SinglePages access', () => {
               payload,
               tid,
               {
-                collection: 'singlepages',
+                collection: 'pages',
                 id: item.id,
                 data: {
                   title: `${item.title} (Edited)`,
@@ -262,10 +262,10 @@ describe('SinglePages access', () => {
       )
     })
 
-    test('not delete their SinglePages', async ({ tid, testUser, singlePages }) => {
+    test('not delete their Pages', async ({ tid, testUser, pages }) => {
       const siteId = testUser.selectedSiteId
 
-      const theirEvents = singlePages.filter((item) => siteIdHelper(item.site) === siteId)
+      const theirEvents = pages.filter((item) => siteIdHelper(item.site) === siteId)
 
       await Promise.all(
         theirEvents.map((item) => {
@@ -274,7 +274,7 @@ describe('SinglePages access', () => {
               payload,
               tid,
               {
-                collection: 'singlepages',
+                collection: 'pages',
                 id: item.id,
               },
               testUser,
@@ -284,10 +284,10 @@ describe('SinglePages access', () => {
       )
     })
 
-    test('not delete not-their SinglePages', async ({ tid, testUser, singlePages }) => {
+    test('not delete not-their Pages', async ({ tid, testUser, pages }) => {
       const siteId = testUser.selectedSiteId
 
-      const notTheirResult = singlePages.filter((item) => siteIdHelper(item.site) !== siteId)
+      const notTheirResult = pages.filter((item) => siteIdHelper(item.site) !== siteId)
 
       await Promise.all(
         notTheirResult.map(async (item) => {
@@ -296,7 +296,7 @@ describe('SinglePages access', () => {
               payload,
               tid,
               {
-                collection: 'singlepages',
+                collection: 'pages',
                 id: item.id,
               },
               testUser,
@@ -320,10 +320,10 @@ describe('SinglePages access', () => {
       })
     }
 
-    test('read all their SinglePages, upon site selection', async ({
+    test('read all their Pages, upon site selection', async ({
       tid,
       testUser,
-      singlePages,
+      pages,
       sites,
     }) => {
       testUser = await addSiteToUser(testUser, tid, { site: sites[1], role: 'user' })
@@ -333,12 +333,12 @@ describe('SinglePages access', () => {
         payload,
         tid,
         {
-          collection: 'singlepages',
+          collection: 'pages',
         },
         testUser,
       )
 
-      let result = singlePages.filter((item) => siteIdHelper(item.site) === siteId)
+      let result = pages.filter((item) => siteIdHelper(item.site) === siteId)
 
       expect(foundResult.docs).toHaveLength(result.length)
       foundResult.docs.forEach((item) => {
@@ -353,12 +353,12 @@ describe('SinglePages access', () => {
         payload,
         tid,
         {
-          collection: 'singlepages',
+          collection: 'pages',
         },
         testUser,
       )
 
-      result = singlePages.filter((item) => siteIdHelper(item.site) === newSiteId)
+      result = pages.filter((item) => siteIdHelper(item.site) === newSiteId)
 
       expect(foundResult.docs).toHaveLength(result.length)
       foundResult.docs.forEach((item) => {
@@ -366,7 +366,7 @@ describe('SinglePages access', () => {
       })
     })
 
-    test('not create a Singlepage for all their sites, upon site selection', async ({
+    test('not create a Page for all their sites, upon site selection', async ({
       tid,
       testUser,
       sites,
@@ -379,10 +379,10 @@ describe('SinglePages access', () => {
           payload,
           tid,
           {
-            collection: 'singlepages',
+            collection: 'pages',
             data: {
-              title: `Singlepage Title - ${siteId}`,
-              label: `Singlepage Label - ${siteId}`,
+              title: `Page Title - ${siteId}`,
+              label: `Page Label - ${siteId}`,
               site: siteId,
             },
           },
@@ -395,19 +395,19 @@ describe('SinglePages access', () => {
   describe('bots can...', async () => {
     test.scoped({ defaultUserAdmin: false, defaultUserRole: 'bot' })
 
-    test('read their SinglePages', async ({ tid, testUser, singlePages }) => {
+    test('read their Pages', async ({ tid, testUser, pages }) => {
       const siteId = testUser.selectedSiteId
 
       const foundResult = await find(
         payload,
         tid,
         {
-          collection: 'singlepages',
+          collection: 'pages',
         },
         testUser,
       )
 
-      const expected = singlePages.filter((item) => siteIdHelper(item.site) === siteId)
+      const expected = pages.filter((item) => siteIdHelper(item.site) === siteId)
 
       expect(foundResult.docs).toHaveLength(expected.length)
       foundResult.docs.forEach((event) => {
@@ -415,10 +415,10 @@ describe('SinglePages access', () => {
       })
     })
 
-    test('not read not-their SinglePages', async ({ tid, testUser, singlePages }) => {
+    test('not read not-their Pages', async ({ tid, testUser, pages }) => {
       const siteId = testUser.selectedSiteId
 
-      const notTheirResult = singlePages.filter((item) => siteIdHelper(item.site) !== siteId)
+      const notTheirResult = pages.filter((item) => siteIdHelper(item.site) !== siteId)
 
       await Promise.all(
         notTheirResult.map(async (item) => {
@@ -427,7 +427,7 @@ describe('SinglePages access', () => {
               payload,
               tid,
               {
-                collection: 'singlepages',
+                collection: 'pages',
                 id: item.id,
               },
               testUser,
@@ -437,7 +437,7 @@ describe('SinglePages access', () => {
       )
     })
 
-    test('not write a Singlepage', async ({ tid, testUser, sites }) => {
+    test('not write a Page', async ({ tid, testUser, sites }) => {
       await Promise.all(
         sites.map(async (site) => {
           return isAccessError(
@@ -445,7 +445,7 @@ describe('SinglePages access', () => {
               payload,
               tid,
               {
-                collection: 'singlepages',
+                collection: 'pages',
                 data: {
                   title: `${site.name} - Title`,
                   label: `${site.name} - Label`,
@@ -459,15 +459,15 @@ describe('SinglePages access', () => {
       )
     })
 
-    test('not update SinglePages', async ({ tid, testUser, singlePages }) => {
+    test('not update Pages', async ({ tid, testUser, pages }) => {
       await Promise.all(
-        singlePages.map(async (item) => {
+        pages.map(async (item) => {
           return isAccessError(
             update(
               payload,
               tid,
               {
-                collection: 'singlepages',
+                collection: 'pages',
                 id: item.id,
                 data: {
                   title: `${item.title} (Edited)`,
@@ -480,15 +480,15 @@ describe('SinglePages access', () => {
       )
     })
 
-    test('not delete SinglePages', async ({ tid, testUser, singlePages }) => {
+    test('not delete Pages', async ({ tid, testUser, pages }) => {
       await Promise.all(
-        singlePages.map(async (item) => {
+        pages.map(async (item) => {
           return isAccessError(
             del(
               payload,
               tid,
               {
-                collection: 'singlepages',
+                collection: 'pages',
                 id: item.id,
               },
               testUser,

@@ -8,13 +8,13 @@ import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
 import { siteField } from '@/fields/relationships'
 
-export const SinglePages: CollectionConfig<'singlepages'> = {
-  slug: 'singlepages',
+export const Pages: CollectionConfig<'pages'> = {
+  slug: 'pages',
   access: {
     create: getAdmin,
     delete: getAdmin,
-    read: getAdminOrSiteUser('singlepages', ['manager', 'user', 'bot']),
-    update: getAdminOrSiteUser('singlepages'),
+    read: getAdminOrSiteUser('pages', ['manager', 'user', 'bot']),
+    update: getAdminOrSiteUser('pages'),
   },
   defaultPopulate: {
     title: true,
@@ -40,7 +40,7 @@ export const SinglePages: CollectionConfig<'singlepages'> = {
     },
     useAsTitle: 'title',
     hideAPIURL: true,
-    group: 'AdHoc Pages',
+    group: 'Individual Pages',
   },
   fields: [
     {

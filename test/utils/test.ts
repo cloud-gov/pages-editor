@@ -117,13 +117,13 @@ export const test = vitest.extend<LocalTestContext>({
     )
     await use(reports)
   },
-  singlePages: async ({ payload, tid, sites }, use) => {
-    const singlePages = await Promise.all(
+  pages: async ({ payload, tid, sites }, use) => {
+    const pages = await Promise.all(
       sites.map(async (site) => {
         return Promise.all(
           singlePageNames.map(async (name) => {
             return create(payload, tid, {
-              collection: 'singlepages',
+              collection: 'pages',
               data: {
                 title: `${name}`,
                 slug: name,
@@ -136,7 +136,7 @@ export const test = vitest.extend<LocalTestContext>({
       }),
     )
 
-    await use(singlePages.flat())
+    await use(pages.flat())
   },
   users: async ({ payload, tid, sites }, use) => {
     // site creation creates bot users & managers, find them and include them

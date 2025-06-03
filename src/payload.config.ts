@@ -13,7 +13,7 @@ import { News } from './collections/News'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { Reports } from './collections/Reports'
-import { SinglePages } from './collections/SinglePages'
+import { Pages } from './collections/Pages'
 import { Sites } from './collections/Sites'
 import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
 import { plugins } from './plugins'
@@ -82,7 +82,7 @@ const config = {
     News,
     Media,
     Reports,
-    SinglePages,
+    Pages,
     Categories,
     Users,
     Sites,
