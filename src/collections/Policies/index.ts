@@ -2,19 +2,19 @@ import type { CollectionConfig } from 'payload'
 
 import { previewWebhook } from '@/utilities/previews'
 import { slugField } from '@/fields/slug'
-import { getAdminOrSiteUser } from '@/access/adminOrSite'
+import { getAdminOrSiteUser, getAdmin } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
 import { siteField } from '@/fields/relationships'
 
-export const News: CollectionConfig<'news'> = {
-  slug: 'news',
+export const Policies: CollectionConfig<'policies'> = {
+  slug: 'policies',
   access: {
-    create: getAdminOrSiteUser('news'),
-    delete: getAdminOrSiteUser('news'),
-    read: getAdminOrSiteUser('news', ['manager', 'user', 'bot']),
-    update: getAdminOrSiteUser('news'),
+    create: getAdmin,
+    delete: getAdmin,
+    read: getAdminOrSiteUser('policies', ['manager', 'user', 'bot']),
+    update: getAdminOrSiteUser('policies'),
   },
   defaultPopulate: {
     title: true,
@@ -22,7 +22,8 @@ export const News: CollectionConfig<'news'> = {
   },
   defaultSort: '-reviewReady',
   admin: {
-    defaultColumns: ['title', 'reviewReady', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'reviewReady', 'updatedAt'],
+    description: 'Manage policies that are shown in the site.',
     livePreview: {
       url: async ({ data, req }) => {
         // site isn't fetched at the necessary depth in `data`
@@ -30,21 +31,42 @@ export const News: CollectionConfig<'news'> = {
           collection: 'sites',
           id: data.site,
         })
-        return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/news/${data.slug}`
+        return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/${data.path}`
       },
     },
     preview: (data) => {
       // TODO: fix per above
-      return `${process.env.PREVIEW_URL}/news/${data.slug}`
+      return `${process.env.PREVIEW_URL}/${data.path}`
     },
     useAsTitle: 'title',
     hideAPIURL: true,
+    group: 'Individual Pages',
   },
   fields: [
     {
       name: 'title',
       type: 'text',
       required: true,
+      access: {
+        read: () => true,
+        update: getAdmin,
+      },
+    },
+    ...slugField(),
+    {
+      name: 'subtitle',
+      type: 'text',
+    },
+    {
+      name: 'label',
+      label: 'Used in navigation',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
     },
     {
       name: 'content',
@@ -78,7 +100,6 @@ export const News: CollectionConfig<'news'> = {
         ],
       },
     },
-    ...slugField(),
   ],
   hooks: {
     afterChange: [previewWebhook, publish],

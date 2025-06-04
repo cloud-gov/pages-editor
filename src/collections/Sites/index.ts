@@ -2,11 +2,12 @@ import type { CollectionConfig } from 'payload'
 import { adminOrAnySite } from '@/access/adminOrSite'
 import { admin } from '@/access/admin'
 import {
-  createSiteSinglePages,
-  createSiteBot,
-  createManager,
-  saveInfoToS3,
   beforeDeleteHook,
+  createManager,
+  createSiteBot,
+  createSiteSinglePolicies,
+  createSiteSinglePages,
+  saveInfoToS3,
 } from './hooks'
 
 export const Sites: CollectionConfig = {
@@ -70,7 +71,13 @@ export const Sites: CollectionConfig = {
     },
   ],
   hooks: {
-    afterChange: [createSiteSinglePages, createSiteBot, createManager, saveInfoToS3],
+    afterChange: [
+      createManager,
+      createSiteBot,
+      createSiteSinglePolicies,
+      createSiteSinglePages,
+      saveInfoToS3,
+    ],
     beforeDelete: [beforeDeleteHook],
   },
   timestamps: true,

@@ -9,7 +9,7 @@ import {
 } from '@aws-sdk/client-s3'
 
 import { encryptObjectValues } from '@/utilities/encryptor'
-import { generateSinglePages } from '@/utilities/generateSinglePages'
+import { generatePolicies, generateSinglePages } from '@/utilities/generateRecords'
 
 export const createSiteBot: CollectionAfterChangeHook<Site> = async ({ doc, req, operation }) => {
   const { payload } = req
@@ -81,13 +81,31 @@ export const createManager: CollectionAfterChangeHook<Site> = async ({ doc, req,
   return doc
 }
 
+export const createSiteSinglePolicies: CollectionAfterChangeHook<Site> = async ({
+  doc,
+  req,
+  operation,
+}) => {
+  const { payload, transactionID } = req
+  if (operation === 'create' && transactionID) {
+    const generate = generatePolicies(payload, transactionID)
+
+    try {
+      await generate(doc.id)
+    } catch (error) {
+      console.error('Error generating policy pages:', error)
+      throw error
+    }
+  }
+}
+
 export const createSiteSinglePages: CollectionAfterChangeHook<Site> = async ({
   doc,
   req,
   operation,
 }) => {
   const { payload, transactionID } = req
-  if (operation === 'create' && process.env.NODE_ENV !== 'test' && transactionID) {
+  if (operation === 'create' && transactionID) {
     const generate = generateSinglePages(payload, transactionID)
 
     try {
