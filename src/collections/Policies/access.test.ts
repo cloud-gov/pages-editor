@@ -4,35 +4,35 @@ import { test } from '@test/utils/test'
 import { siteIdHelper } from '@/utilities/idHelper'
 import { isAccessError, notFoundError } from '@test/utils/errors'
 
-describe('Pages access', () => {
+describe('Policies access', () => {
   describe('admins can...', async () => {
     test.scoped({ defaultUserAdmin: true })
 
-    test('read all Pages', async ({ tid, testUser, pages }) => {
+    test('read all Policies', async ({ tid, testUser, policies }) => {
       const result = await find(
         payload,
         tid,
         {
-          collection: 'pages',
+          collection: 'policies',
           limit: 20,
         },
         testUser,
       )
 
-      expect(result.docs).toHaveLength(pages.length)
+      expect(result.docs).toHaveLength(policies.length)
     })
 
-    test('write a Page to any site', async ({ tid, testUser, sites }) => {
+    test('write a Policy to any site', async ({ tid, testUser, sites }) => {
       const result = await Promise.all(
         sites.map(async (site) => {
           return create(
             payload,
             tid,
             {
-              collection: 'pages',
+              collection: 'policies',
               data: {
-                title: `${site.name} - Page`,
-                label: `${site.name} - Page Label`,
+                title: `${site.name} - Policy`,
+                label: `${site.name} - Policy Label`,
                 site,
               },
             },
@@ -44,14 +44,14 @@ describe('Pages access', () => {
       expect(result).toHaveLength(sites.length)
     })
 
-    test('update any Page', async ({ tid, testUser, pages }) => {
+    test('update any Policy', async ({ tid, testUser, policies }) => {
       const result = await Promise.all(
-        pages.map(async (item) => {
+        policies.map(async (item) => {
           return update(
             payload,
             tid,
             {
-              collection: 'pages',
+              collection: 'policies',
               id: item.id,
               data: {
                 title: `${item.title} (Edited)`,
@@ -67,14 +67,14 @@ describe('Pages access', () => {
       })
     })
 
-    test('delete any Page', async ({ tid, testUser, pages }) => {
+    test('delete any Policy', async ({ tid, testUser, policies }) => {
       await Promise.all(
-        pages.map(async (item) => {
+        policies.map(async (item) => {
           return del(
             payload,
             tid,
             {
-              collection: 'pages',
+              collection: 'policies',
               id: item.id,
             },
             testUser,
@@ -83,7 +83,7 @@ describe('Pages access', () => {
       )
 
       const result = await find(payload, tid, {
-        collection: 'pages',
+        collection: 'policies',
       })
       expect(result.docs.length).toBe(0)
     })
@@ -93,19 +93,19 @@ describe('Pages access', () => {
     // TODO: this is a bug in https://github.com/vitest-dev/vitest/pull/7233
     test.scoped({ defaultUserAdmin: false })
 
-    test('read their Pages', async ({ tid, testUser, pages }) => {
+    test('read their Policies', async ({ tid, testUser, policies }) => {
       const siteId = testUser.selectedSiteId
 
       const result = await find(
         payload,
         tid,
         {
-          collection: 'pages',
+          collection: 'policies',
         },
         testUser,
       )
 
-      const expectedEvents = pages.filter((item) => siteIdHelper(item.site) === siteId)
+      const expectedEvents = policies.filter((item) => siteIdHelper(item.site) === siteId)
 
       expect(result.docs).toHaveLength(expectedEvents.length)
       result.docs.forEach((item) => {
@@ -113,10 +113,10 @@ describe('Pages access', () => {
       })
     })
 
-    test('not read not-their Pages', async ({ tid, testUser, pages }) => {
+    test('not read not-their Policies', async ({ tid, testUser, policies }) => {
       const siteId = testUser.selectedSiteId
 
-      const notTheirResult = pages.filter((item) => siteIdHelper(item.site) !== siteId)
+      const notTheirResult = policies.filter((item) => siteIdHelper(item.site) !== siteId)
 
       await Promise.all(
         notTheirResult.map(async (item) => {
@@ -125,7 +125,7 @@ describe('Pages access', () => {
               payload,
               tid,
               {
-                collection: 'pages',
+                collection: 'policies',
                 id: item.id,
               },
               testUser,
@@ -135,7 +135,7 @@ describe('Pages access', () => {
       )
     })
 
-    test('not write a Page to their site', async ({ tid, testUser }) => {
+    test('not write a Policy to their site', async ({ tid, testUser }) => {
       const siteId = testUser.selectedSiteId
 
       await isAccessError(
@@ -143,10 +143,10 @@ describe('Pages access', () => {
           payload,
           tid,
           {
-            collection: 'pages',
+            collection: 'policies',
             data: {
-              title: `Page Title - ${siteId}`,
-              label: `Page Label - ${siteId}`,
+              title: `Policy Title - ${siteId}`,
+              label: `Policy Label - ${siteId}`,
               site: siteId,
             },
           },
@@ -155,7 +155,7 @@ describe('Pages access', () => {
       )
     })
 
-    test('not write a Page to not-their site', async ({ tid, testUser, sites }) => {
+    test('not write a Policy to not-their site', async ({ tid, testUser, sites }) => {
       const siteId = testUser.selectedSiteId
 
       const notTheirSites = sites.filter((site) => site.id !== siteId)
@@ -167,7 +167,7 @@ describe('Pages access', () => {
               payload,
               tid,
               {
-                collection: 'pages',
+                collection: 'policies',
                 data: {
                   title: `${site.name} - Title`,
                   label: `${site.name} - Label`,
@@ -181,10 +181,10 @@ describe('Pages access', () => {
       )
     })
 
-    test('not update their Pages title', async ({ tid, testUser, pages }) => {
+    test('not update their Policies title', async ({ tid, testUser, policies }) => {
       const siteId = testUser.selectedSiteId
 
-      const theirResults = pages.filter((item) => siteIdHelper(item.site) === siteId)
+      const theirResults = policies.filter((item) => siteIdHelper(item.site) === siteId)
       const theirTitles = theirResults.map((item) => item.title)
 
       const newResults = await Promise.all(
@@ -193,7 +193,7 @@ describe('Pages access', () => {
             payload,
             tid,
             {
-              collection: 'pages',
+              collection: 'policies',
               id: item.id,
               data: {
                 title: `${item.title} (Edited)`,
@@ -209,10 +209,10 @@ describe('Pages access', () => {
       })
     })
 
-    test('update their Pages subtitle', async ({ tid, testUser, pages }) => {
+    test('update their Policies subtitle', async ({ tid, testUser, policies }) => {
       const siteId = testUser.selectedSiteId
 
-      const theirResults = pages.filter((item) => siteIdHelper(item.site) === siteId)
+      const theirResults = policies.filter((item) => siteIdHelper(item.site) === siteId)
 
       const newResults = await Promise.all(
         theirResults.map(async (item) => {
@@ -220,7 +220,7 @@ describe('Pages access', () => {
             payload,
             tid,
             {
-              collection: 'pages',
+              collection: 'policies',
               id: item.id,
               data: {
                 subtitle: `${item.subtitle} (Edited)`,
@@ -236,10 +236,10 @@ describe('Pages access', () => {
       })
     })
 
-    test('not update not-their Pages', async ({ tid, testUser, pages }) => {
+    test('not update not-their Policies', async ({ tid, testUser, policies }) => {
       const siteId = testUser.selectedSiteId
 
-      const notTheirResult = pages.filter((item) => siteIdHelper(item.site) !== siteId)
+      const notTheirResult = policies.filter((item) => siteIdHelper(item.site) !== siteId)
 
       await Promise.all(
         notTheirResult.map(async (item) => {
@@ -248,7 +248,7 @@ describe('Pages access', () => {
               payload,
               tid,
               {
-                collection: 'pages',
+                collection: 'policies',
                 id: item.id,
                 data: {
                   title: `${item.title} (Edited)`,
@@ -261,10 +261,10 @@ describe('Pages access', () => {
       )
     })
 
-    test('not delete their Pages', async ({ tid, testUser, pages }) => {
+    test('not delete their Policies', async ({ tid, testUser, policies }) => {
       const siteId = testUser.selectedSiteId
 
-      const theirEvents = pages.filter((item) => siteIdHelper(item.site) === siteId)
+      const theirEvents = policies.filter((item) => siteIdHelper(item.site) === siteId)
 
       await Promise.all(
         theirEvents.map((item) => {
@@ -273,7 +273,7 @@ describe('Pages access', () => {
               payload,
               tid,
               {
-                collection: 'pages',
+                collection: 'policies',
                 id: item.id,
               },
               testUser,
@@ -283,10 +283,10 @@ describe('Pages access', () => {
       )
     })
 
-    test('not delete not-their Pages', async ({ tid, testUser, pages }) => {
+    test('not delete not-their Policies', async ({ tid, testUser, policies }) => {
       const siteId = testUser.selectedSiteId
 
-      const notTheirResult = pages.filter((item) => siteIdHelper(item.site) !== siteId)
+      const notTheirResult = policies.filter((item) => siteIdHelper(item.site) !== siteId)
 
       await Promise.all(
         notTheirResult.map(async (item) => {
@@ -295,7 +295,7 @@ describe('Pages access', () => {
               payload,
               tid,
               {
-                collection: 'pages',
+                collection: 'policies',
                 id: item.id,
               },
               testUser,
@@ -319,10 +319,10 @@ describe('Pages access', () => {
       })
     }
 
-    test('read all their Pages, upon site selection', async ({
+    test('read all their Policies, upon site selection', async ({
       tid,
       testUser,
-      pages,
+      policies,
       sites,
     }) => {
       testUser = await addSiteToUser(testUser, tid, { site: sites[1], role: 'user' })
@@ -332,12 +332,12 @@ describe('Pages access', () => {
         payload,
         tid,
         {
-          collection: 'pages',
+          collection: 'policies',
         },
         testUser,
       )
 
-      let result = pages.filter((item) => siteIdHelper(item.site) === siteId)
+      let result = policies.filter((item) => siteIdHelper(item.site) === siteId)
 
       expect(foundResult.docs).toHaveLength(result.length)
       foundResult.docs.forEach((item) => {
@@ -352,12 +352,12 @@ describe('Pages access', () => {
         payload,
         tid,
         {
-          collection: 'pages',
+          collection: 'policies',
         },
         testUser,
       )
 
-      result = pages.filter((item) => siteIdHelper(item.site) === newSiteId)
+      result = policies.filter((item) => siteIdHelper(item.site) === newSiteId)
 
       expect(foundResult.docs).toHaveLength(result.length)
       foundResult.docs.forEach((item) => {
@@ -365,7 +365,7 @@ describe('Pages access', () => {
       })
     })
 
-    test('not create a Page for all their sites, upon site selection', async ({
+    test('not create a Policy for all their sites, upon site selection', async ({
       tid,
       testUser,
       sites,
@@ -378,10 +378,10 @@ describe('Pages access', () => {
           payload,
           tid,
           {
-            collection: 'pages',
+            collection: 'policies',
             data: {
-              title: `Page Title - ${siteId}`,
-              label: `Page Label - ${siteId}`,
+              title: `Policy Title - ${siteId}`,
+              label: `Policy Label - ${siteId}`,
               site: siteId,
             },
           },
@@ -394,19 +394,19 @@ describe('Pages access', () => {
   describe('bots can...', async () => {
     test.scoped({ defaultUserAdmin: false, defaultUserRole: 'bot' })
 
-    test('read their Pages', async ({ tid, testUser, pages }) => {
+    test('read their Policies', async ({ tid, testUser, policies }) => {
       const siteId = testUser.selectedSiteId
 
       const foundResult = await find(
         payload,
         tid,
         {
-          collection: 'pages',
+          collection: 'policies',
         },
         testUser,
       )
 
-      const expected = pages.filter((item) => siteIdHelper(item.site) === siteId)
+      const expected = policies.filter((item) => siteIdHelper(item.site) === siteId)
 
       expect(foundResult.docs).toHaveLength(expected.length)
       foundResult.docs.forEach((event) => {
@@ -414,10 +414,10 @@ describe('Pages access', () => {
       })
     })
 
-    test('not read not-their Pages', async ({ tid, testUser, pages }) => {
+    test('not read not-their Policies', async ({ tid, testUser, policies }) => {
       const siteId = testUser.selectedSiteId
 
-      const notTheirResult = pages.filter((item) => siteIdHelper(item.site) !== siteId)
+      const notTheirResult = policies.filter((item) => siteIdHelper(item.site) !== siteId)
 
       await Promise.all(
         notTheirResult.map(async (item) => {
@@ -426,7 +426,7 @@ describe('Pages access', () => {
               payload,
               tid,
               {
-                collection: 'pages',
+                collection: 'policies',
                 id: item.id,
               },
               testUser,
@@ -436,7 +436,7 @@ describe('Pages access', () => {
       )
     })
 
-    test('not write a Page', async ({ tid, testUser, sites }) => {
+    test('not write a Policy', async ({ tid, testUser, sites }) => {
       await Promise.all(
         sites.map(async (site) => {
           return isAccessError(
@@ -444,7 +444,7 @@ describe('Pages access', () => {
               payload,
               tid,
               {
-                collection: 'pages',
+                collection: 'policies',
                 data: {
                   title: `${site.name} - Title`,
                   label: `${site.name} - Label`,
@@ -458,15 +458,15 @@ describe('Pages access', () => {
       )
     })
 
-    test('not update Pages', async ({ tid, testUser, pages }) => {
+    test('not update Policies', async ({ tid, testUser, policies }) => {
       await Promise.all(
-        pages.map(async (item) => {
+        policies.map(async (item) => {
           return isAccessError(
             update(
               payload,
               tid,
               {
-                collection: 'pages',
+                collection: 'policies',
                 id: item.id,
                 data: {
                   title: `${item.title} (Edited)`,
@@ -479,15 +479,15 @@ describe('Pages access', () => {
       )
     })
 
-    test('not delete Pages', async ({ tid, testUser, pages }) => {
+    test('not delete Policies', async ({ tid, testUser, policies }) => {
       await Promise.all(
-        pages.map(async (item) => {
+        policies.map(async (item) => {
           return isAccessError(
             del(
               payload,
               tid,
               {
-                collection: 'pages',
+                collection: 'policies',
                 id: item.id,
               },
               testUser,

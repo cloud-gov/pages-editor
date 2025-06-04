@@ -1,4 +1,4 @@
-import { Category, Site, Post, Report, User, Event, Media, News, Page } from '@/payload-types'
+import { Category, Site, Post, Report, User, Event, Media, News, Page, Policy } from '@/payload-types'
 import { BasePayload } from 'payload'
 import type { Role } from '@/access/adminOrSite'
 
@@ -15,6 +15,7 @@ export interface LocalTestContext {
   posts: Post[]
   reports: Report[]
   pages: Page[]
+  policies: Policy[]
   sites: Site[]
   users: User[]
   payload: BasePayload
