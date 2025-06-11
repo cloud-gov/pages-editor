@@ -73,6 +73,7 @@ export interface Config {
     media: Media;
     reports: Report;
     pages: Page;
+    policies: Policy;
     categories: Category;
     sites: Site;
     'site-config-site-collection': SiteConfigSiteCollection;
@@ -97,6 +98,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     reports: ReportsSelect<false> | ReportsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    policies: PoliciesSelect<false> | PoliciesSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
@@ -474,6 +476,39 @@ export interface Page {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Manage policies that are shown in the site.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "policies".
+ */
+export interface Policy {
+  id: number;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  label: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  site: number | Site;
+  reviewReady?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config-site-collection".
  */
@@ -760,6 +795,10 @@ export interface PayloadLockedDocument {
         value: number | Page;
       } | null)
     | ({
+        relationTo: 'policies';
+        value: number | Policy;
+      } | null)
+    | ({
         relationTo: 'categories';
         value: number | Category;
       } | null)
@@ -1032,6 +1071,22 @@ export interface PagesSelect<T extends boolean = true> {
   site?: T;
   reviewReady?: T;
   publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "policies_select".
+ */
+export interface PoliciesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  slugLock?: T;
+  label?: T;
+  content?: T;
+  site?: T;
+  reviewReady?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
