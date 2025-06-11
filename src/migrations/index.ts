@@ -14,6 +14,7 @@ import * as migration_20250522_195910_adjust_reports_scheme from './20250522_195
 import * as migration_20250527_200531_add_single_pages_collection from './20250527_200531_add_single_pages_collection';
 import * as migration_20250603_184955_change_single_pages_collection_to_pages from './20250603_184955_change_single_pages_collection_to_pages';
 import * as migration_20250604_221543_add_policies_collection from './20250604_221543_add_policies_collection';
+import * as migration_20250611_211537_simplify_policies_collection from './20250611_211537_simplify_policies_collection';
 
 export const migrations = [
   {
@@ -94,6 +95,11 @@ export const migrations = [
   {
     up: migration_20250604_221543_add_policies_collection.up,
     down: migration_20250604_221543_add_policies_collection.down,
-    name: '20250604_221543_add_policies_collection'
+    name: '20250604_221543_add_policies_collection',
+  },
+  {
+    up: migration_20250611_211537_simplify_policies_collection.up,
+    down: migration_20250611_211537_simplify_policies_collection.down,
+    name: '20250611_211537_simplify_policies_collection'
   },
 ];

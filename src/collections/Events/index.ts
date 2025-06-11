@@ -6,6 +6,7 @@ import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { publish } from '@/hooks/publish'
+import { completeReview } from '@/hooks/completeReview'
 
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
@@ -19,8 +20,9 @@ export const Events: CollectionConfig<'events'> = {
     title: true,
     slug: true,
   },
+  defaultSort: '-reviewReady',
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'reviewReady', 'updatedAt'],
     livePreview: {
       url: async ({ data, req }) => {
         // site isn't fetched at the necessary depth in `data`
@@ -123,7 +125,7 @@ export const Events: CollectionConfig<'events'> = {
   ],
   hooks: {
     afterChange: [previewWebhook, publish],
-    beforeChange: [addSite],
+    beforeChange: [addSite, completeReview],
   },
   versions: {
     drafts: {

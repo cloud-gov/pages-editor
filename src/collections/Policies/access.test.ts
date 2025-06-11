@@ -209,33 +209,6 @@ describe('Policies access', () => {
       })
     })
 
-    test('update their Policies subtitle', async ({ tid, testUser, policies }) => {
-      const siteId = testUser.selectedSiteId
-
-      const theirResults = policies.filter((item) => siteIdHelper(item.site) === siteId)
-
-      const newResults = await Promise.all(
-        theirResults.map(async (item) => {
-          return update(
-            payload,
-            tid,
-            {
-              collection: 'policies',
-              id: item.id,
-              data: {
-                subtitle: `${item.subtitle} (Edited)`,
-              },
-            },
-            testUser,
-          )
-        }),
-      )
-
-      newResults.forEach((item) => {
-        expect(item.subtitle).toContain('Edited')
-      })
-    })
-
     test('not update not-their Policies', async ({ tid, testUser, policies }) => {
       const siteId = testUser.selectedSiteId
 

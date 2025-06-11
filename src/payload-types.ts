@@ -486,9 +486,7 @@ export interface Policy {
   title: string;
   slug?: string | null;
   slugLock?: boolean | null;
-  subtitle?: string | null;
   label: string;
-  image?: (number | null) | Media;
   content?: {
     root: {
       type: string;
@@ -506,7 +504,6 @@ export interface Policy {
   } | null;
   site: number | Site;
   reviewReady?: boolean | null;
-  publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1086,13 +1083,10 @@ export interface PoliciesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   slugLock?: T;
-  subtitle?: T;
   label?: T;
-  image?: T;
   content?: T;
   site?: T;
   reviewReady?: T;
-  publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

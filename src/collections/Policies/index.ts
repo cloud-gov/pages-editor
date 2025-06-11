@@ -6,6 +6,7 @@ import { getAdminOrSiteUser, getAdmin } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
+import { completeReview } from '@/hooks/completeReview'
 import { siteField } from '@/fields/relationships'
 
 export const Policies: CollectionConfig<'policies'> = {
@@ -54,19 +55,10 @@ export const Policies: CollectionConfig<'policies'> = {
     },
     ...slugField(),
     {
-      name: 'subtitle',
-      type: 'text',
-    },
-    {
       name: 'label',
       label: 'Used in navigation',
       type: 'text',
       required: true,
-    },
-    {
-      name: 'image',
-      type: 'upload',
-      relationTo: 'media',
     },
     {
       name: 'content',
@@ -80,30 +72,10 @@ export const Policies: CollectionConfig<'policies'> = {
       type: 'checkbox',
       defaultValue: false,
     },
-    {
-      name: 'publishedAt',
-      type: 'date',
-      admin: {
-        position: 'sidebar',
-        date: {
-          pickerAppearance: 'dayAndTime',
-        },
-      },
-      hooks: {
-        beforeChange: [
-          ({ siblingData, value }) => {
-            if (siblingData._status === 'published' && !value) {
-              return new Date()
-            }
-            return value
-          },
-        ],
-      },
-    },
   ],
   hooks: {
     afterChange: [previewWebhook, publish],
-    beforeChange: [addSite],
+    beforeChange: [addSite, completeReview],
   },
   versions: {
     drafts: {

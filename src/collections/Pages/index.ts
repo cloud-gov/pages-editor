@@ -7,6 +7,7 @@ import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
 import { siteField } from '@/fields/relationships'
+import { completeReview } from '@/hooks/completeReview'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -103,7 +104,7 @@ export const Pages: CollectionConfig<'pages'> = {
   ],
   hooks: {
     afterChange: [previewWebhook, publish],
-    beforeChange: [addSite],
+    beforeChange: [addSite, completeReview],
   },
   versions: {
     drafts: {

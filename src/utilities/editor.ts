@@ -1,8 +1,6 @@
 // standardize our editor features
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { lexicalEditor, FixedToolbarFeature } from '@payloadcms/richtext-lexical'
 
 export const editor = lexicalEditor({
-        features: ({ defaultFeatures }) => [
-          ...defaultFeatures,
-        ],
-      })
+  features: ({ defaultFeatures }) => [...defaultFeatures, FixedToolbarFeature()],
+})

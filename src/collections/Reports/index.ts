@@ -7,6 +7,7 @@ import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { publish } from '@/hooks/publish'
 import { editor } from '@/utilities/editor'
+import { completeReview } from '@/hooks/completeReview'
 
 export const Reports: CollectionConfig<'reports'> = {
   slug: 'reports',
@@ -120,7 +121,7 @@ export const Reports: CollectionConfig<'reports'> = {
   ],
   hooks: {
     afterChange: [previewWebhook, publish],
-    beforeChange: [addSite],
+    beforeChange: [addSite, completeReview],
   },
   versions: {
     drafts: {

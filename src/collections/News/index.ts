@@ -7,6 +7,7 @@ import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
 import { siteField } from '@/fields/relationships'
+import { completeReview } from '@/hooks/completeReview'
 
 export const News: CollectionConfig<'news'> = {
   slug: 'news',
@@ -82,7 +83,7 @@ export const News: CollectionConfig<'news'> = {
   ],
   hooks: {
     afterChange: [previewWebhook, publish],
-    beforeChange: [addSite],
+    beforeChange: [addSite, completeReview],
   },
   versions: {
     drafts: {
