@@ -11,6 +11,8 @@ import {
 import { encryptObjectValues } from '@/utilities/encryptor'
 import { generatePolicies, generateSinglePages } from '@/utilities/generateRecords'
 
+const BUCKET_PREFIX = `_sites`
+
 export const createSiteBot: CollectionAfterChangeHook<Site> = async ({ doc, req, operation }) => {
   const { payload } = req
   if (operation === 'create') {
@@ -139,7 +141,7 @@ export const saveInfoToS3: CollectionAfterChangeHook<Site> = async ({ doc, req, 
         const client = new S3Client()
         const command = new PutObjectCommand({
           Bucket: process.env.SITE_METADATA_BUCKET,
-          Key: `${doc.name}.json`,
+          Key: `${BUCKET_PREFIX}/${doc.name}.json`,
           Body: JSON.stringify({ ...doc, apiKey: bot.apiKey }),
         })
         await client.send(command)
@@ -193,7 +195,7 @@ export const beforeDeleteHook: CollectionBeforeDeleteHook = async ({ req, id }) 
       const client = new S3Client()
       const command = new DeleteObjectCommand({
         Bucket: process.env.SITE_METADATA_BUCKET,
-        Key: `${site.name}.json`,
+        Key: `${BUCKET_PREFIX}/${site.name}.json`,
       })
       await client.send(command)
     } catch (error) {
