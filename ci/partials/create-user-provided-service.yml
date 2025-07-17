@@ -1,0 +1,20 @@
+platform: linux
+inputs:
+  - name: src
+outputs:
+  - name: src
+
+params:
+  CF_API:
+  CF_ORG:
+  CF_STACK:
+  CF_SPACE:
+  CF_USERNAME:
+  CF_PASSWORD:
+  APP_ENV:
+  SERVICE_NAME:
+  SERVICE_CREDENTIALS:
+
+run:
+  dir: src
+  path: ci/tasks/create-user-provided-service.sh

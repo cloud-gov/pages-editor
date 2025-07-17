@@ -141,6 +141,35 @@ jobs:
         #@ if/end env == 'dev':
         -  #@ pr_hook("success", "deploy-pages-editor")
 
+  - name: create-user-provided-service-pages-bucket-manager
+    plan:
+      - get: weekly-tuesdays-at-7am
+        trigger: true
+      - get: src
+        params:
+          #@ if/end env != 'dev':
+          depth: 1
+          #@ if/end env == 'dev':
+          integration_tool: checkout
+        passed: [set-pipeline]
+      - get: general-task
+      - get: pipeline-tasks
+
+      - task: create-user-provided-service
+        file: src/ci/partials/create-user-provided-service.yml
+        image: general-task
+        params:
+          _: #@ template.replace(data.values.env_cf_editor)
+          APP_ENV: ((deploy-env))
+          SERVICE_NAME: pages-bucket-manager
+          SERVICE_CREDENTIALS: ((pages_bucket_manager))
+    on_failure:
+      in_parallel:
+        -  #@ slack_hook("failure", "create-user-provided-service-pages-bucket-manager")
+    on_success:
+      in_parallel:
+        -  #@ slack_hook("success", "create-user-provided-service-pages-bucket-manager")
+
 #!  RESOURCES
 
 resources:
@@ -177,6 +206,16 @@ resources:
       fetch_tags: true
 
 
+  - name: weekly-tuesdays-at-7am
+    type: time
+    source:
+      interval: 168h
+      location: America/Los_Angeles
+      start: 7:00 AM
+      stop: 7:30 AM
+      days: [Tuesday]
+      initial_version: true
+
   - name: node
   - name: slack
   - name: general-task
@@ -189,5 +228,6 @@ resource_types:
   - name: git
   - name: slack-notification
   - name: registry-image
+  - name: time
   #@ if/end env == 'dev':
   - name: pull-request
