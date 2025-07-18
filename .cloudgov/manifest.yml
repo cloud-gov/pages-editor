@@ -14,6 +14,7 @@ applications:
       - pages-editor-((env))-rds
       - pages-editor-((env))-creds
       - pages-editor-((env))-s3
+      - pages-bucket-manager
     env:
       NODE_ENV: ((node_env))
       APP_ENV: ((env))
