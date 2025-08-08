@@ -1,35 +1,21 @@
 import { Page } from '@/payload-types'
 import { Payload } from 'payload'
-
-export const policyNames = [
-  'Accessibility Statement',
-  'FOIA',
-  'Equal Employment',
-  'External Links',
-  'Privacy Policy',
-  'Vulnerability Disclosure Policy',
-]
+import policies from './datasets/policies'
 
 export const generatePolicies =
   (payload: Payload, tid: string | number | Promise<string | number>) =>
-  async (siteId: number, names: string[] = policyNames): Promise<Page[]> => {
-    const results = new Array<Page>()
+  async (siteId: number): Promise<Page[]> => {
+    const sitePolicies = policies(siteId)
 
-    for (const name of names) {
-      const result = await payload.create({
-        collection: 'policies',
-        req: { transactionID: tid },
-        data: {
-          title: `${name}`,
-          slug: name,
-          site: siteId,
-          label: `${name}`,
-        },
-      })
-      results.push(result)
-    }
-
-    return results
+    return Promise.all(
+      sitePolicies.map((data) =>
+        payload.create({
+          collection: 'policies',
+          req: { transactionID: tid },
+          data,
+        }),
+      ),
+    )
   }
 
 export const singlePageNames = ['Contact', 'About', 'History', 'Careers']
