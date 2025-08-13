@@ -8,9 +8,8 @@ import {
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-import { adminField } from '@/access/admin'
 import { getAdminOrUserField, getAdminOrSiteUser } from '@/access/adminOrSite'
-import { validateFileFields } from './hooks'
+import { afterOperationBucketSync, validateFileFields } from './hooks'
 import { addSite } from '@/hooks/addSite'
 import { siteField } from '@/fields/relationships'
 
@@ -89,6 +88,7 @@ export const Media: CollectionConfig = {
   hooks: {
     beforeValidate: [validateFileFields],
     beforeChange: [addSite],
+    afterOperation: [afterOperationBucketSync],
   },
   upload: {
     staticDir: path.resolve(dirname, '../../public/media'),
