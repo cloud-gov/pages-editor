@@ -8,7 +8,7 @@ const load = new Loader(payload)
 
 async function seed() {
   // creates a base site and admin user
-  const site = await payload.create({
+  await payload.create({
     collection: 'sites',
     data: {
       name: 'admin-site',
@@ -43,6 +43,7 @@ async function seed() {
         data: {
           name,
           initialManagerEmail: `${name}manager@gsa.gov`,
+          bucket: `pages-${name}-bucket`,
         },
       })
 

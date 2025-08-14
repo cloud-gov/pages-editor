@@ -1,7 +1,23 @@
 import { randomBytes } from 'node:crypto'
-
-import type { CollectionBeforeValidateHook } from 'payload'
+import type { CollectionBeforeValidateHook, CollectionAfterOperationHook } from 'payload'
+import S3BucketSync from '@/utilities/s3BucketSync'
 import type { Media } from '../../payload-types'
+
+const ACCESS_KEY_ID = process.env.BUCKET_MANAGER_AWS_ACCESS_KEY_ID || ''
+const SECRET_ACCESS_KEY = process.env.BUCKET_MANAGER_AWS_SECRET_ACCESS_KEY || ''
+const REGION = process.env.AWS_REGION || ''
+const S3_ENDPOINT = process.env.STORAGE_ENDPOINT_URL || ''
+const STORAGE_FORCE_PATH_STYLE = process.env.STORAGE_FORCE_PATH_STYLE ? true : false
+const SOURCE_BUCKET = process.env.SITE_METADATA_BUCKET || ''
+const BUCKET_SYNC_CREDENTIALS = {
+  credentials: {
+    accessKeyId: ACCESS_KEY_ID,
+    secretAccessKey: SECRET_ACCESS_KEY,
+  },
+  region: REGION,
+  endpoint: S3_ENDPOINT,
+  forcePathStyle: STORAGE_FORCE_PATH_STYLE,
+}
 
 export const generateRandomHex = (size: number): string => {
   return randomBytes(size).toString('hex')
@@ -28,7 +44,11 @@ export const sanitizeFilename = (filename: string): string => {
   return `${truncated}${extension}`
 }
 
-export const validateFileFields: CollectionBeforeValidateHook<Media> = ({ req, data, operation }) => {
+export const validateFileFields: CollectionBeforeValidateHook<Media> = ({
+  req,
+  data,
+  operation,
+}) => {
   const { user } = req
 
   if (operation === 'create' && user && !user.isAdmin && user.selectedSiteId && data?.filename) {
@@ -40,4 +60,36 @@ export const validateFileFields: CollectionBeforeValidateHook<Media> = ({ req, d
   }
 
   return data
+}
+
+export const afterOperationBucketSync: CollectionAfterOperationHook<'media'> = async ({
+  req,
+  result,
+  operation,
+}) => {
+  const { user } = req
+
+  const siteId = user?.selectedSiteId
+
+  if (!siteId) {
+    return result
+  }
+
+  if (['create', 'delete', 'deleteByID', 'update', 'updateByID'].includes(operation)) {
+    const { bucket } = await req.payload.findByID({
+      collection: 'sites',
+      id: siteId,
+    })
+
+    if (!bucket) {
+      throw new Error('Site bucket not found')
+    }
+
+    const sync = new S3BucketSync(BUCKET_SYNC_CREDENTIALS, SOURCE_BUCKET, bucket)
+    await sync.sync(`uploads/${siteId}/media/`, '~assets/')
+
+    return result
+  }
+
+  return result
 }
