@@ -12,7 +12,7 @@ build_buckets() {
   local error_output
   local bucket_exists="Your previous request to create the named bucket succeeded and you already own it"
 
-  # Turn inot list of service names (buckets)
+  # Turn into list of service names (buckets)
   IFS=',' read -r -a array <<< "$SITES_SERVICE_NAMES"
 
   for bucket in "${array[@]}"; do
@@ -20,14 +20,14 @@ build_buckets() {
     # Attempt to create the bucket and capture any error output
     error_output=$(mc mb localminio/$bucket 2>&1)
 
-    # mc mb localminio/ $bucket
-
     # Check if there was an error
     if [ $? -ne 0 ]; then
       # Check the error was not an existing bucket
       if [[ $error_output != *"$bucket_exists"* ]]; then
         echo "Error creating $bucket: $error_output"
       fi
+
+      mc anonymous set public localminio/$bucket
 
       echo "Bucket exists $bucket"
     else
