@@ -11,23 +11,18 @@ import {
   index,
   uniqueIndex,
   foreignKey,
-  serial,
-  varchar,
   integer,
+  varchar,
+  serial,
   jsonb,
-  timestamp,
   boolean,
+  timestamp,
   numeric,
   type AnyPgColumn,
   text,
   pgEnum,
 } from '@payloadcms/db-postgres/drizzle/pg-core'
 import { sql, relations } from '@payloadcms/db-postgres/drizzle'
-export const enum_pages_status = pgEnum('enum_pages_status', ['draft', 'published'])
-export const enum__pages_v_version_status = pgEnum('enum__pages_v_version_status', [
-  'draft',
-  'published',
-])
 export const enum_posts_example_custom_field = pgEnum('enum_posts_example_custom_field', [
   'radio',
   'television',
@@ -43,114 +38,56 @@ export const enum__posts_v_version_status = pgEnum('enum__posts_v_version_status
   'draft',
   'published',
 ])
+export const enum_events_format = pgEnum('enum_events_format', ['inperson', 'virtual'])
+export const enum_events_status = pgEnum('enum_events_status', ['draft', 'published'])
+export const enum__events_v_version_format = pgEnum('enum__events_v_version_format', [
+  'inperson',
+  'virtual',
+])
+export const enum__events_v_version_status = pgEnum('enum__events_v_version_status', [
+  'draft',
+  'published',
+])
+export const enum_news_status = pgEnum('enum_news_status', ['draft', 'published'])
+export const enum__news_v_version_status = pgEnum('enum__news_v_version_status', [
+  'draft',
+  'published',
+])
+export const enum_media_status = pgEnum('enum_media_status', ['draft', 'published'])
+export const enum_reports_status = pgEnum('enum_reports_status', ['draft', 'published'])
+export const enum__reports_v_version_status = pgEnum('enum__reports_v_version_status', [
+  'draft',
+  'published',
+])
+export const enum_pages_status = pgEnum('enum_pages_status', ['draft', 'published'])
+export const enum__pages_v_version_status = pgEnum('enum__pages_v_version_status', [
+  'draft',
+  'published',
+])
+export const enum_policies_status = pgEnum('enum_policies_status', ['draft', 'published'])
+export const enum__policies_v_version_status = pgEnum('enum__policies_v_version_status', [
+  'draft',
+  'published',
+])
+export const enum_site_config_site_collection_status = pgEnum(
+  'enum_site_config_site_collection_status',
+  ['draft', 'published'],
+)
+export const enum__site_config_site_collection_v_version_status = pgEnum(
+  'enum__site_config_site_collection_v_version_status',
+  ['draft', 'published'],
+)
 export const enum_redirects_to_type = pgEnum('enum_redirects_to_type', ['reference', 'custom'])
 export const enum_forms_confirmation_type = pgEnum('enum_forms_confirmation_type', [
   'message',
   'redirect',
 ])
 export const enum_users_sites_role = pgEnum('enum_users_sites_role', ['manager', 'user', 'bot'])
-export const enum_header_nav_items_link_type = pgEnum('enum_header_nav_items_link_type', [
-  'reference',
-  'custom',
+export const enum_site_config_status = pgEnum('enum_site_config_status', ['draft', 'published'])
+export const enum__site_config_v_version_status = pgEnum('enum__site_config_v_version_status', [
+  'draft',
+  'published',
 ])
-export const enum_footer_nav_items_link_type = pgEnum('enum_footer_nav_items_link_type', [
-  'reference',
-  'custom',
-])
-
-export const pages = pgTable(
-  'pages',
-  {
-    id: serial('id').primaryKey(),
-    title: varchar('title'),
-    site: integer('site_id').references(() => sites.id, {
-      onDelete: 'set null',
-    }),
-    content: jsonb('content'),
-    content_html: varchar('content_html'),
-    publishedAt: timestamp('published_at', { mode: 'string', withTimezone: true, precision: 3 }),
-    slug: varchar('slug'),
-    slugLock: boolean('slug_lock').default(true),
-    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
-      .defaultNow()
-      .notNull(),
-    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
-      .defaultNow()
-      .notNull(),
-    _status: enum_pages_status('_status').default('draft'),
-  },
-  (columns) => ({
-    pages_site_idx: index('pages_site_idx').on(columns.site),
-    pages_slug_idx: index('pages_slug_idx').on(columns.slug),
-    pages_updated_at_idx: index('pages_updated_at_idx').on(columns.updatedAt),
-    pages_created_at_idx: index('pages_created_at_idx').on(columns.createdAt),
-    pages__status_idx: index('pages__status_idx').on(columns._status),
-  }),
-)
-
-export const _pages_v = pgTable(
-  '_pages_v',
-  {
-    id: serial('id').primaryKey(),
-    parent: integer('parent_id').references(() => pages.id, {
-      onDelete: 'set null',
-    }),
-    version_title: varchar('version_title'),
-    version_site: integer('version_site_id').references(() => sites.id, {
-      onDelete: 'set null',
-    }),
-    version_content: jsonb('version_content'),
-    version_content_html: varchar('version_content_html'),
-    version_publishedAt: timestamp('version_published_at', {
-      mode: 'string',
-      withTimezone: true,
-      precision: 3,
-    }),
-    version_slug: varchar('version_slug'),
-    version_slugLock: boolean('version_slug_lock').default(true),
-    version_updatedAt: timestamp('version_updated_at', {
-      mode: 'string',
-      withTimezone: true,
-      precision: 3,
-    }),
-    version_createdAt: timestamp('version_created_at', {
-      mode: 'string',
-      withTimezone: true,
-      precision: 3,
-    }),
-    version__status: enum__pages_v_version_status('version__status').default('draft'),
-    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
-      .defaultNow()
-      .notNull(),
-    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
-      .defaultNow()
-      .notNull(),
-    latest: boolean('latest'),
-    autosave: boolean('autosave'),
-  },
-  (columns) => ({
-    _pages_v_parent_idx: index('_pages_v_parent_idx').on(columns.parent),
-    _pages_v_version_version_site_idx: index('_pages_v_version_version_site_idx').on(
-      columns.version_site,
-    ),
-    _pages_v_version_version_slug_idx: index('_pages_v_version_version_slug_idx').on(
-      columns.version_slug,
-    ),
-    _pages_v_version_version_updated_at_idx: index('_pages_v_version_version_updated_at_idx').on(
-      columns.version_updatedAt,
-    ),
-    _pages_v_version_version_created_at_idx: index('_pages_v_version_version_created_at_idx').on(
-      columns.version_createdAt,
-    ),
-    _pages_v_version_version__status_idx: index('_pages_v_version_version__status_idx').on(
-      columns.version__status,
-    ),
-    _pages_v_created_at_idx: index('_pages_v_created_at_idx').on(columns.createdAt),
-    _pages_v_updated_at_idx: index('_pages_v_updated_at_idx').on(columns.updatedAt),
-    _pages_v_latest_idx: index('_pages_v_latest_idx').on(columns.latest),
-    _pages_v_autosave_idx: index('_pages_v_autosave_idx').on(columns.autosave),
-  }),
-)
 
 export const posts_populated_authors = pgTable(
   'posts_populated_authors',
@@ -180,7 +117,7 @@ export const posts = pgTable(
       onDelete: 'set null',
     }),
     content: jsonb('content'),
-    content_html: varchar('content_html'),
+    reviewReady: boolean('review_ready').default(false),
     publishedAt: timestamp('published_at', { mode: 'string', withTimezone: true, precision: 3 }),
     slug: varchar('slug'),
     slugLock: boolean('slug_lock').default(true),
@@ -261,7 +198,7 @@ export const _posts_v = pgTable(
       onDelete: 'set null',
     }),
     version_content: jsonb('version_content'),
-    version_content_html: varchar('version_content_html'),
+    version_reviewReady: boolean('version_review_ready').default(false),
     version_publishedAt: timestamp('version_published_at', {
       mode: 'string',
       withTimezone: true,
@@ -343,12 +280,226 @@ export const _posts_v_rels = pgTable(
   }),
 )
 
+export const events = pgTable(
+  'events',
+  {
+    id: serial('id').primaryKey(),
+    title: varchar('title'),
+    site: integer('site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    publishedAt: timestamp('published_at', { mode: 'string', withTimezone: true, precision: 3 }),
+    slug: varchar('slug'),
+    slugLock: boolean('slug_lock').default(true),
+    startDate: timestamp('start_date', { mode: 'string', withTimezone: true, precision: 3 }),
+    endDate: timestamp('end_date', { mode: 'string', withTimezone: true, precision: 3 }),
+    location: varchar('location'),
+    format: enum_events_format('format').default('inperson'),
+    registrationUrl: varchar('registration_url'),
+    description: varchar('description'),
+    reviewReady: boolean('review_ready').default(false),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    _status: enum_events_status('_status').default('draft'),
+  },
+  (columns) => ({
+    events_site_idx: index('events_site_idx').on(columns.site),
+    events_slug_idx: index('events_slug_idx').on(columns.slug),
+    events_updated_at_idx: index('events_updated_at_idx').on(columns.updatedAt),
+    events_created_at_idx: index('events_created_at_idx').on(columns.createdAt),
+    events__status_idx: index('events__status_idx').on(columns._status),
+  }),
+)
+
+export const _events_v = pgTable(
+  '_events_v',
+  {
+    id: serial('id').primaryKey(),
+    parent: integer('parent_id').references(() => events.id, {
+      onDelete: 'set null',
+    }),
+    version_title: varchar('version_title'),
+    version_site: integer('version_site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    version_publishedAt: timestamp('version_published_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_slug: varchar('version_slug'),
+    version_slugLock: boolean('version_slug_lock').default(true),
+    version_startDate: timestamp('version_start_date', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_endDate: timestamp('version_end_date', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_location: varchar('version_location'),
+    version_format: enum__events_v_version_format('version_format').default('inperson'),
+    version_registrationUrl: varchar('version_registration_url'),
+    version_description: varchar('version_description'),
+    version_reviewReady: boolean('version_review_ready').default(false),
+    version_updatedAt: timestamp('version_updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_createdAt: timestamp('version_created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version__status: enum__events_v_version_status('version__status').default('draft'),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    latest: boolean('latest'),
+    autosave: boolean('autosave'),
+  },
+  (columns) => ({
+    _events_v_parent_idx: index('_events_v_parent_idx').on(columns.parent),
+    _events_v_version_version_site_idx: index('_events_v_version_version_site_idx').on(
+      columns.version_site,
+    ),
+    _events_v_version_version_slug_idx: index('_events_v_version_version_slug_idx').on(
+      columns.version_slug,
+    ),
+    _events_v_version_version_updated_at_idx: index('_events_v_version_version_updated_at_idx').on(
+      columns.version_updatedAt,
+    ),
+    _events_v_version_version_created_at_idx: index('_events_v_version_version_created_at_idx').on(
+      columns.version_createdAt,
+    ),
+    _events_v_version_version__status_idx: index('_events_v_version_version__status_idx').on(
+      columns.version__status,
+    ),
+    _events_v_created_at_idx: index('_events_v_created_at_idx').on(columns.createdAt),
+    _events_v_updated_at_idx: index('_events_v_updated_at_idx').on(columns.updatedAt),
+    _events_v_latest_idx: index('_events_v_latest_idx').on(columns.latest),
+    _events_v_autosave_idx: index('_events_v_autosave_idx').on(columns.autosave),
+  }),
+)
+
+export const news = pgTable(
+  'news',
+  {
+    id: serial('id').primaryKey(),
+    title: varchar('title'),
+    content: jsonb('content'),
+    site: integer('site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    reviewReady: boolean('review_ready').default(false),
+    publishedAt: timestamp('published_at', { mode: 'string', withTimezone: true, precision: 3 }),
+    slug: varchar('slug'),
+    slugLock: boolean('slug_lock').default(true),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    _status: enum_news_status('_status').default('draft'),
+  },
+  (columns) => ({
+    news_site_idx: index('news_site_idx').on(columns.site),
+    news_slug_idx: index('news_slug_idx').on(columns.slug),
+    news_updated_at_idx: index('news_updated_at_idx').on(columns.updatedAt),
+    news_created_at_idx: index('news_created_at_idx').on(columns.createdAt),
+    news__status_idx: index('news__status_idx').on(columns._status),
+  }),
+)
+
+export const _news_v = pgTable(
+  '_news_v',
+  {
+    id: serial('id').primaryKey(),
+    parent: integer('parent_id').references(() => news.id, {
+      onDelete: 'set null',
+    }),
+    version_title: varchar('version_title'),
+    version_content: jsonb('version_content'),
+    version_site: integer('version_site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    version_reviewReady: boolean('version_review_ready').default(false),
+    version_publishedAt: timestamp('version_published_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_slug: varchar('version_slug'),
+    version_slugLock: boolean('version_slug_lock').default(true),
+    version_updatedAt: timestamp('version_updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_createdAt: timestamp('version_created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version__status: enum__news_v_version_status('version__status').default('draft'),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    latest: boolean('latest'),
+    autosave: boolean('autosave'),
+  },
+  (columns) => ({
+    _news_v_parent_idx: index('_news_v_parent_idx').on(columns.parent),
+    _news_v_version_version_site_idx: index('_news_v_version_version_site_idx').on(
+      columns.version_site,
+    ),
+    _news_v_version_version_slug_idx: index('_news_v_version_version_slug_idx').on(
+      columns.version_slug,
+    ),
+    _news_v_version_version_updated_at_idx: index('_news_v_version_version_updated_at_idx').on(
+      columns.version_updatedAt,
+    ),
+    _news_v_version_version_created_at_idx: index('_news_v_version_version_created_at_idx').on(
+      columns.version_createdAt,
+    ),
+    _news_v_version_version__status_idx: index('_news_v_version_version__status_idx').on(
+      columns.version__status,
+    ),
+    _news_v_created_at_idx: index('_news_v_created_at_idx').on(columns.createdAt),
+    _news_v_updated_at_idx: index('_news_v_updated_at_idx').on(columns.updatedAt),
+    _news_v_latest_idx: index('_news_v_latest_idx').on(columns.latest),
+    _news_v_autosave_idx: index('_news_v_autosave_idx').on(columns.autosave),
+  }),
+)
+
 export const media = pgTable(
   'media',
   {
     id: serial('id').primaryKey(),
     alt: varchar('alt'),
+    site: integer('site_id')
+      .notNull()
+      .references(() => sites.id, {
+        onDelete: 'set null',
+      }),
     caption: jsonb('caption'),
+    _status: enum_media_status('_status').default('draft'),
+    reviewReady: boolean('review_ready').default(true),
+    prefix: varchar('prefix').default('_uploads'),
     updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
       .defaultNow()
       .notNull(),
@@ -408,6 +559,7 @@ export const media = pgTable(
     sizes_og_filename: varchar('sizes_og_filename'),
   },
   (columns) => ({
+    media_site_idx: index('media_site_idx').on(columns.site),
     media_updated_at_idx: index('media_updated_at_idx').on(columns.updatedAt),
     media_created_at_idx: index('media_created_at_idx').on(columns.createdAt),
     media_filename_idx: uniqueIndex('media_filename_idx').on(columns.filename),
@@ -432,6 +584,421 @@ export const media = pgTable(
     media_sizes_og_sizes_og_filename_idx: index('media_sizes_og_sizes_og_filename_idx').on(
       columns.sizes_og_filename,
     ),
+  }),
+)
+
+export const reports_report_files = pgTable(
+  'reports_report_files',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    id: varchar('id').primaryKey(),
+    file: integer('file_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+  },
+  (columns) => ({
+    _orderIdx: index('reports_report_files_order_idx').on(columns._order),
+    _parentIDIdx: index('reports_report_files_parent_id_idx').on(columns._parentID),
+    reports_report_files_file_idx: index('reports_report_files_file_idx').on(columns.file),
+    _parentIDFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [reports.id],
+      name: 'reports_report_files_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const reports = pgTable(
+  'reports',
+  {
+    id: serial('id').primaryKey(),
+    title: varchar('title'),
+    excerpt: varchar('excerpt'),
+    image: integer('image_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    slug: varchar('slug'),
+    slugLock: boolean('slug_lock').default(true),
+    reportDate: timestamp('report_date', { mode: 'string', withTimezone: true, precision: 3 }),
+    site: integer('site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    content: jsonb('content'),
+    reviewReady: boolean('review_ready').default(false),
+    publishedAt: timestamp('published_at', { mode: 'string', withTimezone: true, precision: 3 }),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    _status: enum_reports_status('_status').default('draft'),
+  },
+  (columns) => ({
+    reports_image_idx: index('reports_image_idx').on(columns.image),
+    reports_slug_idx: index('reports_slug_idx').on(columns.slug),
+    reports_site_idx: index('reports_site_idx').on(columns.site),
+    reports_updated_at_idx: index('reports_updated_at_idx').on(columns.updatedAt),
+    reports_created_at_idx: index('reports_created_at_idx').on(columns.createdAt),
+    reports__status_idx: index('reports__status_idx').on(columns._status),
+  }),
+)
+
+export const reports_rels = pgTable(
+  'reports_rels',
+  {
+    id: serial('id').primaryKey(),
+    order: integer('order'),
+    parent: integer('parent_id').notNull(),
+    path: varchar('path').notNull(),
+    categoriesID: integer('categories_id'),
+  },
+  (columns) => ({
+    order: index('reports_rels_order_idx').on(columns.order),
+    parentIdx: index('reports_rels_parent_idx').on(columns.parent),
+    pathIdx: index('reports_rels_path_idx').on(columns.path),
+    reports_rels_categories_id_idx: index('reports_rels_categories_id_idx').on(
+      columns.categoriesID,
+    ),
+    parentFk: foreignKey({
+      columns: [columns['parent']],
+      foreignColumns: [reports.id],
+      name: 'reports_rels_parent_fk',
+    }).onDelete('cascade'),
+    categoriesIdFk: foreignKey({
+      columns: [columns['categoriesID']],
+      foreignColumns: [categories.id],
+      name: 'reports_rels_categories_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const _reports_v_version_report_files = pgTable(
+  '_reports_v_version_report_files',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    id: serial('id').primaryKey(),
+    file: integer('file_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    _uuid: varchar('_uuid'),
+  },
+  (columns) => ({
+    _orderIdx: index('_reports_v_version_report_files_order_idx').on(columns._order),
+    _parentIDIdx: index('_reports_v_version_report_files_parent_id_idx').on(columns._parentID),
+    _reports_v_version_report_files_file_idx: index('_reports_v_version_report_files_file_idx').on(
+      columns.file,
+    ),
+    _parentIDFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_reports_v.id],
+      name: '_reports_v_version_report_files_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const _reports_v = pgTable(
+  '_reports_v',
+  {
+    id: serial('id').primaryKey(),
+    parent: integer('parent_id').references(() => reports.id, {
+      onDelete: 'set null',
+    }),
+    version_title: varchar('version_title'),
+    version_excerpt: varchar('version_excerpt'),
+    version_image: integer('version_image_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    version_slug: varchar('version_slug'),
+    version_slugLock: boolean('version_slug_lock').default(true),
+    version_reportDate: timestamp('version_report_date', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_site: integer('version_site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    version_content: jsonb('version_content'),
+    version_reviewReady: boolean('version_review_ready').default(false),
+    version_publishedAt: timestamp('version_published_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_updatedAt: timestamp('version_updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_createdAt: timestamp('version_created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version__status: enum__reports_v_version_status('version__status').default('draft'),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    latest: boolean('latest'),
+    autosave: boolean('autosave'),
+  },
+  (columns) => ({
+    _reports_v_parent_idx: index('_reports_v_parent_idx').on(columns.parent),
+    _reports_v_version_version_image_idx: index('_reports_v_version_version_image_idx').on(
+      columns.version_image,
+    ),
+    _reports_v_version_version_slug_idx: index('_reports_v_version_version_slug_idx').on(
+      columns.version_slug,
+    ),
+    _reports_v_version_version_site_idx: index('_reports_v_version_version_site_idx').on(
+      columns.version_site,
+    ),
+    _reports_v_version_version_updated_at_idx: index(
+      '_reports_v_version_version_updated_at_idx',
+    ).on(columns.version_updatedAt),
+    _reports_v_version_version_created_at_idx: index(
+      '_reports_v_version_version_created_at_idx',
+    ).on(columns.version_createdAt),
+    _reports_v_version_version__status_idx: index('_reports_v_version_version__status_idx').on(
+      columns.version__status,
+    ),
+    _reports_v_created_at_idx: index('_reports_v_created_at_idx').on(columns.createdAt),
+    _reports_v_updated_at_idx: index('_reports_v_updated_at_idx').on(columns.updatedAt),
+    _reports_v_latest_idx: index('_reports_v_latest_idx').on(columns.latest),
+    _reports_v_autosave_idx: index('_reports_v_autosave_idx').on(columns.autosave),
+  }),
+)
+
+export const _reports_v_rels = pgTable(
+  '_reports_v_rels',
+  {
+    id: serial('id').primaryKey(),
+    order: integer('order'),
+    parent: integer('parent_id').notNull(),
+    path: varchar('path').notNull(),
+    categoriesID: integer('categories_id'),
+  },
+  (columns) => ({
+    order: index('_reports_v_rels_order_idx').on(columns.order),
+    parentIdx: index('_reports_v_rels_parent_idx').on(columns.parent),
+    pathIdx: index('_reports_v_rels_path_idx').on(columns.path),
+    _reports_v_rels_categories_id_idx: index('_reports_v_rels_categories_id_idx').on(
+      columns.categoriesID,
+    ),
+    parentFk: foreignKey({
+      columns: [columns['parent']],
+      foreignColumns: [_reports_v.id],
+      name: '_reports_v_rels_parent_fk',
+    }).onDelete('cascade'),
+    categoriesIdFk: foreignKey({
+      columns: [columns['categoriesID']],
+      foreignColumns: [categories.id],
+      name: '_reports_v_rels_categories_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const pages = pgTable(
+  'pages',
+  {
+    id: serial('id').primaryKey(),
+    title: varchar('title'),
+    slug: varchar('slug'),
+    slugLock: boolean('slug_lock').default(true),
+    subtitle: varchar('subtitle'),
+    label: varchar('label'),
+    image: integer('image_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    content: jsonb('content'),
+    site: integer('site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    reviewReady: boolean('review_ready').default(false),
+    publishedAt: timestamp('published_at', { mode: 'string', withTimezone: true, precision: 3 }),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    _status: enum_pages_status('_status').default('draft'),
+  },
+  (columns) => ({
+    pages_slug_idx: index('pages_slug_idx').on(columns.slug),
+    pages_image_idx: index('pages_image_idx').on(columns.image),
+    pages_site_idx: index('pages_site_idx').on(columns.site),
+    pages_updated_at_idx: index('pages_updated_at_idx').on(columns.updatedAt),
+    pages_created_at_idx: index('pages_created_at_idx').on(columns.createdAt),
+    pages__status_idx: index('pages__status_idx').on(columns._status),
+  }),
+)
+
+export const _pages_v = pgTable(
+  '_pages_v',
+  {
+    id: serial('id').primaryKey(),
+    parent: integer('parent_id').references(() => pages.id, {
+      onDelete: 'set null',
+    }),
+    version_title: varchar('version_title'),
+    version_slug: varchar('version_slug'),
+    version_slugLock: boolean('version_slug_lock').default(true),
+    version_subtitle: varchar('version_subtitle'),
+    version_label: varchar('version_label'),
+    version_image: integer('version_image_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    version_content: jsonb('version_content'),
+    version_site: integer('version_site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    version_reviewReady: boolean('version_review_ready').default(false),
+    version_publishedAt: timestamp('version_published_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_updatedAt: timestamp('version_updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_createdAt: timestamp('version_created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version__status: enum__pages_v_version_status('version__status').default('draft'),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    latest: boolean('latest'),
+    autosave: boolean('autosave'),
+  },
+  (columns) => ({
+    _pages_v_parent_idx: index('_pages_v_parent_idx').on(columns.parent),
+    _pages_v_version_version_slug_idx: index('_pages_v_version_version_slug_idx').on(
+      columns.version_slug,
+    ),
+    _pages_v_version_version_image_idx: index('_pages_v_version_version_image_idx').on(
+      columns.version_image,
+    ),
+    _pages_v_version_version_site_idx: index('_pages_v_version_version_site_idx').on(
+      columns.version_site,
+    ),
+    _pages_v_version_version_updated_at_idx: index('_pages_v_version_version_updated_at_idx').on(
+      columns.version_updatedAt,
+    ),
+    _pages_v_version_version_created_at_idx: index('_pages_v_version_version_created_at_idx').on(
+      columns.version_createdAt,
+    ),
+    _pages_v_version_version__status_idx: index('_pages_v_version_version__status_idx').on(
+      columns.version__status,
+    ),
+    _pages_v_created_at_idx: index('_pages_v_created_at_idx').on(columns.createdAt),
+    _pages_v_updated_at_idx: index('_pages_v_updated_at_idx').on(columns.updatedAt),
+    _pages_v_latest_idx: index('_pages_v_latest_idx').on(columns.latest),
+    _pages_v_autosave_idx: index('_pages_v_autosave_idx').on(columns.autosave),
+  }),
+)
+
+export const policies = pgTable(
+  'policies',
+  {
+    id: serial('id').primaryKey(),
+    title: varchar('title'),
+    slug: varchar('slug'),
+    slugLock: boolean('slug_lock').default(true),
+    label: varchar('label'),
+    content: jsonb('content'),
+    site: integer('site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    reviewReady: boolean('review_ready').default(false),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    _status: enum_policies_status('_status').default('draft'),
+  },
+  (columns) => ({
+    policies_slug_idx: index('policies_slug_idx').on(columns.slug),
+    policies_site_idx: index('policies_site_idx').on(columns.site),
+    policies_updated_at_idx: index('policies_updated_at_idx').on(columns.updatedAt),
+    policies_created_at_idx: index('policies_created_at_idx').on(columns.createdAt),
+    policies__status_idx: index('policies__status_idx').on(columns._status),
+  }),
+)
+
+export const _policies_v = pgTable(
+  '_policies_v',
+  {
+    id: serial('id').primaryKey(),
+    parent: integer('parent_id').references(() => policies.id, {
+      onDelete: 'set null',
+    }),
+    version_title: varchar('version_title'),
+    version_slug: varchar('version_slug'),
+    version_slugLock: boolean('version_slug_lock').default(true),
+    version_label: varchar('version_label'),
+    version_content: jsonb('version_content'),
+    version_site: integer('version_site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    version_reviewReady: boolean('version_review_ready').default(false),
+    version_updatedAt: timestamp('version_updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_createdAt: timestamp('version_created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version__status: enum__policies_v_version_status('version__status').default('draft'),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    latest: boolean('latest'),
+    autosave: boolean('autosave'),
+  },
+  (columns) => ({
+    _policies_v_parent_idx: index('_policies_v_parent_idx').on(columns.parent),
+    _policies_v_version_version_slug_idx: index('_policies_v_version_version_slug_idx').on(
+      columns.version_slug,
+    ),
+    _policies_v_version_version_site_idx: index('_policies_v_version_version_site_idx').on(
+      columns.version_site,
+    ),
+    _policies_v_version_version_updated_at_idx: index(
+      '_policies_v_version_version_updated_at_idx',
+    ).on(columns.version_updatedAt),
+    _policies_v_version_version_created_at_idx: index(
+      '_policies_v_version_version_created_at_idx',
+    ).on(columns.version_createdAt),
+    _policies_v_version_version__status_idx: index('_policies_v_version_version__status_idx').on(
+      columns.version__status,
+    ),
+    _policies_v_created_at_idx: index('_policies_v_created_at_idx').on(columns.createdAt),
+    _policies_v_updated_at_idx: index('_policies_v_updated_at_idx').on(columns.updatedAt),
+    _policies_v_latest_idx: index('_policies_v_latest_idx').on(columns.latest),
+    _policies_v_autosave_idx: index('_policies_v_autosave_idx').on(columns.autosave),
   }),
 )
 
@@ -464,6 +1031,13 @@ export const categories = pgTable(
   {
     id: serial('id').primaryKey(),
     title: varchar('title').notNull(),
+    slug: varchar('slug'),
+    slugLock: boolean('slug_lock').default(true),
+    site: integer('site_id')
+      .notNull()
+      .references(() => sites.id, {
+        onDelete: 'set null',
+      }),
     parent: integer('parent_id').references((): AnyPgColumn => categories.id, {
       onDelete: 'set null',
     }),
@@ -475,6 +1049,8 @@ export const categories = pgTable(
       .notNull(),
   },
   (columns) => ({
+    categories_slug_idx: index('categories_slug_idx').on(columns.slug),
+    categories_site_idx: index('categories_site_idx').on(columns.site),
     categories_parent_idx: index('categories_parent_idx').on(columns.parent),
     categories_updated_at_idx: index('categories_updated_at_idx').on(columns.updatedAt),
     categories_created_at_idx: index('categories_created_at_idx').on(columns.createdAt),
@@ -486,6 +1062,13 @@ export const sites = pgTable(
   {
     id: serial('id').primaryKey(),
     name: varchar('name').notNull(),
+    initialManagerEmail: varchar('initial_manager_email')
+      .notNull()
+      .default('placeholder@agency.gov'),
+    pagesOrg: varchar('pages_org'),
+    pagesSiteId: numeric('pages_site_id'),
+    orgId: numeric('org_id'),
+    bucket: varchar('bucket'),
     updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
       .defaultNow()
       .notNull(),
@@ -497,6 +1080,103 @@ export const sites = pgTable(
     sites_name_idx: uniqueIndex('sites_name_idx').on(columns.name),
     sites_updated_at_idx: index('sites_updated_at_idx').on(columns.updatedAt),
     sites_created_at_idx: index('sites_created_at_idx').on(columns.createdAt),
+  }),
+)
+
+export const site_config_site_collection = pgTable(
+  'site_config_site_collection',
+  {
+    id: serial('id').primaryKey(),
+    font: varchar('font'),
+    agencyName: varchar('agency_name').default('Agency Name'),
+    site: integer('site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    _status: enum_site_config_site_collection_status('_status').default('draft'),
+  },
+  (columns) => ({
+    site_config_site_collection_site_idx: index('site_config_site_collection_site_idx').on(
+      columns.site,
+    ),
+    site_config_site_collection_updated_at_idx: index(
+      'site_config_site_collection_updated_at_idx',
+    ).on(columns.updatedAt),
+    site_config_site_collection_created_at_idx: index(
+      'site_config_site_collection_created_at_idx',
+    ).on(columns.createdAt),
+    site_config_site_collection__status_idx: index('site_config_site_collection__status_idx').on(
+      columns._status,
+    ),
+  }),
+)
+
+export const _site_config_site_collection_v = pgTable(
+  '_site_config_site_collection_v',
+  {
+    id: serial('id').primaryKey(),
+    parent: integer('parent_id').references(() => site_config_site_collection.id, {
+      onDelete: 'set null',
+    }),
+    version_font: varchar('version_font'),
+    version_agencyName: varchar('version_agency_name').default('Agency Name'),
+    version_site: integer('version_site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    version_updatedAt: timestamp('version_updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_createdAt: timestamp('version_created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version__status:
+      enum__site_config_site_collection_v_version_status('version__status').default('draft'),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    latest: boolean('latest'),
+    autosave: boolean('autosave'),
+  },
+  (columns) => ({
+    _site_config_site_collection_v_parent_idx: index(
+      '_site_config_site_collection_v_parent_idx',
+    ).on(columns.parent),
+    _site_config_site_collection_v_version_version_site_idx: index(
+      '_site_config_site_collection_v_version_version_site_idx',
+    ).on(columns.version_site),
+    _site_config_site_collection_v_version_version_updated_at_idx: index(
+      '_site_config_site_collection_v_version_version_updated_at_idx',
+    ).on(columns.version_updatedAt),
+    _site_config_site_collection_v_version_version_created_at_idx: index(
+      '_site_config_site_collection_v_version_version_created_at_idx',
+    ).on(columns.version_createdAt),
+    _site_config_site_collection_v_version_version__status_idx: index(
+      '_site_config_site_collection_v_version_version__status_idx',
+    ).on(columns.version__status),
+    _site_config_site_collection_v_created_at_idx: index(
+      '_site_config_site_collection_v_created_at_idx',
+    ).on(columns.createdAt),
+    _site_config_site_collection_v_updated_at_idx: index(
+      '_site_config_site_collection_v_updated_at_idx',
+    ).on(columns.updatedAt),
+    _site_config_site_collection_v_latest_idx: index(
+      '_site_config_site_collection_v_latest_idx',
+    ).on(columns.latest),
+    _site_config_site_collection_v_autosave_idx: index(
+      '_site_config_site_collection_v_autosave_idx',
+    ).on(columns.autosave),
   }),
 )
 
@@ -528,24 +1208,17 @@ export const redirects_rels = pgTable(
     order: integer('order'),
     parent: integer('parent_id').notNull(),
     path: varchar('path').notNull(),
-    pagesID: integer('pages_id'),
     postsID: integer('posts_id'),
   },
   (columns) => ({
     order: index('redirects_rels_order_idx').on(columns.order),
     parentIdx: index('redirects_rels_parent_idx').on(columns.parent),
     pathIdx: index('redirects_rels_path_idx').on(columns.path),
-    redirects_rels_pages_id_idx: index('redirects_rels_pages_id_idx').on(columns.pagesID),
     redirects_rels_posts_id_idx: index('redirects_rels_posts_id_idx').on(columns.postsID),
     parentFk: foreignKey({
       columns: [columns['parent']],
       foreignColumns: [redirects.id],
       name: 'redirects_rels_parent_fk',
-    }).onDelete('cascade'),
-    pagesIdFk: foreignKey({
-      columns: [columns['pagesID']],
-      foreignColumns: [pages.id],
-      name: 'redirects_rels_pages_fk',
     }).onDelete('cascade'),
     postsIdFk: foreignKey({
       columns: [columns['postsID']],
@@ -1046,11 +1719,16 @@ export const payload_locked_documents_rels = pgTable(
     order: integer('order'),
     parent: integer('parent_id').notNull(),
     path: varchar('path').notNull(),
-    pagesID: integer('pages_id'),
     postsID: integer('posts_id'),
+    eventsID: integer('events_id'),
+    newsID: integer('news_id'),
     mediaID: integer('media_id'),
+    reportsID: integer('reports_id'),
+    pagesID: integer('pages_id'),
+    policiesID: integer('policies_id'),
     categoriesID: integer('categories_id'),
     sitesID: integer('sites_id'),
+    'site-config-site-collectionID': integer('site_config_site_collection_id'),
     redirectsID: integer('redirects_id'),
     formsID: integer('forms_id'),
     'form-submissionsID': integer('form_submissions_id'),
@@ -1061,21 +1739,36 @@ export const payload_locked_documents_rels = pgTable(
     order: index('payload_locked_documents_rels_order_idx').on(columns.order),
     parentIdx: index('payload_locked_documents_rels_parent_idx').on(columns.parent),
     pathIdx: index('payload_locked_documents_rels_path_idx').on(columns.path),
-    payload_locked_documents_rels_pages_id_idx: index(
-      'payload_locked_documents_rels_pages_id_idx',
-    ).on(columns.pagesID),
     payload_locked_documents_rels_posts_id_idx: index(
       'payload_locked_documents_rels_posts_id_idx',
     ).on(columns.postsID),
+    payload_locked_documents_rels_events_id_idx: index(
+      'payload_locked_documents_rels_events_id_idx',
+    ).on(columns.eventsID),
+    payload_locked_documents_rels_news_id_idx: index(
+      'payload_locked_documents_rels_news_id_idx',
+    ).on(columns.newsID),
     payload_locked_documents_rels_media_id_idx: index(
       'payload_locked_documents_rels_media_id_idx',
     ).on(columns.mediaID),
+    payload_locked_documents_rels_reports_id_idx: index(
+      'payload_locked_documents_rels_reports_id_idx',
+    ).on(columns.reportsID),
+    payload_locked_documents_rels_pages_id_idx: index(
+      'payload_locked_documents_rels_pages_id_idx',
+    ).on(columns.pagesID),
+    payload_locked_documents_rels_policies_id_idx: index(
+      'payload_locked_documents_rels_policies_id_idx',
+    ).on(columns.policiesID),
     payload_locked_documents_rels_categories_id_idx: index(
       'payload_locked_documents_rels_categories_id_idx',
     ).on(columns.categoriesID),
     payload_locked_documents_rels_sites_id_idx: index(
       'payload_locked_documents_rels_sites_id_idx',
     ).on(columns.sitesID),
+    payload_locked_documents_rels_site_config_site_collection_id_idx: index(
+      'payload_locked_documents_rels_site_config_site_collection_id_idx',
+    ).on(columns['site-config-site-collectionID']),
     payload_locked_documents_rels_redirects_id_idx: index(
       'payload_locked_documents_rels_redirects_id_idx',
     ).on(columns.redirectsID),
@@ -1096,20 +1789,40 @@ export const payload_locked_documents_rels = pgTable(
       foreignColumns: [payload_locked_documents.id],
       name: 'payload_locked_documents_rels_parent_fk',
     }).onDelete('cascade'),
-    pagesIdFk: foreignKey({
-      columns: [columns['pagesID']],
-      foreignColumns: [pages.id],
-      name: 'payload_locked_documents_rels_pages_fk',
-    }).onDelete('cascade'),
     postsIdFk: foreignKey({
       columns: [columns['postsID']],
       foreignColumns: [posts.id],
       name: 'payload_locked_documents_rels_posts_fk',
     }).onDelete('cascade'),
+    eventsIdFk: foreignKey({
+      columns: [columns['eventsID']],
+      foreignColumns: [events.id],
+      name: 'payload_locked_documents_rels_events_fk',
+    }).onDelete('cascade'),
+    newsIdFk: foreignKey({
+      columns: [columns['newsID']],
+      foreignColumns: [news.id],
+      name: 'payload_locked_documents_rels_news_fk',
+    }).onDelete('cascade'),
     mediaIdFk: foreignKey({
       columns: [columns['mediaID']],
       foreignColumns: [media.id],
       name: 'payload_locked_documents_rels_media_fk',
+    }).onDelete('cascade'),
+    reportsIdFk: foreignKey({
+      columns: [columns['reportsID']],
+      foreignColumns: [reports.id],
+      name: 'payload_locked_documents_rels_reports_fk',
+    }).onDelete('cascade'),
+    pagesIdFk: foreignKey({
+      columns: [columns['pagesID']],
+      foreignColumns: [pages.id],
+      name: 'payload_locked_documents_rels_pages_fk',
+    }).onDelete('cascade'),
+    policiesIdFk: foreignKey({
+      columns: [columns['policiesID']],
+      foreignColumns: [policies.id],
+      name: 'payload_locked_documents_rels_policies_fk',
     }).onDelete('cascade'),
     categoriesIdFk: foreignKey({
       columns: [columns['categoriesID']],
@@ -1120,6 +1833,11 @@ export const payload_locked_documents_rels = pgTable(
       columns: [columns['sitesID']],
       foreignColumns: [sites.id],
       name: 'payload_locked_documents_rels_sites_fk',
+    }).onDelete('cascade'),
+    'site-config-site-collectionIdFk': foreignKey({
+      columns: [columns['site-config-site-collectionID']],
+      foreignColumns: [site_config_site_collection.id],
+      name: 'payload_locked_documents_rels_site_config_site_collection_fk',
     }).onDelete('cascade'),
     redirectsIdFk: foreignKey({
       columns: [columns['redirectsID']],
@@ -1225,135 +1943,58 @@ export const payload_migrations = pgTable(
   }),
 )
 
-export const header_nav_items = pgTable(
-  'header_nav_items',
-  {
-    _order: integer('_order').notNull(),
-    _parentID: integer('_parent_id').notNull(),
-    id: varchar('id').primaryKey(),
-    link_type: enum_header_nav_items_link_type('link_type').default('reference'),
-    link_newTab: boolean('link_new_tab'),
-    link_url: varchar('link_url'),
-    link_label: varchar('link_label').notNull(),
-  },
-  (columns) => ({
-    _orderIdx: index('header_nav_items_order_idx').on(columns._order),
-    _parentIDIdx: index('header_nav_items_parent_id_idx').on(columns._parentID),
-    _parentIDFk: foreignKey({
-      columns: [columns['_parentID']],
-      foreignColumns: [header.id],
-      name: 'header_nav_items_parent_id_fk',
-    }).onDelete('cascade'),
-  }),
-)
-
-export const header = pgTable('header', {
-  id: serial('id').primaryKey(),
-  updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 }),
-  createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 }),
-})
-
-export const header_rels = pgTable(
-  'header_rels',
+export const site_config = pgTable(
+  'site_config',
   {
     id: serial('id').primaryKey(),
-    order: integer('order'),
-    parent: integer('parent_id').notNull(),
-    path: varchar('path').notNull(),
-    pagesID: integer('pages_id'),
+    font: varchar('font'),
+    agencyName: varchar('agency_name').default('Agency Name'),
+    _status: enum_site_config_status('_status').default('draft'),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 }),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 }),
   },
   (columns) => ({
-    order: index('header_rels_order_idx').on(columns.order),
-    parentIdx: index('header_rels_parent_idx').on(columns.parent),
-    pathIdx: index('header_rels_path_idx').on(columns.path),
-    header_rels_pages_id_idx: index('header_rels_pages_id_idx').on(columns.pagesID),
-    parentFk: foreignKey({
-      columns: [columns['parent']],
-      foreignColumns: [header.id],
-      name: 'header_rels_parent_fk',
-    }).onDelete('cascade'),
-    pagesIdFk: foreignKey({
-      columns: [columns['pagesID']],
-      foreignColumns: [pages.id],
-      name: 'header_rels_pages_fk',
-    }).onDelete('cascade'),
+    site_config__status_idx: index('site_config__status_idx').on(columns._status),
   }),
 )
 
-export const footer_nav_items = pgTable(
-  'footer_nav_items',
-  {
-    _order: integer('_order').notNull(),
-    _parentID: integer('_parent_id').notNull(),
-    id: varchar('id').primaryKey(),
-    link_type: enum_footer_nav_items_link_type('link_type').default('reference'),
-    link_newTab: boolean('link_new_tab'),
-    link_url: varchar('link_url'),
-    link_label: varchar('link_label').notNull(),
-  },
-  (columns) => ({
-    _orderIdx: index('footer_nav_items_order_idx').on(columns._order),
-    _parentIDIdx: index('footer_nav_items_parent_id_idx').on(columns._parentID),
-    _parentIDFk: foreignKey({
-      columns: [columns['_parentID']],
-      foreignColumns: [footer.id],
-      name: 'footer_nav_items_parent_id_fk',
-    }).onDelete('cascade'),
-  }),
-)
-
-export const footer = pgTable('footer', {
-  id: serial('id').primaryKey(),
-  updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 }),
-  createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 }),
-})
-
-export const footer_rels = pgTable(
-  'footer_rels',
+export const _site_config_v = pgTable(
+  '_site_config_v',
   {
     id: serial('id').primaryKey(),
-    order: integer('order'),
-    parent: integer('parent_id').notNull(),
-    path: varchar('path').notNull(),
-    pagesID: integer('pages_id'),
+    version_font: varchar('version_font'),
+    version_agencyName: varchar('version_agency_name').default('Agency Name'),
+    version__status: enum__site_config_v_version_status('version__status').default('draft'),
+    version_updatedAt: timestamp('version_updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_createdAt: timestamp('version_created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    latest: boolean('latest'),
+    autosave: boolean('autosave'),
   },
   (columns) => ({
-    order: index('footer_rels_order_idx').on(columns.order),
-    parentIdx: index('footer_rels_parent_idx').on(columns.parent),
-    pathIdx: index('footer_rels_path_idx').on(columns.path),
-    footer_rels_pages_id_idx: index('footer_rels_pages_id_idx').on(columns.pagesID),
-    parentFk: foreignKey({
-      columns: [columns['parent']],
-      foreignColumns: [footer.id],
-      name: 'footer_rels_parent_fk',
-    }).onDelete('cascade'),
-    pagesIdFk: foreignKey({
-      columns: [columns['pagesID']],
-      foreignColumns: [pages.id],
-      name: 'footer_rels_pages_fk',
-    }).onDelete('cascade'),
+    _site_config_v_version_version__status_idx: index(
+      '_site_config_v_version_version__status_idx',
+    ).on(columns.version__status),
+    _site_config_v_created_at_idx: index('_site_config_v_created_at_idx').on(columns.createdAt),
+    _site_config_v_updated_at_idx: index('_site_config_v_updated_at_idx').on(columns.updatedAt),
+    _site_config_v_latest_idx: index('_site_config_v_latest_idx').on(columns.latest),
+    _site_config_v_autosave_idx: index('_site_config_v_autosave_idx').on(columns.autosave),
   }),
 )
 
-export const relations_pages = relations(pages, ({ one }) => ({
-  site: one(sites, {
-    fields: [pages.site],
-    references: [sites.id],
-    relationName: 'site',
-  }),
-}))
-export const relations__pages_v = relations(_pages_v, ({ one }) => ({
-  parent: one(pages, {
-    fields: [_pages_v.parent],
-    references: [pages.id],
-    relationName: 'parent',
-  }),
-  version_site: one(sites, {
-    fields: [_pages_v.version_site],
-    references: [sites.id],
-    relationName: 'version_site',
-  }),
-}))
 export const relations_posts_populated_authors = relations(posts_populated_authors, ({ one }) => ({
   _parentID: one(posts, {
     fields: [posts_populated_authors._parentID],
@@ -1426,7 +2067,191 @@ export const relations__posts_v = relations(_posts_v, ({ one, many }) => ({
     relationName: '_rels',
   }),
 }))
-export const relations_media = relations(media, () => ({}))
+export const relations_events = relations(events, ({ one }) => ({
+  site: one(sites, {
+    fields: [events.site],
+    references: [sites.id],
+    relationName: 'site',
+  }),
+}))
+export const relations__events_v = relations(_events_v, ({ one }) => ({
+  parent: one(events, {
+    fields: [_events_v.parent],
+    references: [events.id],
+    relationName: 'parent',
+  }),
+  version_site: one(sites, {
+    fields: [_events_v.version_site],
+    references: [sites.id],
+    relationName: 'version_site',
+  }),
+}))
+export const relations_news = relations(news, ({ one }) => ({
+  site: one(sites, {
+    fields: [news.site],
+    references: [sites.id],
+    relationName: 'site',
+  }),
+}))
+export const relations__news_v = relations(_news_v, ({ one }) => ({
+  parent: one(news, {
+    fields: [_news_v.parent],
+    references: [news.id],
+    relationName: 'parent',
+  }),
+  version_site: one(sites, {
+    fields: [_news_v.version_site],
+    references: [sites.id],
+    relationName: 'version_site',
+  }),
+}))
+export const relations_media = relations(media, ({ one }) => ({
+  site: one(sites, {
+    fields: [media.site],
+    references: [sites.id],
+    relationName: 'site',
+  }),
+}))
+export const relations_reports_report_files = relations(reports_report_files, ({ one }) => ({
+  _parentID: one(reports, {
+    fields: [reports_report_files._parentID],
+    references: [reports.id],
+    relationName: 'reportFiles',
+  }),
+  file: one(media, {
+    fields: [reports_report_files.file],
+    references: [media.id],
+    relationName: 'file',
+  }),
+}))
+export const relations_reports_rels = relations(reports_rels, ({ one }) => ({
+  parent: one(reports, {
+    fields: [reports_rels.parent],
+    references: [reports.id],
+    relationName: '_rels',
+  }),
+  categoriesID: one(categories, {
+    fields: [reports_rels.categoriesID],
+    references: [categories.id],
+    relationName: 'categories',
+  }),
+}))
+export const relations_reports = relations(reports, ({ one, many }) => ({
+  image: one(media, {
+    fields: [reports.image],
+    references: [media.id],
+    relationName: 'image',
+  }),
+  reportFiles: many(reports_report_files, {
+    relationName: 'reportFiles',
+  }),
+  site: one(sites, {
+    fields: [reports.site],
+    references: [sites.id],
+    relationName: 'site',
+  }),
+  _rels: many(reports_rels, {
+    relationName: '_rels',
+  }),
+}))
+export const relations__reports_v_version_report_files = relations(
+  _reports_v_version_report_files,
+  ({ one }) => ({
+    _parentID: one(_reports_v, {
+      fields: [_reports_v_version_report_files._parentID],
+      references: [_reports_v.id],
+      relationName: 'version_reportFiles',
+    }),
+    file: one(media, {
+      fields: [_reports_v_version_report_files.file],
+      references: [media.id],
+      relationName: 'file',
+    }),
+  }),
+)
+export const relations__reports_v_rels = relations(_reports_v_rels, ({ one }) => ({
+  parent: one(_reports_v, {
+    fields: [_reports_v_rels.parent],
+    references: [_reports_v.id],
+    relationName: '_rels',
+  }),
+  categoriesID: one(categories, {
+    fields: [_reports_v_rels.categoriesID],
+    references: [categories.id],
+    relationName: 'categories',
+  }),
+}))
+export const relations__reports_v = relations(_reports_v, ({ one, many }) => ({
+  parent: one(reports, {
+    fields: [_reports_v.parent],
+    references: [reports.id],
+    relationName: 'parent',
+  }),
+  version_image: one(media, {
+    fields: [_reports_v.version_image],
+    references: [media.id],
+    relationName: 'version_image',
+  }),
+  version_reportFiles: many(_reports_v_version_report_files, {
+    relationName: 'version_reportFiles',
+  }),
+  version_site: one(sites, {
+    fields: [_reports_v.version_site],
+    references: [sites.id],
+    relationName: 'version_site',
+  }),
+  _rels: many(_reports_v_rels, {
+    relationName: '_rels',
+  }),
+}))
+export const relations_pages = relations(pages, ({ one }) => ({
+  image: one(media, {
+    fields: [pages.image],
+    references: [media.id],
+    relationName: 'image',
+  }),
+  site: one(sites, {
+    fields: [pages.site],
+    references: [sites.id],
+    relationName: 'site',
+  }),
+}))
+export const relations__pages_v = relations(_pages_v, ({ one }) => ({
+  parent: one(pages, {
+    fields: [_pages_v.parent],
+    references: [pages.id],
+    relationName: 'parent',
+  }),
+  version_image: one(media, {
+    fields: [_pages_v.version_image],
+    references: [media.id],
+    relationName: 'version_image',
+  }),
+  version_site: one(sites, {
+    fields: [_pages_v.version_site],
+    references: [sites.id],
+    relationName: 'version_site',
+  }),
+}))
+export const relations_policies = relations(policies, ({ one }) => ({
+  site: one(sites, {
+    fields: [policies.site],
+    references: [sites.id],
+    relationName: 'site',
+  }),
+}))
+export const relations__policies_v = relations(_policies_v, ({ one }) => ({
+  parent: one(policies, {
+    fields: [_policies_v.parent],
+    references: [policies.id],
+    relationName: 'parent',
+  }),
+  version_site: one(sites, {
+    fields: [_policies_v.version_site],
+    references: [sites.id],
+    relationName: 'version_site',
+  }),
+}))
 export const relations_categories_breadcrumbs = relations(categories_breadcrumbs, ({ one }) => ({
   _parentID: one(categories, {
     fields: [categories_breadcrumbs._parentID],
@@ -1440,6 +2265,11 @@ export const relations_categories_breadcrumbs = relations(categories_breadcrumbs
   }),
 }))
 export const relations_categories = relations(categories, ({ one, many }) => ({
+  site: one(sites, {
+    fields: [categories.site],
+    references: [sites.id],
+    relationName: 'site',
+  }),
   parent: one(categories, {
     fields: [categories.parent],
     references: [categories.id],
@@ -1450,16 +2280,36 @@ export const relations_categories = relations(categories, ({ one, many }) => ({
   }),
 }))
 export const relations_sites = relations(sites, () => ({}))
+export const relations_site_config_site_collection = relations(
+  site_config_site_collection,
+  ({ one }) => ({
+    site: one(sites, {
+      fields: [site_config_site_collection.site],
+      references: [sites.id],
+      relationName: 'site',
+    }),
+  }),
+)
+export const relations__site_config_site_collection_v = relations(
+  _site_config_site_collection_v,
+  ({ one }) => ({
+    parent: one(site_config_site_collection, {
+      fields: [_site_config_site_collection_v.parent],
+      references: [site_config_site_collection.id],
+      relationName: 'parent',
+    }),
+    version_site: one(sites, {
+      fields: [_site_config_site_collection_v.version_site],
+      references: [sites.id],
+      relationName: 'version_site',
+    }),
+  }),
+)
 export const relations_redirects_rels = relations(redirects_rels, ({ one }) => ({
   parent: one(redirects, {
     fields: [redirects_rels.parent],
     references: [redirects.id],
     relationName: '_rels',
-  }),
-  pagesID: one(pages, {
-    fields: [redirects_rels.pagesID],
-    references: [pages.id],
-    relationName: 'pages',
   }),
   postsID: one(posts, {
     fields: [redirects_rels.postsID],
@@ -1664,20 +2514,40 @@ export const relations_payload_locked_documents_rels = relations(
       references: [payload_locked_documents.id],
       relationName: '_rels',
     }),
-    pagesID: one(pages, {
-      fields: [payload_locked_documents_rels.pagesID],
-      references: [pages.id],
-      relationName: 'pages',
-    }),
     postsID: one(posts, {
       fields: [payload_locked_documents_rels.postsID],
       references: [posts.id],
       relationName: 'posts',
     }),
+    eventsID: one(events, {
+      fields: [payload_locked_documents_rels.eventsID],
+      references: [events.id],
+      relationName: 'events',
+    }),
+    newsID: one(news, {
+      fields: [payload_locked_documents_rels.newsID],
+      references: [news.id],
+      relationName: 'news',
+    }),
     mediaID: one(media, {
       fields: [payload_locked_documents_rels.mediaID],
       references: [media.id],
       relationName: 'media',
+    }),
+    reportsID: one(reports, {
+      fields: [payload_locked_documents_rels.reportsID],
+      references: [reports.id],
+      relationName: 'reports',
+    }),
+    pagesID: one(pages, {
+      fields: [payload_locked_documents_rels.pagesID],
+      references: [pages.id],
+      relationName: 'pages',
+    }),
+    policiesID: one(policies, {
+      fields: [payload_locked_documents_rels.policiesID],
+      references: [policies.id],
+      relationName: 'policies',
     }),
     categoriesID: one(categories, {
       fields: [payload_locked_documents_rels.categoriesID],
@@ -1688,6 +2558,11 @@ export const relations_payload_locked_documents_rels = relations(
       fields: [payload_locked_documents_rels.sitesID],
       references: [sites.id],
       relationName: 'sites',
+    }),
+    'site-config-site-collectionID': one(site_config_site_collection, {
+      fields: [payload_locked_documents_rels['site-config-site-collectionID']],
+      references: [site_config_site_collection.id],
+      relationName: 'site-config-site-collection',
     }),
     redirectsID: one(redirects, {
       fields: [payload_locked_documents_rels.redirectsID],
@@ -1745,85 +2620,60 @@ export const relations_payload_preferences = relations(payload_preferences, ({ m
   }),
 }))
 export const relations_payload_migrations = relations(payload_migrations, () => ({}))
-export const relations_header_nav_items = relations(header_nav_items, ({ one }) => ({
-  _parentID: one(header, {
-    fields: [header_nav_items._parentID],
-    references: [header.id],
-    relationName: 'navItems',
-  }),
-}))
-export const relations_header_rels = relations(header_rels, ({ one }) => ({
-  parent: one(header, {
-    fields: [header_rels.parent],
-    references: [header.id],
-    relationName: '_rels',
-  }),
-  pagesID: one(pages, {
-    fields: [header_rels.pagesID],
-    references: [pages.id],
-    relationName: 'pages',
-  }),
-}))
-export const relations_header = relations(header, ({ many }) => ({
-  navItems: many(header_nav_items, {
-    relationName: 'navItems',
-  }),
-  _rels: many(header_rels, {
-    relationName: '_rels',
-  }),
-}))
-export const relations_footer_nav_items = relations(footer_nav_items, ({ one }) => ({
-  _parentID: one(footer, {
-    fields: [footer_nav_items._parentID],
-    references: [footer.id],
-    relationName: 'navItems',
-  }),
-}))
-export const relations_footer_rels = relations(footer_rels, ({ one }) => ({
-  parent: one(footer, {
-    fields: [footer_rels.parent],
-    references: [footer.id],
-    relationName: '_rels',
-  }),
-  pagesID: one(pages, {
-    fields: [footer_rels.pagesID],
-    references: [pages.id],
-    relationName: 'pages',
-  }),
-}))
-export const relations_footer = relations(footer, ({ many }) => ({
-  navItems: many(footer_nav_items, {
-    relationName: 'navItems',
-  }),
-  _rels: many(footer_rels, {
-    relationName: '_rels',
-  }),
-}))
+export const relations_site_config = relations(site_config, () => ({}))
+export const relations__site_config_v = relations(_site_config_v, () => ({}))
 
 type DatabaseSchema = {
-  enum_pages_status: typeof enum_pages_status
-  enum__pages_v_version_status: typeof enum__pages_v_version_status
   enum_posts_example_custom_field: typeof enum_posts_example_custom_field
   enum_posts_status: typeof enum_posts_status
   enum__posts_v_version_example_custom_field: typeof enum__posts_v_version_example_custom_field
   enum__posts_v_version_status: typeof enum__posts_v_version_status
+  enum_events_format: typeof enum_events_format
+  enum_events_status: typeof enum_events_status
+  enum__events_v_version_format: typeof enum__events_v_version_format
+  enum__events_v_version_status: typeof enum__events_v_version_status
+  enum_news_status: typeof enum_news_status
+  enum__news_v_version_status: typeof enum__news_v_version_status
+  enum_media_status: typeof enum_media_status
+  enum_reports_status: typeof enum_reports_status
+  enum__reports_v_version_status: typeof enum__reports_v_version_status
+  enum_pages_status: typeof enum_pages_status
+  enum__pages_v_version_status: typeof enum__pages_v_version_status
+  enum_policies_status: typeof enum_policies_status
+  enum__policies_v_version_status: typeof enum__policies_v_version_status
+  enum_site_config_site_collection_status: typeof enum_site_config_site_collection_status
+  enum__site_config_site_collection_v_version_status: typeof enum__site_config_site_collection_v_version_status
   enum_redirects_to_type: typeof enum_redirects_to_type
   enum_forms_confirmation_type: typeof enum_forms_confirmation_type
   enum_users_sites_role: typeof enum_users_sites_role
-  enum_header_nav_items_link_type: typeof enum_header_nav_items_link_type
-  enum_footer_nav_items_link_type: typeof enum_footer_nav_items_link_type
-  pages: typeof pages
-  _pages_v: typeof _pages_v
+  enum_site_config_status: typeof enum_site_config_status
+  enum__site_config_v_version_status: typeof enum__site_config_v_version_status
   posts_populated_authors: typeof posts_populated_authors
   posts: typeof posts
   posts_rels: typeof posts_rels
   _posts_v_version_populated_authors: typeof _posts_v_version_populated_authors
   _posts_v: typeof _posts_v
   _posts_v_rels: typeof _posts_v_rels
+  events: typeof events
+  _events_v: typeof _events_v
+  news: typeof news
+  _news_v: typeof _news_v
   media: typeof media
+  reports_report_files: typeof reports_report_files
+  reports: typeof reports
+  reports_rels: typeof reports_rels
+  _reports_v_version_report_files: typeof _reports_v_version_report_files
+  _reports_v: typeof _reports_v
+  _reports_v_rels: typeof _reports_v_rels
+  pages: typeof pages
+  _pages_v: typeof _pages_v
+  policies: typeof policies
+  _policies_v: typeof _policies_v
   categories_breadcrumbs: typeof categories_breadcrumbs
   categories: typeof categories
   sites: typeof sites
+  site_config_site_collection: typeof site_config_site_collection
+  _site_config_site_collection_v: typeof _site_config_site_collection_v
   redirects: typeof redirects
   redirects_rels: typeof redirects_rels
   forms_blocks_checkbox: typeof forms_blocks_checkbox
@@ -1850,24 +2700,34 @@ type DatabaseSchema = {
   payload_preferences: typeof payload_preferences
   payload_preferences_rels: typeof payload_preferences_rels
   payload_migrations: typeof payload_migrations
-  header_nav_items: typeof header_nav_items
-  header: typeof header
-  header_rels: typeof header_rels
-  footer_nav_items: typeof footer_nav_items
-  footer: typeof footer
-  footer_rels: typeof footer_rels
-  relations_pages: typeof relations_pages
-  relations__pages_v: typeof relations__pages_v
+  site_config: typeof site_config
+  _site_config_v: typeof _site_config_v
   relations_posts_populated_authors: typeof relations_posts_populated_authors
   relations_posts_rels: typeof relations_posts_rels
   relations_posts: typeof relations_posts
   relations__posts_v_version_populated_authors: typeof relations__posts_v_version_populated_authors
   relations__posts_v_rels: typeof relations__posts_v_rels
   relations__posts_v: typeof relations__posts_v
+  relations_events: typeof relations_events
+  relations__events_v: typeof relations__events_v
+  relations_news: typeof relations_news
+  relations__news_v: typeof relations__news_v
   relations_media: typeof relations_media
+  relations_reports_report_files: typeof relations_reports_report_files
+  relations_reports_rels: typeof relations_reports_rels
+  relations_reports: typeof relations_reports
+  relations__reports_v_version_report_files: typeof relations__reports_v_version_report_files
+  relations__reports_v_rels: typeof relations__reports_v_rels
+  relations__reports_v: typeof relations__reports_v
+  relations_pages: typeof relations_pages
+  relations__pages_v: typeof relations__pages_v
+  relations_policies: typeof relations_policies
+  relations__policies_v: typeof relations__policies_v
   relations_categories_breadcrumbs: typeof relations_categories_breadcrumbs
   relations_categories: typeof relations_categories
   relations_sites: typeof relations_sites
+  relations_site_config_site_collection: typeof relations_site_config_site_collection
+  relations__site_config_site_collection_v: typeof relations__site_config_site_collection_v
   relations_redirects_rels: typeof relations_redirects_rels
   relations_redirects: typeof relations_redirects
   relations_forms_blocks_checkbox: typeof relations_forms_blocks_checkbox
@@ -1894,12 +2754,8 @@ type DatabaseSchema = {
   relations_payload_preferences_rels: typeof relations_payload_preferences_rels
   relations_payload_preferences: typeof relations_payload_preferences
   relations_payload_migrations: typeof relations_payload_migrations
-  relations_header_nav_items: typeof relations_header_nav_items
-  relations_header_rels: typeof relations_header_rels
-  relations_header: typeof relations_header
-  relations_footer_nav_items: typeof relations_footer_nav_items
-  relations_footer_rels: typeof relations_footer_rels
-  relations_footer: typeof relations_footer
+  relations_site_config: typeof relations_site_config
+  relations__site_config_v: typeof relations__site_config_v
 }
 
 declare module '@payloadcms/db-postgres/types' {

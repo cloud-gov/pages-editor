@@ -116,9 +116,11 @@ export interface Config {
   };
   globals: {
     'site-config': SiteConfig;
+    menu: Menu;
   };
   globalsSelect: {
     'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
+    menu: MenuSelect<false> | MenuSelect<true>;
   };
   locale: null;
   user: User & {
@@ -1398,12 +1400,95 @@ export interface SiteConfig {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menu".
+ */
+export interface Menu {
+  id: number;
+  items?:
+    | (
+        | {
+            label: string;
+            page: number | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'navItem';
+          }
+        | {
+            label: string;
+            url: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+        | {
+            label: string;
+            subItems?:
+              | {
+                  label: string;
+                  page: number | Page;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'dropdown';
+          }
+      )[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config_select".
  */
 export interface SiteConfigSelect<T extends boolean = true> {
   font?: T;
   agencyName?: T;
   _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menu_select".
+ */
+export interface MenuSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        navItem?:
+          | T
+          | {
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+              blockName?: T;
+            };
+        dropdown?:
+          | T
+          | {
+              label?: T;
+              subItems?:
+                | T
+                | {
+                    label?: T;
+                    page?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
