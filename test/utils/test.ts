@@ -68,7 +68,17 @@ export const test = vitest.extend<LocalTestContext>({
             site,
             startDate: new Date().toISOString(),
             format: 'inperson',
-            description: 'a fixture event',
+            eventType: 'onetime',
+            content: {
+              root: {
+                type: 'root',
+                children: [],
+                direction: 'ltr',
+                format: 'left',
+                indent: 0,
+                version: 1,
+              },
+            },
           },
         })
       }),

@@ -135,24 +135,24 @@ describe('Pages access', () => {
       )
     })
 
-    test('not write a Page to their site', async ({ tid, testUser }) => {
+    test('can write a Page to their site', async ({ tid, testUser }) => {
       const siteId = testUser.selectedSiteId
 
-      await isAccessError(
-        create(
-          payload,
-          tid,
-          {
-            collection: 'pages',
-            data: {
-              title: `Page Title - ${siteId}`,
-              label: `Page Label - ${siteId}`,
-              site: siteId,
-            },
+      const result = await create(
+        payload,
+        tid,
+        {
+          collection: 'pages',
+          data: {
+            title: `Page`,
+            label: `Page Label`,
+            site: siteId,
           },
-          testUser,
-        ),
+        },
+        testUser,
       )
+
+      expect(result).toBeTruthy()
     })
 
     test('not write a Page to not-their site', async ({ tid, testUser, sites }) => {
@@ -181,7 +181,7 @@ describe('Pages access', () => {
       )
     })
 
-    test('not update their Pages title', async ({ tid, testUser, pages }) => {
+    test('can update their Pages title', async ({ tid, testUser, pages }) => {
       const siteId = testUser.selectedSiteId
 
       const theirResults = pages.filter((item) => siteIdHelper(item.site) === siteId)
@@ -205,7 +205,7 @@ describe('Pages access', () => {
       )
 
       newResults.forEach((item) => {
-        expect(theirTitles).toContain(item.title)
+        expect(item.title).toContain('(Edited)')
       })
     })
 
@@ -319,12 +319,7 @@ describe('Pages access', () => {
       })
     }
 
-    test('read all their Pages, upon site selection', async ({
-      tid,
-      testUser,
-      pages,
-      sites,
-    }) => {
+    test('read all their Pages, upon site selection', async ({ tid, testUser, pages, sites }) => {
       testUser = await addSiteToUser(testUser, tid, { site: sites[1], role: 'user' })
       const siteId = testUser.selectedSiteId
 
@@ -365,7 +360,7 @@ describe('Pages access', () => {
       })
     })
 
-    test('not create a Page for all their sites, upon site selection', async ({
+    test('can create a Page for all their sites, upon site selection', async ({
       tid,
       testUser,
       sites,
@@ -373,21 +368,20 @@ describe('Pages access', () => {
       testUser = await addSiteToUser(testUser, tid, { site: sites[1], role: 'manager' })
       const siteId = testUser.selectedSiteId
 
-      await isAccessError(
-        create(
-          payload,
-          tid,
-          {
-            collection: 'pages',
-            data: {
-              title: `Page Title - ${siteId}`,
-              label: `Page Label - ${siteId}`,
-              site: siteId,
-            },
+      const result = await create(
+        payload,
+        tid,
+        {
+          collection: 'pages',
+          data: {
+            title: `Page Title - ${siteId}`,
+            label: `Page Label - ${siteId}`,
+            site: siteId,
           },
-          testUser,
-        ),
+        },
+        testUser,
       )
+      expect(result).toBeTruthy()
     })
   })
 

@@ -1,13 +1,10 @@
 import type { CollectionConfig } from 'payload'
-
-import { authenticated } from '../../access/authenticated'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 import { previewWebhook } from '@/utilities/previews'
-
-import { siteField } from '@/fields/relationships'
+import { categoriesField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
-
+import { descriptionField, imageField } from '@/fields'
 import { customFields } from './custom'
 import { adminField } from '@/access/admin'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
@@ -55,6 +52,9 @@ export const Posts: CollectionConfig<'posts'> = {
       type: 'text',
       required: true,
     },
+    descriptionField,
+    imageField,
+    categoriesField,
     siteField,
     {
       name: 'content',

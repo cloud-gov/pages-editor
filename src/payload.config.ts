@@ -24,6 +24,8 @@ import { getServerSideURL } from './utilities/getURL'
 import { createSiteGlobal } from './utilities/siteGlobal'
 import { afterSchemaInit } from './utilities/cascade'
 import { migrations } from './migrations'
+import { Menu } from './globals/Menu';
+import { CollectionLandingPages } from './collections/CollectionLanding';
 
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
 
@@ -89,9 +91,13 @@ const config = {
     Users,
     Sites,
     SiteConfigCollection,
+    CollectionLandingPages,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [SiteConfig],
+  globals: [
+    SiteConfig,
+    Menu,
+  ],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,

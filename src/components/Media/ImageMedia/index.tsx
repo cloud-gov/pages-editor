@@ -36,7 +36,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
 
   if (!src && resource && typeof resource === 'object') {
     const {
-      alt: altFromResource,
+      altText: altFromResource,
       filename: fullFilename,
       height: fullHeight,
       url,

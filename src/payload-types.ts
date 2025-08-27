@@ -77,6 +77,7 @@ export interface Config {
     categories: Category;
     sites: Site;
     'site-config-site-collection': SiteConfigSiteCollection;
+    'collection-landing-pages': CollectionLandingPage;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -102,6 +103,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
+    'collection-landing-pages': CollectionLandingPagesSelect<false> | CollectionLandingPagesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -116,9 +118,11 @@ export interface Config {
   };
   globals: {
     'site-config': SiteConfig;
+    menu: Menu;
   };
   globalsSelect: {
     'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
+    menu: MenuSelect<false> | MenuSelect<true>;
   };
   locale: null;
   user: User & {
@@ -154,6 +158,9 @@ export interface UserAuthOperations {
 export interface Post {
   id: number;
   title: string;
+  description?: string | null;
+  image?: (number | null) | Media;
+  categories?: (number | Category)[] | null;
   site: number | Site;
   content?: {
     root: {
@@ -188,123 +195,12 @@ export interface Post {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "sites".
- */
-export interface Site {
-  id: number;
-  name: string;
-  initialManagerEmail: string;
-  pagesOrg?: string | null;
-  pagesSiteId?: number | null;
-  orgId?: number | null;
-  bucket?: string | null;
-  users?: {
-    docs?: (number | User)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: number;
-  email: string;
-  sub: string;
-  sites: {
-    site: number | Site;
-    role: 'manager' | 'user' | 'bot';
-    id?: string | null;
-  }[];
-  isAdmin?: boolean | null;
-  selectedSiteId: number;
-  updatedAt: string;
-  createdAt: string;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events".
- */
-export interface Event {
-  id: number;
-  title: string;
-  site: number | Site;
-  publishedAt?: string | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  startDate: string;
-  endDate?: string | null;
-  location?: string | null;
-  format: 'inperson' | 'virtual';
-  registrationUrl?: string | null;
-  description: string;
-  reviewReady?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "news".
- */
-export interface News {
-  id: number;
-  title: string;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  site: number | Site;
-  reviewReady?: boolean | null;
-  publishedAt?: string | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
   id: number;
-  alt?: string | null;
+  altText?: string | null;
   site: number | Site;
-  caption?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  _status?: ('draft' | 'published') | null;
-  reviewReady?: boolean | null;
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -378,6 +274,144 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sites".
+ */
+export interface Site {
+  id: number;
+  name: string;
+  initialManagerEmail: string;
+  pagesOrg?: string | null;
+  pagesSiteId?: number | null;
+  orgId?: number | null;
+  bucket?: string | null;
+  users?: {
+    docs?: (number | User)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  email: string;
+  sub: string;
+  sites: {
+    site: number | Site;
+    role: 'manager' | 'user' | 'bot';
+    id?: string | null;
+  }[];
+  isAdmin?: boolean | null;
+  selectedSiteId: number;
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  site: number | Site;
+  parent?: (number | null) | Category;
+  breadcrumbs?:
+    | {
+        doc?: (number | null) | Category;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title: string;
+  description?: string | null;
+  image?: (number | null) | Media;
+  attachment?: (number | Media)[] | null;
+  categories?: (number | Category)[] | null;
+  site: number | Site;
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  startDate: string;
+  endDate?: string | null;
+  location?: string | null;
+  format: 'inperson' | 'virtual';
+  eventType: 'onetime' | 'series';
+  registrationUrl?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  reviewReady?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news".
+ */
+export interface News {
+  id: number;
+  title: string;
+  description?: string | null;
+  image?: (number | null) | Media;
+  categories?: (number | Category)[] | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  site: number | Site;
+  reviewReady?: boolean | null;
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reports".
  */
 export interface Report {
@@ -416,28 +450,6 @@ export interface Report {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
- */
-export interface Category {
-  id: number;
-  title: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  site: number | Site;
-  parent?: (number | null) | Category;
-  breadcrumbs?:
-    | {
-        doc?: (number | null) | Category;
-        url?: string | null;
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * Manage single pages that are shown in the site.
@@ -520,6 +532,17 @@ export interface SiteConfigSiteCollection {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collection-landing-pages".
+ */
+export interface CollectionLandingPage {
+  id: number;
+  title: string;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -811,6 +834,10 @@ export interface PayloadLockedDocument {
         value: number | SiteConfigSiteCollection;
       } | null)
     | ({
+        relationTo: 'collection-landing-pages';
+        value: number | CollectionLandingPage;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -878,6 +905,9 @@ export interface PayloadMigration {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
+  image?: T;
+  categories?: T;
   site?: T;
   content?: T;
   reviewReady?: T;
@@ -902,6 +932,10 @@ export interface PostsSelect<T extends boolean = true> {
  */
 export interface EventsSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
+  image?: T;
+  attachment?: T;
+  categories?: T;
   site?: T;
   publishedAt?: T;
   slug?: T;
@@ -910,8 +944,9 @@ export interface EventsSelect<T extends boolean = true> {
   endDate?: T;
   location?: T;
   format?: T;
+  eventType?: T;
   registrationUrl?: T;
-  description?: T;
+  content?: T;
   reviewReady?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -923,6 +958,9 @@ export interface EventsSelect<T extends boolean = true> {
  */
 export interface NewsSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
+  image?: T;
+  categories?: T;
   content?: T;
   site?: T;
   reviewReady?: T;
@@ -938,11 +976,8 @@ export interface NewsSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
+  altText?: T;
   site?: T;
-  caption?: T;
-  _status?: T;
-  reviewReady?: T;
   prefix?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1138,6 +1173,16 @@ export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collection-landing-pages_select".
+ */
+export interface CollectionLandingPagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1398,12 +1443,95 @@ export interface SiteConfig {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menu".
+ */
+export interface Menu {
+  id: number;
+  items?:
+    | (
+        | {
+            label: string;
+            page: number | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageLink';
+          }
+        | {
+            label: string;
+            page: number | CollectionLandingPage;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionLink';
+          }
+        | {
+            label: string;
+            subItems?:
+              | {
+                  label: string;
+                  page: number | Page;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'dropdown';
+          }
+      )[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config_select".
  */
 export interface SiteConfigSelect<T extends boolean = true> {
   font?: T;
   agencyName?: T;
   _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menu_select".
+ */
+export interface MenuSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        pageLink?:
+          | T
+          | {
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionLink?:
+          | T
+          | {
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        dropdown?:
+          | T
+          | {
+              label?: T;
+              subItems?:
+                | T
+                | {
+                    label?: T;
+                    page?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

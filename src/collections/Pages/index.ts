@@ -12,7 +12,7 @@ import { completeReview } from '@/hooks/completeReview'
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   access: {
-    create: getAdmin,
+    create: getAdminOrSiteUser('pages', ['manager', 'user']),
     delete: getAdmin,
     read: getAdminOrSiteUser('pages', ['manager', 'user', 'bot']),
     update: getAdminOrSiteUser('pages'),
@@ -48,10 +48,6 @@ export const Pages: CollectionConfig<'pages'> = {
       name: 'title',
       type: 'text',
       required: true,
-      access: {
-        read: () => true,
-        update: getAdmin,
-      },
     },
     ...slugField(),
     {

@@ -1,8 +1,7 @@
 import { TypedEditorState } from '@payloadcms/richtext-lexical'
 
 export interface UploadFieldProps {
-  alt?: string
-  caption?: TypedEditorState
+  altText?: string
   filename: string
   mimeType?: string
   filesize?: number
@@ -13,8 +12,7 @@ export interface UploadFieldProps {
 }
 
 export const uploadField = ({
-  alt,
-  caption,
+  altText,
   filename,
   filesize = 123,
   mimeType = 'image/jpeg',
@@ -24,8 +22,7 @@ export const uploadField = ({
   _status = 'draft',
 }: UploadFieldProps): UploadFieldProps => {
   return {
-    alt,
-    caption,
+    altText,
     filename,
     filesize,
     mimeType,
