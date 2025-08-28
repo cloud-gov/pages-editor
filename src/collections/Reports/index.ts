@@ -8,6 +8,7 @@ import { addSite } from '@/hooks/addSite'
 import { publish } from '@/hooks/publish'
 import { editor } from '@/utilities/editor'
 import { completeReview } from '@/hooks/completeReview'
+import { stripPopulatedMedia } from '@/utilities/stripPopulatedMedia'
 
 export const Reports: CollectionConfig<'reports'> = {
   slug: 'reports',
@@ -91,6 +92,7 @@ export const Reports: CollectionConfig<'reports'> = {
       name: 'content',
       type: 'richText',
       editor,
+
     },
     {
       name: 'reviewReady',
@@ -121,7 +123,16 @@ export const Reports: CollectionConfig<'reports'> = {
   ],
   hooks: {
     afterChange: [previewWebhook, publish],
-    beforeChange: [addSite, completeReview],
+    beforeChange: [
+      addSite, 
+      completeReview,
+      ({ data }) => {
+        if (data?.content) {
+          data.content = stripPopulatedMedia(data.content);
+        }
+        return data;
+      }
+    ],
   },
   versions: {
     drafts: {
