@@ -1,14 +1,8 @@
 import type { CollectionConfig } from 'payload'
-
-import {
-  FixedToolbarFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-import { getAdminOrUserField, getAdminOrSiteUser } from '@/access/adminOrSite'
+import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { afterOperationBucketSync, validateFileFields } from './hooks'
 import { addSite } from '@/hooks/addSite'
 import { siteField } from '@/fields/relationships'
@@ -31,59 +25,11 @@ export const Media: CollectionConfig = {
   defaultSort: '-reviewReady',
   fields: [
     {
-      name: 'alt',
+      name: 'altText',
+      label: 'Alt Text to describe the media and improve accessibility',
       type: 'text',
     },
     siteField,
-    {
-      name: 'caption',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
-        },
-      }),
-    },
-    {
-      name: '_status',
-      type: 'select',
-      options: [
-        {
-          label: 'Draft',
-          value: 'draft',
-        },
-        {
-          label: 'Published',
-          value: 'published',
-        },
-      ],
-      defaultValue: 'draft',
-      access: {
-        create: getAdminOrUserField(['manager']),
-        update: getAdminOrUserField(['manager']),
-        read: () => true,
-      },
-    },
-    {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: true,
-      hooks: {
-        beforeChange: [
-          ({ previousSiblingDoc, siblingData, value }) => {
-            if (
-              siblingData._status === 'published' &&
-              previousSiblingDoc._status === 'draft' &&
-              value
-            ) {
-              return false
-            }
-            return value
-          },
-        ],
-      },
-    },
   ],
   hooks: {
     beforeValidate: [validateFileFields],

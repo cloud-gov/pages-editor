@@ -1,12 +1,13 @@
 import type { CollectionConfig } from 'payload'
-
 import { previewWebhook } from '@/utilities/previews'
-import { siteField } from '@/fields/relationships'
+import { categoriesField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { publish } from '@/hooks/publish'
 import { completeReview } from '@/hooks/completeReview'
+import { editor } from '@/utilities/editor'
+import { descriptionField, imageField } from '@/fields'
 
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
@@ -46,6 +47,16 @@ export const Events: CollectionConfig<'events'> = {
       type: 'text',
       required: true,
     },
+    descriptionField,
+    imageField,
+    {
+      name: 'attachment',
+      label: 'Attachment',
+      type: 'upload',
+      relationTo: 'media',
+      hasMany: true,
+    },
+    categoriesField,
     siteField,
     {
       name: 'publishedAt',
@@ -95,6 +106,7 @@ export const Events: CollectionConfig<'events'> = {
     },
     {
       name: 'format',
+      label: 'Event format',
       type: 'radio',
       required: true,
       admin: {
@@ -107,14 +119,28 @@ export const Events: CollectionConfig<'events'> = {
       ],
     },
     {
+      name: 'eventType',
+      label: 'Event type',
+      type: 'radio',
+      required: true,
+      admin: {
+        position: 'sidebar',
+      },
+      defaultValue: 'onetime',
+      options: [
+        { label: 'One Time', value: 'onetime' },
+        { label: 'Series', value: 'series' },
+      ],
+    },
+    {
       name: 'registrationUrl',
       label: 'Registration URL',
       type: 'text',
     },
     {
-      name: 'description',
-      type: 'textarea',
-      required: true,
+      name: 'content',
+      type: 'richText',
+      editor,
     },
     {
       name: 'reviewReady',

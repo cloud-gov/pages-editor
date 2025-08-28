@@ -1,12 +1,12 @@
 import type { CollectionConfig } from 'payload'
-
 import { previewWebhook } from '@/utilities/previews'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
-import { siteField } from '@/fields/relationships'
+import { categoriesField, siteField } from '@/fields/relationships'
+import { descriptionField, imageField } from '@/fields'
 import { completeReview } from '@/hooks/completeReview'
 
 export const News: CollectionConfig<'news'> = {
@@ -47,6 +47,9 @@ export const News: CollectionConfig<'news'> = {
       type: 'text',
       required: true,
     },
+    descriptionField,
+    imageField,
+    categoriesField,
     {
       name: 'content',
       type: 'richText',

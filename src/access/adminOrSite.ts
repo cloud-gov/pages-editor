@@ -34,7 +34,7 @@ export function getAdminOrSiteUser(
   slug: CollectionSlug,
   requiredRole: Role[] = ['manager', 'user'],
 ) {
-  const adminOrSiteUser: Access<Post | User | Site | Event | Media | News | Page> = async ({
+  const adminOrSiteUser: Access<Post | User | Site | Event | News | Page> = async ({
     req,
     data,
   }) => {
