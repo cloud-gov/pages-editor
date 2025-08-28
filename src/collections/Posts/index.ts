@@ -11,6 +11,7 @@ import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
+import { stripPopulatedMedia } from '@/utilities/stripPopulatedMedia'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
@@ -128,7 +129,15 @@ export const Posts: CollectionConfig<'posts'> = {
     afterChange: [revalidatePost, previewWebhook, publish],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
-    beforeChange: [addSite],
+    beforeChange: [
+      addSite,
+      ({ data }) => {
+        if (data?.content) {
+          data.content = stripPopulatedMedia(data.content);
+        }
+        return data;
+      }
+    ],
   },
   versions: {
     drafts: {

@@ -8,6 +8,7 @@ import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
 import { completeReview } from '@/hooks/completeReview'
 import { siteField } from '@/fields/relationships'
+import { stripPopulatedMedia } from '@/utilities/stripPopulatedMedia'
 
 export const Policies: CollectionConfig<'policies'> = {
   slug: 'policies',
@@ -75,7 +76,16 @@ export const Policies: CollectionConfig<'policies'> = {
   ],
   hooks: {
     afterChange: [previewWebhook, publish],
-    beforeChange: [addSite, completeReview],
+    beforeChange: [
+      addSite, 
+      completeReview,
+      ({ data }) => {
+        if (data?.content) {
+          data.content = stripPopulatedMedia(data.content);
+        }
+        return data;
+      }
+    ],
   },
   versions: {
     drafts: {

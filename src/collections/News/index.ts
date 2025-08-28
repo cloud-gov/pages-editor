@@ -8,6 +8,7 @@ import { publish } from '@/hooks/publish'
 import { categoriesField, siteField } from '@/fields/relationships'
 import { descriptionField, imageField } from '@/fields'
 import { completeReview } from '@/hooks/completeReview'
+import { stripPopulatedMedia } from '@/utilities/stripPopulatedMedia'
 
 export const News: CollectionConfig<'news'> = {
   slug: 'news',
@@ -86,7 +87,16 @@ export const News: CollectionConfig<'news'> = {
   ],
   hooks: {
     afterChange: [previewWebhook, publish],
-    beforeChange: [addSite, completeReview],
+    beforeChange: [
+      addSite, 
+      completeReview,
+      ({ data }) => {
+        if (data?.content) {
+          data.content = stripPopulatedMedia(data.content);
+        }
+        return data;
+      }
+    ],
   },
   versions: {
     drafts: {

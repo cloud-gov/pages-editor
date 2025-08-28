@@ -6,6 +6,7 @@ import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { publish } from '@/hooks/publish'
 import { completeReview } from '@/hooks/completeReview'
+import { stripPopulatedMedia } from '@/utilities/stripPopulatedMedia'
 import { editor } from '@/utilities/editor'
 import { descriptionField, imageField } from '@/fields'
 
@@ -151,7 +152,16 @@ export const Events: CollectionConfig<'events'> = {
   ],
   hooks: {
     afterChange: [previewWebhook, publish],
-    beforeChange: [addSite, completeReview],
+    beforeChange: [
+      addSite, 
+      completeReview,
+      ({ data }) => {
+        if (data?.content) {
+          data.content = stripPopulatedMedia(data.content);
+        }
+        return data;
+      }
+    ],
   },
   versions: {
     drafts: {
