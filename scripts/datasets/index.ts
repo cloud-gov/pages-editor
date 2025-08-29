@@ -1,6 +1,7 @@
 import type { BasePayload, CollectionSlug } from 'payload'
 import categories from './categories'
 import events from './events'
+import leadership from './leadership'
 import news from './news'
 import pages from './pages'
 import reports from './reports'
@@ -61,6 +62,11 @@ class Loader {
     return Promise.all(data.map((item) => this.getAndUpdatePage(siteId, item)))
   }
 
+  async loadLeadership(siteId: number) {
+    const data = leadership(siteId)
+    return this.loadList('leadership', data)
+  }
+
   async loadReports(siteId: number, categories) {
     const data = reports(siteId, categories)
     return this.loadList('reports', data)
@@ -70,6 +76,7 @@ class Loader {
     try {
       const categories = await this.loadCategories(siteId)
       await this.loadEvents(siteId)
+      await this.loadLeadership(siteId)
       await this.loadNews(siteId)
       await this.loadPages(siteId)
       await this.loadReports(siteId, categories)

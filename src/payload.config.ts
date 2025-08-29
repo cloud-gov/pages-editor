@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
 import { Events } from './collections/Events'
+import { Leadership } from './collections/Leadership'
 import { Media } from './collections/Media'
 import { News } from './collections/News'
 import { Posts } from './collections/Posts'
@@ -91,6 +92,7 @@ const config = {
     Users,
     Sites,
     SiteConfigCollection,
+    Leadership,
     CollectionLandingPages,
   ],
   cors: [getServerSideURL()].filter(Boolean),
