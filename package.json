@@ -27,6 +27,7 @@
     "dc:generate:db-schema": "docker compose run --rm app npm run generate:db-schema",
     "dc:generate:importmap": "docker compose run --rm app npm run generate:importmap",
     "dc:generate:types": "docker compose run --rm app npm run generate:types",
+    "dc:install": "docker compose run --rm app npm ci",
     "dc:migrate:create": "docker compose run --rm app npx payload migrate:create",
     "dc:migrate:down": "docker compose run --rm app npx payload migrate:down",
     "dc:migrate:fresh": "docker compose run --rm app npx payload migrate:fresh",

@@ -77,6 +77,7 @@ export interface Config {
     categories: Category;
     sites: Site;
     'site-config-site-collection': SiteConfigSiteCollection;
+    leadership: Leadership;
     'collection-landing-pages': CollectionLandingPage;
     redirects: Redirect;
     forms: Form;
@@ -103,6 +104,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
+    leadership: LeadershipSelect<false> | LeadershipSelect<true>;
     'collection-landing-pages': CollectionLandingPagesSelect<false> | CollectionLandingPagesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -535,6 +537,45 @@ export interface SiteConfigSiteCollection {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leadership".
+ */
+export interface Leadership {
+  id: number;
+  title: string;
+  jobTitle: string;
+  description?: string | null;
+  image?: (number | null) | Media;
+  /**
+   * Alternative text for the image for accessibility
+   */
+  imageAlt: string;
+  /**
+   * Detailed biography or description of the leadership member
+   */
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  site: number | Site;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collection-landing-pages".
  */
 export interface CollectionLandingPage {
@@ -832,6 +873,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'site-config-site-collection';
         value: number | SiteConfigSiteCollection;
+      } | null)
+    | ({
+        relationTo: 'leadership';
+        value: number | Leadership;
       } | null)
     | ({
         relationTo: 'collection-landing-pages';
@@ -1170,6 +1215,24 @@ export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
   font?: T;
   agencyName?: T;
   site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leadership_select".
+ */
+export interface LeadershipSelect<T extends boolean = true> {
+  title?: T;
+  jobTitle?: T;
+  description?: T;
+  image?: T;
+  imageAlt?: T;
+  content?: T;
+  site?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

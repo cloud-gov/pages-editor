@@ -17,6 +17,7 @@ import * as migration_20250604_221543_add_policies_collection from './20250604_2
 import * as migration_20250611_211537_simplify_policies_collection from './20250611_211537_simplify_policies_collection';
 import * as migration_20250827_214629_add_menu_config_and_standardize_collection_fields from './20250827_214629_add_menu_config_and_standardize_collection_fields';
 import * as migration_20250828_175542_set_payload_v350 from './20250828_175542_set_payload_v350';
+import * as migration_20250829_161933_add_leadership_collection from './20250829_161933_add_leadership_collection';
 
 export const migrations = [
   {
@@ -112,6 +113,11 @@ export const migrations = [
   {
     up: migration_20250828_175542_set_payload_v350.up,
     down: migration_20250828_175542_set_payload_v350.down,
-    name: '20250828_175542_check'
+    name: '20250828_175542_set_payload_v350',
+  },
+  {
+    up: migration_20250829_161933_add_leadership_collection.up,
+    down: migration_20250829_161933_add_leadership_collection.down,
+    name: '20250829_161933_add_leadership_collection'
   },
 ];

@@ -85,6 +85,22 @@ export const test = vitest.extend<LocalTestContext>({
     )
     await use(events)
   },
+  leadership: async ({ payload, tid, sites }, use) => {
+    const leadership = await Promise.all(
+      sites.map(async (site) => {
+        return create(payload, tid, {
+          collection: 'leadership',
+          data: {
+            title: `${site.name} Title`,
+            jobTitle: 'Testor',
+            imageAlt: 'Test image alt',
+            site,
+          },
+        })
+      }),
+    )
+    await use(leadership)
+  },
   // media: async ({ payload, tid, sites }, use) => {
   //   const media = await Promise.all(
   //     sites.map(async (site) => {
