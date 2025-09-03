@@ -17,6 +17,7 @@ import { Reports } from './collections/Reports'
 import { Pages } from './collections/Pages'
 import { Policies } from './collections/Policies'
 import { Sites } from './collections/Sites'
+import { Menu as MenuConfig } from './globals/Menu'
 import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
 import { plugins } from './plugins'
 import endpoints from './endpoints'
@@ -25,10 +26,10 @@ import { getServerSideURL } from './utilities/getURL'
 import { createSiteGlobal } from './utilities/siteGlobal'
 import { afterSchemaInit } from './utilities/cascade'
 import { migrations } from './migrations'
-import { Menu } from './globals/Menu';
-import { CollectionLandingPages } from './collections/CollectionLanding';
 
+// Any site global fields must use the `createSiteGlobal` function
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
+const [Menu, MenuCollection] = createSiteGlobal(MenuConfig)
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -85,6 +86,7 @@ const config = {
     Events,
     News,
     Media,
+    MenuCollection,
     Reports,
     Pages,
     Policies,
@@ -93,13 +95,9 @@ const config = {
     Sites,
     SiteConfigCollection,
     Leadership,
-    CollectionLandingPages,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [
-    SiteConfig,
-    Menu,
-  ],
+  globals: [SiteConfig, Menu],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
