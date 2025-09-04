@@ -74,6 +74,12 @@ export const Menu: GlobalConfig = {
           },
           fields: [
             {
+              name: 'label',
+              label: 'The name used on your dropdown link label',
+              type: 'text',
+              required: true,
+            },
+            {
               name: 'subitems',
               type: 'blocks',
               label: 'Dropdown Navigation Links',

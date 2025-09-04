@@ -435,6 +435,7 @@ export interface MenuSiteCollection {
             blockType: 'collectionLink';
           }
         | {
+            label: string;
             subitems?:
               | (
                   | {
@@ -1178,6 +1179,7 @@ export interface MenuSiteCollectionSelect<T extends boolean = true> {
         dropdown?:
           | T
           | {
+              label?: T;
               subitems?:
                 | T
                 | {
@@ -1614,6 +1616,7 @@ export interface Menu {
             blockType: 'collectionLink';
           }
         | {
+            label: string;
             subitems?:
               | (
                   | {
@@ -1681,6 +1684,7 @@ export interface MenuSelect<T extends boolean = true> {
         dropdown?:
           | T
           | {
+              label?: T;
               subitems?:
                 | T
                 | {
