@@ -71,6 +71,7 @@ export interface Config {
     events: Event;
     news: News;
     media: Media;
+    'menu-site-collection': MenuSiteCollection;
     reports: Report;
     pages: Page;
     policies: Policy;
@@ -78,7 +79,6 @@ export interface Config {
     sites: Site;
     'site-config-site-collection': SiteConfigSiteCollection;
     leadership: Leadership;
-    'collection-landing-pages': CollectionLandingPage;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -98,6 +98,7 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     news: NewsSelect<false> | NewsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'menu-site-collection': MenuSiteCollectionSelect<false> | MenuSiteCollectionSelect<true>;
     reports: ReportsSelect<false> | ReportsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     policies: PoliciesSelect<false> | PoliciesSelect<true>;
@@ -105,7 +106,6 @@ export interface Config {
     sites: SitesSelect<false> | SitesSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
     leadership: LeadershipSelect<false> | LeadershipSelect<true>;
-    'collection-landing-pages': CollectionLandingPagesSelect<false> | CollectionLandingPagesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -414,41 +414,53 @@ export interface News {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "reports".
+ * via the `definition` "menu-site-collection".
  */
-export interface Report {
+export interface MenuSiteCollection {
   id: number;
-  title: string;
-  excerpt?: string | null;
-  image?: (number | null) | Media;
-  reportFiles?:
-    | {
-        file?: (number | null) | Media;
-        id?: string | null;
-      }[]
+  items?:
+    | (
+        | {
+            label: string;
+            page: number | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageLink';
+          }
+        | {
+            label: string;
+            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports';
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionLink';
+          }
+        | {
+            label: string;
+            subitems?:
+              | (
+                  | {
+                      label: string;
+                      page: number | Page;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'pageLink';
+                    }
+                  | {
+                      label: string;
+                      page: 'events' | 'leadership' | 'news' | 'posts' | 'reports';
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'collectionLink';
+                    }
+                )[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'dropdown';
+          }
+      )[]
     | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  reportDate?: string | null;
-  categories?: (number | Category)[] | null;
   site: number | Site;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  reviewReady?: boolean | null;
-  publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -483,6 +495,47 @@ export interface Page {
     [k: string]: unknown;
   } | null;
   site: number | Site;
+  reviewReady?: boolean | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reports".
+ */
+export interface Report {
+  id: number;
+  title: string;
+  excerpt?: string | null;
+  image?: (number | null) | Media;
+  reportFiles?:
+    | {
+        file?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  reportDate?: string | null;
+  categories?: (number | Category)[] | null;
+  site: number | Site;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   reviewReady?: boolean | null;
   publishedAt?: string | null;
   updatedAt: string;
@@ -573,17 +626,6 @@ export interface Leadership {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "collection-landing-pages".
- */
-export interface CollectionLandingPage {
-  id: number;
-  title: string;
-  slug: string;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -851,6 +893,10 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
+        relationTo: 'menu-site-collection';
+        value: number | MenuSiteCollection;
+      } | null)
+    | ({
         relationTo: 'reports';
         value: number | Report;
       } | null)
@@ -877,10 +923,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'leadership';
         value: number | Leadership;
-      } | null)
-    | ({
-        relationTo: 'collection-landing-pages';
-        value: number | CollectionLandingPage;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1112,6 +1154,63 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menu-site-collection_select".
+ */
+export interface MenuSiteCollectionSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        pageLink?:
+          | T
+          | {
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionLink?:
+          | T
+          | {
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        dropdown?:
+          | T
+          | {
+              label?: T;
+              subitems?:
+                | T
+                | {
+                    pageLink?:
+                      | T
+                      | {
+                          label?: T;
+                          page?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    collectionLink?:
+                      | T
+                      | {
+                          label?: T;
+                          page?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reports_select".
  */
 export interface ReportsSelect<T extends boolean = true> {
@@ -1236,16 +1335,6 @@ export interface LeadershipSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "collection-landing-pages_select".
- */
-export interface CollectionLandingPagesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1521,19 +1610,30 @@ export interface Menu {
           }
         | {
             label: string;
-            page: number | CollectionLandingPage;
+            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports';
             id?: string | null;
             blockName?: string | null;
             blockType: 'collectionLink';
           }
         | {
             label: string;
-            subItems?:
-              | {
-                  label: string;
-                  page: number | Page;
-                  id?: string | null;
-                }[]
+            subitems?:
+              | (
+                  | {
+                      label: string;
+                      page: number | Page;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'pageLink';
+                    }
+                  | {
+                      label: string;
+                      page: 'events' | 'leadership' | 'news' | 'posts' | 'reports';
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'collectionLink';
+                    }
+                )[]
               | null;
             id?: string | null;
             blockName?: string | null;
@@ -1541,6 +1641,7 @@ export interface Menu {
           }
       )[]
     | null;
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1584,17 +1685,31 @@ export interface MenuSelect<T extends boolean = true> {
           | T
           | {
               label?: T;
-              subItems?:
+              subitems?:
                 | T
                 | {
-                    label?: T;
-                    page?: T;
-                    id?: T;
+                    pageLink?:
+                      | T
+                      | {
+                          label?: T;
+                          page?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    collectionLink?:
+                      | T
+                      | {
+                          label?: T;
+                          page?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
                   };
               id?: T;
               blockName?: T;
             };
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

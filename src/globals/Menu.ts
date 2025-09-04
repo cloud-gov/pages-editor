@@ -1,9 +1,9 @@
 // payload/globals/Menu.ts
-import { GlobalConfig } from "payload";
+import { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 
 export const Menu: GlobalConfig = {
-  slug: "menu",
+  slug: 'menu',
   access: {
     read: getAdminOrSiteUserGlobals(['manager', 'user', 'bot']),
     update: getAdminOrSiteUserGlobals(),
@@ -11,76 +11,129 @@ export const Menu: GlobalConfig = {
   },
   fields: [
     {
-      name: "items",
-      type: "blocks",
-      label: "Navigation Items",
+      name: 'items',
+      type: 'blocks',
+      label: 'Navigation Links',
       blocks: [
         {
-          slug: "pageLink",
+          slug: 'pageLink',
           labels: {
-            singular: "Page Link",
-            plural: "Page Links",
+            singular: 'Page Link',
+            plural: 'Page Links',
           },
           fields: [
             {
-              name: "label",
-              type: "text",
+              name: 'label',
+              label: 'The name used on your menu link',
+              type: 'text',
               required: true,
             },
             {
-              name: "page",
-              type: "relationship",
-              relationTo: "pages",
+              name: 'page',
+              label: 'Select the single page the menu link will link to',
+              type: 'relationship',
+              relationTo: 'pages',
               required: true,
             },
           ],
         },
         {
-          slug: "collectionLink",
+          slug: 'collectionLink',
           labels: {
-            singular: "Collection Link",
-            plural: "Collection Links",
+            singular: 'Collection Link',
+            plural: 'Collection Links',
           },
           fields: [
             {
-              name: "label",
-              type: "text",
+              name: 'label',
+              label: 'The name used on your menu link',
+              type: 'text',
               required: true,
             },
             {
-              name: "page",
-              type: "relationship",
-              relationTo: "collection-landing-pages",
+              name: 'page',
+              label: 'Select the content collection the menu link will link to',
+              type: 'select',
+              options: [
+                { label: 'Events', value: 'events' },
+                { label: 'Leadership', value: 'leadership' },
+                { label: 'News', value: 'news' },
+                { label: 'Blog Posts', value: 'posts' },
+                { label: 'Reports', value: 'reports' },
+              ],
+              hasMany: false,
               required: true,
             },
           ],
         },
         {
-          slug: "dropdown",
+          slug: 'dropdown',
           labels: {
-            singular: "Dropdown",
-            plural: "Dropdowns",
+            singular: 'Dropdown',
+            plural: 'Dropdowns',
           },
           fields: [
             {
-              name: "label",
-              type: "text",
+              name: 'label',
+              label: 'The name used on your dropdown link label',
+              type: 'text',
               required: true,
             },
             {
-              name: "subItems",
-              type: "array",
-              fields: [
+              name: 'subitems',
+              type: 'blocks',
+              label: 'Dropdown Navigation Links',
+              blocks: [
                 {
-                  name: "label",
-                  type: "text",
-                  required: true,
+                  slug: 'pageLink',
+                  labels: {
+                    singular: 'Page Link',
+                    plural: 'Page Links',
+                  },
+                  fields: [
+                    {
+                      name: 'label',
+                      label: 'The name used on your menu link',
+                      type: 'text',
+                      required: true,
+                    },
+                    {
+                      name: 'page',
+                      label: 'Select the single page the menu link will link to',
+                      type: 'relationship',
+                      relationTo: 'pages',
+                      required: true,
+                    },
+                  ],
                 },
                 {
-                  name: "page",
-                  type: "relationship",
-                  relationTo: "pages",
-                  required: true,
+                  slug: 'collectionLink',
+                  labels: {
+                    singular: 'Collection Link',
+                    plural: 'Collection Links',
+                  },
+                  fields: [
+                    {
+                      name: 'label',
+                      label: 'The name used on your menu link',
+                      type: 'text',
+                      required: true,
+                    },
+                    {
+                      name: 'page',
+                      label: 'Select the content collection the menu link will link to',
+                      type: 'select',
+                      options: [
+                        { label: 'Events', value: 'events' },
+                        { label: 'Leadership', value: 'leadership' },
+                        { label: 'News', value: 'news' },
+                        { label: 'Blog Posts', value: 'posts' },
+                        { label: 'Reports', value: 'reports' },
+                      ],
+                      hasMany: false,
+                      required: true,
+                    },
+                  ],
                 },
               ],
             },
@@ -89,4 +142,4 @@ export const Menu: GlobalConfig = {
       ],
     },
   ],
-};
+}

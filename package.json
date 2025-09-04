@@ -34,6 +34,7 @@
     "dc:migrate:status": "docker compose run --rm app npx payload migrate:status",
     "dc:migrate:up": "docker compose run --rm app npx payload migrate",
     "dc:seed": "docker compose run --rm app npm run seed",
+    "dc:seed:data": "docker compose run --rm app npx payload run scripts/seed.ts",
     "dc:test": "docker compose run --rm app npm run test",
     "dc:test:ci": "docker compose run --rm app npm run test:ci",
     "dc:up": "docker compose up"
