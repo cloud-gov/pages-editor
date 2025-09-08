@@ -22,7 +22,7 @@
     "test:ci": "NODE_ENV=test vitest --run",
     "seed": "yes | payload migrate:fresh && payload run scripts/seed.ts",
     "dc:app:build": "docker compose run --rm app npm run build",
-    "dc:build": "docker compose build",
+    "dc:build": "docker compose build --build-arg BUILD_ENV=$(grep BUILD_ENV .env | cut -d '=' -f2)",
     "dc:down": "docker compose down",
     "dc:generate:db-schema": "docker compose run --rm app npm run generate:db-schema",
     "dc:generate:importmap": "docker compose run --rm app npm run generate:importmap",
@@ -76,7 +76,7 @@
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-hook-form": "7.45.4",
-    "sharp": "0.32.6",
+    "sharp": "^0.34.3",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
   },

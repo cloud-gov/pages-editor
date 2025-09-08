@@ -8,6 +8,8 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
+      args:
+        BUILD_ENV: $(BUILD_ENV)
     command: ['npm', 'run', 'dev']
     stdin_open: true
     tty: true
@@ -24,6 +26,7 @@ services:
       uaa:
         condition: service_started
     environment:
+      BUILD_ENV: $(BUILD_ENV)
       DATABASE_URI: postgresql://postgres:password@db:5432/pages_editor
       PAYLOAD_SECRET: mysecret
       NEXT_PUBLIC_SERVER_URL: http://localhost:3000

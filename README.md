@@ -23,13 +23,9 @@ Content Editors can:
 We use docker compose to setup the environment and run all of the supporting services to properly run this locally.
 We have created some package.json scripts to make running the docker commands a bit easier. 
 
-*Try this [zscaler workaround](#zscaler) if your local environment is stalling or throwing errors running the build script.*
-eg:
-```sh
-target uaa: failed to solve: process "/bin/sh -c wget -q https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.45/bin/apache-tomcat-9.0.45.tar.gz" did not complete successfully: exit code: 5
-```
+Some local users have difficulty with zscaler while running the build script. 
+Copy the .env.example file to .env and update `BUILD_ENV=LOCAL` to pass the zscaler certificate to the docker container before running the scripts below.
 
-```sh
 # Get and build docker images
 npm run dc:build
 
@@ -149,23 +145,6 @@ We make extensive use of [vitest context and fixtures](https://vitest.dev/guide/
   - These fixtures can be overwritten or modified for a given `describe` block by using `test.scoped`. Modified values will be passed down to any dependent fixtures (e.g. `defaultUserRole` will update `testUser` accordingly). Note that this is only available in a pre-release version of `vitest` (`"^3.1.0-beta.2"`).
 
 - The test database is cleared (`test/utils/globalSetup.ts`) before and after each test-suite run to ensure accurate fixtures.
-
-#### <a id="zscaler"></a> ZSCALER workaround
-
-1. Obtain a copy of the Zscaler CA certificate. USA.gov has one on github [here](https://github.com/usagov/usagov-2021/blob/dev/.docker/zscaler_cert.pem).
-2. Copy the certificate to the ./docker directory
-3. Add the following to ./docker/Dockerfile-uaa just above `COPY ./uaa.yml /uaa/uaa.yml`
-      ```
-      # Add the zscaler certificate to the trusted certs only on local builds
-      COPY ./zscaler_cert.pem /usr/local/share/ca-certificates/zscaler.crt
-
-      RUN update-ca-certificates
-      ```
-4. In ./package.json update sharp to "^0.34.3”
-5. `$ npm install`
-6. Continue with the Running Locally steps above.
-7. You can revert changes to Dockerfile-uaa after the build is finished.
-
 
 #### UI Tests
 
