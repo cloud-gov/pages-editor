@@ -21,9 +21,11 @@ Content Editors can:
 ### Running Locally
 
 We use docker compose to setup the environment and run all of the supporting services to properly run this locally.
-We have created some package.json scripts to make running the docker commands a bit easier
+We have created some package.json scripts to make running the docker commands a bit easier. 
 
-```sh
+Some local users have difficulty with zscaler while running the build script. 
+Copy the .env.example file to .env and update `BUILD_ENV=LOCAL` to pass the zscaler certificate to the docker container before running the scripts below.
+
 # Get and build docker images
 npm run dc:build
 
