@@ -4,13 +4,15 @@ import { colorOptions } from '@/fields'
 
 export const SiteConfig: GlobalConfig = {
   slug: 'site-config',
+  label: 'Site Identity',
   access: {
     read: getAdminOrSiteUserGlobals(['manager', 'user', 'bot']),
     update: getAdminOrSiteUserGlobals(),
     readVersions: getAdminOrSiteUserGlobals(),
   },
   admin: {
-    group: 'Information',
+    group: 'Site Configuration',
+    description: 'Site settings and branding',
   },
   fields: [
     {

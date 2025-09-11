@@ -4,10 +4,15 @@ import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 
 export const Menu: GlobalConfig = {
   slug: 'menu',
+  label: 'Main Navigation',
   access: {
     read: getAdminOrSiteUserGlobals(['manager', 'user', 'bot']),
     update: getAdminOrSiteUserGlobals(),
     readVersions: getAdminOrSiteUserGlobals(),
+  },
+  admin: {
+    group: 'Site Configuration',
+    description: 'Navigation menu configuration',
   },
   fields: [
     {

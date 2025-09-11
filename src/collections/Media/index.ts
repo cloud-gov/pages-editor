@@ -12,6 +12,8 @@ const dirname = path.dirname(filename)
 
 export const Media: CollectionConfig = {
   admin: {
+    group: 'Global Assets',
+    description: 'Images, documents, and media files',
     hidden: false,
     defaultColumns: ['filename', '_status', 'reviewReady'],
   },

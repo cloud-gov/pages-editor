@@ -11,18 +11,9 @@ import { completeReview } from '@/hooks/completeReview'
 
 export const News: CollectionConfig<'news'> = {
   slug: 'news',
-  access: {
-    create: getAdminOrSiteUser('news'),
-    delete: getAdminOrSiteUser('news'),
-    read: getAdminOrSiteUser('news', ['manager', 'user', 'bot']),
-    update: getAdminOrSiteUser('news'),
-  },
-  defaultPopulate: {
-    title: true,
-    slug: true,
-  },
-  defaultSort: '-reviewReady',
   admin: {
+    group: 'Collections',
+    description: 'News articles and announcements',
     defaultColumns: ['title', 'reviewReady', 'updatedAt'],
     livePreview: {
       url: async ({ data, req }) => {
@@ -41,6 +32,17 @@ export const News: CollectionConfig<'news'> = {
     useAsTitle: 'title',
     hideAPIURL: true,
   },
+  access: {
+    create: getAdminOrSiteUser('news'),
+    delete: getAdminOrSiteUser('news'),
+    read: getAdminOrSiteUser('news', ['manager', 'user', 'bot']),
+    update: getAdminOrSiteUser('news'),
+  },
+  defaultPopulate: {
+    title: true,
+    slug: true,
+  },
+  defaultSort: '-reviewReady',
   fields: [
     {
       name: 'title',

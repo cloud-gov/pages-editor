@@ -38,13 +38,6 @@
     line-height: 25px;
 }
 
-.render-title {
-    font-family: "Merriweather", Georgia, Cambria, "Times New Roman", Times, serif;
-    font-weight: 700;
-}
-
-// the button styles mess up with main page links so
-// restrict them a bit
 .list-header, .doc-controls__wrapper, .login {
     .btn {
         @extend .usa-button;
@@ -74,4 +67,18 @@ button {
     display: flex;
     justify-content: center;
     width: 100%;
+}
+
+.list-header__title-and-actions {
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+}
+
+.table {
+    th:first-child,
+    td:first-child {
+        width: 40px !important;
+        min-width: 40px;
+        max-width: 40px;
+    }
 }

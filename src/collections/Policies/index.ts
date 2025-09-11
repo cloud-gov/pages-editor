@@ -11,20 +11,10 @@ import { siteField } from '@/fields/relationships'
 
 export const Policies: CollectionConfig<'policies'> = {
   slug: 'policies',
-  access: {
-    create: getAdmin,
-    delete: getAdmin,
-    read: getAdminOrSiteUser('policies', ['manager', 'user', 'bot']),
-    update: getAdminOrSiteUser('policies'),
-  },
-  defaultPopulate: {
-    title: true,
-    slug: true,
-  },
-  defaultSort: '-reviewReady',
   admin: {
+    group: 'Standalone Pages',
+    description: 'Policies and procedures',
     defaultColumns: ['title', 'slug', 'reviewReady', 'updatedAt'],
-    description: 'Manage policies that are shown in the site.',
     livePreview: {
       url: async ({ data, req }) => {
         // site isn't fetched at the necessary depth in `data`
@@ -41,8 +31,18 @@ export const Policies: CollectionConfig<'policies'> = {
     },
     useAsTitle: 'title',
     hideAPIURL: true,
-    group: 'Individual Pages',
   },
+  access: {
+    create: getAdmin,
+    delete: getAdmin,
+    read: getAdminOrSiteUser('policies', ['manager', 'user', 'bot']),
+    update: getAdminOrSiteUser('policies'),
+  },
+  defaultPopulate: {
+    title: true,
+    slug: true,
+  },
+  defaultSort: '-reviewReady',
   fields: [
     {
       name: 'title',

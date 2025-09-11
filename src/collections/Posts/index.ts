@@ -14,20 +14,9 @@ import { publish } from '@/hooks/publish'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
-  access: {
-    create: getAdminOrSiteUser('posts'),
-    delete: getAdminOrSiteUser('posts'),
-    read: getAdminOrSiteUser('posts', ['manager', 'user', 'bot']),
-    update: getAdminOrSiteUser('posts'),
-  },
-  // This config controls what's populated by default when a post is referenced
-  // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
-  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'posts'>
-  defaultPopulate: {
-    title: true,
-    slug: true,
-  },
   admin: {
+    group: 'Collections',
+    description: 'Blog posts and articles',
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
       url: async ({ data, req }) => {
@@ -45,6 +34,19 @@ export const Posts: CollectionConfig<'posts'> = {
     },
     useAsTitle: 'title',
     hideAPIURL: true,
+  },
+  access: {
+    create: getAdminOrSiteUser('posts'),
+    delete: getAdminOrSiteUser('posts'),
+    read: getAdminOrSiteUser('posts', ['manager', 'user', 'bot']),
+    update: getAdminOrSiteUser('posts'),
+  },
+  // This config controls what's populated by default when a post is referenced
+  // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
+  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'posts'>
+  defaultPopulate: {
+    title: true,
+    slug: true,
   },
   fields: [
     {
