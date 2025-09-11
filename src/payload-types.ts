@@ -581,8 +581,126 @@ export interface Policy {
  */
 export interface SiteConfigSiteCollection {
   id: number;
-  font?: string | null;
   agencyName: string;
+  tagline?: string | null;
+  primaryColor?:
+    | (
+        | 'blue-cool'
+        | 'blue-cool-vivid'
+        | 'blue'
+        | 'blue-vivid'
+        | 'blue-warm'
+        | 'blue-warm-vivid'
+        | 'cyan'
+        | 'cyan-vivid'
+        | 'gold'
+        | 'gold-vivid'
+        | 'gray-cool'
+        | 'gray'
+        | 'gray-warm'
+        | 'green-cool'
+        | 'green-cool-vivid'
+        | 'green'
+        | 'green-vivid'
+        | 'green-warm'
+        | 'green-warm-vivid'
+        | 'indigo-cool'
+        | 'indigo-cool-vivid'
+        | 'indigo'
+        | 'indigo-vivid'
+        | 'indigo-warm'
+        | 'indigo-warm-vivid'
+        | 'magenta'
+        | 'magenta-vivid'
+        | 'mint-cool'
+        | 'mint-cool-vivid'
+        | 'mint'
+        | 'mint-vivid'
+        | 'orange'
+        | 'orange-vivid'
+        | 'orange-warm'
+        | 'orange-warm-vivid'
+        | 'red-cool'
+        | 'red-cool-vivid'
+        | 'red'
+        | 'red-vivid'
+        | 'red-warm'
+        | 'red-warm-vivid'
+        | 'violet'
+        | 'violet-vivid'
+        | 'violet-warm'
+        | 'violet-warm-vivid'
+        | 'yellow'
+        | 'yellow-vivid'
+      )
+    | null;
+  secondaryColor?:
+    | (
+        | 'blue-cool'
+        | 'blue-cool-vivid'
+        | 'blue'
+        | 'blue-vivid'
+        | 'blue-warm'
+        | 'blue-warm-vivid'
+        | 'cyan'
+        | 'cyan-vivid'
+        | 'gold'
+        | 'gold-vivid'
+        | 'gray-cool'
+        | 'gray'
+        | 'gray-warm'
+        | 'green-cool'
+        | 'green-cool-vivid'
+        | 'green'
+        | 'green-vivid'
+        | 'green-warm'
+        | 'green-warm-vivid'
+        | 'indigo-cool'
+        | 'indigo-cool-vivid'
+        | 'indigo'
+        | 'indigo-vivid'
+        | 'indigo-warm'
+        | 'indigo-warm-vivid'
+        | 'magenta'
+        | 'magenta-vivid'
+        | 'mint-cool'
+        | 'mint-cool-vivid'
+        | 'mint'
+        | 'mint-vivid'
+        | 'orange'
+        | 'orange-vivid'
+        | 'orange-warm'
+        | 'orange-warm-vivid'
+        | 'red-cool'
+        | 'red-cool-vivid'
+        | 'red'
+        | 'red-vivid'
+        | 'red-warm'
+        | 'red-warm-vivid'
+        | 'violet'
+        | 'violet-vivid'
+        | 'violet-warm'
+        | 'violet-warm-vivid'
+        | 'yellow'
+        | 'yellow-vivid'
+      )
+    | null;
+  primaryFont?:
+    | (
+        | 'georgia'
+        | 'helvetica'
+        | 'merriweather'
+        | 'open-sans'
+        | 'public-sans'
+        | 'roboto-mono'
+        | 'source-sans-pro'
+        | 'system'
+        | 'tahoma'
+        | 'verdana'
+      )
+    | null;
+  favicon?: (number | null) | Media;
+  logo?: (number | null) | Media;
   site: number | Site;
   updatedAt: string;
   createdAt: string;
@@ -1311,8 +1429,13 @@ export interface SitesSelect<T extends boolean = true> {
  * via the `definition` "site-config-site-collection_select".
  */
 export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
-  font?: T;
   agencyName?: T;
+  tagline?: T;
+  primaryColor?: T;
+  secondaryColor?: T;
+  primaryFont?: T;
+  favicon?: T;
+  logo?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1587,8 +1710,126 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface SiteConfig {
   id: number;
-  font?: string | null;
   agencyName: string;
+  tagline?: string | null;
+  primaryColor?:
+    | (
+        | 'blue-cool'
+        | 'blue-cool-vivid'
+        | 'blue'
+        | 'blue-vivid'
+        | 'blue-warm'
+        | 'blue-warm-vivid'
+        | 'cyan'
+        | 'cyan-vivid'
+        | 'gold'
+        | 'gold-vivid'
+        | 'gray-cool'
+        | 'gray'
+        | 'gray-warm'
+        | 'green-cool'
+        | 'green-cool-vivid'
+        | 'green'
+        | 'green-vivid'
+        | 'green-warm'
+        | 'green-warm-vivid'
+        | 'indigo-cool'
+        | 'indigo-cool-vivid'
+        | 'indigo'
+        | 'indigo-vivid'
+        | 'indigo-warm'
+        | 'indigo-warm-vivid'
+        | 'magenta'
+        | 'magenta-vivid'
+        | 'mint-cool'
+        | 'mint-cool-vivid'
+        | 'mint'
+        | 'mint-vivid'
+        | 'orange'
+        | 'orange-vivid'
+        | 'orange-warm'
+        | 'orange-warm-vivid'
+        | 'red-cool'
+        | 'red-cool-vivid'
+        | 'red'
+        | 'red-vivid'
+        | 'red-warm'
+        | 'red-warm-vivid'
+        | 'violet'
+        | 'violet-vivid'
+        | 'violet-warm'
+        | 'violet-warm-vivid'
+        | 'yellow'
+        | 'yellow-vivid'
+      )
+    | null;
+  secondaryColor?:
+    | (
+        | 'blue-cool'
+        | 'blue-cool-vivid'
+        | 'blue'
+        | 'blue-vivid'
+        | 'blue-warm'
+        | 'blue-warm-vivid'
+        | 'cyan'
+        | 'cyan-vivid'
+        | 'gold'
+        | 'gold-vivid'
+        | 'gray-cool'
+        | 'gray'
+        | 'gray-warm'
+        | 'green-cool'
+        | 'green-cool-vivid'
+        | 'green'
+        | 'green-vivid'
+        | 'green-warm'
+        | 'green-warm-vivid'
+        | 'indigo-cool'
+        | 'indigo-cool-vivid'
+        | 'indigo'
+        | 'indigo-vivid'
+        | 'indigo-warm'
+        | 'indigo-warm-vivid'
+        | 'magenta'
+        | 'magenta-vivid'
+        | 'mint-cool'
+        | 'mint-cool-vivid'
+        | 'mint'
+        | 'mint-vivid'
+        | 'orange'
+        | 'orange-vivid'
+        | 'orange-warm'
+        | 'orange-warm-vivid'
+        | 'red-cool'
+        | 'red-cool-vivid'
+        | 'red'
+        | 'red-vivid'
+        | 'red-warm'
+        | 'red-warm-vivid'
+        | 'violet'
+        | 'violet-vivid'
+        | 'violet-warm'
+        | 'violet-warm-vivid'
+        | 'yellow'
+        | 'yellow-vivid'
+      )
+    | null;
+  primaryFont?:
+    | (
+        | 'georgia'
+        | 'helvetica'
+        | 'merriweather'
+        | 'open-sans'
+        | 'public-sans'
+        | 'roboto-mono'
+        | 'source-sans-pro'
+        | 'system'
+        | 'tahoma'
+        | 'verdana'
+      )
+    | null;
+  favicon?: (number | null) | Media;
+  logo?: (number | null) | Media;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1650,8 +1891,13 @@ export interface Menu {
  * via the `definition` "site-config_select".
  */
 export interface SiteConfigSelect<T extends boolean = true> {
-  font?: T;
   agencyName?: T;
+  tagline?: T;
+  primaryColor?: T;
+  secondaryColor?: T;
+  primaryFont?: T;
+  favicon?: T;
+  logo?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;
