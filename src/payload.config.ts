@@ -42,6 +42,7 @@ const config = {
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
       beforeDashboard: ['@/components/BeforeDashboard'],
+      Dashboard: ['@/components/CustomDashboard'],
       // graphics: { // TODO custom logo
       // whitelabeling example: https://github.com/payloadcms/payload/blob/main/examples/whitelabel/src/payload.config.ts
       //   Icon: '/graphics/Icon/index.tsx#Icon',
