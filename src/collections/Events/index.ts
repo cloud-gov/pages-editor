@@ -11,18 +11,9 @@ import { descriptionField, imageField } from '@/fields'
 
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
-  access: {
-    create: getAdminOrSiteUser('events'),
-    delete: getAdminOrSiteUser('events'),
-    read: getAdminOrSiteUser('events', ['manager', 'user', 'bot']),
-    update: getAdminOrSiteUser('events'),
-  },
-  defaultPopulate: {
-    title: true,
-    slug: true,
-  },
-  defaultSort: '-reviewReady',
   admin: {
+    group: 'Collections',
+    description: 'Events and calendar items',
     defaultColumns: ['title', 'reviewReady', 'updatedAt'],
     livePreview: {
       url: async ({ data, req }) => {
@@ -41,6 +32,17 @@ export const Events: CollectionConfig<'events'> = {
     useAsTitle: 'title',
     hideAPIURL: true,
   },
+  access: {
+    create: getAdminOrSiteUser('events'),
+    delete: getAdminOrSiteUser('events'),
+    read: getAdminOrSiteUser('events', ['manager', 'user', 'bot']),
+    update: getAdminOrSiteUser('events'),
+  },
+  defaultPopulate: {
+    title: true,
+    slug: true,
+  },
+  defaultSort: '-reviewReady',
   fields: [
     {
       name: 'title',

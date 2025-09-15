@@ -11,17 +11,13 @@ import { completeReview } from '@/hooks/completeReview'
 
 export const Reports: CollectionConfig<'reports'> = {
   slug: 'reports',
-  access: {
-    create: getAdminOrSiteUser('reports'),
-    delete: getAdminOrSiteUser('reports'),
-    read: getAdminOrSiteUser('reports', ['manager', 'user', 'bot']),
-    update: getAdminOrSiteUser('reports'),
-  },
-  defaultPopulate: {
-    title: true,
-    slug: true,
+  labels: {
+    singular: 'Resource',
+    plural: 'Resources',
   },
   admin: {
+    group: 'Collections',
+    description: 'Resources and documents',
     defaultColumns: ['title', '_status', 'reviewReady'],
     meta: {
       title: 'Reports',
@@ -43,6 +39,16 @@ export const Reports: CollectionConfig<'reports'> = {
     },
     useAsTitle: 'title',
     hideAPIURL: true,
+  },
+  access: {
+    create: getAdminOrSiteUser('reports'),
+    delete: getAdminOrSiteUser('reports'),
+    read: getAdminOrSiteUser('reports', ['manager', 'user', 'bot']),
+    update: getAdminOrSiteUser('reports'),
+  },
+  defaultPopulate: {
+    title: true,
+    slug: true,
   },
   fields: [
     {

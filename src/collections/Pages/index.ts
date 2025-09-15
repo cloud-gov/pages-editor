@@ -11,20 +11,10 @@ import { completeReview } from '@/hooks/completeReview'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
-  access: {
-    create: getAdminOrSiteUser('pages', ['manager', 'user']),
-    delete: getAdmin,
-    read: getAdminOrSiteUser('pages', ['manager', 'user', 'bot']),
-    update: getAdminOrSiteUser('pages'),
-  },
-  defaultPopulate: {
-    title: true,
-    slug: true,
-  },
-  defaultSort: '-reviewReady',
   admin: {
+    group: 'Standalone Pages',
+    description: 'Individual website pages',
     defaultColumns: ['title', 'slug', 'reviewReady', 'updatedAt'],
-    description: 'Manage single pages that are shown in the site.',
     livePreview: {
       url: async ({ data, req }) => {
         // site isn't fetched at the necessary depth in `data`
@@ -41,8 +31,18 @@ export const Pages: CollectionConfig<'pages'> = {
     },
     useAsTitle: 'title',
     hideAPIURL: true,
-    group: 'Individual Pages',
   },
+  access: {
+    create: getAdminOrSiteUser('pages', ['manager', 'user']),
+    delete: getAdmin,
+    read: getAdminOrSiteUser('pages', ['manager', 'user', 'bot']),
+    update: getAdminOrSiteUser('pages'),
+  },
+  defaultPopulate: {
+    title: true,
+    slug: true,
+  },
+  defaultSort: '-reviewReady',
   fields: [
     {
       name: 'title',

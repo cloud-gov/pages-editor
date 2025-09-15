@@ -48,6 +48,44 @@ const config = {
       //   Logo: '/graphics/Logo/index.tsx#Logo',
       // },
     },
+    groups: [
+      {
+        label: 'Collections',
+        admin: {
+          description: 'Content collections',
+        },
+      },
+      {
+        label: 'Standalone Pages',
+        admin: {
+          description: 'Standalone pages and policies',
+        },
+      },
+      {
+        label: 'Global Assets',
+        admin: {
+          description: 'Media and categories',
+        },
+      },
+      {
+        label: 'Analytics',
+        admin: {
+          description: 'Analytics and reporting',
+        },
+      },
+      {
+        label: 'User Management',
+        admin: {
+          description: 'Team members and permissions',
+        },
+      },
+      {
+        label: 'Site Configuration',
+        admin: {
+          description: 'Site settings and configuration',
+        },
+      },
+    ],
     user: Users.slug,
     livePreview: {
       breakpoints: [
@@ -82,19 +120,24 @@ const config = {
     prodMigrations: migrations,
   }),
   collections: [
+    // Collections group
     Posts,
     Events,
     News,
-    Media,
-    MenuCollection,
     Reports,
+    Leadership,
+    // Standalone Pages group
     Pages,
     Policies,
+    // Global Assets group
+    Media,
     Categories,
+    // User Management group
     Users,
+    // Site Configuration group
     Sites,
+    MenuCollection,
     SiteConfigCollection,
-    Leadership,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [SiteConfig, Menu],

@@ -10,19 +10,13 @@ import { publish } from '@/hooks/publish'
 
 export const Leadership: CollectionConfig<'leadership'> = {
   slug: 'leadership',
-  access: {
-    create: getAdminOrSiteUser('leadership'),
-    delete: getAdminOrSiteUser('leadership'),
-    read: getAdminOrSiteUser('leadership', ['manager', 'user', 'bot']),
-    update: getAdminOrSiteUser('leadership'),
-  },
-  defaultPopulate: {
-    title: true,
-    slug: true,
-    jobTitle: true,
-    image: true,
+  labels: {
+    singular: 'Leadership',
+    plural: 'Leadership',
   },
   admin: {
+    group: 'Collections',
+    description: 'Leadership team members',
     defaultColumns: ['title', 'jobTitle', 'slug', 'updatedAt'],
     livePreview: {
       url: async ({ data, req }) => {
@@ -38,6 +32,18 @@ export const Leadership: CollectionConfig<'leadership'> = {
     },
     useAsTitle: 'title',
     hideAPIURL: true,
+  },
+  access: {
+    create: getAdminOrSiteUser('leadership'),
+    delete: getAdminOrSiteUser('leadership'),
+    read: getAdminOrSiteUser('leadership', ['manager', 'user', 'bot']),
+    update: getAdminOrSiteUser('leadership'),
+  },
+  defaultPopulate: {
+    title: true,
+    slug: true,
+    jobTitle: true,
+    image: true,
   },
   fields: [
     {

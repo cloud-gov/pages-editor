@@ -70,15 +70,15 @@ export interface Config {
     posts: Post;
     events: Event;
     news: News;
-    media: Media;
-    'menu-site-collection': MenuSiteCollection;
     reports: Report;
+    leadership: Leadership;
     pages: Page;
     policies: Policy;
+    media: Media;
     categories: Category;
     sites: Site;
+    'menu-site-collection': MenuSiteCollection;
     'site-config-site-collection': SiteConfigSiteCollection;
-    leadership: Leadership;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -97,15 +97,15 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     news: NewsSelect<false> | NewsSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
-    'menu-site-collection': MenuSiteCollectionSelect<false> | MenuSiteCollectionSelect<true>;
     reports: ReportsSelect<false> | ReportsSelect<true>;
+    leadership: LeadershipSelect<false> | LeadershipSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     policies: PoliciesSelect<false> | PoliciesSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
+    'menu-site-collection': MenuSiteCollectionSelect<false> | MenuSiteCollectionSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
-    leadership: LeadershipSelect<false> | LeadershipSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -154,6 +154,8 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * Blog posts and articles
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
  */
@@ -196,6 +198,8 @@ export interface Post {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Images, documents, and media files
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
@@ -275,6 +279,8 @@ export interface Media {
   };
 }
 /**
+ * Multi-site management
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "sites".
  */
@@ -295,6 +301,8 @@ export interface Site {
   createdAt: string;
 }
 /**
+ * Team members and permissions
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -316,6 +324,8 @@ export interface User {
   apiKeyIndex?: string | null;
 }
 /**
+ * Content categories and tags
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
@@ -338,6 +348,8 @@ export interface Category {
   createdAt: string;
 }
 /**
+ * Events and calendar items
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
  */
@@ -379,6 +391,8 @@ export interface Event {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * News articles and announcements
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news".
  */
@@ -413,6 +427,161 @@ export interface News {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Resources and documents
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reports".
+ */
+export interface Report {
+  id: number;
+  title: string;
+  excerpt?: string | null;
+  image?: (number | null) | Media;
+  reportFiles?:
+    | {
+        file?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  reportDate?: string | null;
+  categories?: (number | Category)[] | null;
+  site: number | Site;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  reviewReady?: boolean | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Leadership team members
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leadership".
+ */
+export interface Leadership {
+  id: number;
+  title: string;
+  jobTitle: string;
+  description?: string | null;
+  image?: (number | null) | Media;
+  /**
+   * Alternative text for the image for accessibility
+   */
+  imageAlt: string;
+  /**
+   * Detailed biography or description of the leadership member
+   */
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  site: number | Site;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Individual website pages
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  subtitle?: string | null;
+  label: string;
+  image?: (number | null) | Media;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  site: number | Site;
+  reviewReady?: boolean | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Policies and procedures
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "policies".
+ */
+export interface Policy {
+  id: number;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  label: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  site: number | Site;
+  reviewReady?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Navigation menu configuration
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "menu-site-collection".
  */
@@ -466,116 +635,8 @@ export interface MenuSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Manage single pages that are shown in the site.
+ * Site settings and branding
  *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
- */
-export interface Page {
-  id: number;
-  title: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  subtitle?: string | null;
-  label: string;
-  image?: (number | null) | Media;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  site: number | Site;
-  reviewReady?: boolean | null;
-  publishedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "reports".
- */
-export interface Report {
-  id: number;
-  title: string;
-  excerpt?: string | null;
-  image?: (number | null) | Media;
-  reportFiles?:
-    | {
-        file?: (number | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  reportDate?: string | null;
-  categories?: (number | Category)[] | null;
-  site: number | Site;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  reviewReady?: boolean | null;
-  publishedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Manage policies that are shown in the site.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "policies".
- */
-export interface Policy {
-  id: number;
-  title: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  label: string;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  site: number | Site;
-  reviewReady?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config-site-collection".
  */
@@ -702,45 +763,6 @@ export interface SiteConfigSiteCollection {
   favicon?: (number | null) | Media;
   logo?: (number | null) | Media;
   site: number | Site;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "leadership".
- */
-export interface Leadership {
-  id: number;
-  title: string;
-  jobTitle: string;
-  description?: string | null;
-  image?: (number | null) | Media;
-  /**
-   * Alternative text for the image for accessibility
-   */
-  imageAlt: string;
-  /**
-   * Detailed biography or description of the leadership member
-   */
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  site: number | Site;
-  slug?: string | null;
-  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1007,16 +1029,12 @@ export interface PayloadLockedDocument {
         value: number | News;
       } | null)
     | ({
-        relationTo: 'media';
-        value: number | Media;
-      } | null)
-    | ({
-        relationTo: 'menu-site-collection';
-        value: number | MenuSiteCollection;
-      } | null)
-    | ({
         relationTo: 'reports';
         value: number | Report;
+      } | null)
+    | ({
+        relationTo: 'leadership';
+        value: number | Leadership;
       } | null)
     | ({
         relationTo: 'pages';
@@ -1027,6 +1045,10 @@ export interface PayloadLockedDocument {
         value: number | Policy;
       } | null)
     | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
         relationTo: 'categories';
         value: number | Category;
       } | null)
@@ -1035,12 +1057,12 @@ export interface PayloadLockedDocument {
         value: number | Site;
       } | null)
     | ({
-        relationTo: 'site-config-site-collection';
-        value: number | SiteConfigSiteCollection;
+        relationTo: 'menu-site-collection';
+        value: number | MenuSiteCollection;
       } | null)
     | ({
-        relationTo: 'leadership';
-        value: number | Leadership;
+        relationTo: 'site-config-site-collection';
+        value: number | SiteConfigSiteCollection;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1178,6 +1200,85 @@ export interface NewsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reports_select".
+ */
+export interface ReportsSelect<T extends boolean = true> {
+  title?: T;
+  excerpt?: T;
+  image?: T;
+  reportFiles?:
+    | T
+    | {
+        file?: T;
+        id?: T;
+      };
+  slug?: T;
+  slugLock?: T;
+  reportDate?: T;
+  categories?: T;
+  site?: T;
+  content?: T;
+  reviewReady?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leadership_select".
+ */
+export interface LeadershipSelect<T extends boolean = true> {
+  title?: T;
+  jobTitle?: T;
+  description?: T;
+  image?: T;
+  imageAlt?: T;
+  content?: T;
+  site?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  slugLock?: T;
+  subtitle?: T;
+  label?: T;
+  image?: T;
+  content?: T;
+  site?: T;
+  reviewReady?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "policies_select".
+ */
+export interface PoliciesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  slugLock?: T;
+  label?: T;
+  content?: T;
+  site?: T;
+  reviewReady?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
@@ -1272,6 +1373,42 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  slugLock?: T;
+  site?: T;
+  parent?: T;
+  breadcrumbs?:
+    | T
+    | {
+        doc?: T;
+        url?: T;
+        label?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sites_select".
+ */
+export interface SitesSelect<T extends boolean = true> {
+  name?: T;
+  initialManagerEmail?: T;
+  pagesOrg?: T;
+  pagesSiteId?: T;
+  orgId?: T;
+  bucket?: T;
+  users?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "menu-site-collection_select".
  */
 export interface MenuSiteCollectionSelect<T extends boolean = true> {
@@ -1329,103 +1466,6 @@ export interface MenuSiteCollectionSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "reports_select".
- */
-export interface ReportsSelect<T extends boolean = true> {
-  title?: T;
-  excerpt?: T;
-  image?: T;
-  reportFiles?:
-    | T
-    | {
-        file?: T;
-        id?: T;
-      };
-  slug?: T;
-  slugLock?: T;
-  reportDate?: T;
-  categories?: T;
-  site?: T;
-  content?: T;
-  reviewReady?: T;
-  publishedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages_select".
- */
-export interface PagesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  slugLock?: T;
-  subtitle?: T;
-  label?: T;
-  image?: T;
-  content?: T;
-  site?: T;
-  reviewReady?: T;
-  publishedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "policies_select".
- */
-export interface PoliciesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  slugLock?: T;
-  label?: T;
-  content?: T;
-  site?: T;
-  reviewReady?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories_select".
- */
-export interface CategoriesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  slugLock?: T;
-  site?: T;
-  parent?: T;
-  breadcrumbs?:
-    | T
-    | {
-        doc?: T;
-        url?: T;
-        label?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "sites_select".
- */
-export interface SitesSelect<T extends boolean = true> {
-  name?: T;
-  initialManagerEmail?: T;
-  pagesOrg?: T;
-  pagesSiteId?: T;
-  orgId?: T;
-  bucket?: T;
-  users?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config-site-collection_select".
  */
 export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
@@ -1437,24 +1477,6 @@ export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
   favicon?: T;
   logo?: T;
   site?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "leadership_select".
- */
-export interface LeadershipSelect<T extends boolean = true> {
-  title?: T;
-  jobTitle?: T;
-  description?: T;
-  image?: T;
-  imageAlt?: T;
-  content?: T;
-  site?: T;
-  slug?: T;
-  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1705,6 +1727,8 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
+ * Site settings and branding
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config".
  */
@@ -1835,6 +1859,8 @@ export interface SiteConfig {
   createdAt?: string | null;
 }
 /**
+ * Navigation menu configuration
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "menu".
  */

@@ -19,17 +19,18 @@ const capitalize = (str: string) => {
 
 export const Users: CollectionConfig = {
   slug: 'users',
+  admin: {
+    group: 'User Management',
+    description: 'Team members and permissions',
+    defaultColumns: ['email', 'updatedAt', 'sites'],
+    useAsTitle: 'email',
+    hideAPIURL: true,
+  },
   access: {
     read: getAdminOrSiteUser('users'),
     update: getAdminOrSiteUser('users', ['manager']),
     delete: admin,
     create: getAdminOrSiteUser('users', ['manager']),
-  },
-  admin: {
-    defaultColumns: ['email', 'updatedAt', 'sites'],
-    useAsTitle: 'email',
-    hideAPIURL: true,
-    group: 'Information'
   },
   auth: {
     disableLocalStrategy: true,

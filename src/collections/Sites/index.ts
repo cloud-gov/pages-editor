@@ -12,17 +12,18 @@ import {
 
 export const Sites: CollectionConfig = {
   slug: 'sites',
+  admin: {
+    group: 'Site Configuration',
+    description: 'Multi-site management',
+    defaultColumns: ['name', 'updatedAt', 'createdAt'],
+    useAsTitle: 'name',
+    hidden: ({ user }) => !user?.isAdmin,
+  },
   access: {
     create: admin,
     delete: admin,
     read: adminOrAnySite,
     update: admin,
-  },
-  admin: {
-    defaultColumns: ['name', 'updatedAt', 'createdAt'],
-    useAsTitle: 'name',
-    hidden: ({ user }) => !user?.isAdmin,
-    group: 'Sites',
   },
   fields: [
     {

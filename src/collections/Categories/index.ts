@@ -13,6 +13,8 @@ export const Categories: CollectionConfig = {
     update: getAdminOrSiteUser('reports'),
   },
   admin: {
+    group: 'Global Assets',
+    description: 'Content categories and tags',
     useAsTitle: 'title',
     hidden: false,
   },
