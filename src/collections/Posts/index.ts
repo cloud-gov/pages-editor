@@ -15,8 +15,8 @@ import { publish } from '@/hooks/publish'
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
   admin: {
-    group: 'Collections',
-    description: 'Blog posts and articles',
+    group: 'Content Collection',
+    description: 'Articles, updates, or blog content used to share ideas, news, or stories.',
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
       url: async ({ data, req }) => {

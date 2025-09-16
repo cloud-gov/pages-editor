@@ -12,8 +12,8 @@ import { descriptionField, imageField } from '@/fields'
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
   admin: {
-    group: 'Collections',
-    description: 'Events and calendar items',
+    group: 'Content Collection',
+    description: 'Details for upcomming or past events, including dates, locations, and descriptions.',
     defaultColumns: ['title', 'reviewReady', 'updatedAt'],
     livePreview: {
       url: async ({ data, req }) => {

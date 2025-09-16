@@ -36,28 +36,32 @@ const dirname = path.dirname(filename)
 
 const config = {
   admin: {
+    theme: 'light' as const,
     importMap: {
       baseDir: path.resolve(dirname),
     },
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
-      beforeDashboard: ['@/components/BeforeDashboard'],
-      Dashboard: ['@/components/CustomDashboard'],
       // graphics: { // TODO custom logo
       // whitelabeling example: https://github.com/payloadcms/payload/blob/main/examples/whitelabel/src/payload.config.ts
       //   Icon: '/graphics/Icon/index.tsx#Icon',
       //   Logo: '/graphics/Logo/index.tsx#Logo',
       // },
+      views: {
+        dashboard: {
+          Component: '@/components/CustomDashboard'
+        }
+      },
     },
     groups: [
       {
-        label: 'Collections',
+        label: 'Content Collection',
         admin: {
           description: 'Content collections',
         },
       },
       {
-        label: 'Standalone Pages',
+        label: 'Single Pages',
         admin: {
           description: 'Standalone pages and policies',
         },

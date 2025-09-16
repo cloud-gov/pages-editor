@@ -7,38 +7,164 @@
 );
 
 // 2. Load USWDS source code
-// @forward "uswds";
 @forward "usa-prose";
 @forward "usa-button";
-// @forward "usa-header";
+@forward "usa-card";
+@forward "usa-layout-grid";
+@forward "usa-link";
+@forward "usa-sidenav";
+@forward "usa-alert";
+@forward "uswds-utilities";
 
-:root{
-    --font-body: "Public Sans", -apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+// Import USWDS variables early so they're available for custom styles
+@import "../styles/uswds-variables.scss";
+
+// root variables & fallbacks
+:root {
+    --font-body: "Source Sans Pro", -apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    
+    // fallback values in case variables don't load
+    --color-primary: #005ea2;
+    --color-primary-darker: #1a4480;
+    --color-primary-light: #73b3e7;
+    --color-primary-lightest: #e6f2ff;
+    --color-base-darker: #1b1b1b;
+    --color-gray-20: #f0f0f0;
+    --color-gray-60: #757575;
+    --color-gray-90: #1b1b1b;
+    --spacing-2: 0.5rem;
+    --spacing-3: 0.75rem;
+    --spacing-4: 1rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-4xl: 2.25rem;
+    --radius-base: 0.25rem;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.template-default__wrap > * {
-    margin-left: 10%;
-    max-width: 80%;
+// Global styles
+* {
+    font-family: var(--font-body);
+    font-size: 1rem;
 }
 
-.doc-controls {
-    font-size: 16px !important;
+.app-header__content {
+    padding: 0 var(--spacing-2);
+}
+
+*:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+body, html {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+// force light theme - override any dark theme styles
+html[data-theme="dark"],
+html[data-theme="light"],
+html {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.payload-admin,
+.payload-admin * {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+// Hide any theme selector components
+[data-theme-selector],
+.theme-selector,
+[aria-label*="theme" i],
+[aria-label*="Theme" i] {
+    display: none;
+}
+
+// Typography
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-body);
+}
+
+h1 {
+    font-size: var(--font-size-4xl);
+}
+
+h2 {
+    font-size: var(--font-size-2xl);
+    font-weight: 800;
+}
+
+h3 {
+    font-size: var(--font-size-base);
+}
+
+// edit pages - remove gutters for full width content editing
+.template-default__wrap .gutter,
+.template-default__wrap .gutter--left,
+.template-default__wrap .gutter--right,
+.collection-list__wrap,
+.template-default__wrap > *  {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+// remove gutters on edit forms for better content editing experience
+.collection-list .gutter--left,
+.collection-list .gutter--right {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.collection-edit .gutter--left,
+.collection-edit .gutter--right,
+.document-fields__sidebar-fields {
+    padding: 1rem;
+}
+
+.document-fields__edit {
+    width: 100%;
+}
+
+.doc-controls__content, .doc-controls {
+    padding: 0 !important; 
+}
+
+.doc-header__title {
+    padding: 1rem 0;
+}
+
+
+.doc-controls,
+.document-fields label {
+    font-size: 16px;
 }
 
 .document-fields label {
-    font-size: 16px !important;
-    margin-bottom: 1rem;
+    margin-bottom: var(--spacing-2);
 }
 
-.editor > *, .fixed-toolbar > * {
-    font-family: "Public Sans", -apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+.editor > *, 
+.fixed-toolbar > *,
+button {
+    font-family: var(--font-body);
+    font-size: 16px;
 }
 
 .collection-edit {
     line-height: 25px;
 }
 
-.list-header, .doc-controls__wrapper, .login {
+.list-header, 
+.doc-controls__wrapper, 
+.login {
     .btn {
         @extend .usa-button;
     }
@@ -52,15 +178,8 @@
     }
 }
 
-
 .preview-btn {
-    padding-top: 4px;
-    padding-bottom: 4px;
-}
-
-button {
-    font-family: "Public Sans", -apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 16px;
+    padding: 4px 0;
 }
 
 .oauth {
@@ -77,8 +196,187 @@ button {
 .table {
     th:first-child,
     td:first-child {
-        width: 40px !important;
+        width: 40px;
         min-width: 40px;
         max-width: 40px;
+    }
+}
+
+// Cards
+.usa-card {
+    a {
+        text-decoration: none;
+        color: inherit;
+        outline: none;
+    }
+    
+    a:hover {
+        text-decoration: none;
+        .usa-card__container {
+            background-color: #e6e6e6;
+        }
+    }
+    
+    a:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+        border-radius: var(--radius-base);
+    }
+}
+
+.usa-card__container {
+    background-color: #f0f0f0;
+    min-height: 150px;
+    border-radius: var(--radius-base);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: var(--shadow-sm);
+    
+    .usa-card__header {
+        padding: var(--spacing-4) var(--spacing-4) var(--spacing-2) var(--spacing-4);
+    }
+    
+    .usa-card__heading {
+        font-family: var(--font-body);
+        font-size: var(--font-size-base);
+        font-weight: 600;
+    }
+    
+    .usa-card__body {
+        flex-grow: 1;
+        padding: 0 var(--spacing-4) var(--spacing-4) var(--spacing-4);
+    }
+}
+
+.usa-card:last-child {
+    margin-bottom: 1rem;
+}
+
+.dashboard-card-icon {
+    color: var(--color-base-light);
+    font-size: var(--font-size-xl);
+    margin-left: auto;
+}
+
+// Navigation
+.nav,
+.template-default__nav {
+    background-color: var(--color-base-lighter);
+    border-right: 1px solid #dfe1e2;
+    padding: var(--spacing-4) 0;
+    width: 100%;
+    font-family: var(--font-body);
+}
+
+.nav-group__toggle {
+    color: var(--color-base-darker);
+    
+    svg,
+    svg path {
+        fill: none;
+        stroke: var(--color-base-darker);
+        stroke-width: 1.5;
+    }
+}
+
+.nav__label {
+    font-family: var(--font-body);
+    font-weight: 600;
+    color: var(--color-primary-darker);
+    padding: var(--spacing-2) var(--spacing-3);
+    margin: 0;
+    border-bottom: 1px solid black;
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.nav__link,
+.template-default__nav a {
+    font-family: var(--font-body);
+    color: var(--color-gray-60);
+    text-decoration: none;
+    padding: var(--spacing-2) var(--spacing-3);
+    display: block;
+    border-left: 3px solid transparent;
+    border-top: 1px solid var(--color-gray-20);
+    border-bottom: 1px solid var(--color-gray-20);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    font-size: var(--font-size-base);
+    line-height: 1.4;
+}
+
+.template-default__nav a {
+    color: var(--color-primary);
+    border-top: 1px solid var(--color-gray-90);
+    border-bottom: 1px solid var(--color-gray-90);
+}
+
+.nav__link:hover,
+.template-default__nav a:hover,
+.nav__link:has(.nav__link-indicator) {
+    background-color: var(--color-primary-lightest);
+    color: var(--color-primary-darker);
+    border-left-color: var(--color-primary-light);
+}
+
+.nav__link--active,
+.template-default__nav a[aria-current="page"] {
+    background-color: var(--color-primary-lightest);
+    color: var(--color-primary-darker);
+    border-left-color: transparent;
+}
+
+.nav__link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+    border-left-color: var(--color-primary);
+}
+
+// hide any link indicators
+.nav__link-indicator {
+    display: none;
+}
+
+// additional USWDS-style sidenav enhancements
+.nav__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav__item {
+    margin: 0;
+}
+
+.nav__subnav {
+    margin-left: var(--spacing-3);
+    border-left: 1px solid #dfe1e2;
+    
+    .nav__link {
+        padding-left: var(--spacing-4);
+        font-size: var(--font-size-sm);
+    }
+}
+
+// ensure usa-sr-only works properly
+.usa-sr-only {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+// responsive design
+@media (max-width: 768px) {
+    .nav, 
+    .template-default__nav {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #dfe1e2;
     }
 }

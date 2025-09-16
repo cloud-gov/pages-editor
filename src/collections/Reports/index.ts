@@ -9,15 +9,15 @@ import { publish } from '@/hooks/publish'
 import { editor } from '@/utilities/editor'
 import { completeReview } from '@/hooks/completeReview'
 
-export const Reports: CollectionConfig<'reports'> = {
+export const Reports: CollectionConfig = {
   slug: 'reports',
   labels: {
-    singular: 'Resource',
-    plural: 'Resources',
+    singular: 'Report',
+    plural: 'Reports',
   },
   admin: {
-    group: 'Collections',
-    description: 'Resources and documents',
+    group: 'Content Collection',
+    description: 'Downloadable or reference materials like guides and reports.',
     defaultColumns: ['title', '_status', 'reviewReady'],
     meta: {
       title: 'Reports',

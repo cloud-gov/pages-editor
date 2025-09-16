@@ -14,3 +14,4 @@ public/sitemap*.xml
 
 # payload-types should be dynamically generated
 src/payload-types.ts
+tsconfig.tsbuildinfo

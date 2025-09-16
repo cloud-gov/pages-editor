@@ -12,7 +12,7 @@ export const SiteConfig: GlobalConfig = {
   },
   admin: {
     group: 'Site Configuration',
-    description: 'Site settings and branding',
+    description: 'Set global branding details like site name, logo, and typography.',
   },
   fields: [
     {

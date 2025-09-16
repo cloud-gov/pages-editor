@@ -15,8 +15,8 @@ export const Leadership: CollectionConfig<'leadership'> = {
     plural: 'Leadership',
   },
   admin: {
-    group: 'Collections',
-    description: 'Leadership team members',
+    group: 'Content Collection',
+    description: 'Profiles of key staff or board members, inluding bios and headshots.',
     defaultColumns: ['title', 'jobTitle', 'slug', 'updatedAt'],
     livePreview: {
       url: async ({ data, req }) => {

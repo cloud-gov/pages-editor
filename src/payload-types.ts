@@ -154,7 +154,7 @@ export interface UserAuthOperations {
   };
 }
 /**
- * Blog posts and articles
+ * Articles, updates, or blog content used to share ideas, news, or stories.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
@@ -198,7 +198,7 @@ export interface Post {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Images, documents, and media files
+ * Site-wide images, videos, and files used across pages and content.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
@@ -301,7 +301,7 @@ export interface Site {
   createdAt: string;
 }
 /**
- * Team members and permissions
+ * Manage who can access and edit the site, including roles and permissions.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
@@ -324,7 +324,7 @@ export interface User {
   apiKeyIndex?: string | null;
 }
 /**
- * Content categories and tags
+ * Tags or groupings used to organize and filter content across the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
@@ -348,7 +348,7 @@ export interface Category {
   createdAt: string;
 }
 /**
- * Events and calendar items
+ * Details for upcomming or past events, including dates, locations, and descriptions.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
@@ -391,7 +391,7 @@ export interface Event {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * News articles and announcements
+ * Accounements, updates, or press releases related to the organization.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news".
@@ -427,7 +427,7 @@ export interface News {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Resources and documents
+ * Downloadable or reference materials like guides and reports.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reports".
@@ -470,7 +470,7 @@ export interface Report {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Leadership team members
+ * Profiles of key staff or board members, inluding bios and headshots.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "leadership".
@@ -511,7 +511,7 @@ export interface Leadership {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Individual website pages
+ * Individual pages like About or Contact that aren't part of a content collection.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
@@ -547,7 +547,7 @@ export interface Page {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Policies and procedures
+ * Legal or informational pages such as privacy, terms of use, and accessibility.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "policies".
@@ -580,160 +580,7 @@ export interface Policy {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Navigation menu configuration
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "reports".
- */
-export interface Report {
-  id: number;
-  title: string;
-  excerpt?: string | null;
-  image?: (number | null) | Media;
-  reportFiles?:
-    | {
-        file?: (number | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  reportDate?: string | null;
-  categories?: (number | Category)[] | null;
-  site: number | Site;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  reviewReady?: boolean | null;
-  publishedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Leadership team members
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "leadership".
- */
-export interface Leadership {
-  id: number;
-  title: string;
-  jobTitle: string;
-  description?: string | null;
-  image?: (number | null) | Media;
-  /**
-   * Alternative text for the image for accessibility
-   */
-  imageAlt: string;
-  /**
-   * Detailed biography or description of the leadership member
-   */
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  site: number | Site;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Individual website pages
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
- */
-export interface Page {
-  id: number;
-  title: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  subtitle?: string | null;
-  label: string;
-  image?: (number | null) | Media;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  site: number | Site;
-  reviewReady?: boolean | null;
-  publishedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Policies and procedures
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "policies".
- */
-export interface Policy {
-  id: number;
-  title: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  label: string;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  site: number | Site;
-  reviewReady?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Navigation menu configuration
+ * Build and organize site navigation for pages and content sections.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "menu-site-collection".
@@ -788,7 +635,7 @@ export interface MenuSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Site settings and branding
+ * Set global branding details like site name, logo, and typography.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config-site-collection".
@@ -1880,7 +1727,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
- * Site settings and branding
+ * Set global branding details like site name, logo, and typography.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config".
@@ -2012,7 +1859,7 @@ export interface SiteConfig {
   createdAt?: string | null;
 }
 /**
- * Navigation menu configuration
+ * Build and organize site navigation for pages and content sections.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "menu".

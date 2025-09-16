@@ -12,8 +12,8 @@ import { completeReview } from '@/hooks/completeReview'
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   admin: {
-    group: 'Standalone Pages',
-    description: 'Individual website pages',
+    group: 'Single Pages',
+    description: "Individual pages like About or Contact that aren't part of a content collection.",
     defaultColumns: ['title', 'slug', 'reviewReady', 'updatedAt'],
     livePreview: {
       url: async ({ data, req }) => {

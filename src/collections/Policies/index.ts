@@ -12,8 +12,8 @@ import { siteField } from '@/fields/relationships'
 export const Policies: CollectionConfig<'policies'> = {
   slug: 'policies',
   admin: {
-    group: 'Standalone Pages',
-    description: 'Policies and procedures',
+    group: 'Single Pages',
+    description: 'Legal or informational pages such as privacy, terms of use, and accessibility.',
     defaultColumns: ['title', 'slug', 'reviewReady', 'updatedAt'],
     livePreview: {
       url: async ({ data, req }) => {
