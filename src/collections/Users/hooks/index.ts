@@ -1,5 +1,6 @@
 import { User } from '@/payload-types'
 import { getUserSiteIds, siteIdHelper } from '@/utilities/idHelper'
+import { generateUserInvitationEmailData } from '@/utilities/emailData'
 // import { redirect } from 'next/navigation'
 import { CollectionAfterLogoutHook, CollectionBeforeOperationHook, CollectionBeforeValidateHook, ValidationError, CollectionAfterChangeHook, FieldHook, CollectionBeforeChangeHook, CollectionAfterOperationHook } from 'payload'
 import { v4 as uuidv4 } from 'uuid'
@@ -31,27 +32,32 @@ export const userEmail: CollectionAfterChangeHook<User> = async ({
 }) => {
   const { payload } = req
   if (operation === 'create') {
-    // email the user
-    // TODO: mock a local endpoint
-    if (process.env.EMAIL_HOST) {
-      // get the site they are invited to, assume it's the first
-      const site = await payload.findByID({
-        collection: 'sites',
-        id: siteIdHelper(doc.sites[0].site),
-        req
-      })
+    // get the site they are invited to, assume it's the first
+    const site = await payload.findByID({
+      collection: 'sites',
+      id: siteIdHelper(doc.sites[0].site),
+      req
+    })
 
+    // get the invitor information
+    const invitor = req.user
+    const invitorEmail = invitor?.email || 'pages-support@cloud.gov'
+    const invitorName = invitor?.email || 'Site Administrator'
+
+    // get user role for the site
+    const userRole = doc.sites[0]?.role || 'user'
+
+    const emailData = generateUserInvitationEmailData(doc.email, site.name, invitorName)
+
+    // Send email if EMAIL_HOST is configured
+    if (process.env.EMAIL_HOST) {
       await fetch(`${process.env.EMAIL_HOST}/send`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Basic ' + Buffer.from(process.env.EMAIL_USERNAME + ":" + process.env.EMAIL_PASSWORD).toString('base64')
         },
-        body: JSON.stringify({
-          to: doc.email,
-          subject: `You have been invited to join ${site.name} on Pages Editor`,
-          html: 'add some email template here'
-        })
+        body: JSON.stringify(emailData)
       })
     }
   }
