@@ -21,7 +21,7 @@ export const Users: CollectionConfig = {
   slug: 'users',
   admin: {
     group: 'User Management',
-    description: 'Team members and permissions',
+    description: 'Manage who can access and edit the site, including roles and permissions.',
     defaultColumns: ['email', 'updatedAt', 'sites'],
     useAsTitle: 'email',
     hideAPIURL: true,

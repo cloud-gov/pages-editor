@@ -24,6 +24,7 @@
     "dc:app:build": "docker compose run --rm app npm run build",
     "dc:build": "docker compose build --build-arg BUILD_ENV=$(grep BUILD_ENV .env | cut -d '=' -f2)",
     "dc:down": "docker compose down",
+    "dc:lint": "docker compose run --rm app npm run lint",
     "dc:generate:db-schema": "docker compose run --rm app npm run generate:db-schema",
     "dc:generate:importmap": "docker compose run --rm app npm run generate:importmap",
     "dc:generate:types": "docker compose run --rm app npm run generate:types",

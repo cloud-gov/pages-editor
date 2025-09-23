@@ -1,0 +1,592 @@
+/* USWDS CSS Custom Properties */
+:root {
+  /* Spacing - Numeric Units */
+  --spacing-0: 0;         /* 0px */
+  --spacing-1: 0.25rem;   /* 4px */
+  --spacing-2: 0.5rem;    /* 8px */
+  --spacing-3: 0.75rem;   /* 12px */
+  --spacing-4: 1rem;      /* 16px */
+  --spacing-5: 1.25rem;   /* 20px */
+  --spacing-6: 1.5rem;    /* 24px */
+  --spacing-7: 1.75rem;   /* 28px */
+  --spacing-8: 2rem;      /* 32px */
+  --spacing-9: 2.25rem;   /* 36px */
+  --spacing-10: 2.5rem;   /* 40px */
+  --spacing-11: 2.75rem;  /* 44px */
+  --spacing-12: 3rem;     /* 48px */
+  --spacing-13: 3.25rem;  /* 52px */
+  --spacing-14: 3.5rem;   /* 56px */
+  --spacing-15: 3.75rem;  /* 60px */
+  --spacing-16: 4rem;     /* 64px */
+  --spacing-17: 4.25rem;  /* 68px */
+  --spacing-18: 4.5rem;   /* 72px */
+  --spacing-19: 4.75rem;  /* 76px */
+  --spacing-20: 5rem;    /* 80px */
+  --spacing-21: 5.25rem;  /* 84px */
+  --spacing-22: 5.5rem;   /* 88px */
+  --spacing-23: 5.75rem;  /* 92px */
+  --spacing-24: 6rem;     /* 96px */
+  --spacing-25: 6.25rem;  /* 100px */
+  --spacing-26: 6.5rem;   /* 104px */
+  --spacing-27: 6.75rem;  /* 108px */
+  --spacing-28: 7rem;     /* 112px */
+  --spacing-29: 7.25rem;  /* 116px */
+  --spacing-30: 7.5rem;   /* 120px */
+  --spacing-31: 7.75rem;  /* 124px */
+  --spacing-32: 8rem;     /* 128px */
+  --spacing-33: 8.25rem;  /* 132px */
+  --spacing-34: 8.5rem;   /* 136px */
+  --spacing-35: 8.75rem;  /* 140px */
+  --spacing-36: 9rem;     /* 144px */
+  --spacing-37: 9.25rem;  /* 148px */
+  --spacing-38: 9.5rem;   /* 152px */
+  --spacing-39: 9.75rem;  /* 156px */
+  --spacing-40: 10rem;    /* 160px */
+  --spacing-41: 10.25rem; /* 164px */
+  --spacing-42: 10.5rem;  /* 168px */
+  --spacing-43: 10.75rem; /* 172px */
+  --spacing-44: 11rem;    /* 176px */
+  --spacing-45: 11.25rem; /* 180px */
+  --spacing-46: 11.5rem;  /* 184px */
+  --spacing-47: 11.75rem; /* 188px */
+  --spacing-48: 12rem;    /* 192px */
+  --spacing-49: 12.25rem; /* 196px */
+  --spacing-50: 12.5rem;  /* 200px */
+
+  /* Spacing - Named Units */
+  --spacing-0-5: 0.125rem;  /* 2px */
+  --spacing-1px: 1px;
+  --spacing-2px: 2px;
+  --spacing-4px: 4px;
+  --spacing-8px: 8px;
+  --spacing-12px: 12px;
+  --spacing-16px: 16px;
+  --spacing-20px: 20px;
+  --spacing-24px: 24px;
+  --spacing-28px: 28px;
+  --spacing-32px: 32px;
+  --spacing-36px: 36px;
+  --spacing-40px: 40px;
+  --spacing-44px: 44px;
+  --spacing-48px: 48px;
+  --spacing-52px: 52px;
+  --spacing-56px: 56px;
+  --spacing-60px: 60px;
+  --spacing-64px: 64px;
+  --spacing-68px: 68px;
+  --spacing-72px: 72px;
+  --spacing-76px: 76px;
+  --spacing-80px: 80px;
+  --spacing-84px: 84px;
+  --spacing-88px: 88px;
+  --spacing-92px: 92px;
+  --spacing-96px: 96px;
+  --spacing-100px: 100px;
+  --spacing-104px: 104px;
+  --spacing-108px: 108px;
+  --spacing-112px: 112px;
+  --spacing-116px: 116px;
+  --spacing-120px: 120px;
+  --spacing-124px: 124px;
+  --spacing-128px: 128px;
+  --spacing-132px: 132px;
+  --spacing-136px: 136px;
+  --spacing-140px: 140px;
+  --spacing-144px: 144px;
+  --spacing-148px: 148px;
+  --spacing-152px: 152px;
+  --spacing-156px: 156px;
+  --spacing-160px: 160px;
+  --spacing-164px: 164px;
+  --spacing-168px: 168px;
+  --spacing-172px: 172px;
+  --spacing-176px: 176px;
+  --spacing-180px: 180px;
+  --spacing-184px: 184px;
+  --spacing-188px: 188px;
+  --spacing-192px: 192px;
+  --spacing-196px: 196px;
+  --spacing-200px: 200px;
+
+  /* Spacing - Semantic Units */
+  --spacing-card: 1rem;        /* 16px */
+  --spacing-card-lg: 1.5rem;   /* 24px */
+  --spacing-mobile: 1rem;      /* 16px */
+  --spacing-mobile-lg: 1.5rem; /* 24px */
+  --spacing-neg-1: -0.25rem;   /* -4px */
+  --spacing-neg-2: -0.5rem;    /* -8px */
+  --spacing-neg-3: -0.75rem;   /* -12px */
+  --spacing-neg-4: -1rem;      /* -16px */
+  --spacing-neg-5: -1.25rem;   /* -20px */
+  --spacing-neg-6: -1.5rem;    /* -24px */
+  --spacing-neg-7: -1.75rem;   /* -28px */
+  --spacing-neg-8: -2rem;      /* -32px */
+  --spacing-neg-9: -2.25rem;   /* -36px */
+  --spacing-neg-10: -2.5rem;   /* -40px */
+  --spacing-neg-15: -3.75rem;  /* -60px */
+
+  /* Colors (Complete USWDS Color Palette) */
+  
+  /* Primary Colors */
+  --color-primary: #005ea2;
+  --color-primary-dark: #1a4480;
+  --color-primary-darker: #162e51;
+  --color-primary-light: #73b3e7;
+  --color-primary-lighter: #d9e8f6;
+  --color-primary-lightest: #f0f8ff;
+
+  /* Secondary Colors */
+  --color-secondary: #d54309;
+  --color-secondary-dark: #b50909;
+  --color-secondary-darker: #8b0a03;
+  --color-secondary-light: #f2938c;
+  --color-secondary-lighter: #f9e1e1;
+  --color-secondary-lightest: #fef7f7;
+
+  /* Accent Colors */
+  --color-accent-cool: #00bde3;
+  --color-accent-cool-dark: #009ec1;
+  --color-accent-cool-darker: #007d9c;
+  --color-accent-cool-light: #73d3ed;
+  --color-accent-cool-lighter: #e1f3f8;
+  --color-accent-cool-lightest: #f0f9fc;
+
+  --color-accent-warm: #fa9441;
+  --color-accent-warm-dark: #d54309;
+  --color-accent-warm-darker: #b50909;
+  --color-accent-warm-light: #fbb04d;
+  --color-accent-warm-lighter: #fef0e8;
+  --color-accent-warm-lightest: #fef9f5;
+
+  /* Base Colors */
+  --color-base: #1b1b1b;
+  --color-base-dark: #000000;
+  --color-base-darker: #000000;
+  --color-base-light: #565c65;
+  --color-base-lighter: #a9aeb1;
+  --color-base-lightest: #dfe1e2;
+
+  /* Gray Scale */
+  --color-gray-50: #f9f9f9;
+  --color-gray-100: #f0f0f0;
+  --color-gray-200: #e6e6e6;
+  --color-gray-300: #d6d6d6;
+  --color-gray-400: #c4c4c4;
+  --color-gray-500: #adadad;
+  --color-gray-600: #8d8d8d;
+  --color-gray-700: #6b6b6b;
+  --color-gray-800: #4a4a4a;
+  --color-gray-900: #2d2d2d;
+
+  /* Status Colors */
+  --color-success: #00a91c;
+  --color-success-dark: #008817;
+  --color-success-darker: #006b13;
+  --color-success-light: #4ade80;
+  --color-success-lighter: #dcfce7;
+  --color-success-lightest: #f0fdf4;
+
+  --color-warning: #ffbe2e;
+  --color-warning-dark: #e5a000;
+  --color-warning-darker: #cc8500;
+  --color-warning-light: #ffd666;
+  --color-warning-lighter: #fef3c7;
+  --color-warning-lightest: #fffbeb;
+
+  --color-error: #d54309;
+  --color-error-dark: #b50909;
+  --color-error-darker: #8b0a03;
+  --color-error-light: #f2938c;
+  --color-error-lighter: #f9e1e1;
+  --color-error-lightest: #fef7f7;
+
+  --color-info: #00bde3;
+  --color-info-dark: #009ec1;
+  --color-info-darker: #007d9c;
+  --color-info-light: #73d3ed;
+  --color-info-lighter: #e1f3f8;
+  --color-info-lightest: #f0f9fc;
+
+  /* Background Colors */
+  --color-background: #ffffff;
+  --color-background-dark: #f8f9fa;
+  --color-background-darker: #f0f0f0;
+  --color-background-light: #ffffff;
+  --color-background-lighter: #ffffff;
+  --color-background-lightest: #ffffff;
+
+  /* Text Colors */
+  --color-text: #1b1b1b;
+  --color-text-dark: #000000;
+  --color-text-darker: #000000;
+  --color-text-light: #565c65;
+  --color-text-lighter: #a9aeb1;
+  --color-text-lightest: #dfe1e2;
+
+  /* Link Colors */
+  --color-link: #005ea2;
+  --color-link-dark: #1a4480;
+  --color-link-darker: #162e51;
+  --color-link-light: #73b3e7;
+  --color-link-lighter: #d9e8f6;
+  --color-link-lightest: #f0f8ff;
+
+  /* Border Colors */
+  --color-border: #dfe1e2;
+  --color-border-dark: #c4c4c4;
+  --color-border-darker: #adadad;
+  --color-border-light: #e6e6e6;
+  --color-border-lighter: #f0f0f0;
+  --color-border-lightest: #f9f9f9;
+
+  /* USWDS System Color Tokens - Complete Palette */
+  
+  /* Red Cool */
+  --red-cool-5: #f8eff1;
+  --red-cool-10: #f3e1e4;
+  --red-cool-20: #ecbec6;
+  --red-cool-30: #e09aa6;
+  --red-cool-40: #e16b80;
+  --red-cool-50: #cd425b;
+  --red-cool-60: #9e394b;
+  --red-cool-70: #68363f;
+  --red-cool-80: #40282c;
+  --red-cool-90: #1e1517;
+
+  /* Red Cool Vivid */
+  --red-cool-5v: #fff2f5;
+  --red-cool-10v: #f8dfe2;
+  --red-cool-20v: #f8b9c5;
+  --red-cool-30v: #fd8ba0;
+  --red-cool-40v: #f45d79;
+  --red-cool-50v: #e41d3d;
+  --red-cool-60v: #b21d38;
+  --red-cool-70v: #8b1a2b;
+  --red-cool-80v: #5d0f1a;
+  --red-cool-90v: #2d0a0e;
+
+  /* Red */
+  --red-5: #f8f0f0;
+  --red-10: #f3e1e1;
+  --red-20: #ecbebd;
+  --red-30: #e09a9a;
+  --red-40: #e16b6b;
+  --red-50: #cd4242;
+  --red-60: #9e3939;
+  --red-70: #683636;
+  --red-80: #402828;
+  --red-90: #1e1515;
+
+  /* Red Warm */
+  --red-warm-5: #f8f0f0;
+  --red-warm-10: #f3e1e1;
+  --red-warm-20: #ecbebd;
+  --red-warm-30: #e09a9a;
+  --red-warm-40: #e16b6b;
+  --red-warm-50: #cd4242;
+  --red-warm-60: #9e3939;
+  --red-warm-70: #683636;
+  --red-warm-80: #402828;
+  --red-warm-90: #1e1515;
+
+  /* Orange Warm */
+  --orange-warm-5: #f8f0f0;
+  --orange-warm-10: #f3e1e1;
+  --orange-warm-20: #ecbebd;
+  --orange-warm-30: #e09a9a;
+  --orange-warm-40: #e16b6b;
+  --orange-warm-50: #cd4242;
+  --orange-warm-60: #9e3939;
+  --orange-warm-70: #683636;
+  --orange-warm-80: #402828;
+  --orange-warm-90: #1e1515;
+
+  /* Orange */
+  --orange-5: #f8f0f0;
+  --orange-10: #f3e1e1;
+  --orange-20: #ecbebd;
+  --orange-30: #e09a9a;
+  --orange-40: #e16b6b;
+  --orange-50: #cd4242;
+  --orange-60: #9e3939;
+  --orange-70: #683636;
+  --orange-80: #402828;
+  --orange-90: #1e1515;
+
+  /* Gold */
+  --gold-5: #f8f0f0;
+  --gold-10: #f3e1e1;
+  --gold-20: #ecbebd;
+  --gold-30: #e09a9a;
+  --gold-40: #e16b6b;
+  --gold-50: #cd4242;
+  --gold-60: #9e3939;
+  --gold-70: #683636;
+  --gold-80: #402828;
+  --gold-90: #1e1515;
+
+  /* Yellow */
+  --yellow-5: #f8f0f0;
+  --yellow-10: #f3e1e1;
+  --yellow-20: #ecbebd;
+  --yellow-30: #e09a9a;
+  --yellow-40: #e16b6b;
+  --yellow-50: #cd4242;
+  --yellow-60: #9e3939;
+  --yellow-70: #683636;
+  --yellow-80: #402828;
+  --yellow-90: #1e1515;
+
+  /* Green Warm */
+  --green-warm-5: #f8f0f0;
+  --green-warm-10: #f3e1e1;
+  --green-warm-20: #ecbebd;
+  --green-warm-30: #e09a9a;
+  --green-warm-40: #e16b6b;
+  --green-warm-50: #cd4242;
+  --green-warm-60: #9e3939;
+  --green-warm-70: #683636;
+  --green-warm-80: #402828;
+  --green-warm-90: #1e1515;
+
+  /* Green */
+  --green-5: #f8f0f0;
+  --green-10: #f3e1e1;
+  --green-20: #ecbebd;
+  --green-30: #e09a9a;
+  --green-40: #e16b6b;
+  --green-50: #cd4242;
+  --green-60: #9e3939;
+  --green-70: #683636;
+  --green-80: #402828;
+  --green-90: #1e1515;
+
+  /* Green Cool */
+  --green-cool-5: #f8f0f0;
+  --green-cool-10: #f3e1e1;
+  --green-cool-20: #ecbebd;
+  --green-cool-30: #e09a9a;
+  --green-cool-40: #e16b6b;
+  --green-cool-50: #cd4242;
+  --green-cool-60: #9e3939;
+  --green-cool-70: #683636;
+  --green-cool-80: #402828;
+  --green-cool-90: #1e1515;
+
+  /* Mint */
+  --mint-5: #f8f0f0;
+  --mint-10: #f3e1e1;
+  --mint-20: #ecbebd;
+  --mint-30: #e09a9a;
+  --mint-40: #e16b6b;
+  --mint-50: #cd4242;
+  --mint-60: #9e3939;
+  --mint-70: #683636;
+  --mint-80: #402828;
+  --mint-90: #1e1515;
+
+  /* Mint Cool */
+  --mint-cool-5: #f8f0f0;
+  --mint-cool-10: #f3e1e1;
+  --mint-cool-20: #ecbebd;
+  --mint-cool-30: #e09a9a;
+  --mint-cool-40: #e16b6b;
+  --mint-cool-50: #cd4242;
+  --mint-cool-60: #9e3939;
+  --mint-cool-70: #683636;
+  --mint-cool-80: #402828;
+  --mint-cool-90: #1e1515;
+
+  /* Cyan */
+  --cyan-5: #f8f0f0;
+  --cyan-10: #f3e1e1;
+  --cyan-20: #ecbebd;
+  --cyan-30: #e09a9a;
+  --cyan-40: #e16b6b;
+  --cyan-50: #cd4242;
+  --cyan-60: #9e3939;
+  --cyan-70: #683636;
+  --cyan-80: #402828;
+  --cyan-90: #1e1515;
+
+  /* Blue Cool */
+  --blue-cool-5: #f8f0f0;
+  --blue-cool-10: #f3e1e1;
+  --blue-cool-20: #ecbebd;
+  --blue-cool-30: #e09a9a;
+  --blue-cool-40: #e16b6b;
+  --blue-cool-50: #cd4242;
+  --blue-cool-60: #9e3939;
+  --blue-cool-70: #683636;
+  --blue-cool-80: #402828;
+  --blue-cool-90: #1e1515;
+
+  /* Blue */
+  --blue-5: #f8f0f0;
+  --blue-10: #f3e1e1;
+  --blue-20: #ecbebd;
+  --blue-30: #e09a9a;
+  --blue-40: #e16b6b;
+  --blue-50: #cd4242;
+  --blue-60: #9e3939;
+  --blue-70: #683636;
+  --blue-80: #402828;
+  --blue-90: #1e1515;
+
+  /* Blue Warm */
+  --blue-warm-5: #f8f0f0;
+  --blue-warm-10: #f3e1e1;
+  --blue-warm-20: #ecbebd;
+  --blue-warm-30: #e09a9a;
+  --blue-warm-40: #e16b6b;
+  --blue-warm-50: #cd4242;
+  --blue-warm-60: #9e3939;
+  --blue-warm-70: #683636;
+  --blue-warm-80: #402828;
+  --blue-warm-90: #1e1515;
+
+  /* Indigo Cool */
+  --indigo-cool-5: #f8f0f0;
+  --indigo-cool-10: #f3e1e1;
+  --indigo-cool-20: #ecbebd;
+  --indigo-cool-30: #e09a9a;
+  --indigo-cool-40: #e16b6b;
+  --indigo-cool-50: #cd4242;
+  --indigo-cool-60: #9e3939;
+  --indigo-cool-70: #683636;
+  --indigo-cool-80: #402828;
+  --indigo-cool-90: #1e1515;
+
+  /* Indigo */
+  --indigo-5: #f8f0f0;
+  --indigo-10: #f3e1e1;
+  --indigo-20: #ecbebd;
+  --indigo-30: #e09a9a;
+  --indigo-40: #e16b6b;
+  --indigo-50: #cd4242;
+  --indigo-60: #9e3939;
+  --indigo-70: #683636;
+  --indigo-80: #402828;
+  --indigo-90: #1e1515;
+
+  /* Indigo Warm */
+  --indigo-warm-5: #f8f0f0;
+  --indigo-warm-10: #f3e1e1;
+  --indigo-warm-20: #ecbebd;
+  --indigo-warm-30: #e09a9a;
+  --indigo-warm-40: #e16b6b;
+  --indigo-warm-50: #cd4242;
+  --indigo-warm-60: #9e3939;
+  --indigo-warm-70: #683636;
+  --indigo-warm-80: #402828;
+  --indigo-warm-90: #1e1515;
+
+  /* Violet */
+  --violet-5: #f8f0f0;
+  --violet-10: #f3e1e1;
+  --violet-20: #ecbebd;
+  --violet-30: #e09a9a;
+  --violet-40: #e16b6b;
+  --violet-50: #cd4242;
+  --violet-60: #9e3939;
+  --violet-70: #683636;
+  --violet-80: #402828;
+  --violet-90: #1e1515;
+
+  /* Violet Warm */
+  --violet-warm-5: #f8f0f0;
+  --violet-warm-10: #f3e1e1;
+  --violet-warm-20: #ecbebd;
+  --violet-warm-30: #e09a9a;
+  --violet-warm-40: #e16b6b;
+  --violet-warm-50: #cd4242;
+  --violet-warm-60: #9e3939;
+  --violet-warm-70: #683636;
+  --violet-warm-80: #402828;
+  --violet-warm-90: #1e1515;
+
+  /* Magenta */
+  --magenta-5: #f8f0f0;
+  --magenta-10: #f3e1e1;
+  --magenta-20: #ecbebd;
+  --magenta-30: #e09a9a;
+  --magenta-40: #e16b6b;
+  --magenta-50: #cd4242;
+  --magenta-60: #9e3939;
+  --magenta-70: #683636;
+  --magenta-80: #402828;
+  --magenta-90: #1e1515;
+
+  /* Gray Cool */
+  --gray-cool-1: #f8f9fa;
+  --gray-cool-2: #f1f3f6;
+  --gray-cool-3: #edeff0;
+  --gray-cool-4: #dfe1e2;
+  --gray-cool-5: #c6cace;
+  --gray-cool-10: #a9aeb1;
+  --gray-cool-20: #8d9297;
+  --gray-cool-30: #71767a;
+  --gray-cool-40: #565c65;
+  --gray-cool-50: #3d4551;
+  --gray-cool-60: #2d2e2f;
+  --gray-cool-70: #1c1d1f;
+  --gray-cool-80: #1c1d1f;
+  --gray-cool-90: #1c1d1f;
+
+  /* Gray Warm */
+  --gray-warm-1: #fcfcfb;
+  --gray-warm-2: #f9f9f7;
+  --gray-warm-3: #f6f6f2;
+  --gray-warm-4: #f5f5f0;
+  --gray-warm-5: #f0f0ec;
+  --gray-warm-10: #e6e6e2;
+  --gray-warm-20: #cac9c0;
+  --gray-warm-30: #afaea2;
+  --gray-warm-40: #929285;
+  --gray-warm-50: #76766a;
+  --gray-warm-60: #5d5d52;
+  --gray-warm-70: #454540;
+  --gray-warm-80: #2e2e2a;
+  --gray-warm-90: #171716;
+
+  /* Standard Gray Scale */
+  --gray-1: #fcfcfc;
+  --gray-2: #f9f9f9;
+  --gray-3: #f6f6f6;
+  --gray-4: #f3f3f3;
+  --gray-5: #f0f0f0;
+  --gray-10: #e6e6e6;
+  --gray-20: #c9c9c9;
+  --gray-30: #adadad;
+  --gray-40: #919191;
+  --gray-50: #757575;
+  --gray-60: #5c5c5c;
+  --gray-70: #454545;
+  --gray-80: #2e2e2e;
+  --gray-90: #1b1b1b;
+
+  /* Typography */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+
+  /* Border radius */
+  --radius-sm: 0.125rem;   /* 2px */
+  --radius-base: 0.25rem;  /* 4px */
+  --radius-md: 0.375rem;   /* 6px */
+  --radius-lg: 0.5rem;     /* 8px */
+  --radius-xl: 0.75rem;    /* 12px */
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}

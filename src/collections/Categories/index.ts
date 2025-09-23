@@ -14,7 +14,7 @@ export const Categories: CollectionConfig = {
   },
   admin: {
     group: 'Global Assets',
-    description: 'Content categories and tags',
+    description: 'Tags or groupings used to organize and filter content across the site.',
     useAsTitle: 'title',
     hidden: false,
   },

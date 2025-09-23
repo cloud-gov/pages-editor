@@ -12,8 +12,8 @@ import { completeReview } from '@/hooks/completeReview'
 export const News: CollectionConfig<'news'> = {
   slug: 'news',
   admin: {
-    group: 'Collections',
-    description: 'News articles and announcements',
+    group: 'Content Collection',
+    description: 'Accounements, updates, or press releases related to the organization.',
     defaultColumns: ['title', 'reviewReady', 'updatedAt'],
     livePreview: {
       url: async ({ data, req }) => {

@@ -12,7 +12,7 @@ export const Menu: GlobalConfig = {
   },
   admin: {
     group: 'Site Configuration',
-    description: 'Navigation menu configuration',
+    description: 'Build and organize site navigation for pages and content sections.',
   },
   fields: [
     {

@@ -64,6 +64,11 @@ export const enum__reports_v_version_status = pgEnum('enum__reports_v_version_st
   'draft',
   'published',
 ])
+export const enum_leadership_status = pgEnum('enum_leadership_status', ['draft', 'published'])
+export const enum__leadership_v_version_status = pgEnum('enum__leadership_v_version_status', [
+  'draft',
+  'published',
+])
 export const enum_pages_status = pgEnum('enum_pages_status', ['draft', 'published'])
 export const enum__pages_v_version_status = pgEnum('enum__pages_v_version_status', [
   'draft',
@@ -74,9 +79,263 @@ export const enum__policies_v_version_status = pgEnum('enum__policies_v_version_
   'draft',
   'published',
 ])
+export const enum_menu_site_collection_blocks_collection_link_page = pgEnum(
+  'enum_menu_site_collection_blocks_collection_link_page',
+  ['events', 'leadership', 'news', 'posts', 'reports'],
+)
+export const enum_menu_site_collection_status = pgEnum('enum_menu_site_collection_status', [
+  'draft',
+  'published',
+])
+export const enum__menu_site_collection_v_blocks_collection_link_page = pgEnum(
+  'enum__menu_site_collection_v_blocks_collection_link_page',
+  ['events', 'leadership', 'news', 'posts', 'reports'],
+)
+export const enum__menu_site_collection_v_version_status = pgEnum(
+  'enum__menu_site_collection_v_version_status',
+  ['draft', 'published'],
+)
+export const enum_site_config_site_collection_primary_color = pgEnum(
+  'enum_site_config_site_collection_primary_color',
+  [
+    'blue-cool',
+    'blue-cool-vivid',
+    'blue',
+    'blue-vivid',
+    'blue-warm',
+    'blue-warm-vivid',
+    'cyan',
+    'cyan-vivid',
+    'gold',
+    'gold-vivid',
+    'gray-cool',
+    'gray',
+    'gray-warm',
+    'green-cool',
+    'green-cool-vivid',
+    'green',
+    'green-vivid',
+    'green-warm',
+    'green-warm-vivid',
+    'indigo-cool',
+    'indigo-cool-vivid',
+    'indigo',
+    'indigo-vivid',
+    'indigo-warm',
+    'indigo-warm-vivid',
+    'magenta',
+    'magenta-vivid',
+    'mint-cool',
+    'mint-cool-vivid',
+    'mint',
+    'mint-vivid',
+    'orange',
+    'orange-vivid',
+    'orange-warm',
+    'orange-warm-vivid',
+    'red-cool',
+    'red-cool-vivid',
+    'red',
+    'red-vivid',
+    'red-warm',
+    'red-warm-vivid',
+    'violet',
+    'violet-vivid',
+    'violet-warm',
+    'violet-warm-vivid',
+    'yellow',
+    'yellow-vivid',
+  ],
+)
+export const enum_site_config_site_collection_secondary_color = pgEnum(
+  'enum_site_config_site_collection_secondary_color',
+  [
+    'blue-cool',
+    'blue-cool-vivid',
+    'blue',
+    'blue-vivid',
+    'blue-warm',
+    'blue-warm-vivid',
+    'cyan',
+    'cyan-vivid',
+    'gold',
+    'gold-vivid',
+    'gray-cool',
+    'gray',
+    'gray-warm',
+    'green-cool',
+    'green-cool-vivid',
+    'green',
+    'green-vivid',
+    'green-warm',
+    'green-warm-vivid',
+    'indigo-cool',
+    'indigo-cool-vivid',
+    'indigo',
+    'indigo-vivid',
+    'indigo-warm',
+    'indigo-warm-vivid',
+    'magenta',
+    'magenta-vivid',
+    'mint-cool',
+    'mint-cool-vivid',
+    'mint',
+    'mint-vivid',
+    'orange',
+    'orange-vivid',
+    'orange-warm',
+    'orange-warm-vivid',
+    'red-cool',
+    'red-cool-vivid',
+    'red',
+    'red-vivid',
+    'red-warm',
+    'red-warm-vivid',
+    'violet',
+    'violet-vivid',
+    'violet-warm',
+    'violet-warm-vivid',
+    'yellow',
+    'yellow-vivid',
+  ],
+)
+export const enum_site_config_site_collection_primary_font = pgEnum(
+  'enum_site_config_site_collection_primary_font',
+  [
+    'georgia',
+    'helvetica',
+    'merriweather',
+    'open-sans',
+    'public-sans',
+    'roboto-mono',
+    'source-sans-pro',
+    'system',
+    'tahoma',
+    'verdana',
+  ],
+)
 export const enum_site_config_site_collection_status = pgEnum(
   'enum_site_config_site_collection_status',
   ['draft', 'published'],
+)
+export const enum__site_config_site_collection_v_version_primary_color = pgEnum(
+  'enum__site_config_site_collection_v_version_primary_color',
+  [
+    'blue-cool',
+    'blue-cool-vivid',
+    'blue',
+    'blue-vivid',
+    'blue-warm',
+    'blue-warm-vivid',
+    'cyan',
+    'cyan-vivid',
+    'gold',
+    'gold-vivid',
+    'gray-cool',
+    'gray',
+    'gray-warm',
+    'green-cool',
+    'green-cool-vivid',
+    'green',
+    'green-vivid',
+    'green-warm',
+    'green-warm-vivid',
+    'indigo-cool',
+    'indigo-cool-vivid',
+    'indigo',
+    'indigo-vivid',
+    'indigo-warm',
+    'indigo-warm-vivid',
+    'magenta',
+    'magenta-vivid',
+    'mint-cool',
+    'mint-cool-vivid',
+    'mint',
+    'mint-vivid',
+    'orange',
+    'orange-vivid',
+    'orange-warm',
+    'orange-warm-vivid',
+    'red-cool',
+    'red-cool-vivid',
+    'red',
+    'red-vivid',
+    'red-warm',
+    'red-warm-vivid',
+    'violet',
+    'violet-vivid',
+    'violet-warm',
+    'violet-warm-vivid',
+    'yellow',
+    'yellow-vivid',
+  ],
+)
+export const enum__site_config_site_collection_v_version_secondary_color = pgEnum(
+  'enum__site_config_site_collection_v_version_secondary_color',
+  [
+    'blue-cool',
+    'blue-cool-vivid',
+    'blue',
+    'blue-vivid',
+    'blue-warm',
+    'blue-warm-vivid',
+    'cyan',
+    'cyan-vivid',
+    'gold',
+    'gold-vivid',
+    'gray-cool',
+    'gray',
+    'gray-warm',
+    'green-cool',
+    'green-cool-vivid',
+    'green',
+    'green-vivid',
+    'green-warm',
+    'green-warm-vivid',
+    'indigo-cool',
+    'indigo-cool-vivid',
+    'indigo',
+    'indigo-vivid',
+    'indigo-warm',
+    'indigo-warm-vivid',
+    'magenta',
+    'magenta-vivid',
+    'mint-cool',
+    'mint-cool-vivid',
+    'mint',
+    'mint-vivid',
+    'orange',
+    'orange-vivid',
+    'orange-warm',
+    'orange-warm-vivid',
+    'red-cool',
+    'red-cool-vivid',
+    'red',
+    'red-vivid',
+    'red-warm',
+    'red-warm-vivid',
+    'violet',
+    'violet-vivid',
+    'violet-warm',
+    'violet-warm-vivid',
+    'yellow',
+    'yellow-vivid',
+  ],
+)
+export const enum__site_config_site_collection_v_version_primary_font = pgEnum(
+  'enum__site_config_site_collection_v_version_primary_font',
+  [
+    'georgia',
+    'helvetica',
+    'merriweather',
+    'open-sans',
+    'public-sans',
+    'roboto-mono',
+    'source-sans-pro',
+    'system',
+    'tahoma',
+    'verdana',
+  ],
 )
 export const enum__site_config_site_collection_v_version_status = pgEnum(
   'enum__site_config_site_collection_v_version_status',
@@ -88,8 +347,250 @@ export const enum_forms_confirmation_type = pgEnum('enum_forms_confirmation_type
   'redirect',
 ])
 export const enum_users_sites_role = pgEnum('enum_users_sites_role', ['manager', 'user', 'bot'])
+export const enum_site_config_primary_color = pgEnum('enum_site_config_primary_color', [
+  'blue-cool',
+  'blue-cool-vivid',
+  'blue',
+  'blue-vivid',
+  'blue-warm',
+  'blue-warm-vivid',
+  'cyan',
+  'cyan-vivid',
+  'gold',
+  'gold-vivid',
+  'gray-cool',
+  'gray',
+  'gray-warm',
+  'green-cool',
+  'green-cool-vivid',
+  'green',
+  'green-vivid',
+  'green-warm',
+  'green-warm-vivid',
+  'indigo-cool',
+  'indigo-cool-vivid',
+  'indigo',
+  'indigo-vivid',
+  'indigo-warm',
+  'indigo-warm-vivid',
+  'magenta',
+  'magenta-vivid',
+  'mint-cool',
+  'mint-cool-vivid',
+  'mint',
+  'mint-vivid',
+  'orange',
+  'orange-vivid',
+  'orange-warm',
+  'orange-warm-vivid',
+  'red-cool',
+  'red-cool-vivid',
+  'red',
+  'red-vivid',
+  'red-warm',
+  'red-warm-vivid',
+  'violet',
+  'violet-vivid',
+  'violet-warm',
+  'violet-warm-vivid',
+  'yellow',
+  'yellow-vivid',
+])
+export const enum_site_config_secondary_color = pgEnum('enum_site_config_secondary_color', [
+  'blue-cool',
+  'blue-cool-vivid',
+  'blue',
+  'blue-vivid',
+  'blue-warm',
+  'blue-warm-vivid',
+  'cyan',
+  'cyan-vivid',
+  'gold',
+  'gold-vivid',
+  'gray-cool',
+  'gray',
+  'gray-warm',
+  'green-cool',
+  'green-cool-vivid',
+  'green',
+  'green-vivid',
+  'green-warm',
+  'green-warm-vivid',
+  'indigo-cool',
+  'indigo-cool-vivid',
+  'indigo',
+  'indigo-vivid',
+  'indigo-warm',
+  'indigo-warm-vivid',
+  'magenta',
+  'magenta-vivid',
+  'mint-cool',
+  'mint-cool-vivid',
+  'mint',
+  'mint-vivid',
+  'orange',
+  'orange-vivid',
+  'orange-warm',
+  'orange-warm-vivid',
+  'red-cool',
+  'red-cool-vivid',
+  'red',
+  'red-vivid',
+  'red-warm',
+  'red-warm-vivid',
+  'violet',
+  'violet-vivid',
+  'violet-warm',
+  'violet-warm-vivid',
+  'yellow',
+  'yellow-vivid',
+])
+export const enum_site_config_primary_font = pgEnum('enum_site_config_primary_font', [
+  'georgia',
+  'helvetica',
+  'merriweather',
+  'open-sans',
+  'public-sans',
+  'roboto-mono',
+  'source-sans-pro',
+  'system',
+  'tahoma',
+  'verdana',
+])
 export const enum_site_config_status = pgEnum('enum_site_config_status', ['draft', 'published'])
+export const enum__site_config_v_version_primary_color = pgEnum(
+  'enum__site_config_v_version_primary_color',
+  [
+    'blue-cool',
+    'blue-cool-vivid',
+    'blue',
+    'blue-vivid',
+    'blue-warm',
+    'blue-warm-vivid',
+    'cyan',
+    'cyan-vivid',
+    'gold',
+    'gold-vivid',
+    'gray-cool',
+    'gray',
+    'gray-warm',
+    'green-cool',
+    'green-cool-vivid',
+    'green',
+    'green-vivid',
+    'green-warm',
+    'green-warm-vivid',
+    'indigo-cool',
+    'indigo-cool-vivid',
+    'indigo',
+    'indigo-vivid',
+    'indigo-warm',
+    'indigo-warm-vivid',
+    'magenta',
+    'magenta-vivid',
+    'mint-cool',
+    'mint-cool-vivid',
+    'mint',
+    'mint-vivid',
+    'orange',
+    'orange-vivid',
+    'orange-warm',
+    'orange-warm-vivid',
+    'red-cool',
+    'red-cool-vivid',
+    'red',
+    'red-vivid',
+    'red-warm',
+    'red-warm-vivid',
+    'violet',
+    'violet-vivid',
+    'violet-warm',
+    'violet-warm-vivid',
+    'yellow',
+    'yellow-vivid',
+  ],
+)
+export const enum__site_config_v_version_secondary_color = pgEnum(
+  'enum__site_config_v_version_secondary_color',
+  [
+    'blue-cool',
+    'blue-cool-vivid',
+    'blue',
+    'blue-vivid',
+    'blue-warm',
+    'blue-warm-vivid',
+    'cyan',
+    'cyan-vivid',
+    'gold',
+    'gold-vivid',
+    'gray-cool',
+    'gray',
+    'gray-warm',
+    'green-cool',
+    'green-cool-vivid',
+    'green',
+    'green-vivid',
+    'green-warm',
+    'green-warm-vivid',
+    'indigo-cool',
+    'indigo-cool-vivid',
+    'indigo',
+    'indigo-vivid',
+    'indigo-warm',
+    'indigo-warm-vivid',
+    'magenta',
+    'magenta-vivid',
+    'mint-cool',
+    'mint-cool-vivid',
+    'mint',
+    'mint-vivid',
+    'orange',
+    'orange-vivid',
+    'orange-warm',
+    'orange-warm-vivid',
+    'red-cool',
+    'red-cool-vivid',
+    'red',
+    'red-vivid',
+    'red-warm',
+    'red-warm-vivid',
+    'violet',
+    'violet-vivid',
+    'violet-warm',
+    'violet-warm-vivid',
+    'yellow',
+    'yellow-vivid',
+  ],
+)
+export const enum__site_config_v_version_primary_font = pgEnum(
+  'enum__site_config_v_version_primary_font',
+  [
+    'georgia',
+    'helvetica',
+    'merriweather',
+    'open-sans',
+    'public-sans',
+    'roboto-mono',
+    'source-sans-pro',
+    'system',
+    'tahoma',
+    'verdana',
+  ],
+)
 export const enum__site_config_v_version_status = pgEnum('enum__site_config_v_version_status', [
+  'draft',
+  'published',
+])
+export const enum_menu_blocks_collection_link_page = pgEnum(
+  'enum_menu_blocks_collection_link_page',
+  ['events', 'leadership', 'news', 'posts', 'reports'],
+)
+export const enum_menu_status = pgEnum('enum_menu_status', ['draft', 'published'])
+export const enum__menu_v_blocks_collection_link_page = pgEnum(
+  'enum__menu_v_blocks_collection_link_page',
+  ['events', 'leadership', 'news', 'posts', 'reports'],
+)
+export const enum__menu_v_version_status = pgEnum('enum__menu_v_version_status', [
   'draft',
   'published',
 ])
@@ -671,104 +1172,6 @@ export const _news_v_rels = pgTable(
   }),
 )
 
-export const media = pgTable(
-  'media',
-  {
-    id: serial('id').primaryKey(),
-    altText: varchar('alt_text'),
-    site: integer('site_id')
-      .notNull()
-      .references(() => sites.id, {
-        onDelete: 'set null',
-      }),
-    prefix: varchar('prefix').default('_uploads'),
-    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
-      .defaultNow()
-      .notNull(),
-    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
-      .defaultNow()
-      .notNull(),
-    url: varchar('url'),
-    thumbnailURL: varchar('thumbnail_u_r_l'),
-    filename: varchar('filename'),
-    mimeType: varchar('mime_type'),
-    filesize: numeric('filesize'),
-    width: numeric('width'),
-    height: numeric('height'),
-    focalX: numeric('focal_x'),
-    focalY: numeric('focal_y'),
-    sizes_thumbnail_url: varchar('sizes_thumbnail_url'),
-    sizes_thumbnail_width: numeric('sizes_thumbnail_width'),
-    sizes_thumbnail_height: numeric('sizes_thumbnail_height'),
-    sizes_thumbnail_mimeType: varchar('sizes_thumbnail_mime_type'),
-    sizes_thumbnail_filesize: numeric('sizes_thumbnail_filesize'),
-    sizes_thumbnail_filename: varchar('sizes_thumbnail_filename'),
-    sizes_square_url: varchar('sizes_square_url'),
-    sizes_square_width: numeric('sizes_square_width'),
-    sizes_square_height: numeric('sizes_square_height'),
-    sizes_square_mimeType: varchar('sizes_square_mime_type'),
-    sizes_square_filesize: numeric('sizes_square_filesize'),
-    sizes_square_filename: varchar('sizes_square_filename'),
-    sizes_small_url: varchar('sizes_small_url'),
-    sizes_small_width: numeric('sizes_small_width'),
-    sizes_small_height: numeric('sizes_small_height'),
-    sizes_small_mimeType: varchar('sizes_small_mime_type'),
-    sizes_small_filesize: numeric('sizes_small_filesize'),
-    sizes_small_filename: varchar('sizes_small_filename'),
-    sizes_medium_url: varchar('sizes_medium_url'),
-    sizes_medium_width: numeric('sizes_medium_width'),
-    sizes_medium_height: numeric('sizes_medium_height'),
-    sizes_medium_mimeType: varchar('sizes_medium_mime_type'),
-    sizes_medium_filesize: numeric('sizes_medium_filesize'),
-    sizes_medium_filename: varchar('sizes_medium_filename'),
-    sizes_large_url: varchar('sizes_large_url'),
-    sizes_large_width: numeric('sizes_large_width'),
-    sizes_large_height: numeric('sizes_large_height'),
-    sizes_large_mimeType: varchar('sizes_large_mime_type'),
-    sizes_large_filesize: numeric('sizes_large_filesize'),
-    sizes_large_filename: varchar('sizes_large_filename'),
-    sizes_xlarge_url: varchar('sizes_xlarge_url'),
-    sizes_xlarge_width: numeric('sizes_xlarge_width'),
-    sizes_xlarge_height: numeric('sizes_xlarge_height'),
-    sizes_xlarge_mimeType: varchar('sizes_xlarge_mime_type'),
-    sizes_xlarge_filesize: numeric('sizes_xlarge_filesize'),
-    sizes_xlarge_filename: varchar('sizes_xlarge_filename'),
-    sizes_og_url: varchar('sizes_og_url'),
-    sizes_og_width: numeric('sizes_og_width'),
-    sizes_og_height: numeric('sizes_og_height'),
-    sizes_og_mimeType: varchar('sizes_og_mime_type'),
-    sizes_og_filesize: numeric('sizes_og_filesize'),
-    sizes_og_filename: varchar('sizes_og_filename'),
-  },
-  (columns) => ({
-    media_site_idx: index('media_site_idx').on(columns.site),
-    media_updated_at_idx: index('media_updated_at_idx').on(columns.updatedAt),
-    media_created_at_idx: index('media_created_at_idx').on(columns.createdAt),
-    media_filename_idx: uniqueIndex('media_filename_idx').on(columns.filename),
-    media_sizes_thumbnail_sizes_thumbnail_filename_idx: index(
-      'media_sizes_thumbnail_sizes_thumbnail_filename_idx',
-    ).on(columns.sizes_thumbnail_filename),
-    media_sizes_square_sizes_square_filename_idx: index(
-      'media_sizes_square_sizes_square_filename_idx',
-    ).on(columns.sizes_square_filename),
-    media_sizes_small_sizes_small_filename_idx: index(
-      'media_sizes_small_sizes_small_filename_idx',
-    ).on(columns.sizes_small_filename),
-    media_sizes_medium_sizes_medium_filename_idx: index(
-      'media_sizes_medium_sizes_medium_filename_idx',
-    ).on(columns.sizes_medium_filename),
-    media_sizes_large_sizes_large_filename_idx: index(
-      'media_sizes_large_sizes_large_filename_idx',
-    ).on(columns.sizes_large_filename),
-    media_sizes_xlarge_sizes_xlarge_filename_idx: index(
-      'media_sizes_xlarge_sizes_xlarge_filename_idx',
-    ).on(columns.sizes_xlarge_filename),
-    media_sizes_og_sizes_og_filename_idx: index('media_sizes_og_sizes_og_filename_idx').on(
-      columns.sizes_og_filename,
-    ),
-  }),
-)
-
 export const reports_report_files = pgTable(
   'reports_report_files',
   {
@@ -986,6 +1389,108 @@ export const _reports_v_rels = pgTable(
   }),
 )
 
+export const leadership = pgTable(
+  'leadership',
+  {
+    id: serial('id').primaryKey(),
+    title: varchar('title'),
+    jobTitle: varchar('job_title'),
+    description: varchar('description'),
+    image: integer('image_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    imageAlt: varchar('image_alt'),
+    content: jsonb('content'),
+    site: integer('site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    slug: varchar('slug'),
+    slugLock: boolean('slug_lock').default(true),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    _status: enum_leadership_status('_status').default('draft'),
+  },
+  (columns) => ({
+    leadership_image_idx: index('leadership_image_idx').on(columns.image),
+    leadership_site_idx: index('leadership_site_idx').on(columns.site),
+    leadership_slug_idx: index('leadership_slug_idx').on(columns.slug),
+    leadership_updated_at_idx: index('leadership_updated_at_idx').on(columns.updatedAt),
+    leadership_created_at_idx: index('leadership_created_at_idx').on(columns.createdAt),
+    leadership__status_idx: index('leadership__status_idx').on(columns._status),
+  }),
+)
+
+export const _leadership_v = pgTable(
+  '_leadership_v',
+  {
+    id: serial('id').primaryKey(),
+    parent: integer('parent_id').references(() => leadership.id, {
+      onDelete: 'set null',
+    }),
+    version_title: varchar('version_title'),
+    version_jobTitle: varchar('version_job_title'),
+    version_description: varchar('version_description'),
+    version_image: integer('version_image_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    version_imageAlt: varchar('version_image_alt'),
+    version_content: jsonb('version_content'),
+    version_site: integer('version_site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    version_slug: varchar('version_slug'),
+    version_slugLock: boolean('version_slug_lock').default(true),
+    version_updatedAt: timestamp('version_updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_createdAt: timestamp('version_created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version__status: enum__leadership_v_version_status('version__status').default('draft'),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    latest: boolean('latest'),
+    autosave: boolean('autosave'),
+  },
+  (columns) => ({
+    _leadership_v_parent_idx: index('_leadership_v_parent_idx').on(columns.parent),
+    _leadership_v_version_version_image_idx: index('_leadership_v_version_version_image_idx').on(
+      columns.version_image,
+    ),
+    _leadership_v_version_version_site_idx: index('_leadership_v_version_version_site_idx').on(
+      columns.version_site,
+    ),
+    _leadership_v_version_version_slug_idx: index('_leadership_v_version_version_slug_idx').on(
+      columns.version_slug,
+    ),
+    _leadership_v_version_version_updated_at_idx: index(
+      '_leadership_v_version_version_updated_at_idx',
+    ).on(columns.version_updatedAt),
+    _leadership_v_version_version_created_at_idx: index(
+      '_leadership_v_version_version_created_at_idx',
+    ).on(columns.version_createdAt),
+    _leadership_v_version_version__status_idx: index(
+      '_leadership_v_version_version__status_idx',
+    ).on(columns.version__status),
+    _leadership_v_created_at_idx: index('_leadership_v_created_at_idx').on(columns.createdAt),
+    _leadership_v_updated_at_idx: index('_leadership_v_updated_at_idx').on(columns.updatedAt),
+    _leadership_v_latest_idx: index('_leadership_v_latest_idx').on(columns.latest),
+    _leadership_v_autosave_idx: index('_leadership_v_autosave_idx').on(columns.autosave),
+  }),
+)
+
 export const pages = pgTable(
   'pages',
   {
@@ -1184,6 +1689,104 @@ export const _policies_v = pgTable(
   }),
 )
 
+export const media = pgTable(
+  'media',
+  {
+    id: serial('id').primaryKey(),
+    altText: varchar('alt_text'),
+    site: integer('site_id')
+      .notNull()
+      .references(() => sites.id, {
+        onDelete: 'set null',
+      }),
+    prefix: varchar('prefix').default('_uploads'),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    url: varchar('url'),
+    thumbnailURL: varchar('thumbnail_u_r_l'),
+    filename: varchar('filename'),
+    mimeType: varchar('mime_type'),
+    filesize: numeric('filesize'),
+    width: numeric('width'),
+    height: numeric('height'),
+    focalX: numeric('focal_x'),
+    focalY: numeric('focal_y'),
+    sizes_thumbnail_url: varchar('sizes_thumbnail_url'),
+    sizes_thumbnail_width: numeric('sizes_thumbnail_width'),
+    sizes_thumbnail_height: numeric('sizes_thumbnail_height'),
+    sizes_thumbnail_mimeType: varchar('sizes_thumbnail_mime_type'),
+    sizes_thumbnail_filesize: numeric('sizes_thumbnail_filesize'),
+    sizes_thumbnail_filename: varchar('sizes_thumbnail_filename'),
+    sizes_square_url: varchar('sizes_square_url'),
+    sizes_square_width: numeric('sizes_square_width'),
+    sizes_square_height: numeric('sizes_square_height'),
+    sizes_square_mimeType: varchar('sizes_square_mime_type'),
+    sizes_square_filesize: numeric('sizes_square_filesize'),
+    sizes_square_filename: varchar('sizes_square_filename'),
+    sizes_small_url: varchar('sizes_small_url'),
+    sizes_small_width: numeric('sizes_small_width'),
+    sizes_small_height: numeric('sizes_small_height'),
+    sizes_small_mimeType: varchar('sizes_small_mime_type'),
+    sizes_small_filesize: numeric('sizes_small_filesize'),
+    sizes_small_filename: varchar('sizes_small_filename'),
+    sizes_medium_url: varchar('sizes_medium_url'),
+    sizes_medium_width: numeric('sizes_medium_width'),
+    sizes_medium_height: numeric('sizes_medium_height'),
+    sizes_medium_mimeType: varchar('sizes_medium_mime_type'),
+    sizes_medium_filesize: numeric('sizes_medium_filesize'),
+    sizes_medium_filename: varchar('sizes_medium_filename'),
+    sizes_large_url: varchar('sizes_large_url'),
+    sizes_large_width: numeric('sizes_large_width'),
+    sizes_large_height: numeric('sizes_large_height'),
+    sizes_large_mimeType: varchar('sizes_large_mime_type'),
+    sizes_large_filesize: numeric('sizes_large_filesize'),
+    sizes_large_filename: varchar('sizes_large_filename'),
+    sizes_xlarge_url: varchar('sizes_xlarge_url'),
+    sizes_xlarge_width: numeric('sizes_xlarge_width'),
+    sizes_xlarge_height: numeric('sizes_xlarge_height'),
+    sizes_xlarge_mimeType: varchar('sizes_xlarge_mime_type'),
+    sizes_xlarge_filesize: numeric('sizes_xlarge_filesize'),
+    sizes_xlarge_filename: varchar('sizes_xlarge_filename'),
+    sizes_og_url: varchar('sizes_og_url'),
+    sizes_og_width: numeric('sizes_og_width'),
+    sizes_og_height: numeric('sizes_og_height'),
+    sizes_og_mimeType: varchar('sizes_og_mime_type'),
+    sizes_og_filesize: numeric('sizes_og_filesize'),
+    sizes_og_filename: varchar('sizes_og_filename'),
+  },
+  (columns) => ({
+    media_site_idx: index('media_site_idx').on(columns.site),
+    media_updated_at_idx: index('media_updated_at_idx').on(columns.updatedAt),
+    media_created_at_idx: index('media_created_at_idx').on(columns.createdAt),
+    media_filename_idx: uniqueIndex('media_filename_idx').on(columns.filename),
+    media_sizes_thumbnail_sizes_thumbnail_filename_idx: index(
+      'media_sizes_thumbnail_sizes_thumbnail_filename_idx',
+    ).on(columns.sizes_thumbnail_filename),
+    media_sizes_square_sizes_square_filename_idx: index(
+      'media_sizes_square_sizes_square_filename_idx',
+    ).on(columns.sizes_square_filename),
+    media_sizes_small_sizes_small_filename_idx: index(
+      'media_sizes_small_sizes_small_filename_idx',
+    ).on(columns.sizes_small_filename),
+    media_sizes_medium_sizes_medium_filename_idx: index(
+      'media_sizes_medium_sizes_medium_filename_idx',
+    ).on(columns.sizes_medium_filename),
+    media_sizes_large_sizes_large_filename_idx: index(
+      'media_sizes_large_sizes_large_filename_idx',
+    ).on(columns.sizes_large_filename),
+    media_sizes_xlarge_sizes_xlarge_filename_idx: index(
+      'media_sizes_xlarge_sizes_xlarge_filename_idx',
+    ).on(columns.sizes_xlarge_filename),
+    media_sizes_og_sizes_og_filename_idx: index('media_sizes_og_sizes_og_filename_idx').on(
+      columns.sizes_og_filename,
+    ),
+  }),
+)
+
 export const categories_breadcrumbs = pgTable(
   'categories_breadcrumbs',
   {
@@ -1265,12 +1868,271 @@ export const sites = pgTable(
   }),
 )
 
+export const menu_site_collection_blocks_page_link = pgTable(
+  'menu_site_collection_blocks_page_link',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: varchar('id').primaryKey(),
+    label: varchar('label'),
+    page: integer('page_id').references(() => pages.id, {
+      onDelete: 'set null',
+    }),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('menu_site_collection_blocks_page_link_order_idx').on(columns._order),
+    _parentIDIdx: index('menu_site_collection_blocks_page_link_parent_id_idx').on(
+      columns._parentID,
+    ),
+    _pathIdx: index('menu_site_collection_blocks_page_link_path_idx').on(columns._path),
+    menu_site_collection_blocks_page_link_page_idx: index(
+      'menu_site_collection_blocks_page_link_page_idx',
+    ).on(columns.page),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [menu_site_collection.id],
+      name: 'menu_site_collection_blocks_page_link_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const menu_site_collection_blocks_collection_link = pgTable(
+  'menu_site_collection_blocks_collection_link',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: varchar('id').primaryKey(),
+    label: varchar('label'),
+    page: enum_menu_site_collection_blocks_collection_link_page('page'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('menu_site_collection_blocks_collection_link_order_idx').on(columns._order),
+    _parentIDIdx: index('menu_site_collection_blocks_collection_link_parent_id_idx').on(
+      columns._parentID,
+    ),
+    _pathIdx: index('menu_site_collection_blocks_collection_link_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [menu_site_collection.id],
+      name: 'menu_site_collection_blocks_collection_link_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const menu_site_collection_blocks_dropdown = pgTable(
+  'menu_site_collection_blocks_dropdown',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: varchar('id').primaryKey(),
+    label: varchar('label'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('menu_site_collection_blocks_dropdown_order_idx').on(columns._order),
+    _parentIDIdx: index('menu_site_collection_blocks_dropdown_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('menu_site_collection_blocks_dropdown_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [menu_site_collection.id],
+      name: 'menu_site_collection_blocks_dropdown_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const menu_site_collection = pgTable(
+  'menu_site_collection',
+  {
+    id: serial('id').primaryKey(),
+    site: integer('site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    _status: enum_menu_site_collection_status('_status').default('draft'),
+  },
+  (columns) => ({
+    menu_site_collection_site_idx: index('menu_site_collection_site_idx').on(columns.site),
+    menu_site_collection_updated_at_idx: index('menu_site_collection_updated_at_idx').on(
+      columns.updatedAt,
+    ),
+    menu_site_collection_created_at_idx: index('menu_site_collection_created_at_idx').on(
+      columns.createdAt,
+    ),
+    menu_site_collection__status_idx: index('menu_site_collection__status_idx').on(columns._status),
+  }),
+)
+
+export const _menu_site_collection_v_blocks_page_link = pgTable(
+  '_menu_site_collection_v_blocks_page_link',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: serial('id').primaryKey(),
+    label: varchar('label'),
+    page: integer('page_id').references(() => pages.id, {
+      onDelete: 'set null',
+    }),
+    _uuid: varchar('_uuid'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('_menu_site_collection_v_blocks_page_link_order_idx').on(columns._order),
+    _parentIDIdx: index('_menu_site_collection_v_blocks_page_link_parent_id_idx').on(
+      columns._parentID,
+    ),
+    _pathIdx: index('_menu_site_collection_v_blocks_page_link_path_idx').on(columns._path),
+    _menu_site_collection_v_blocks_page_link_page_idx: index(
+      '_menu_site_collection_v_blocks_page_link_page_idx',
+    ).on(columns.page),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_menu_site_collection_v.id],
+      name: '_menu_site_collection_v_blocks_page_link_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const _menu_site_collection_v_blocks_collection_link = pgTable(
+  '_menu_site_collection_v_blocks_collection_link',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: serial('id').primaryKey(),
+    label: varchar('label'),
+    page: enum__menu_site_collection_v_blocks_collection_link_page('page'),
+    _uuid: varchar('_uuid'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('_menu_site_collection_v_blocks_collection_link_order_idx').on(columns._order),
+    _parentIDIdx: index('_menu_site_collection_v_blocks_collection_link_parent_id_idx').on(
+      columns._parentID,
+    ),
+    _pathIdx: index('_menu_site_collection_v_blocks_collection_link_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_menu_site_collection_v.id],
+      name: '_menu_site_collection_v_blocks_collection_link_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const _menu_site_collection_v_blocks_dropdown = pgTable(
+  '_menu_site_collection_v_blocks_dropdown',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: serial('id').primaryKey(),
+    label: varchar('label'),
+    _uuid: varchar('_uuid'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('_menu_site_collection_v_blocks_dropdown_order_idx').on(columns._order),
+    _parentIDIdx: index('_menu_site_collection_v_blocks_dropdown_parent_id_idx').on(
+      columns._parentID,
+    ),
+    _pathIdx: index('_menu_site_collection_v_blocks_dropdown_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_menu_site_collection_v.id],
+      name: '_menu_site_collection_v_blocks_dropdown_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const _menu_site_collection_v = pgTable(
+  '_menu_site_collection_v',
+  {
+    id: serial('id').primaryKey(),
+    parent: integer('parent_id').references(() => menu_site_collection.id, {
+      onDelete: 'set null',
+    }),
+    version_site: integer('version_site_id').references(() => sites.id, {
+      onDelete: 'set null',
+    }),
+    version_updatedAt: timestamp('version_updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_createdAt: timestamp('version_created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version__status:
+      enum__menu_site_collection_v_version_status('version__status').default('draft'),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    latest: boolean('latest'),
+    autosave: boolean('autosave'),
+  },
+  (columns) => ({
+    _menu_site_collection_v_parent_idx: index('_menu_site_collection_v_parent_idx').on(
+      columns.parent,
+    ),
+    _menu_site_collection_v_version_version_site_idx: index(
+      '_menu_site_collection_v_version_version_site_idx',
+    ).on(columns.version_site),
+    _menu_site_collection_v_version_version_updated_at_idx: index(
+      '_menu_site_collection_v_version_version_updated_at_idx',
+    ).on(columns.version_updatedAt),
+    _menu_site_collection_v_version_version_created_at_idx: index(
+      '_menu_site_collection_v_version_version_created_at_idx',
+    ).on(columns.version_createdAt),
+    _menu_site_collection_v_version_version__status_idx: index(
+      '_menu_site_collection_v_version_version__status_idx',
+    ).on(columns.version__status),
+    _menu_site_collection_v_created_at_idx: index('_menu_site_collection_v_created_at_idx').on(
+      columns.createdAt,
+    ),
+    _menu_site_collection_v_updated_at_idx: index('_menu_site_collection_v_updated_at_idx').on(
+      columns.updatedAt,
+    ),
+    _menu_site_collection_v_latest_idx: index('_menu_site_collection_v_latest_idx').on(
+      columns.latest,
+    ),
+    _menu_site_collection_v_autosave_idx: index('_menu_site_collection_v_autosave_idx').on(
+      columns.autosave,
+    ),
+  }),
+)
+
 export const site_config_site_collection = pgTable(
   'site_config_site_collection',
   {
     id: serial('id').primaryKey(),
-    font: varchar('font'),
     agencyName: varchar('agency_name').default('Agency Name'),
+    tagline: varchar('tagline'),
+    primaryColor:
+      enum_site_config_site_collection_primary_color('primary_color').default('blue-warm-vivid'),
+    secondaryColor:
+      enum_site_config_site_collection_secondary_color('secondary_color').default('red-vivid'),
+    primaryFont: enum_site_config_site_collection_primary_font('primary_font').default('open-sans'),
+    favicon: integer('favicon_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    logo: integer('logo_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
     site: integer('site_id').references(() => sites.id, {
       onDelete: 'set null',
     }),
@@ -1283,6 +2145,12 @@ export const site_config_site_collection = pgTable(
     _status: enum_site_config_site_collection_status('_status').default('draft'),
   },
   (columns) => ({
+    site_config_site_collection_favicon_idx: index('site_config_site_collection_favicon_idx').on(
+      columns.favicon,
+    ),
+    site_config_site_collection_logo_idx: index('site_config_site_collection_logo_idx').on(
+      columns.logo,
+    ),
     site_config_site_collection_site_idx: index('site_config_site_collection_site_idx').on(
       columns.site,
     ),
@@ -1305,8 +2173,26 @@ export const _site_config_site_collection_v = pgTable(
     parent: integer('parent_id').references(() => site_config_site_collection.id, {
       onDelete: 'set null',
     }),
-    version_font: varchar('version_font'),
     version_agencyName: varchar('version_agency_name').default('Agency Name'),
+    version_tagline: varchar('version_tagline'),
+    version_primaryColor:
+      enum__site_config_site_collection_v_version_primary_color('version_primary_color').default(
+        'blue-warm-vivid',
+      ),
+    version_secondaryColor:
+      enum__site_config_site_collection_v_version_secondary_color(
+        'version_secondary_color',
+      ).default('red-vivid'),
+    version_primaryFont:
+      enum__site_config_site_collection_v_version_primary_font('version_primary_font').default(
+        'open-sans',
+      ),
+    version_favicon: integer('version_favicon_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    version_logo: integer('version_logo_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
     version_site: integer('version_site_id').references(() => sites.id, {
       onDelete: 'set null',
     }),
@@ -1335,14 +2221,20 @@ export const _site_config_site_collection_v = pgTable(
     _site_config_site_collection_v_parent_idx: index(
       '_site_config_site_collection_v_parent_idx',
     ).on(columns.parent),
+    _site_config_site_collection_v_version_version_favicon_idx: index(
+      '_site_config_site_collection_v_version_version_favicon_idx',
+    ).on(columns.version_favicon),
+    _site_config_site_collection_v_version_version_logo_idx: index(
+      '_site_config_site_collection_v_version_version_logo_idx',
+    ).on(columns.version_logo),
     _site_config_site_collection_v_version_version_site_idx: index(
       '_site_config_site_collection_v_version_version_site_idx',
     ).on(columns.version_site),
-    _site_config_site_collection_v_version_version_updated_a_idx: index(
-      '_site_config_site_collection_v_version_version_updated_a_idx',
+    _site_config_site_collection_v_version_version_updated_at_idx: index(
+      '_site_config_site_collection_v_version_version_updated_at_idx',
     ).on(columns.version_updatedAt),
-    _site_config_site_collection_v_version_version_created_a_idx: index(
-      '_site_config_site_collection_v_version_version_created_a_idx',
+    _site_config_site_collection_v_version_version_created_at_idx: index(
+      '_site_config_site_collection_v_version_version_created_at_idx',
     ).on(columns.version_createdAt),
     _site_config_site_collection_v_version_version__status_idx: index(
       '_site_config_site_collection_v_version_version__status_idx',
@@ -1359,32 +2251,6 @@ export const _site_config_site_collection_v = pgTable(
     _site_config_site_collection_v_autosave_idx: index(
       '_site_config_site_collection_v_autosave_idx',
     ).on(columns.autosave),
-  }),
-)
-
-export const collection_landing_pages = pgTable(
-  'collection_landing_pages',
-  {
-    id: serial('id').primaryKey(),
-    title: varchar('title').notNull(),
-    slug: varchar('slug').notNull(),
-    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
-      .defaultNow()
-      .notNull(),
-    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
-      .defaultNow()
-      .notNull(),
-  },
-  (columns) => ({
-    collection_landing_pages_slug_idx: uniqueIndex('collection_landing_pages_slug_idx').on(
-      columns.slug,
-    ),
-    collection_landing_pages_updated_at_idx: index('collection_landing_pages_updated_at_idx').on(
-      columns.updatedAt,
-    ),
-    collection_landing_pages_created_at_idx: index('collection_landing_pages_created_at_idx').on(
-      columns.createdAt,
-    ),
   }),
 )
 
@@ -1930,14 +2796,15 @@ export const payload_locked_documents_rels = pgTable(
     postsID: integer('posts_id'),
     eventsID: integer('events_id'),
     newsID: integer('news_id'),
-    mediaID: integer('media_id'),
     reportsID: integer('reports_id'),
+    leadershipID: integer('leadership_id'),
     pagesID: integer('pages_id'),
     policiesID: integer('policies_id'),
+    mediaID: integer('media_id'),
     categoriesID: integer('categories_id'),
     sitesID: integer('sites_id'),
+    'menu-site-collectionID': integer('menu_site_collection_id'),
     'site-config-site-collectionID': integer('site_config_site_collection_id'),
-    'collection-landing-pagesID': integer('collection_landing_pages_id'),
     redirectsID: integer('redirects_id'),
     formsID: integer('forms_id'),
     'form-submissionsID': integer('form_submissions_id'),
@@ -1957,30 +2824,33 @@ export const payload_locked_documents_rels = pgTable(
     payload_locked_documents_rels_news_id_idx: index(
       'payload_locked_documents_rels_news_id_idx',
     ).on(columns.newsID),
-    payload_locked_documents_rels_media_id_idx: index(
-      'payload_locked_documents_rels_media_id_idx',
-    ).on(columns.mediaID),
     payload_locked_documents_rels_reports_id_idx: index(
       'payload_locked_documents_rels_reports_id_idx',
     ).on(columns.reportsID),
+    payload_locked_documents_rels_leadership_id_idx: index(
+      'payload_locked_documents_rels_leadership_id_idx',
+    ).on(columns.leadershipID),
     payload_locked_documents_rels_pages_id_idx: index(
       'payload_locked_documents_rels_pages_id_idx',
     ).on(columns.pagesID),
     payload_locked_documents_rels_policies_id_idx: index(
       'payload_locked_documents_rels_policies_id_idx',
     ).on(columns.policiesID),
+    payload_locked_documents_rels_media_id_idx: index(
+      'payload_locked_documents_rels_media_id_idx',
+    ).on(columns.mediaID),
     payload_locked_documents_rels_categories_id_idx: index(
       'payload_locked_documents_rels_categories_id_idx',
     ).on(columns.categoriesID),
     payload_locked_documents_rels_sites_id_idx: index(
       'payload_locked_documents_rels_sites_id_idx',
     ).on(columns.sitesID),
-    payload_locked_documents_rels_site_config_site_collectio_idx: index(
-      'payload_locked_documents_rels_site_config_site_collectio_idx',
+    payload_locked_documents_rels_menu_site_collection_id_idx: index(
+      'payload_locked_documents_rels_menu_site_collection_id_idx',
+    ).on(columns['menu-site-collectionID']),
+    payload_locked_documents_rels_site_config_site_collection_id_idx: index(
+      'payload_locked_documents_rels_site_config_site_collection_id_idx',
     ).on(columns['site-config-site-collectionID']),
-    payload_locked_documents_rels_collection_landing_pages_i_idx: index(
-      'payload_locked_documents_rels_collection_landing_pages_i_idx',
-    ).on(columns['collection-landing-pagesID']),
     payload_locked_documents_rels_redirects_id_idx: index(
       'payload_locked_documents_rels_redirects_id_idx',
     ).on(columns.redirectsID),
@@ -2016,15 +2886,15 @@ export const payload_locked_documents_rels = pgTable(
       foreignColumns: [news.id],
       name: 'payload_locked_documents_rels_news_fk',
     }).onDelete('cascade'),
-    mediaIdFk: foreignKey({
-      columns: [columns['mediaID']],
-      foreignColumns: [media.id],
-      name: 'payload_locked_documents_rels_media_fk',
-    }).onDelete('cascade'),
     reportsIdFk: foreignKey({
       columns: [columns['reportsID']],
       foreignColumns: [reports.id],
       name: 'payload_locked_documents_rels_reports_fk',
+    }).onDelete('cascade'),
+    leadershipIdFk: foreignKey({
+      columns: [columns['leadershipID']],
+      foreignColumns: [leadership.id],
+      name: 'payload_locked_documents_rels_leadership_fk',
     }).onDelete('cascade'),
     pagesIdFk: foreignKey({
       columns: [columns['pagesID']],
@@ -2036,6 +2906,11 @@ export const payload_locked_documents_rels = pgTable(
       foreignColumns: [policies.id],
       name: 'payload_locked_documents_rels_policies_fk',
     }).onDelete('cascade'),
+    mediaIdFk: foreignKey({
+      columns: [columns['mediaID']],
+      foreignColumns: [media.id],
+      name: 'payload_locked_documents_rels_media_fk',
+    }).onDelete('cascade'),
     categoriesIdFk: foreignKey({
       columns: [columns['categoriesID']],
       foreignColumns: [categories.id],
@@ -2046,15 +2921,15 @@ export const payload_locked_documents_rels = pgTable(
       foreignColumns: [sites.id],
       name: 'payload_locked_documents_rels_sites_fk',
     }).onDelete('cascade'),
+    'menu-site-collectionIdFk': foreignKey({
+      columns: [columns['menu-site-collectionID']],
+      foreignColumns: [menu_site_collection.id],
+      name: 'payload_locked_documents_rels_menu_site_collection_fk',
+    }).onDelete('cascade'),
     'site-config-site-collectionIdFk': foreignKey({
       columns: [columns['site-config-site-collectionID']],
       foreignColumns: [site_config_site_collection.id],
       name: 'payload_locked_documents_rels_site_config_site_collection_fk',
-    }).onDelete('cascade'),
-    'collection-landing-pagesIdFk': foreignKey({
-      columns: [columns['collection-landing-pagesID']],
-      foreignColumns: [collection_landing_pages.id],
-      name: 'payload_locked_documents_rels_collection_landing_pages_fk',
     }).onDelete('cascade'),
     redirectsIdFk: foreignKey({
       columns: [columns['redirectsID']],
@@ -2164,13 +3039,24 @@ export const site_config = pgTable(
   'site_config',
   {
     id: serial('id').primaryKey(),
-    font: varchar('font'),
     agencyName: varchar('agency_name').default('Agency Name'),
+    tagline: varchar('tagline'),
+    primaryColor: enum_site_config_primary_color('primary_color').default('blue-warm-vivid'),
+    secondaryColor: enum_site_config_secondary_color('secondary_color').default('red-vivid'),
+    primaryFont: enum_site_config_primary_font('primary_font').default('open-sans'),
+    favicon: integer('favicon_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    logo: integer('logo_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
     _status: enum_site_config_status('_status').default('draft'),
     updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 }),
     createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 }),
   },
   (columns) => ({
+    site_config_favicon_idx: index('site_config_favicon_idx').on(columns.favicon),
+    site_config_logo_idx: index('site_config_logo_idx').on(columns.logo),
     site_config__status_idx: index('site_config__status_idx').on(columns._status),
   }),
 )
@@ -2179,8 +3065,20 @@ export const _site_config_v = pgTable(
   '_site_config_v',
   {
     id: serial('id').primaryKey(),
-    version_font: varchar('version_font'),
     version_agencyName: varchar('version_agency_name').default('Agency Name'),
+    version_tagline: varchar('version_tagline'),
+    version_primaryColor:
+      enum__site_config_v_version_primary_color('version_primary_color').default('blue-warm-vivid'),
+    version_secondaryColor:
+      enum__site_config_v_version_secondary_color('version_secondary_color').default('red-vivid'),
+    version_primaryFont:
+      enum__site_config_v_version_primary_font('version_primary_font').default('open-sans'),
+    version_favicon: integer('version_favicon_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    version_logo: integer('version_logo_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
     version__status: enum__site_config_v_version_status('version__status').default('draft'),
     version_updatedAt: timestamp('version_updated_at', {
       mode: 'string',
@@ -2202,6 +3100,12 @@ export const _site_config_v = pgTable(
     autosave: boolean('autosave'),
   },
   (columns) => ({
+    _site_config_v_version_version_favicon_idx: index(
+      '_site_config_v_version_version_favicon_idx',
+    ).on(columns.version_favicon),
+    _site_config_v_version_version_logo_idx: index('_site_config_v_version_version_logo_idx').on(
+      columns.version_logo,
+    ),
     _site_config_v_version_version__status_idx: index(
       '_site_config_v_version_version__status_idx',
     ).on(columns.version__status),
@@ -2219,12 +3123,10 @@ export const menu_blocks_page_link = pgTable(
     _parentID: integer('_parent_id').notNull(),
     _path: text('_path').notNull(),
     id: varchar('id').primaryKey(),
-    label: varchar('label').notNull(),
-    page: integer('page_id')
-      .notNull()
-      .references(() => pages.id, {
-        onDelete: 'set null',
-      }),
+    label: varchar('label'),
+    page: integer('page_id').references(() => pages.id, {
+      onDelete: 'set null',
+    }),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -2247,52 +3149,18 @@ export const menu_blocks_collection_link = pgTable(
     _parentID: integer('_parent_id').notNull(),
     _path: text('_path').notNull(),
     id: varchar('id').primaryKey(),
-    label: varchar('label').notNull(),
-    page: integer('page_id')
-      .notNull()
-      .references(() => collection_landing_pages.id, {
-        onDelete: 'set null',
-      }),
+    label: varchar('label'),
+    page: enum_menu_blocks_collection_link_page('page'),
     blockName: varchar('block_name'),
   },
   (columns) => ({
     _orderIdx: index('menu_blocks_collection_link_order_idx').on(columns._order),
     _parentIDIdx: index('menu_blocks_collection_link_parent_id_idx').on(columns._parentID),
     _pathIdx: index('menu_blocks_collection_link_path_idx').on(columns._path),
-    menu_blocks_collection_link_page_idx: index('menu_blocks_collection_link_page_idx').on(
-      columns.page,
-    ),
     _parentIdFk: foreignKey({
       columns: [columns['_parentID']],
       foreignColumns: [menu.id],
       name: 'menu_blocks_collection_link_parent_id_fk',
-    }).onDelete('cascade'),
-  }),
-)
-
-export const menu_blocks_dropdown_sub_items = pgTable(
-  'menu_blocks_dropdown_sub_items',
-  {
-    _order: integer('_order').notNull(),
-    _parentID: varchar('_parent_id').notNull(),
-    id: varchar('id').primaryKey(),
-    label: varchar('label').notNull(),
-    page: integer('page_id')
-      .notNull()
-      .references(() => pages.id, {
-        onDelete: 'set null',
-      }),
-  },
-  (columns) => ({
-    _orderIdx: index('menu_blocks_dropdown_sub_items_order_idx').on(columns._order),
-    _parentIDIdx: index('menu_blocks_dropdown_sub_items_parent_id_idx').on(columns._parentID),
-    menu_blocks_dropdown_sub_items_page_idx: index('menu_blocks_dropdown_sub_items_page_idx').on(
-      columns.page,
-    ),
-    _parentIDFk: foreignKey({
-      columns: [columns['_parentID']],
-      foreignColumns: [menu_blocks_dropdown.id],
-      name: 'menu_blocks_dropdown_sub_items_parent_id_fk',
     }).onDelete('cascade'),
   }),
 )
@@ -2304,7 +3172,7 @@ export const menu_blocks_dropdown = pgTable(
     _parentID: integer('_parent_id').notNull(),
     _path: text('_path').notNull(),
     id: varchar('id').primaryKey(),
-    label: varchar('label').notNull(),
+    label: varchar('label'),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -2319,11 +3187,127 @@ export const menu_blocks_dropdown = pgTable(
   }),
 )
 
-export const menu = pgTable('menu', {
-  id: serial('id').primaryKey(),
-  updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 }),
-  createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 }),
-})
+export const menu = pgTable(
+  'menu',
+  {
+    id: serial('id').primaryKey(),
+    _status: enum_menu_status('_status').default('draft'),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 }),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 }),
+  },
+  (columns) => ({
+    menu__status_idx: index('menu__status_idx').on(columns._status),
+  }),
+)
+
+export const _menu_v_blocks_page_link = pgTable(
+  '_menu_v_blocks_page_link',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: serial('id').primaryKey(),
+    label: varchar('label'),
+    page: integer('page_id').references(() => pages.id, {
+      onDelete: 'set null',
+    }),
+    _uuid: varchar('_uuid'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('_menu_v_blocks_page_link_order_idx').on(columns._order),
+    _parentIDIdx: index('_menu_v_blocks_page_link_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('_menu_v_blocks_page_link_path_idx').on(columns._path),
+    _menu_v_blocks_page_link_page_idx: index('_menu_v_blocks_page_link_page_idx').on(columns.page),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_menu_v.id],
+      name: '_menu_v_blocks_page_link_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const _menu_v_blocks_collection_link = pgTable(
+  '_menu_v_blocks_collection_link',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: serial('id').primaryKey(),
+    label: varchar('label'),
+    page: enum__menu_v_blocks_collection_link_page('page'),
+    _uuid: varchar('_uuid'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('_menu_v_blocks_collection_link_order_idx').on(columns._order),
+    _parentIDIdx: index('_menu_v_blocks_collection_link_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('_menu_v_blocks_collection_link_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_menu_v.id],
+      name: '_menu_v_blocks_collection_link_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const _menu_v_blocks_dropdown = pgTable(
+  '_menu_v_blocks_dropdown',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: serial('id').primaryKey(),
+    label: varchar('label'),
+    _uuid: varchar('_uuid'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('_menu_v_blocks_dropdown_order_idx').on(columns._order),
+    _parentIDIdx: index('_menu_v_blocks_dropdown_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('_menu_v_blocks_dropdown_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_menu_v.id],
+      name: '_menu_v_blocks_dropdown_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const _menu_v = pgTable(
+  '_menu_v',
+  {
+    id: serial('id').primaryKey(),
+    version__status: enum__menu_v_version_status('version__status').default('draft'),
+    version_updatedAt: timestamp('version_updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    version_createdAt: timestamp('version_created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3,
+    }),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    latest: boolean('latest'),
+    autosave: boolean('autosave'),
+  },
+  (columns) => ({
+    _menu_v_version_version__status_idx: index('_menu_v_version_version__status_idx').on(
+      columns.version__status,
+    ),
+    _menu_v_created_at_idx: index('_menu_v_created_at_idx').on(columns.createdAt),
+    _menu_v_updated_at_idx: index('_menu_v_updated_at_idx').on(columns.updatedAt),
+    _menu_v_latest_idx: index('_menu_v_latest_idx').on(columns.latest),
+    _menu_v_autosave_idx: index('_menu_v_autosave_idx').on(columns.autosave),
+  }),
+)
 
 export const relations_posts_populated_authors = relations(posts_populated_authors, ({ one }) => ({
   _parentID: one(posts, {
@@ -2545,13 +3529,6 @@ export const relations__news_v = relations(_news_v, ({ one, many }) => ({
     relationName: '_rels',
   }),
 }))
-export const relations_media = relations(media, ({ one }) => ({
-  site: one(sites, {
-    fields: [media.site],
-    references: [sites.id],
-    relationName: 'site',
-  }),
-}))
 export const relations_reports_report_files = relations(reports_report_files, ({ one }) => ({
   _parentID: one(reports, {
     fields: [reports_report_files._parentID],
@@ -2644,6 +3621,35 @@ export const relations__reports_v = relations(_reports_v, ({ one, many }) => ({
     relationName: '_rels',
   }),
 }))
+export const relations_leadership = relations(leadership, ({ one }) => ({
+  image: one(media, {
+    fields: [leadership.image],
+    references: [media.id],
+    relationName: 'image',
+  }),
+  site: one(sites, {
+    fields: [leadership.site],
+    references: [sites.id],
+    relationName: 'site',
+  }),
+}))
+export const relations__leadership_v = relations(_leadership_v, ({ one }) => ({
+  parent: one(leadership, {
+    fields: [_leadership_v.parent],
+    references: [leadership.id],
+    relationName: 'parent',
+  }),
+  version_image: one(media, {
+    fields: [_leadership_v.version_image],
+    references: [media.id],
+    relationName: 'version_image',
+  }),
+  version_site: one(sites, {
+    fields: [_leadership_v.version_site],
+    references: [sites.id],
+    relationName: 'version_site',
+  }),
+}))
 export const relations_pages = relations(pages, ({ one }) => ({
   image: one(media, {
     fields: [pages.image],
@@ -2692,6 +3698,13 @@ export const relations__policies_v = relations(_policies_v, ({ one }) => ({
     relationName: 'version_site',
   }),
 }))
+export const relations_media = relations(media, ({ one }) => ({
+  site: one(sites, {
+    fields: [media.site],
+    references: [sites.id],
+    relationName: 'site',
+  }),
+}))
 export const relations_categories_breadcrumbs = relations(categories_breadcrumbs, ({ one }) => ({
   _parentID: one(categories, {
     fields: [categories_breadcrumbs._parentID],
@@ -2720,9 +3733,129 @@ export const relations_categories = relations(categories, ({ one, many }) => ({
   }),
 }))
 export const relations_sites = relations(sites, () => ({}))
+export const relations_menu_site_collection_blocks_page_link = relations(
+  menu_site_collection_blocks_page_link,
+  ({ one }) => ({
+    _parentID: one(menu_site_collection, {
+      fields: [menu_site_collection_blocks_page_link._parentID],
+      references: [menu_site_collection.id],
+      relationName: '_blocks_pageLink',
+    }),
+    page: one(pages, {
+      fields: [menu_site_collection_blocks_page_link.page],
+      references: [pages.id],
+      relationName: 'page',
+    }),
+  }),
+)
+export const relations_menu_site_collection_blocks_collection_link = relations(
+  menu_site_collection_blocks_collection_link,
+  ({ one }) => ({
+    _parentID: one(menu_site_collection, {
+      fields: [menu_site_collection_blocks_collection_link._parentID],
+      references: [menu_site_collection.id],
+      relationName: '_blocks_collectionLink',
+    }),
+  }),
+)
+export const relations_menu_site_collection_blocks_dropdown = relations(
+  menu_site_collection_blocks_dropdown,
+  ({ one }) => ({
+    _parentID: one(menu_site_collection, {
+      fields: [menu_site_collection_blocks_dropdown._parentID],
+      references: [menu_site_collection.id],
+      relationName: '_blocks_dropdown',
+    }),
+  }),
+)
+export const relations_menu_site_collection = relations(menu_site_collection, ({ one, many }) => ({
+  _blocks_pageLink: many(menu_site_collection_blocks_page_link, {
+    relationName: '_blocks_pageLink',
+  }),
+  _blocks_collectionLink: many(menu_site_collection_blocks_collection_link, {
+    relationName: '_blocks_collectionLink',
+  }),
+  _blocks_dropdown: many(menu_site_collection_blocks_dropdown, {
+    relationName: '_blocks_dropdown',
+  }),
+  site: one(sites, {
+    fields: [menu_site_collection.site],
+    references: [sites.id],
+    relationName: 'site',
+  }),
+}))
+export const relations__menu_site_collection_v_blocks_page_link = relations(
+  _menu_site_collection_v_blocks_page_link,
+  ({ one }) => ({
+    _parentID: one(_menu_site_collection_v, {
+      fields: [_menu_site_collection_v_blocks_page_link._parentID],
+      references: [_menu_site_collection_v.id],
+      relationName: '_blocks_pageLink',
+    }),
+    page: one(pages, {
+      fields: [_menu_site_collection_v_blocks_page_link.page],
+      references: [pages.id],
+      relationName: 'page',
+    }),
+  }),
+)
+export const relations__menu_site_collection_v_blocks_collection_link = relations(
+  _menu_site_collection_v_blocks_collection_link,
+  ({ one }) => ({
+    _parentID: one(_menu_site_collection_v, {
+      fields: [_menu_site_collection_v_blocks_collection_link._parentID],
+      references: [_menu_site_collection_v.id],
+      relationName: '_blocks_collectionLink',
+    }),
+  }),
+)
+export const relations__menu_site_collection_v_blocks_dropdown = relations(
+  _menu_site_collection_v_blocks_dropdown,
+  ({ one }) => ({
+    _parentID: one(_menu_site_collection_v, {
+      fields: [_menu_site_collection_v_blocks_dropdown._parentID],
+      references: [_menu_site_collection_v.id],
+      relationName: '_blocks_dropdown',
+    }),
+  }),
+)
+export const relations__menu_site_collection_v = relations(
+  _menu_site_collection_v,
+  ({ one, many }) => ({
+    parent: one(menu_site_collection, {
+      fields: [_menu_site_collection_v.parent],
+      references: [menu_site_collection.id],
+      relationName: 'parent',
+    }),
+    _blocks_pageLink: many(_menu_site_collection_v_blocks_page_link, {
+      relationName: '_blocks_pageLink',
+    }),
+    _blocks_collectionLink: many(_menu_site_collection_v_blocks_collection_link, {
+      relationName: '_blocks_collectionLink',
+    }),
+    _blocks_dropdown: many(_menu_site_collection_v_blocks_dropdown, {
+      relationName: '_blocks_dropdown',
+    }),
+    version_site: one(sites, {
+      fields: [_menu_site_collection_v.version_site],
+      references: [sites.id],
+      relationName: 'version_site',
+    }),
+  }),
+)
 export const relations_site_config_site_collection = relations(
   site_config_site_collection,
   ({ one }) => ({
+    favicon: one(media, {
+      fields: [site_config_site_collection.favicon],
+      references: [media.id],
+      relationName: 'favicon',
+    }),
+    logo: one(media, {
+      fields: [site_config_site_collection.logo],
+      references: [media.id],
+      relationName: 'logo',
+    }),
     site: one(sites, {
       fields: [site_config_site_collection.site],
       references: [sites.id],
@@ -2738,6 +3871,16 @@ export const relations__site_config_site_collection_v = relations(
       references: [site_config_site_collection.id],
       relationName: 'parent',
     }),
+    version_favicon: one(media, {
+      fields: [_site_config_site_collection_v.version_favicon],
+      references: [media.id],
+      relationName: 'version_favicon',
+    }),
+    version_logo: one(media, {
+      fields: [_site_config_site_collection_v.version_logo],
+      references: [media.id],
+      relationName: 'version_logo',
+    }),
     version_site: one(sites, {
       fields: [_site_config_site_collection_v.version_site],
       references: [sites.id],
@@ -2745,7 +3888,6 @@ export const relations__site_config_site_collection_v = relations(
     }),
   }),
 )
-export const relations_collection_landing_pages = relations(collection_landing_pages, () => ({}))
 export const relations_redirects_rels = relations(redirects_rels, ({ one }) => ({
   parent: one(redirects, {
     fields: [redirects_rels.parent],
@@ -2970,15 +4112,15 @@ export const relations_payload_locked_documents_rels = relations(
       references: [news.id],
       relationName: 'news',
     }),
-    mediaID: one(media, {
-      fields: [payload_locked_documents_rels.mediaID],
-      references: [media.id],
-      relationName: 'media',
-    }),
     reportsID: one(reports, {
       fields: [payload_locked_documents_rels.reportsID],
       references: [reports.id],
       relationName: 'reports',
+    }),
+    leadershipID: one(leadership, {
+      fields: [payload_locked_documents_rels.leadershipID],
+      references: [leadership.id],
+      relationName: 'leadership',
     }),
     pagesID: one(pages, {
       fields: [payload_locked_documents_rels.pagesID],
@@ -2990,6 +4132,11 @@ export const relations_payload_locked_documents_rels = relations(
       references: [policies.id],
       relationName: 'policies',
     }),
+    mediaID: one(media, {
+      fields: [payload_locked_documents_rels.mediaID],
+      references: [media.id],
+      relationName: 'media',
+    }),
     categoriesID: one(categories, {
       fields: [payload_locked_documents_rels.categoriesID],
       references: [categories.id],
@@ -3000,15 +4147,15 @@ export const relations_payload_locked_documents_rels = relations(
       references: [sites.id],
       relationName: 'sites',
     }),
+    'menu-site-collectionID': one(menu_site_collection, {
+      fields: [payload_locked_documents_rels['menu-site-collectionID']],
+      references: [menu_site_collection.id],
+      relationName: 'menu-site-collection',
+    }),
     'site-config-site-collectionID': one(site_config_site_collection, {
       fields: [payload_locked_documents_rels['site-config-site-collectionID']],
       references: [site_config_site_collection.id],
       relationName: 'site-config-site-collection',
-    }),
-    'collection-landing-pagesID': one(collection_landing_pages, {
-      fields: [payload_locked_documents_rels['collection-landing-pagesID']],
-      references: [collection_landing_pages.id],
-      relationName: 'collection-landing-pages',
     }),
     redirectsID: one(redirects, {
       fields: [payload_locked_documents_rels.redirectsID],
@@ -3066,8 +4213,30 @@ export const relations_payload_preferences = relations(payload_preferences, ({ m
   }),
 }))
 export const relations_payload_migrations = relations(payload_migrations, () => ({}))
-export const relations_site_config = relations(site_config, () => ({}))
-export const relations__site_config_v = relations(_site_config_v, () => ({}))
+export const relations_site_config = relations(site_config, ({ one }) => ({
+  favicon: one(media, {
+    fields: [site_config.favicon],
+    references: [media.id],
+    relationName: 'favicon',
+  }),
+  logo: one(media, {
+    fields: [site_config.logo],
+    references: [media.id],
+    relationName: 'logo',
+  }),
+}))
+export const relations__site_config_v = relations(_site_config_v, ({ one }) => ({
+  version_favicon: one(media, {
+    fields: [_site_config_v.version_favicon],
+    references: [media.id],
+    relationName: 'version_favicon',
+  }),
+  version_logo: one(media, {
+    fields: [_site_config_v.version_logo],
+    references: [media.id],
+    relationName: 'version_logo',
+  }),
+}))
 export const relations_menu_blocks_page_link = relations(menu_blocks_page_link, ({ one }) => ({
   _parentID: one(menu, {
     fields: [menu_blocks_page_link._parentID],
@@ -3088,36 +4257,13 @@ export const relations_menu_blocks_collection_link = relations(
       references: [menu.id],
       relationName: '_blocks_collectionLink',
     }),
-    page: one(collection_landing_pages, {
-      fields: [menu_blocks_collection_link.page],
-      references: [collection_landing_pages.id],
-      relationName: 'page',
-    }),
   }),
 )
-export const relations_menu_blocks_dropdown_sub_items = relations(
-  menu_blocks_dropdown_sub_items,
-  ({ one }) => ({
-    _parentID: one(menu_blocks_dropdown, {
-      fields: [menu_blocks_dropdown_sub_items._parentID],
-      references: [menu_blocks_dropdown.id],
-      relationName: 'subItems',
-    }),
-    page: one(pages, {
-      fields: [menu_blocks_dropdown_sub_items.page],
-      references: [pages.id],
-      relationName: 'page',
-    }),
-  }),
-)
-export const relations_menu_blocks_dropdown = relations(menu_blocks_dropdown, ({ one, many }) => ({
+export const relations_menu_blocks_dropdown = relations(menu_blocks_dropdown, ({ one }) => ({
   _parentID: one(menu, {
     fields: [menu_blocks_dropdown._parentID],
     references: [menu.id],
     relationName: '_blocks_dropdown',
-  }),
-  subItems: many(menu_blocks_dropdown_sub_items, {
-    relationName: 'subItems',
   }),
 }))
 export const relations_menu = relations(menu, ({ many }) => ({
@@ -3128,6 +4274,49 @@ export const relations_menu = relations(menu, ({ many }) => ({
     relationName: '_blocks_collectionLink',
   }),
   _blocks_dropdown: many(menu_blocks_dropdown, {
+    relationName: '_blocks_dropdown',
+  }),
+}))
+export const relations__menu_v_blocks_page_link = relations(
+  _menu_v_blocks_page_link,
+  ({ one }) => ({
+    _parentID: one(_menu_v, {
+      fields: [_menu_v_blocks_page_link._parentID],
+      references: [_menu_v.id],
+      relationName: '_blocks_pageLink',
+    }),
+    page: one(pages, {
+      fields: [_menu_v_blocks_page_link.page],
+      references: [pages.id],
+      relationName: 'page',
+    }),
+  }),
+)
+export const relations__menu_v_blocks_collection_link = relations(
+  _menu_v_blocks_collection_link,
+  ({ one }) => ({
+    _parentID: one(_menu_v, {
+      fields: [_menu_v_blocks_collection_link._parentID],
+      references: [_menu_v.id],
+      relationName: '_blocks_collectionLink',
+    }),
+  }),
+)
+export const relations__menu_v_blocks_dropdown = relations(_menu_v_blocks_dropdown, ({ one }) => ({
+  _parentID: one(_menu_v, {
+    fields: [_menu_v_blocks_dropdown._parentID],
+    references: [_menu_v.id],
+    relationName: '_blocks_dropdown',
+  }),
+}))
+export const relations__menu_v = relations(_menu_v, ({ many }) => ({
+  _blocks_pageLink: many(_menu_v_blocks_page_link, {
+    relationName: '_blocks_pageLink',
+  }),
+  _blocks_collectionLink: many(_menu_v_blocks_collection_link, {
+    relationName: '_blocks_collectionLink',
+  }),
+  _blocks_dropdown: many(_menu_v_blocks_dropdown, {
     relationName: '_blocks_dropdown',
   }),
 }))
@@ -3147,17 +4336,39 @@ type DatabaseSchema = {
   enum__news_v_version_status: typeof enum__news_v_version_status
   enum_reports_status: typeof enum_reports_status
   enum__reports_v_version_status: typeof enum__reports_v_version_status
+  enum_leadership_status: typeof enum_leadership_status
+  enum__leadership_v_version_status: typeof enum__leadership_v_version_status
   enum_pages_status: typeof enum_pages_status
   enum__pages_v_version_status: typeof enum__pages_v_version_status
   enum_policies_status: typeof enum_policies_status
   enum__policies_v_version_status: typeof enum__policies_v_version_status
+  enum_menu_site_collection_blocks_collection_link_page: typeof enum_menu_site_collection_blocks_collection_link_page
+  enum_menu_site_collection_status: typeof enum_menu_site_collection_status
+  enum__menu_site_collection_v_blocks_collection_link_page: typeof enum__menu_site_collection_v_blocks_collection_link_page
+  enum__menu_site_collection_v_version_status: typeof enum__menu_site_collection_v_version_status
+  enum_site_config_site_collection_primary_color: typeof enum_site_config_site_collection_primary_color
+  enum_site_config_site_collection_secondary_color: typeof enum_site_config_site_collection_secondary_color
+  enum_site_config_site_collection_primary_font: typeof enum_site_config_site_collection_primary_font
   enum_site_config_site_collection_status: typeof enum_site_config_site_collection_status
+  enum__site_config_site_collection_v_version_primary_color: typeof enum__site_config_site_collection_v_version_primary_color
+  enum__site_config_site_collection_v_version_secondary_color: typeof enum__site_config_site_collection_v_version_secondary_color
+  enum__site_config_site_collection_v_version_primary_font: typeof enum__site_config_site_collection_v_version_primary_font
   enum__site_config_site_collection_v_version_status: typeof enum__site_config_site_collection_v_version_status
   enum_redirects_to_type: typeof enum_redirects_to_type
   enum_forms_confirmation_type: typeof enum_forms_confirmation_type
   enum_users_sites_role: typeof enum_users_sites_role
+  enum_site_config_primary_color: typeof enum_site_config_primary_color
+  enum_site_config_secondary_color: typeof enum_site_config_secondary_color
+  enum_site_config_primary_font: typeof enum_site_config_primary_font
   enum_site_config_status: typeof enum_site_config_status
+  enum__site_config_v_version_primary_color: typeof enum__site_config_v_version_primary_color
+  enum__site_config_v_version_secondary_color: typeof enum__site_config_v_version_secondary_color
+  enum__site_config_v_version_primary_font: typeof enum__site_config_v_version_primary_font
   enum__site_config_v_version_status: typeof enum__site_config_v_version_status
+  enum_menu_blocks_collection_link_page: typeof enum_menu_blocks_collection_link_page
+  enum_menu_status: typeof enum_menu_status
+  enum__menu_v_blocks_collection_link_page: typeof enum__menu_v_blocks_collection_link_page
+  enum__menu_v_version_status: typeof enum__menu_v_version_status
   posts_populated_authors: typeof posts_populated_authors
   posts: typeof posts
   posts_rels: typeof posts_rels
@@ -3172,23 +4383,32 @@ type DatabaseSchema = {
   news_rels: typeof news_rels
   _news_v: typeof _news_v
   _news_v_rels: typeof _news_v_rels
-  media: typeof media
   reports_report_files: typeof reports_report_files
   reports: typeof reports
   reports_rels: typeof reports_rels
   _reports_v_version_report_files: typeof _reports_v_version_report_files
   _reports_v: typeof _reports_v
   _reports_v_rels: typeof _reports_v_rels
+  leadership: typeof leadership
+  _leadership_v: typeof _leadership_v
   pages: typeof pages
   _pages_v: typeof _pages_v
   policies: typeof policies
   _policies_v: typeof _policies_v
+  media: typeof media
   categories_breadcrumbs: typeof categories_breadcrumbs
   categories: typeof categories
   sites: typeof sites
+  menu_site_collection_blocks_page_link: typeof menu_site_collection_blocks_page_link
+  menu_site_collection_blocks_collection_link: typeof menu_site_collection_blocks_collection_link
+  menu_site_collection_blocks_dropdown: typeof menu_site_collection_blocks_dropdown
+  menu_site_collection: typeof menu_site_collection
+  _menu_site_collection_v_blocks_page_link: typeof _menu_site_collection_v_blocks_page_link
+  _menu_site_collection_v_blocks_collection_link: typeof _menu_site_collection_v_blocks_collection_link
+  _menu_site_collection_v_blocks_dropdown: typeof _menu_site_collection_v_blocks_dropdown
+  _menu_site_collection_v: typeof _menu_site_collection_v
   site_config_site_collection: typeof site_config_site_collection
   _site_config_site_collection_v: typeof _site_config_site_collection_v
-  collection_landing_pages: typeof collection_landing_pages
   redirects: typeof redirects
   redirects_rels: typeof redirects_rels
   forms_blocks_checkbox: typeof forms_blocks_checkbox
@@ -3219,9 +4439,12 @@ type DatabaseSchema = {
   _site_config_v: typeof _site_config_v
   menu_blocks_page_link: typeof menu_blocks_page_link
   menu_blocks_collection_link: typeof menu_blocks_collection_link
-  menu_blocks_dropdown_sub_items: typeof menu_blocks_dropdown_sub_items
   menu_blocks_dropdown: typeof menu_blocks_dropdown
   menu: typeof menu
+  _menu_v_blocks_page_link: typeof _menu_v_blocks_page_link
+  _menu_v_blocks_collection_link: typeof _menu_v_blocks_collection_link
+  _menu_v_blocks_dropdown: typeof _menu_v_blocks_dropdown
+  _menu_v: typeof _menu_v
   relations_posts_populated_authors: typeof relations_posts_populated_authors
   relations_posts_rels: typeof relations_posts_rels
   relations_posts: typeof relations_posts
@@ -3236,23 +4459,32 @@ type DatabaseSchema = {
   relations_news: typeof relations_news
   relations__news_v_rels: typeof relations__news_v_rels
   relations__news_v: typeof relations__news_v
-  relations_media: typeof relations_media
   relations_reports_report_files: typeof relations_reports_report_files
   relations_reports_rels: typeof relations_reports_rels
   relations_reports: typeof relations_reports
   relations__reports_v_version_report_files: typeof relations__reports_v_version_report_files
   relations__reports_v_rels: typeof relations__reports_v_rels
   relations__reports_v: typeof relations__reports_v
+  relations_leadership: typeof relations_leadership
+  relations__leadership_v: typeof relations__leadership_v
   relations_pages: typeof relations_pages
   relations__pages_v: typeof relations__pages_v
   relations_policies: typeof relations_policies
   relations__policies_v: typeof relations__policies_v
+  relations_media: typeof relations_media
   relations_categories_breadcrumbs: typeof relations_categories_breadcrumbs
   relations_categories: typeof relations_categories
   relations_sites: typeof relations_sites
+  relations_menu_site_collection_blocks_page_link: typeof relations_menu_site_collection_blocks_page_link
+  relations_menu_site_collection_blocks_collection_link: typeof relations_menu_site_collection_blocks_collection_link
+  relations_menu_site_collection_blocks_dropdown: typeof relations_menu_site_collection_blocks_dropdown
+  relations_menu_site_collection: typeof relations_menu_site_collection
+  relations__menu_site_collection_v_blocks_page_link: typeof relations__menu_site_collection_v_blocks_page_link
+  relations__menu_site_collection_v_blocks_collection_link: typeof relations__menu_site_collection_v_blocks_collection_link
+  relations__menu_site_collection_v_blocks_dropdown: typeof relations__menu_site_collection_v_blocks_dropdown
+  relations__menu_site_collection_v: typeof relations__menu_site_collection_v
   relations_site_config_site_collection: typeof relations_site_config_site_collection
   relations__site_config_site_collection_v: typeof relations__site_config_site_collection_v
-  relations_collection_landing_pages: typeof relations_collection_landing_pages
   relations_redirects_rels: typeof relations_redirects_rels
   relations_redirects: typeof relations_redirects
   relations_forms_blocks_checkbox: typeof relations_forms_blocks_checkbox
@@ -3283,9 +4515,12 @@ type DatabaseSchema = {
   relations__site_config_v: typeof relations__site_config_v
   relations_menu_blocks_page_link: typeof relations_menu_blocks_page_link
   relations_menu_blocks_collection_link: typeof relations_menu_blocks_collection_link
-  relations_menu_blocks_dropdown_sub_items: typeof relations_menu_blocks_dropdown_sub_items
   relations_menu_blocks_dropdown: typeof relations_menu_blocks_dropdown
   relations_menu: typeof relations_menu
+  relations__menu_v_blocks_page_link: typeof relations__menu_v_blocks_page_link
+  relations__menu_v_blocks_collection_link: typeof relations__menu_v_blocks_collection_link
+  relations__menu_v_blocks_dropdown: typeof relations__menu_v_blocks_dropdown
+  relations__menu_v: typeof relations__menu_v
 }
 
 declare module '@payloadcms/db-postgres' {
