@@ -4,6 +4,7 @@ import {
   Leadership,
   Post,
   Report,
+  Resource,
   User,
   Event,
   Media,
@@ -27,6 +28,7 @@ export interface LocalTestContext {
   news: News[]
   posts: Post[]
   reports: Report[]
+  resources: Resource[]
   pages: Page[]
   policies: Policy[]
   sites: Site[]
