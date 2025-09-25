@@ -71,6 +71,7 @@ export interface Config {
     events: Event;
     news: News;
     reports: Report;
+    resources: Resource;
     leadership: Leadership;
     pages: Page;
     policies: Policy;
@@ -98,6 +99,7 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     news: NewsSelect<false> | NewsSelect<true>;
     reports: ReportsSelect<false> | ReportsSelect<true>;
+    resources: ResourcesSelect<false> | ResourcesSelect<true>;
     leadership: LeadershipSelect<false> | LeadershipSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     policies: PoliciesSelect<false> | PoliciesSelect<true>;
@@ -470,6 +472,49 @@ export interface Report {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Downloadable or reference materials like guides and reports.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources".
+ */
+export interface Resource {
+  id: number;
+  title: string;
+  excerpt?: string | null;
+  image?: (number | null) | Media;
+  reportFiles?:
+    | {
+        file?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  resourceDate?: string | null;
+  categories?: (number | Category)[] | null;
+  site: number | Site;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  reviewReady?: boolean | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * Profiles of key staff or board members, inluding bios and headshots.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -590,15 +635,15 @@ export interface MenuSiteCollection {
   items?:
     | (
         | {
-            label: string;
             page: number | Page;
+            label: string;
             id?: string | null;
             blockName?: string | null;
             blockType: 'pageLink';
           }
         | {
+            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
             label: string;
-            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports';
             id?: string | null;
             blockName?: string | null;
             blockType: 'collectionLink';
@@ -608,15 +653,15 @@ export interface MenuSiteCollection {
             subitems?:
               | (
                   | {
-                      label: string;
                       page: number | Page;
+                      label: string;
                       id?: string | null;
                       blockName?: string | null;
                       blockType: 'pageLink';
                     }
                   | {
+                      page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
                       label: string;
-                      page: 'events' | 'leadership' | 'news' | 'posts' | 'reports';
                       id?: string | null;
                       blockName?: string | null;
                       blockType: 'collectionLink';
@@ -1033,6 +1078,10 @@ export interface PayloadLockedDocument {
         value: number | Report;
       } | null)
     | ({
+        relationTo: 'resources';
+        value: number | Resource;
+      } | null)
+    | ({
         relationTo: 'leadership';
         value: number | Leadership;
       } | null)
@@ -1215,6 +1264,32 @@ export interface ReportsSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   reportDate?: T;
+  categories?: T;
+  site?: T;
+  content?: T;
+  reviewReady?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources_select".
+ */
+export interface ResourcesSelect<T extends boolean = true> {
+  title?: T;
+  excerpt?: T;
+  image?: T;
+  reportFiles?:
+    | T
+    | {
+        file?: T;
+        id?: T;
+      };
+  slug?: T;
+  slugLock?: T;
+  resourceDate?: T;
   categories?: T;
   site?: T;
   content?: T;
@@ -1418,16 +1493,16 @@ export interface MenuSiteCollectionSelect<T extends boolean = true> {
         pageLink?:
           | T
           | {
-              label?: T;
               page?: T;
+              label?: T;
               id?: T;
               blockName?: T;
             };
         collectionLink?:
           | T
           | {
-              label?: T;
               page?: T;
+              label?: T;
               id?: T;
               blockName?: T;
             };
@@ -1441,16 +1516,16 @@ export interface MenuSiteCollectionSelect<T extends boolean = true> {
                     pageLink?:
                       | T
                       | {
-                          label?: T;
                           page?: T;
+                          label?: T;
                           id?: T;
                           blockName?: T;
                         };
                     collectionLink?:
                       | T
                       | {
-                          label?: T;
                           page?: T;
+                          label?: T;
                           id?: T;
                           blockName?: T;
                         };
@@ -1869,15 +1944,15 @@ export interface Menu {
   items?:
     | (
         | {
-            label: string;
             page: number | Page;
+            label: string;
             id?: string | null;
             blockName?: string | null;
             blockType: 'pageLink';
           }
         | {
+            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
             label: string;
-            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports';
             id?: string | null;
             blockName?: string | null;
             blockType: 'collectionLink';
@@ -1887,15 +1962,15 @@ export interface Menu {
             subitems?:
               | (
                   | {
-                      label: string;
                       page: number | Page;
+                      label: string;
                       id?: string | null;
                       blockName?: string | null;
                       blockType: 'pageLink';
                     }
                   | {
+                      page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
                       label: string;
-                      page: 'events' | 'leadership' | 'news' | 'posts' | 'reports';
                       id?: string | null;
                       blockName?: string | null;
                       blockType: 'collectionLink';
@@ -1940,16 +2015,16 @@ export interface MenuSelect<T extends boolean = true> {
         pageLink?:
           | T
           | {
-              label?: T;
               page?: T;
+              label?: T;
               id?: T;
               blockName?: T;
             };
         collectionLink?:
           | T
           | {
-              label?: T;
               page?: T;
+              label?: T;
               id?: T;
               blockName?: T;
             };
@@ -1963,16 +2038,16 @@ export interface MenuSelect<T extends boolean = true> {
                     pageLink?:
                       | T
                       | {
-                          label?: T;
                           page?: T;
+                          label?: T;
                           id?: T;
                           blockName?: T;
                         };
                     collectionLink?:
                       | T
                       | {
-                          label?: T;
                           page?: T;
+                          label?: T;
                           id?: T;
                           blockName?: T;
                         };

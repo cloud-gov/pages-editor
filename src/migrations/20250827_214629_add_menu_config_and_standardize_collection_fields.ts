@@ -216,37 +216,37 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "menu_blocks_dropdown" CASCADE;
   DROP TABLE "menu" CASCADE;
   ALTER TABLE "media" RENAME COLUMN "alt_text" TO "alt";
-  ALTER TABLE "posts" DROP CONSTRAINT "posts_image_id_media_id_fk";
+  ALTER TABLE "posts" DROP CONSTRAINT IF EXISTS "posts_image_id_media_id_fk";
   
-  ALTER TABLE "posts_rels" DROP CONSTRAINT "posts_rels_categories_fk";
+  ALTER TABLE "posts_rels" DROP CONSTRAINT IF EXISTS "posts_rels_categories_fk";
   
-  ALTER TABLE "_posts_v" DROP CONSTRAINT "_posts_v_version_image_id_media_id_fk";
+  ALTER TABLE "_posts_v" DROP CONSTRAINT IF EXISTS "_posts_v_version_image_id_media_id_fk";
   
-  ALTER TABLE "_posts_v_rels" DROP CONSTRAINT "_posts_v_rels_categories_fk";
+  ALTER TABLE "_posts_v_rels" DROP CONSTRAINT IF EXISTS "_posts_v_rels_categories_fk";
   
-  ALTER TABLE "events" DROP CONSTRAINT "events_image_id_media_id_fk";
+  ALTER TABLE "events" DROP CONSTRAINT IF EXISTS "events_image_id_media_id_fk";
   
-  ALTER TABLE "_events_v" DROP CONSTRAINT "_events_v_version_image_id_media_id_fk";
+  ALTER TABLE "_events_v" DROP CONSTRAINT IF EXISTS "_events_v_version_image_id_media_id_fk";
   
-  ALTER TABLE "news" DROP CONSTRAINT "news_image_id_media_id_fk";
+  ALTER TABLE "news" DROP CONSTRAINT IF EXISTS "news_image_id_media_id_fk";
   
-  ALTER TABLE "_news_v" DROP CONSTRAINT "_news_v_version_image_id_media_id_fk";
+  ALTER TABLE "_news_v" DROP CONSTRAINT IF EXISTS "_news_v_version_image_id_media_id_fk";
   
-  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT "payload_locked_documents_rels_collection_landing_pages_fk";
+  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT IF EXISTS "payload_locked_documents_rels_collection_landing_pages_fk";
   
-  DROP INDEX "posts_image_idx";
-  DROP INDEX "posts_rels_categories_id_idx";
-  DROP INDEX "_posts_v_version_version_image_idx";
-  DROP INDEX "_posts_v_rels_categories_id_idx";
-  DROP INDEX "events_image_idx";
-  DROP INDEX "_events_v_version_version_image_idx";
-  DROP INDEX "news_image_idx";
-  DROP INDEX "_news_v_version_version_image_idx";
-  DROP INDEX "_site_config_site_collection_v_version_version_updated_a_idx";
-  DROP INDEX "_site_config_site_collection_v_version_version_created_a_idx";
-  DROP INDEX "payload_locked_documents_rels_site_config_site_collectio_idx";
-  DROP INDEX "payload_locked_documents_rels_collection_landing_pages_i_idx";
-  DROP INDEX "redirects_from_idx";
+  DROP INDEX IF EXISTS "posts_image_idx";
+  DROP INDEX IF EXISTS "posts_rels_categories_id_idx";
+  DROP INDEX IF EXISTS "_posts_v_version_version_image_idx";
+  DROP INDEX IF EXISTS "_posts_v_rels_categories_id_idx";
+  DROP INDEX IF EXISTS "events_image_idx";
+  DROP INDEX IF EXISTS "_events_v_version_version_image_idx";
+  DROP INDEX IF EXISTS "news_image_idx";
+  DROP INDEX IF EXISTS "_news_v_version_version_image_idx";
+  DROP INDEX IF EXISTS "_site_config_site_collection_v_version_version_updated_a_idx";
+  DROP INDEX IF EXISTS "_site_config_site_collection_v_version_version_created_a_idx";
+  DROP INDEX IF EXISTS "payload_locked_documents_rels_site_config_site_collectio_idx";
+  DROP INDEX IF EXISTS "payload_locked_documents_rels_collection_landing_pages_i_idx";
+  DROP INDEX IF EXISTS "redirects_from_idx";
   ALTER TABLE "forms_emails" ALTER COLUMN "subject" SET DEFAULT 'You''''ve received a new message.';
   ALTER TABLE "media" ADD COLUMN "caption" jsonb;
   ALTER TABLE "media" ADD COLUMN "_status" "enum_media_status" DEFAULT 'draft';

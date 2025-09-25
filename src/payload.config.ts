@@ -14,6 +14,7 @@ import { News } from './collections/News'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { Reports } from './collections/Reports'
+import { Resources } from './collections/Resources'
 import { Pages } from './collections/Pages'
 import { Policies } from './collections/Policies'
 import { Sites } from './collections/Sites'
@@ -130,6 +131,7 @@ const config = {
     Events,
     News,
     Reports,
+    Resources,
     Leadership,
     // Standalone Pages group
     Pages,
