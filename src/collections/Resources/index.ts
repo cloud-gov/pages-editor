@@ -58,19 +58,19 @@ export const Resources: CollectionConfig = {
     },
     {
       name: 'excerpt',
-      label: 'Report excerpt',
+      label: 'Resource excerpt',
       maxLength: 300,
       type: 'text',
     },
     {
       name: 'image',
-      label: 'This image will be used as the thumbnail for the report',
+      label: 'This image will be used as the thumbnail for the resource',
       type: 'upload',
       relationTo: 'media',
     },
     {
       name: 'reportFiles',
-      label: 'Report Files',
+      label: 'Resource Files',
       type: 'array',
       fields: [
         {
