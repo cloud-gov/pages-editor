@@ -82,7 +82,7 @@ export const Resources: CollectionConfig = {
     },
     ...slugField(),
     {
-      name: 'reportDate',
+      name: 'resourceDate',
       type: 'date',
       admin: {
         position: 'sidebar',

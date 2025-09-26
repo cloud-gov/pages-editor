@@ -490,7 +490,7 @@ export interface Resource {
     | null;
   slug?: string | null;
   slugLock?: boolean | null;
-  reportDate?: string | null;
+  resourceDate?: string | null;
   categories?: (number | Category)[] | null;
   site: number | Site;
   content?: {
@@ -1289,7 +1289,7 @@ export interface ResourcesSelect<T extends boolean = true> {
       };
   slug?: T;
   slugLock?: T;
-  reportDate?: T;
+  resourceDate?: T;
   categories?: T;
   site?: T;
   content?: T;
