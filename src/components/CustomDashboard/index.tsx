@@ -127,19 +127,6 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
         </div>
       )}
       
-      {/* Welcome Alert */}
-      <div className="grid-row margin-top-0 margin-bottom-4">
-        <div className="grid-col-12">
-          <div className="usa-alert usa-alert--success usa-alert--slim">
-            <div className="usa-alert__body">
-              <p className="usa-alert__text">
-                Welcome to your dashboard! Signed in to <strong>{user.email}</strong>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
       {groupOrder.map(groupName => {
         const items = groupedItems[groupName]
         if (!items || items.length === 0) return null
