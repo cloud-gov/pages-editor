@@ -635,15 +635,15 @@ export interface MenuSiteCollection {
   items?:
     | (
         | {
-            label: string;
             page: number | Page;
+            label: string;
             id?: string | null;
             blockName?: string | null;
             blockType: 'pageLink';
           }
         | {
+            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
             label: string;
-            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports';
             id?: string | null;
             blockName?: string | null;
             blockType: 'collectionLink';
@@ -653,15 +653,15 @@ export interface MenuSiteCollection {
             subitems?:
               | (
                   | {
-                      label: string;
                       page: number | Page;
+                      label: string;
                       id?: string | null;
                       blockName?: string | null;
                       blockType: 'pageLink';
                     }
                   | {
+                      page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
                       label: string;
-                      page: 'events' | 'leadership' | 'news' | 'posts' | 'reports';
                       id?: string | null;
                       blockName?: string | null;
                       blockType: 'collectionLink';
@@ -1493,16 +1493,16 @@ export interface MenuSiteCollectionSelect<T extends boolean = true> {
         pageLink?:
           | T
           | {
-              label?: T;
               page?: T;
+              label?: T;
               id?: T;
               blockName?: T;
             };
         collectionLink?:
           | T
           | {
-              label?: T;
               page?: T;
+              label?: T;
               id?: T;
               blockName?: T;
             };
@@ -1516,16 +1516,16 @@ export interface MenuSiteCollectionSelect<T extends boolean = true> {
                     pageLink?:
                       | T
                       | {
-                          label?: T;
                           page?: T;
+                          label?: T;
                           id?: T;
                           blockName?: T;
                         };
                     collectionLink?:
                       | T
                       | {
-                          label?: T;
                           page?: T;
+                          label?: T;
                           id?: T;
                           blockName?: T;
                         };
@@ -1944,15 +1944,15 @@ export interface Menu {
   items?:
     | (
         | {
-            label: string;
             page: number | Page;
+            label: string;
             id?: string | null;
             blockName?: string | null;
             blockType: 'pageLink';
           }
         | {
+            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
             label: string;
-            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports';
             id?: string | null;
             blockName?: string | null;
             blockType: 'collectionLink';
@@ -1962,15 +1962,15 @@ export interface Menu {
             subitems?:
               | (
                   | {
-                      label: string;
                       page: number | Page;
+                      label: string;
                       id?: string | null;
                       blockName?: string | null;
                       blockType: 'pageLink';
                     }
                   | {
+                      page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
                       label: string;
-                      page: 'events' | 'leadership' | 'news' | 'posts' | 'reports';
                       id?: string | null;
                       blockName?: string | null;
                       blockType: 'collectionLink';
@@ -2015,16 +2015,16 @@ export interface MenuSelect<T extends boolean = true> {
         pageLink?:
           | T
           | {
-              label?: T;
               page?: T;
+              label?: T;
               id?: T;
               blockName?: T;
             };
         collectionLink?:
           | T
           | {
-              label?: T;
               page?: T;
+              label?: T;
               id?: T;
               blockName?: T;
             };
@@ -2038,16 +2038,16 @@ export interface MenuSelect<T extends boolean = true> {
                     pageLink?:
                       | T
                       | {
-                          label?: T;
                           page?: T;
+                          label?: T;
                           id?: T;
                           blockName?: T;
                         };
                     collectionLink?:
                       | T
                       | {
-                          label?: T;
                           page?: T;
+                          label?: T;
                           id?: T;
                           blockName?: T;
                         };
