@@ -28,16 +28,16 @@ export const Menu: GlobalConfig = {
           },
           fields: [
             {
-              name: 'label',
-              label: 'The name used on your menu link',
-              type: 'text',
-              required: true,
-            },
-            {
               name: 'page',
               label: 'Select the single page the menu link will link to',
               type: 'relationship',
               relationTo: 'pages',
+              required: true,
+            },
+            {
+              name: 'label',
+              label: 'The name used on your menu link',
+              type: 'text',
               required: true,
             },
           ],
@@ -50,12 +50,6 @@ export const Menu: GlobalConfig = {
           },
           fields: [
             {
-              name: 'label',
-              label: 'The name used on your menu link',
-              type: 'text',
-              required: true,
-            },
-            {
               name: 'page',
               label: 'Select the content collection the menu link will link to',
               type: 'select',
@@ -65,8 +59,15 @@ export const Menu: GlobalConfig = {
                 { label: 'News', value: 'news' },
                 { label: 'Blog Posts', value: 'posts' },
                 { label: 'Reports', value: 'reports' },
+                { label: 'Resources', value: 'resources' },
               ],
               hasMany: false,
+              required: true,
+            },
+            {
+              name: 'label',
+              label: 'The name used on your menu link',
+              type: 'text',
               required: true,
             },
           ],
@@ -97,16 +98,16 @@ export const Menu: GlobalConfig = {
                   },
                   fields: [
                     {
-                      name: 'label',
-                      label: 'The name used on your menu link',
-                      type: 'text',
-                      required: true,
-                    },
-                    {
                       name: 'page',
                       label: 'Select the single page the menu link will link to',
                       type: 'relationship',
                       relationTo: 'pages',
+                      required: true,
+                    },
+                    {
+                      name: 'label',
+                      label: 'The name used on your menu link',
+                      type: 'text',
                       required: true,
                     },
                   ],
@@ -119,12 +120,6 @@ export const Menu: GlobalConfig = {
                   },
                   fields: [
                     {
-                      name: 'label',
-                      label: 'The name used on your menu link',
-                      type: 'text',
-                      required: true,
-                    },
-                    {
                       name: 'page',
                       label: 'Select the content collection the menu link will link to',
                       type: 'select',
@@ -134,8 +129,15 @@ export const Menu: GlobalConfig = {
                         { label: 'News', value: 'news' },
                         { label: 'Blog Posts', value: 'posts' },
                         { label: 'Reports', value: 'reports' },
+                        { label: 'Resources', value: 'resources' },
                       ],
                       hasMany: false,
+                      required: true,
+                    },
+                    {
+                      name: 'label',
+                      label: 'The name used on your menu link',
+                      type: 'text',
                       required: true,
                     },
                   ],

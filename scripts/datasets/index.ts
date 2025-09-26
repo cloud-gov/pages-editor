@@ -5,6 +5,7 @@ import leadership from './leadership'
 import news from './news'
 import pages from './pages'
 import reports from './reports'
+import resources from './resources'
 
 class Loader {
   payload: BasePayload
@@ -72,6 +73,11 @@ class Loader {
     return this.loadList('reports', data)
   }
 
+  async loadResources(siteId: number, categories) {
+    const data = resources(siteId, categories)
+    return this.loadList('resources', data)
+  }
+
   async runLoading(siteId: number) {
     try {
       const categories = await this.loadCategories(siteId)
@@ -80,6 +86,7 @@ class Loader {
       await this.loadNews(siteId)
       await this.loadPages(siteId)
       await this.loadReports(siteId, categories)
+      await this.loadResources(siteId, categories)
     } catch (error) {
       console.error(`\nError occurred during dataset load for site ${siteId}...`)
       console.error(error.message)
