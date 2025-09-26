@@ -14,6 +14,7 @@
 @forward "usa-link";
 @forward "usa-sidenav";
 @forward "usa-alert";
+@forward "usa-summary-box";
 @forward "uswds-utilities";
 
 // Import USWDS variables early so they're available for custom styles
@@ -97,6 +98,13 @@ h1 {
 }
 
 h2 {
+    font-size: var(--font-size-2xl);
+    font-weight: 800;
+}
+
+// Ensure summary box headings match other h2s
+.usa-summary-box__heading {
+    font-family: var(--font-body);
     font-size: var(--font-size-2xl);
     font-weight: 800;
 }

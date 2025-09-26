@@ -54,11 +54,13 @@ const SiteSelect: React.FC<SiteSelectProps> = ({ sites, selectedSiteId }) => {
 
   return (
     <div className={baseClass}>
-      <div className="usa-alert usa-alert--info usa-alert--slim">
-        <div className="usa-alert__body">
-          <h4 className="usa-alert__heading">Welcome to your dashboard! Signed in to {currentSiteOption.label}</h4>
+      <div className="usa-summary-box" role="region" aria-labelledby="site-selection">
+        <div className="usa-summary-box__body">
+          <h2 className="usa-summary-box__heading" id="site-selection">
+            Welcome to your dashboard! Signed in to {currentSiteOption.label}
+          </h2>
           {siteOptions.length > 1 && (
-            <div className="margin-top-2">
+            <div className="usa-summary-box__text margin-top-1">
               <label htmlFor="site-select" className="usa-label">Select Site:</label>
               <Select
                 id="site-select"
