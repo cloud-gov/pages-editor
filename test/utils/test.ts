@@ -142,6 +142,20 @@ export const test = vitest.extend<LocalTestContext>({
     )
     await use(reports)
   },
+  resources: async ({ payload, tid, sites }, use) => {
+    const resources = await Promise.all(
+      sites.map(async (site) => {
+        return create(payload, tid, {
+          collection: 'resources',
+          data: {
+            title: `${site.name} Title`,
+            site,
+          },
+        })
+      }),
+    )
+    await use(resources)
+  },
   pages: async ({ payload, tid, sites }, use) => {
     const pages = await Promise.all(
       sites.map(async (site) => {
