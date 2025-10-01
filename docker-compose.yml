@@ -2,6 +2,7 @@ volumes:
   db-data:
   nm-app:
   storage-data:
+  gantry-node-modules:
 
 services:
   app:
@@ -48,6 +49,11 @@ services:
       AWS_REGION: us-gov-west-1
       BUCKET_MANAGER_AWS_ACCESS_KEY_ID: pages-editor-access-key
       BUCKET_MANAGER_AWS_SECRET_ACCESS_KEY: pages-editor-secret-key
+    healthcheck:
+      test: ["CMD", "curl", "-F", "http://localhost:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   db:
     build:
       dockerfile: Dockerfile-db
@@ -111,3 +117,24 @@ services:
     ports:
       - 9001:8080
     command: ['/tomcat/bin/catalina.sh', 'run']
+
+  # gantry:
+  #   build:
+  #     context: ./pages-site-gantry
+  #     dockerfile: Dockerfile
+  #   command: ['npm', 'run', 'dev']
+  #   ports:
+  #     - 4321:4321
+  #   volumes: 
+  #     - ./pages-site-gantry:/app
+  #     - gantry-node-modules:/app/node_modules
+  #   env_file:
+  #     - ./pages-site-gantry/.env
+  #   depends_on:
+  #     app:
+  #       condition: service_started
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:4321"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5

@@ -17,3 +17,6 @@ src/payload-types.ts
 
 # TypeScript build cache
 tsconfig.tsbuildinfo
+
+# pages-site-gantry files
+pages-site-gantry

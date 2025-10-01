@@ -22,7 +22,11 @@ export const News: CollectionConfig<'news'> = {
           collection: 'sites',
           id: data.site,
         })
-        return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/news/${data.slug}`
+        if(!process.env.PREVIEW_ROOT) {
+          return `http://localhost:4321/news/${data.slug}`
+        } else {
+          return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/news/${data.slug}`
+        }
       },
     },
     preview: (data) => {
