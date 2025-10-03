@@ -23,7 +23,7 @@ export const News: CollectionConfig<'news'> = {
           id: data.site,
         })
         if(!process.env.PREVIEW_ROOT) {
-          return `${process.env.PREVIEW_URL}/news/preview/${data.slug}`
+          return `${process.env.PREVIEW_URL}/news/${data.slug}`
         } else {
           return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/news/${data.slug}`
         }
