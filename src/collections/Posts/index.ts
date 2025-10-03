@@ -25,7 +25,12 @@ export const Posts: CollectionConfig<'posts'> = {
           collection: 'sites',
           id: data.site,
         })
-        return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/posts/${data.slug}`
+        if(!process.env.PREVIEW_ROOT) {
+          return `${process.env.PREVIEW_URL}/posts/preview/${data.slug}`
+        } else {
+          return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/posts/${data.slug}`
+        }
+        
       },
     },
     preview: (data) => {
