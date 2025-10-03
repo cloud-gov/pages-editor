@@ -31,7 +31,7 @@ services:
       DATABASE_URI: postgresql://postgres:password@db:5432/pages_editor
       PAYLOAD_SECRET: mysecret
       NEXT_PUBLIC_SERVER_URL: http://localhost:3000
-      PREVIEW_URL: http://localhost:5000
+      PREVIEW_URL: http://localhost:4321
       OAUTH_CLIENT_ID: pages-client
       OAUTH_CLIENT_SECRET: client-secret
       OAUTH_AUTH_ENDPOINT: http://localhost:9001/oauth/authorize
@@ -118,23 +118,23 @@ services:
       - 9001:8080
     command: ['/tomcat/bin/catalina.sh', 'run']
 
-  # gantry:
-  #   build:
-  #     context: ./pages-site-gantry
-  #     dockerfile: Dockerfile
-  #   command: ['npm', 'run', 'dev']
-  #   ports:
-  #     - 4321:4321
-  #   volumes: 
-  #     - ./pages-site-gantry:/app
-  #     - gantry-node-modules:/app/node_modules
-  #   env_file:
-  #     - ./pages-site-gantry/.env
-  #   depends_on:
-  #     app:
-  #       condition: service_started
-  #   healthcheck:
-  #     test: ["CMD", "curl", "-f", "http://localhost:4321"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
+  gantry:
+    build:
+      context: ./pages-site-gantry
+      dockerfile: Dockerfile
+    command: ['npm', 'run', 'dev']
+    ports:
+      - 4321:4321
+    volumes: 
+      - ./pages-site-gantry:/app
+      - gantry-node-modules:/app/node_modules
+    env_file:
+      - ./pages-site-gantry/.env
+    depends_on:
+      app:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4321"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
