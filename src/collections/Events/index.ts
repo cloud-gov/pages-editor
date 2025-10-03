@@ -23,7 +23,7 @@ export const Events: CollectionConfig<'events'> = {
           id: data.site,
         })
         if(!process.env.PREVIEW_ROOT) {
-          return `${process.env.PREVIEW_URL}/events/preview/${data.slug}`
+          return `${process.env.PREVIEW_URL}/events/${data.slug}`
         } else {
           return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/events/${data.slug}`
         }

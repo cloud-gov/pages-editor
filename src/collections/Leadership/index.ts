@@ -25,7 +25,7 @@ export const Leadership: CollectionConfig<'leadership'> = {
           id: data.site,
         })
         if(!process.env.PREVIEW_ROOT) {
-          return `${process.env.PREVIEW_URL}/leadership/preview/${data.slug}`
+          return `${process.env.PREVIEW_URL}/leadership/${data.slug}`
         } else {
           return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/leadership/${data.slug}`
         }
