@@ -45,6 +45,9 @@ npm run dc:seed
 #### Copy/paste site api token from the above step to pages-site-gantry .env key in PAGES-EDITOR/pages-site-gantry/.env
 `PAYLOAD_API_KEY='<api key printed to console>'`
 
+#### Set editor app url in PAGES-EDITOR/pages-site-gantry/.env
+`EDITOR_APP_URL=http://app:3000`
+
 #### Build gantry site
 npm run dc:gantry-build
 
