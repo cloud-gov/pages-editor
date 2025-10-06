@@ -26,17 +26,29 @@ We have created some package.json scripts to make running the docker commands a 
 Some local users have difficulty with zscaler while running the build script. 
 Copy the .env.example file to .env and update `BUILD_ENV=LOCAL` to pass the zscaler certificate to the docker container before running the scripts below.
 
-# Get and build docker images
+#### Get pages-site-gantry repo
+npm run dc:gantry
+
+#### Get and build docker images
 npm run dc:build
 
-# install node deps
+#### install node deps
 npm run dc:install
 
-# Run the database migration and seed the database
-# Note: running the seed script will output bot API keys for you to use in the pages-site-gantry
+#### install pages-site-gantry node deps
+npm run dc:gantry-install
+
+#### Run the database migration and seed the database
+*Note: running the seed script will output bot API keys for you to use in the pages-site-gantry*
 npm run dc:seed
 
-# Launch the app locally
+#### Copy/paste site api token from the above step to pages-site-gantry .env key in PAGES-EDITOR/pages-site-gantry/.env
+`PAYLOAD_API_KEY='<api key printed to console>'`
+
+#### Build gantry site
+npm run dc:gantry-build
+
+#### Launch the app locally
 docker compose up
 ```
 
