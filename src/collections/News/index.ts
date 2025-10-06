@@ -13,7 +13,7 @@ export const News: CollectionConfig<'news'> = {
   slug: 'news',
   admin: {
     group: 'Content Collection',
-    description: 'Accounements, updates, or press releases related to the organization.',
+    description: 'Announcements, updates, or press releases related to the organization.',
     defaultColumns: ['title', 'reviewReady', 'updatedAt'],
     livePreview: {
       url: async ({ data, req }) => {
