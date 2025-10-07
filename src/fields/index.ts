@@ -23,16 +23,22 @@ export const publishedAtField: DateField = {
 
 export const descriptionField: TextField = {
   name: 'description',
-  label: 'A description to be used as a summary',
+  label: 'Description',
   maxLength: 300,
   type: 'text',
+  admin: {
+    description: 'A description to be used as a summary',
+  },
 }
 
 export const imageField: UploadField = {
   name: 'image',
-  label: 'This featured image will be used as a thumbnail and cover image',
+  label: 'Featured image',
   type: 'upload',
   relationTo: 'media',
+  admin: {
+    description: 'This featured image will be used as a thumbnail and cover image',
+  },
 }
 
 export const colorOptions = ({

@@ -51,19 +51,58 @@ export const Events: CollectionConfig<'events'> = {
     {
       name: 'title',
       type: 'text',
+      label: 'Title',
       required: true,
+      admin: {
+        description: 'Details for upcoming or past events, including dates, locations, and descriptions.',
+      },
+    },
+    {
+      name: 'location',
+      type: 'text',
+    },
+    {
+      name: 'registrationUrl',
+      label: 'Registration URL',
+      type: 'text',
     },
     descriptionField,
     imageField,
+    siteField,
+    ...slugField(),
     {
-      name: 'attachment',
-      label: 'Attachment',
-      type: 'upload',
-      relationTo: 'media',
-      hasMany: true,
+      name: 'content',
+      type: 'richText',
+      editor,
+    },
+    {
+      name: 'attachments',
+      label: 'Attachments',
+      type: 'array',
+      fields: [
+        {
+          name: 'file',
+          type: 'upload',
+          relationTo: 'media',
+        },
+      ],
+    },
+    {
+      name: 'pointOfContact',
+      label: 'Point of Contact',
+      type: 'text',
+    },
+    {
+      name: 'pointOfContactEmail',
+      label: 'Contact Email',
+      type: 'email',
+    },
+    {
+      name: 'pointOfContactPhone',
+      label: 'Contact Phone',
+      type: 'text',
     },
     categoriesField,
-    siteField,
     {
       name: 'publishedAt',
       type: 'date',
@@ -84,7 +123,6 @@ export const Events: CollectionConfig<'events'> = {
         ],
       },
     },
-    ...slugField(),
     {
       name: 'startDate',
       type: 'date',
@@ -105,10 +143,6 @@ export const Events: CollectionConfig<'events'> = {
           pickerAppearance: 'dayAndTime',
         },
       },
-    },
-    {
-      name: 'location',
-      type: 'text',
     },
     {
       name: 'format',
@@ -137,16 +171,6 @@ export const Events: CollectionConfig<'events'> = {
         { label: 'One Time', value: 'onetime' },
         { label: 'Series', value: 'series' },
       ],
-    },
-    {
-      name: 'registrationUrl',
-      label: 'Registration URL',
-      type: 'text',
-    },
-    {
-      name: 'content',
-      type: 'richText',
-      editor,
     },
     {
       name: 'reviewReady',

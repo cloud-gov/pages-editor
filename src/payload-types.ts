@@ -164,7 +164,13 @@ export interface UserAuthOperations {
 export interface Post {
   id: number;
   title: string;
+  /**
+   * A description to be used as a summary
+   */
   description?: string | null;
+  /**
+   * This featured image will be used as a thumbnail and cover image
+   */
   image?: (number | null) | Media;
   categories?: (number | Category)[] | null;
   site: number | Site;
@@ -357,21 +363,23 @@ export interface Category {
  */
 export interface Event {
   id: number;
+  /**
+   * Details for upcoming or past events, including dates, locations, and descriptions.
+   */
   title: string;
+  location?: string | null;
+  registrationUrl?: string | null;
+  /**
+   * A description to be used as a summary
+   */
   description?: string | null;
+  /**
+   * This featured image will be used as a thumbnail and cover image
+   */
   image?: (number | null) | Media;
-  attachment?: (number | Media)[] | null;
-  categories?: (number | Category)[] | null;
   site: number | Site;
-  publishedAt?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
-  startDate: string;
-  endDate?: string | null;
-  location?: string | null;
-  format: 'inperson' | 'virtual';
-  eventType: 'onetime' | 'series';
-  registrationUrl?: string | null;
   content?: {
     root: {
       type: string;
@@ -387,6 +395,21 @@ export interface Event {
     };
     [k: string]: unknown;
   } | null;
+  attachments?:
+    | {
+        file?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  pointOfContact?: string | null;
+  pointOfContactEmail?: string | null;
+  pointOfContactPhone?: string | null;
+  categories?: (number | Category)[] | null;
+  publishedAt?: string | null;
+  startDate: string;
+  endDate?: string | null;
+  format: 'inperson' | 'virtual';
+  eventType: 'onetime' | 'series';
   reviewReady?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -401,7 +424,13 @@ export interface Event {
 export interface News {
   id: number;
   title: string;
+  /**
+   * A description to be used as a summary
+   */
   description?: string | null;
+  /**
+   * This featured image will be used as a thumbnail and cover image
+   */
   image?: (number | null) | Media;
   categories?: (number | Category)[] | null;
   content?: {
@@ -524,7 +553,13 @@ export interface Leadership {
   id: number;
   title: string;
   jobTitle: string;
+  /**
+   * A description to be used as a summary
+   */
   description?: string | null;
+  /**
+   * This featured image will be used as a thumbnail and cover image
+   */
   image?: (number | null) | Media;
   /**
    * Alternative text for the image for accessibility
@@ -1208,21 +1243,29 @@ export interface PostsSelect<T extends boolean = true> {
  */
 export interface EventsSelect<T extends boolean = true> {
   title?: T;
+  location?: T;
+  registrationUrl?: T;
   description?: T;
   image?: T;
-  attachment?: T;
-  categories?: T;
   site?: T;
-  publishedAt?: T;
   slug?: T;
   slugLock?: T;
+  content?: T;
+  attachments?:
+    | T
+    | {
+        file?: T;
+        id?: T;
+      };
+  pointOfContact?: T;
+  pointOfContactEmail?: T;
+  pointOfContactPhone?: T;
+  categories?: T;
+  publishedAt?: T;
   startDate?: T;
   endDate?: T;
-  location?: T;
   format?: T;
   eventType?: T;
-  registrationUrl?: T;
-  content?: T;
   reviewReady?: T;
   updatedAt?: T;
   createdAt?: T;

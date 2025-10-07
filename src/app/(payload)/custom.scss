@@ -114,6 +114,11 @@ h3 {
 }
 
 // edit pages - remove gutters for full width content editing
+
+main.collection-edit {
+    padding-bottom: 0;
+}
+
 .template-default__wrap .gutter,
 .template-default__wrap .gutter--left,
 .template-default__wrap .gutter--right,
@@ -121,7 +126,7 @@ h3 {
 .template-default__wrap > *  {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0;
 }
 
 // remove gutters on edit forms for better content editing experience
@@ -135,6 +140,11 @@ h3 {
 .collection-edit .gutter--right,
 .document-fields__sidebar-fields {
     padding: 1rem;
+}
+
+.document-fields__main .document-fields__edit {
+    padding-left: 0; 
+    padding-bottom: 2rem;
 }
 
 .document-fields__edit {
