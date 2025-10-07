@@ -13,7 +13,7 @@ export const Events: CollectionConfig<'events'> = {
   slug: 'events',
   admin: {
     group: 'Content Collection',
-    description: 'Details for upcomming or past events, including dates, locations, and descriptions.',
+    description: 'Details for upcoming or past events, including dates, locations, and descriptions.',
     defaultColumns: ['title', 'reviewReady', 'updatedAt'],
     livePreview: {
       url: async ({ data, req }) => {
