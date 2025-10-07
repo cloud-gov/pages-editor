@@ -53,6 +53,9 @@ npm run dc:gantry-build
 
 #### Launch the app locally
 docker compose up
+
+#### pages-site-gantry development
+If you need to have Gantry run independently from the Docker stack, you can stop the service in Docker Desktop and then run pages-site-gantry as usual from its cloned local directory.
 ```
 
 After this, the editor is available at localhost:3000/admin; the first load will take a few seconds while the app is compiled.
