@@ -23,8 +23,7 @@ Content Editors can:
 We use docker compose to setup the environment and run all of the supporting services to properly run this locally.
 We have created some package.json scripts to make running the docker commands a bit easier. 
 
-Some local users have difficulty with zscaler while running the build script. 
-Copy the .env.example file to .env and update `BUILD_ENV=LOCAL` to pass the zscaler certificate to the docker container before running the scripts below.
+Docker compose will provide hardcoded PAYLOAD_API_KEY and EDITOR_APP_URL to the pages-site-gantry service.
 
 #### Get pages-site-gantry repo
 npm run dc:gantry
@@ -42,12 +41,6 @@ npm run dc:gantry-install
 *Note: running the seed script will output bot API keys for you to use in the pages-site-gantry*
 npm run dc:seed
 
-#### Copy/paste site api token from the above step to pages-site-gantry .env key in PAGES-EDITOR/pages-site-gantry/.env
-`PAYLOAD_API_KEY='<api key printed to console>'`
-
-#### Set editor app url in PAGES-EDITOR/pages-site-gantry/.env
-`EDITOR_APP_URL=http://app:3000`
-
 #### Build gantry site
 npm run dc:gantry-build
 
@@ -55,7 +48,9 @@ npm run dc:gantry-build
 docker compose up
 
 #### pages-site-gantry development
-If you need to have Gantry run independently from the Docker stack, you can stop the service in Docker Desktop and then run pages-site-gantry as usual from its cloned local directory.
+If you need to have Gantry run independently from the Docker stack, you can stop the service and then run pages-site-gantry as usual from its cloned local directory.
+
+You will need to provide the .env variable PAYLOAD_API_KEY for the site# that gets printed to the console during dnpm run dc:seed to pages-site-gantry.
 ```
 
 After this, the editor is available at localhost:3000/admin; the first load will take a few seconds while the app is compiled.

@@ -350,7 +350,7 @@ export interface Category {
   createdAt: string;
 }
 /**
- * Details for upcomming or past events, including dates, locations, and descriptions.
+ * Details for upcoming or past events, including dates, locations, and descriptions.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
@@ -393,7 +393,7 @@ export interface Event {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Accounements, updates, or press releases related to the organization.
+ * Announcements, updates, or press releases related to the organization.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news".
@@ -515,7 +515,7 @@ export interface Resource {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Profiles of key staff or board members, inluding bios and headshots.
+ * Profiles of key staff or board members, including bios and headshots.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "leadership".
