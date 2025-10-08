@@ -6,6 +6,11 @@ import Loader from './datasets'
 const payload = await getPayload({ config })
 const load = new Loader(payload)
 
+const BOT_API_KEYS = {
+  site1: 'df301adb-6d26-4688-bd17-9454a2da62bd',
+  site2: 'a6f81491-939b-456c-980a-4e0fb7461edf',
+}
+
 async function seed() {
   // creates a base site and admin user
   await payload.create({
@@ -49,29 +54,27 @@ async function seed() {
 
       await load.runLoading(site.id)
 
-      const bots = await payload.find({
+      // Create consistent bot API key for the sites to improve local development experience
+      const botApiKey = BOT_API_KEYS[name]
+      const staticBot = await payload.create({
         collection: 'users',
-        select: {
-          apiKey: true,
-          sites: true,
-        },
-        where: {
-          and: [{ enableAPIKey: { equals: true } }],
+        data: {
+          email: `cloud-gov-pages-operations+${site.id}@gsa.gov`,
+          sites: [
+            {
+              site: site.id,
+              role: 'bot',
+            },
+          ],
+          sub: botApiKey,
+          enableAPIKey: true,
+          apiKey: botApiKey,
+          selectedSiteId: site.id,
         },
       })
 
-      const bot = bots.docs
-        .map((doc) => ({
-          // @ts-ignore
-          sites: doc.sites.filter((s) => s.site.id === site.id),
-          apiKey: doc.apiKey,
-        }))
-        .filter((x) => x.sites.length > 0)
-        .flat()
-        .pop()
-
       console.log(`Site ${site.name} - (ID: ${site.id})`)
-      console.log(`  API KEY: ${bot?.apiKey}`)
+      console.log(`  API KEY: ${staticBot.apiKey}`)
       console.log('\n')
 
       return payload.create({

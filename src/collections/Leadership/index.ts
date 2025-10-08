@@ -24,7 +24,12 @@ export const Leadership: CollectionConfig<'leadership'> = {
           collection: 'sites',
           id: data.site,
         })
-        return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/leadership/${data.slug}`
+        if(!process.env.PREVIEW_ROOT) {
+          return `${process.env.PREVIEW_URL}/leadership/${data.slug}`
+        } else {
+          return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/leadership/${data.slug}`
+        }
+        
       },
     },
     preview: (data) => {

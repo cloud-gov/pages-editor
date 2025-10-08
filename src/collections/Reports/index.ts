@@ -30,7 +30,12 @@ export const Reports: CollectionConfig = {
           collection: 'sites',
           id: data.site,
         })
-        return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/reports/${data.slug}`
+        if(!process.env.PREVIEW_ROOT) {
+          return `${process.env.PREVIEW_URL}/reports/preview/${data.slug}`
+        } else {
+          return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/${data.slug}`
+        }
+        
       },
     },
     preview: (data) => {
