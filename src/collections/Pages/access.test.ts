@@ -209,33 +209,6 @@ describe('Pages access', () => {
       })
     })
 
-    test('update their Pages subtitle', async ({ tid, testUser, pages }) => {
-      const siteId = testUser.selectedSiteId
-
-      const theirResults = pages.filter((item) => siteIdHelper(item.site) === siteId)
-
-      const newResults = await Promise.all(
-        theirResults.map(async (item) => {
-          return update(
-            payload,
-            tid,
-            {
-              collection: 'pages',
-              id: item.id,
-              data: {
-                subtitle: `${item.subtitle} (Edited)`,
-              },
-            },
-            testUser,
-          )
-        }),
-      )
-
-      newResults.forEach((item) => {
-        expect(item.subtitle).toContain('Edited')
-      })
-    })
-
     test('not update not-their Pages', async ({ tid, testUser, pages }) => {
       const siteId = testUser.selectedSiteId
 

@@ -543,7 +543,6 @@ export interface Page {
   title: string;
   slug?: string | null;
   slugLock?: boolean | null;
-  subtitle?: string | null;
   label: string;
   image?: (number | null) | Media;
   content?: {
@@ -1310,7 +1309,6 @@ export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   slugLock?: T;
-  subtitle?: T;
   label?: T;
   image?: T;
   content?: T;

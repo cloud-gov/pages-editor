@@ -37,7 +37,7 @@ export const searchFields: Field[] = [
     ],
   },
   {
-    label: 'Categories',
+    label: 'Tags',
     name: 'categories',
     type: 'array',
     admin: {
