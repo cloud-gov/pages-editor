@@ -781,6 +781,8 @@ export interface SiteConfigSiteCollection {
     | null;
   favicon?: (number | null) | Media;
   logo?: (number | null) | Media;
+  searchAccessKey?: string | null;
+  searchAffiliate?: string | null;
   site: number | Site;
   updatedAt: string;
   createdAt: string;
@@ -1456,6 +1458,8 @@ export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
   primaryFont?: T;
   favicon?: T;
   logo?: T;
+  searchAccessKey?: T;
+  searchAffiliate?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1834,6 +1838,8 @@ export interface SiteConfig {
     | null;
   favicon?: (number | null) | Media;
   logo?: (number | null) | Media;
+  searchAccessKey?: string | null;
+  searchAffiliate?: string | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1904,6 +1910,8 @@ export interface SiteConfigSelect<T extends boolean = true> {
   primaryFont?: T;
   favicon?: T;
   logo?: T;
+  searchAccessKey?: T;
+  searchAffiliate?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;
