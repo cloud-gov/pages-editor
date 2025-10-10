@@ -543,8 +543,6 @@ export interface Page {
   title: string;
   slug?: string | null;
   slugLock?: boolean | null;
-  subtitle?: string | null;
-  label: string;
   image?: (number | null) | Media;
   content?: {
     root: {
@@ -579,7 +577,6 @@ export interface Policy {
   title: string;
   slug?: string | null;
   slugLock?: boolean | null;
-  label: string;
   content?: {
     root: {
       type: string;
@@ -1310,8 +1307,6 @@ export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   slugLock?: T;
-  subtitle?: T;
-  label?: T;
   image?: T;
   content?: T;
   site?: T;
@@ -1329,7 +1324,6 @@ export interface PoliciesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   slugLock?: T;
-  label?: T;
   content?: T;
   site?: T;
   reviewReady?: T;

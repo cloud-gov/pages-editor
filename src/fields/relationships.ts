@@ -25,4 +25,5 @@ export const categoriesField: RelationshipField = {
   relationTo: 'categories',
   hasMany: true,
   required: false,
+  label: 'Tags',
 }

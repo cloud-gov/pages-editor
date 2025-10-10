@@ -32,7 +32,6 @@ describe('Pages access', () => {
               collection: 'pages',
               data: {
                 title: `${site.name} - Page`,
-                label: `${site.name} - Page Label`,
                 site,
               },
             },
@@ -145,7 +144,6 @@ describe('Pages access', () => {
           collection: 'pages',
           data: {
             title: `Page`,
-            label: `Page Label`,
             site: siteId,
           },
         },
@@ -170,7 +168,6 @@ describe('Pages access', () => {
                 collection: 'pages',
                 data: {
                   title: `${site.name} - Title`,
-                  label: `${site.name} - Label`,
                   site,
                 },
               },
@@ -206,33 +203,6 @@ describe('Pages access', () => {
 
       newResults.forEach((item) => {
         expect(item.title).toContain('(Edited)')
-      })
-    })
-
-    test('update their Pages subtitle', async ({ tid, testUser, pages }) => {
-      const siteId = testUser.selectedSiteId
-
-      const theirResults = pages.filter((item) => siteIdHelper(item.site) === siteId)
-
-      const newResults = await Promise.all(
-        theirResults.map(async (item) => {
-          return update(
-            payload,
-            tid,
-            {
-              collection: 'pages',
-              id: item.id,
-              data: {
-                subtitle: `${item.subtitle} (Edited)`,
-              },
-            },
-            testUser,
-          )
-        }),
-      )
-
-      newResults.forEach((item) => {
-        expect(item.subtitle).toContain('Edited')
       })
     })
 
@@ -375,7 +345,6 @@ describe('Pages access', () => {
           collection: 'pages',
           data: {
             title: `Page Title - ${siteId}`,
-            label: `Page Label - ${siteId}`,
             site: siteId,
           },
         },
@@ -441,7 +410,6 @@ describe('Pages access', () => {
                 collection: 'pages',
                 data: {
                   title: `${site.name} - Title`,
-                  label: `${site.name} - Label`,
                   site,
                 },
               },
