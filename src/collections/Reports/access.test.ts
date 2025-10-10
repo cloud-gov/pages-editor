@@ -30,7 +30,6 @@ describe('Reports access', () => {
               collection: 'reports',
               data: {
                 title: `${site.name} - Title`,
-                subtitle: `${site.name} - Subtitle`,
                 site,
               },
             },
@@ -143,7 +142,6 @@ describe('Reports access', () => {
           collection: 'reports',
           data: {
             title: `Reports Title - ${siteId}`,
-            subtitle: `Subtitle - ${siteId}`,
             site: siteId,
           },
         },
@@ -168,7 +166,6 @@ describe('Reports access', () => {
                 collection: 'reports',
                 data: {
                   title: `${site.name} - Title`,
-                  subtitle: `${site.name} - Subtitle`,
                   site,
                 },
               },
@@ -353,7 +350,6 @@ describe('Reports access', () => {
           collection: 'reports',
           data: {
             title: `Reports Title - ${siteId}`,
-            subtitle: `Subtitle - ${siteId}`,
             site: siteId,
           },
         },
@@ -374,7 +370,6 @@ describe('Reports access', () => {
           collection: 'reports',
           data: {
             title: `Reports Title - ${newSiteId}`,
-            subtitle: `Subtitle - ${newSiteId}`,
             site: newSiteId,
           },
         },
@@ -497,7 +492,6 @@ describe('Reports access', () => {
                 collection: 'reports',
                 data: {
                   title: `${site.name} - Title`,
-                  subtitle: `${site.name} - Subtitle`,
                   site,
                 },
               },

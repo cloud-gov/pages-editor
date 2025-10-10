@@ -55,12 +55,6 @@ export const Policies: CollectionConfig<'policies'> = {
     },
     ...slugField(),
     {
-      name: 'label',
-      label: 'Used in navigation',
-      type: 'text',
-      required: true,
-    },
-    {
       name: 'content',
       type: 'richText',
       editor,
