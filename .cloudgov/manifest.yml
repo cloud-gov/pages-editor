@@ -3,7 +3,7 @@ applications:
   - name: ((name))
     buildpack: nodejs_buildpack
     routes:
-      - route: pages-editor-((env)).app.cloud.gov
+      - route: ((route))
     processes:
       - type: web
         command: npm run start
@@ -26,7 +26,7 @@ applications:
       NODE_MODULES_CACHE: false
       SHARP_IGNORE_GLOBAL_LIBVIPS: true
       OPTIMIZE_MEMORY: true
-      PUBLIC_URL: https://pages-editor-((env)).app.cloud.gov
+      PUBLIC_URL: https://((route))
       COOKIE_DOMAIN: app.cloud.gov
       PAGES_URL: https://pages((postfix)).cloud.gov
       PREVIEW_ROOT: https://pages-editor-((env))-preview # end is filled in per site

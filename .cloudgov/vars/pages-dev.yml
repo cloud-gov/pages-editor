@@ -4,3 +4,4 @@ env: dev
 log_level: verbose
 node_env: development
 postfix: -dev
+route: pages-editor-dev.app.cloud.gov
