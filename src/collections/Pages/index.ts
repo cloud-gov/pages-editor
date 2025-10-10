@@ -51,10 +51,6 @@ export const Pages: CollectionConfig<'pages'> = {
     },
     ...slugField(),
     {
-      name: 'subtitle',
-      type: 'text',
-    },
-    {
       name: 'label',
       label: 'Used in navigation',
       type: 'text',
