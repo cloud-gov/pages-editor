@@ -3,8 +3,6 @@ const pages = (siteId: number) => [
     title: 'Contact',
     slug: 'contact',
     slugLock: true,
-    subtitle: null,
-    label: 'Contact',
     image: null,
     content: {
       url: null,
@@ -477,8 +475,6 @@ const pages = (siteId: number) => [
     title: 'About',
     slug: 'about',
     slugLock: true,
-    subtitle: null,
-    label: 'About',
     image: null,
     content: {
       root: {
@@ -1153,8 +1149,6 @@ const pages = (siteId: number) => [
     title: 'History',
     slug: 'history',
     slugLock: true,
-    subtitle: null,
-    label: 'History',
     image: null,
     content: {
       root: {
@@ -1607,8 +1601,6 @@ const pages = (siteId: number) => [
     title: 'Careers',
     slug: 'careers',
     slugLock: true,
-    subtitle: null,
-    label: 'Careers',
     image: null,
     content: {
       root: {

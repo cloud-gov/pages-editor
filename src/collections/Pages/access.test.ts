@@ -32,7 +32,6 @@ describe('Pages access', () => {
               collection: 'pages',
               data: {
                 title: `${site.name} - Page`,
-                label: `${site.name} - Page Label`,
                 site,
               },
             },
@@ -145,7 +144,6 @@ describe('Pages access', () => {
           collection: 'pages',
           data: {
             title: `Page`,
-            label: `Page Label`,
             site: siteId,
           },
         },
@@ -170,7 +168,6 @@ describe('Pages access', () => {
                 collection: 'pages',
                 data: {
                   title: `${site.name} - Title`,
-                  label: `${site.name} - Label`,
                   site,
                 },
               },
@@ -348,7 +345,6 @@ describe('Pages access', () => {
           collection: 'pages',
           data: {
             title: `Page Title - ${siteId}`,
-            label: `Page Label - ${siteId}`,
             site: siteId,
           },
         },
@@ -414,7 +410,6 @@ describe('Pages access', () => {
                 collection: 'pages',
                 data: {
                   title: `${site.name} - Title`,
-                  label: `${site.name} - Label`,
                   site,
                 },
               },

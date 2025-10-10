@@ -5,7 +5,6 @@ const policies = (siteId: number): Omit<Policy, 'id' | 'updatedAt' | 'createdAt'
     title: 'External Links',
     slug: 'external-links',
     slugLock: true,
-    label: 'External Links',
     content: null,
     site: siteId,
     reviewReady: false,
@@ -15,7 +14,6 @@ const policies = (siteId: number): Omit<Policy, 'id' | 'updatedAt' | 'createdAt'
     title: 'Accessibility Statement',
     slug: 'accessibility-statement',
     slugLock: true,
-    label: 'Accessibility Statement',
     content: {
       root: {
         type: 'root',
@@ -1327,7 +1325,6 @@ const policies = (siteId: number): Omit<Policy, 'id' | 'updatedAt' | 'createdAt'
     title: 'FOIA',
     slug: 'foia',
     slugLock: true,
-    label: 'FOIA',
     content: {
       root: {
         type: 'root',
@@ -2240,7 +2237,6 @@ const policies = (siteId: number): Omit<Policy, 'id' | 'updatedAt' | 'createdAt'
     title: 'Equal Employment',
     slug: 'equal-employment',
     slugLock: true,
-    label: 'Equal Employment',
     content: {
       root: {
         type: 'root',
@@ -3199,7 +3195,6 @@ const policies = (siteId: number): Omit<Policy, 'id' | 'updatedAt' | 'createdAt'
     title: 'Privacy Policy',
     slug: 'privacy-policy',
     slugLock: true,
-    label: 'Privacy Policy',
     content: {
       root: {
         type: 'root',
@@ -3516,7 +3511,6 @@ const policies = (siteId: number): Omit<Policy, 'id' | 'updatedAt' | 'createdAt'
     title: 'Vulnerability Disclosure Policy',
     slug: 'vulnerability-disclosure-policy',
     slugLock: true,
-    label: 'Vulnerability Disclosure Policy',
     content: {
       root: {
         type: 'root',

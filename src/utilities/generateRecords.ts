@@ -33,7 +33,6 @@ export const generateSinglePages =
           title: `${name}`,
           slug: name,
           site: siteId,
-          label: `${name}`,
         },
       })
       results.push(result)

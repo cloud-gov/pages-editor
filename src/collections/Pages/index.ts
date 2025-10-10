@@ -51,12 +51,6 @@ export const Pages: CollectionConfig<'pages'> = {
     },
     ...slugField(),
     {
-      name: 'label',
-      label: 'Used in navigation',
-      type: 'text',
-      required: true,
-    },
-    {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
