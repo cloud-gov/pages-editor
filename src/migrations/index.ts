@@ -160,6 +160,6 @@ export const migrations = [
   {
     up: migration_20251010_190304_change_subtitle_and_label_from_pages.up,
     down: migration_20251010_190304_change_subtitle_and_label_from_pages.down,
-    name: '20251010_190304_change_subtitle_and_label_from_pages',
+    name: '20251010_190304_change_subtitle_and_label_from_pages'
   },
 ];
