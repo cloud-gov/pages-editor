@@ -111,7 +111,12 @@ jobs:
         image: node
         params:
           APP_ENV: ((deploy-env))
+          #@ if/end env == 'dev':
           PUBLIC_URL: https://pages-editor-((deploy-env)).app.cloud.gov
+          #@ if/end env == 'staging':
+          PUBLIC_URL: https://publisher-((deploy-env)).cloud.gov
+          #@ if/end env == 'production':
+          PUBLIC_URL: https://publisher.cloud.gov
 
       - task: deploy
         file: src/ci/partials/deploy.yml

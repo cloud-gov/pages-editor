@@ -21,7 +21,7 @@ Content Editors can:
 ### Running Locally
 
 We use docker compose to setup the environment and run all of the supporting services to properly run this locally.
-We have created some package.json scripts to make running the docker commands a bit easier. 
+We have created some package.json scripts to make running the docker commands a bit easier.
 
 Docker compose will provide hardcoded PAYLOAD_API_KEY and EDITOR_APP_URL to the pages-site-gantry service.
 
@@ -127,6 +127,27 @@ This repository's CI deploys the `pages-editor-((env))` application and [`pages-
 | pages-editor-((env))-s3       | pages-s3                    | basic-vpc      | Used for storing site information to be passed on to Concourse                                                                            |
 
 Each environment has a network access policy for sending email per [these instructions](https://github.com/cloud-gov/pages-mailer/?tab=readme-ov-file#usage) (make sure to specify additional ports if needed to match the `EMAIL_HOST` environment variable)
+
+### Bootstrapping an instance
+
+To bootstrap a new instance, you can SSH into the running Cloud Foundry application and run the bootstrap script:
+
+1. SSH into the app instance:
+   ```bash
+   cf ssh pages-editor-((env))
+   ```
+
+2. Boot the runtime and get a bash shell:
+   ```bash
+   /tmp/lifecycle/launcher /home/vcap/app bash ''
+   ```
+
+3. Run the bootstrap script with the admin email:
+   ```bash
+   npx payload run scripts/bootstrap.ts admin@example.gov
+   ```
+
+This will initialize the database with the necessary seed data and create the initial admin user.
 
 ### Test framework and structure
 
