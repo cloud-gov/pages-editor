@@ -95,15 +95,15 @@ export const SiteConfig: GlobalConfig = {
       type: 'upload',
       relationTo: 'media',
     },
-    // {
-    //   name: 'searchAccessKey',
-    //   label: 'Key obtained from Search.gov admin center',
-    //   type: 'text',
-    // },
-    // {
-    //   name: 'searchAffiliate',
-    //   label: 'Search.gov Site Handle',
-    //   type: 'text',
-    // }
+    {
+      name: 'searchAccessKey',
+      label: 'Key obtained from Search.gov admin center',
+      type: 'text',
+    },
+    {
+      name: 'searchAffiliate',
+      label: 'Search.gov Site Handle',
+      type: 'text',
+    },
   ],
 }
