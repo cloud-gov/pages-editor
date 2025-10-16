@@ -44,9 +44,9 @@ jobs:
           - get: postgres
             params:
               format: oci
-          - get: node
+          - get: node22
           - get: node-oci
-            resource: node
+            resource: node22
             params:
               format: oci
           - get: pipeline-tasks
@@ -54,7 +54,7 @@ jobs:
       - #@ pr_hook("pending", "test-pages-editor")
       - task: install-deps
         file: src/ci/partials/install-deps.yml
-        image: node
+        image: node22
 
       - task: test
         file: src/ci/partials/test.yml
@@ -80,16 +80,16 @@ jobs:
           #@ if/end env == 'dev':
           integration_tool: checkout
         trigger: true
-      #@ if/end env != 'dev':
-        passed: [set-pipeline, test-db]
-      #@ if/end env == 'dev':
+        #@ if/end env != 'dev':
+        passed: [test-db]
+        #@ if/end env == 'dev':
         passed: [set-pipeline]
       - get: general-task
-      - get: node
+      - get: node22
       - get: pipeline-tasks
       - task: install-deps
         file: src/ci/partials/install-deps.yml
-        image: node
+        image: node22
       #@ if/end env == 'dev':
       -  #@ pr_hook("pending", "deploy-pages-editor")
       - task: get-app-env
@@ -102,13 +102,13 @@ jobs:
 
       - task: check-migrations
         file: src/ci/partials/check-migrations.yml
-        image: node
+        image: node22
         params:
           PAYLOAD_SECRET: citmpsecret
 
       - task: build
         file: src/ci/partials/build.yml
-        image: node
+        image: node22
         params:
           APP_ENV: ((deploy-env))
           #@ if/end env == 'dev':
@@ -221,7 +221,7 @@ resources:
       days: [Tuesday]
       initial_version: true
 
-  - name: node
+  - name: node22
   - name: slack
   - name: general-task
   - name: pipeline-tasks
