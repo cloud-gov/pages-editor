@@ -80,6 +80,7 @@ export interface Config {
     sites: Site;
     'menu-site-collection': MenuSiteCollection;
     'site-config-site-collection': SiteConfigSiteCollection;
+    'home-page-site-collection': HomePageSiteCollection;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -108,6 +109,7 @@ export interface Config {
     sites: SitesSelect<false> | SitesSelect<true>;
     'menu-site-collection': MenuSiteCollectionSelect<false> | MenuSiteCollectionSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
+    'home-page-site-collection': HomePageSiteCollectionSelect<false> | HomePageSiteCollectionSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -123,10 +125,12 @@ export interface Config {
   globals: {
     'site-config': SiteConfig;
     menu: Menu;
+    'home-page': HomePage;
   };
   globalsSelect: {
     'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
     menu: MenuSelect<false> | MenuSelect<true>;
+    'home-page': HomePageSelect<false> | HomePageSelect<true>;
   };
   locale: null;
   user: User & {
@@ -787,6 +791,97 @@ export interface SiteConfigSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Configure the home page content using flexible content blocks.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page-site-collection".
+ */
+export interface HomePageSiteCollection {
+  id: number;
+  content?:
+    | (
+        | {
+            title: string;
+            subtitle?: string | null;
+            description?: string | null;
+            bgImage?: (number | null) | Media;
+            ctaButton?: {
+              text?: string | null;
+              url?: string | null;
+              style?: ('primary' | 'secondary' | 'outline') | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            title?: string | null;
+            description?: string | null;
+            cards?:
+              | {
+                  title: string;
+                  description?: string | null;
+                  image?: (number | null) | Media;
+                  link?: {
+                    url?: string | null;
+                    text?: string | null;
+                    external?: boolean | null;
+                  };
+                  /**
+                   * Optional category or tag to display on the card
+                   */
+                  category?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cardGrid';
+          }
+        | {
+            title?: string | null;
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            bgColor?: ('white' | 'gray-50' | 'blue-50' | 'green-50') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textBlock';
+          }
+      )[]
+    | null;
+  seo?: {
+    /**
+     * The title that appears in search results and browser tabs
+     */
+    metaTitle?: string | null;
+    /**
+     * A brief description of the page for search engines
+     */
+    metaDescription?: string | null;
+    /**
+     * Image that appears when sharing on social media
+     */
+    ogImage?: (number | null) | Media;
+  };
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
@@ -1086,6 +1181,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'site-config-site-collection';
         value: number | SiteConfigSiteCollection;
+      } | null)
+    | ({
+        relationTo: 'home-page-site-collection';
+        value: number | HomePageSiteCollection;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1456,6 +1555,77 @@ export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
   primaryFont?: T;
   favicon?: T;
   logo?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page-site-collection_select".
+ */
+export interface HomePageSiteCollectionSelect<T extends boolean = true> {
+  content?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              description?: T;
+              bgImage?: T;
+              ctaButton?:
+                | T
+                | {
+                    text?: T;
+                    url?: T;
+                    style?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        cardGrid?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              cards?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    image?: T;
+                    link?:
+                      | T
+                      | {
+                          url?: T;
+                          text?: T;
+                          external?: T;
+                        };
+                    category?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        textBlock?:
+          | T
+          | {
+              title?: T;
+              content?: T;
+              bgColor?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
+      };
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1893,6 +2063,96 @@ export interface Menu {
   createdAt?: string | null;
 }
 /**
+ * Configure the home page content using flexible content blocks.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page".
+ */
+export interface HomePage {
+  id: number;
+  content?:
+    | (
+        | {
+            title: string;
+            subtitle?: string | null;
+            description?: string | null;
+            bgImage?: (number | null) | Media;
+            ctaButton?: {
+              text?: string | null;
+              url?: string | null;
+              style?: ('primary' | 'secondary' | 'outline') | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            title?: string | null;
+            description?: string | null;
+            cards?:
+              | {
+                  title: string;
+                  description?: string | null;
+                  image?: (number | null) | Media;
+                  link?: {
+                    url?: string | null;
+                    text?: string | null;
+                    external?: boolean | null;
+                  };
+                  /**
+                   * Optional category or tag to display on the card
+                   */
+                  category?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cardGrid';
+          }
+        | {
+            title?: string | null;
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            bgColor?: ('white' | 'gray-50' | 'blue-50' | 'green-50') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textBlock';
+          }
+      )[]
+    | null;
+  seo?: {
+    /**
+     * The title that appears in search results and browser tabs
+     */
+    metaTitle?: string | null;
+    /**
+     * A brief description of the page for search engines
+     */
+    metaDescription?: string | null;
+    /**
+     * Image that appears when sharing on social media
+     */
+    ogImage?: (number | null) | Media;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config_select".
  */
@@ -1960,6 +2220,77 @@ export interface MenuSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page_select".
+ */
+export interface HomePageSelect<T extends boolean = true> {
+  content?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              description?: T;
+              bgImage?: T;
+              ctaButton?:
+                | T
+                | {
+                    text?: T;
+                    url?: T;
+                    style?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        cardGrid?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              cards?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    image?: T;
+                    link?:
+                      | T
+                      | {
+                          url?: T;
+                          text?: T;
+                          external?: T;
+                        };
+                    category?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        textBlock?:
+          | T
+          | {
+              title?: T;
+              content?: T;
+              bgColor?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
       };
   _status?: T;
   updatedAt?: T;
