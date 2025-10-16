@@ -27,7 +27,7 @@ applications:
       SHARP_IGNORE_GLOBAL_LIBVIPS: true
       OPTIMIZE_MEMORY: true
       PUBLIC_URL: https://((route))
-      COOKIE_DOMAIN: app.cloud.gov
+      COOKIE_DOMAIN: cloud.gov
       PAGES_URL: https://pages((postfix)).cloud.gov
       PREVIEW_ROOT: https://pages-editor-((env))-preview # end is filled in per site
       NEXT_TELEMETRY_DISABLED: 1
