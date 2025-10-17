@@ -142,21 +142,7 @@ export const HomePage: GlobalConfig = {
                       label: 'Link Text',
                       defaultValue: 'Learn More',
                     },
-                    {
-                      name: 'external',
-                      type: 'checkbox',
-                      label: 'External Link',
-                      defaultValue: false,
-                    },
                   ],
-                },
-                {
-                  name: 'category',
-                  type: 'text',
-                  label: 'Category Tag',
-                  admin: {
-                    description: 'Optional category or tag to display on the card',
-                  },
                 },
               ],
             },
@@ -179,51 +165,7 @@ export const HomePage: GlobalConfig = {
               type: 'richText',
               label: 'Content',
             },
-            {
-              name: 'bgColor',
-              type: 'select',
-              label: 'Background Color',
-              options: [
-                { label: 'White', value: 'white' },
-                { label: 'Light Gray', value: 'gray-50' },
-                { label: 'Blue', value: 'blue-50' },
-                { label: 'Green', value: 'green-50' },
-              ],
-              defaultValue: 'white',
-            },
           ],
-        },
-      ],
-    },
-    {
-      name: 'seo',
-      type: 'group',
-      label: 'SEO Settings',
-      fields: [
-        {
-          name: 'metaTitle',
-          type: 'text',
-          label: 'Meta Title',
-          admin: {
-            description: 'The title that appears in search results and browser tabs',
-          },
-        },
-        {
-          name: 'metaDescription',
-          type: 'textarea',
-          label: 'Meta Description',
-          admin: {
-            description: 'A brief description of the page for search engines',
-          },
-        },
-        {
-          name: 'ogImage',
-          type: 'upload',
-          label: 'Social Media Image',
-          relationTo: 'media',
-          admin: {
-            description: 'Image that appears when sharing on social media',
-          },
         },
       ],
     },

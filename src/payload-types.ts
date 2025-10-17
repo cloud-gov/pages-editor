@@ -825,12 +825,7 @@ export interface HomePageSiteCollection {
                   link?: {
                     url?: string | null;
                     text?: string | null;
-                    external?: boolean | null;
                   };
-                  /**
-                   * Optional category or tag to display on the card
-                   */
-                  category?: string | null;
                   id?: string | null;
                 }[]
               | null;
@@ -855,27 +850,12 @@ export interface HomePageSiteCollection {
               };
               [k: string]: unknown;
             } | null;
-            bgColor?: ('white' | 'gray-50' | 'blue-50' | 'green-50') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'textBlock';
           }
       )[]
     | null;
-  seo?: {
-    /**
-     * The title that appears in search results and browser tabs
-     */
-    metaTitle?: string | null;
-    /**
-     * A brief description of the page for search engines
-     */
-    metaDescription?: string | null;
-    /**
-     * Image that appears when sharing on social media
-     */
-    ogImage?: (number | null) | Media;
-  };
   site: number | Site;
   updatedAt: string;
   createdAt: string;
@@ -1601,9 +1581,7 @@ export interface HomePageSiteCollectionSelect<T extends boolean = true> {
                       | {
                           url?: T;
                           text?: T;
-                          external?: T;
                         };
-                    category?: T;
                     id?: T;
                   };
               id?: T;
@@ -1614,17 +1592,9 @@ export interface HomePageSiteCollectionSelect<T extends boolean = true> {
           | {
               title?: T;
               content?: T;
-              bgColor?: T;
               id?: T;
               blockName?: T;
             };
-      };
-  seo?:
-    | T
-    | {
-        metaTitle?: T;
-        metaDescription?: T;
-        ogImage?: T;
       };
   site?: T;
   updatedAt?: T;
@@ -2097,12 +2067,7 @@ export interface HomePage {
                   link?: {
                     url?: string | null;
                     text?: string | null;
-                    external?: boolean | null;
                   };
-                  /**
-                   * Optional category or tag to display on the card
-                   */
-                  category?: string | null;
                   id?: string | null;
                 }[]
               | null;
@@ -2127,27 +2092,12 @@ export interface HomePage {
               };
               [k: string]: unknown;
             } | null;
-            bgColor?: ('white' | 'gray-50' | 'blue-50' | 'green-50') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'textBlock';
           }
       )[]
     | null;
-  seo?: {
-    /**
-     * The title that appears in search results and browser tabs
-     */
-    metaTitle?: string | null;
-    /**
-     * A brief description of the page for search engines
-     */
-    metaDescription?: string | null;
-    /**
-     * Image that appears when sharing on social media
-     */
-    ogImage?: (number | null) | Media;
-  };
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -2267,9 +2217,7 @@ export interface HomePageSelect<T extends boolean = true> {
                       | {
                           url?: T;
                           text?: T;
-                          external?: T;
                         };
-                    category?: T;
                     id?: T;
                   };
               id?: T;
@@ -2280,17 +2228,9 @@ export interface HomePageSelect<T extends boolean = true> {
           | {
               title?: T;
               content?: T;
-              bgColor?: T;
               id?: T;
               blockName?: T;
             };
-      };
-  seo?:
-    | T
-    | {
-        metaTitle?: T;
-        metaDescription?: T;
-        ogImage?: T;
       };
   _status?: T;
   updatedAt?: T;

@@ -19,7 +19,15 @@ export default async function HomePage() {
       switch (block.blockType) {
         case 'hero':
           return (
-            <section key={index} className="hero-section bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+            <section 
+              key={index} 
+              className="hero-section bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20"
+              style={block.bgImage && typeof block.bgImage === 'object' && 'url' in block.bgImage ? {
+                backgroundImage: `url(${block.bgImage.url})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              } : {}}
+            >
               <div className="container mx-auto px-4">
                 <div className="max-w-4xl">
                   <h1 className="text-5xl font-bold mb-6">
@@ -76,11 +84,6 @@ export default async function HomePage() {
                           </div>
                         )}
                         <div className="p-6">
-                          {card.category && (
-                            <span className="inline-block bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded mb-2">
-                              {card.category}
-                            </span>
-                          )}
                           <h3 className="text-xl font-semibold text-gray-900 mb-2">
                             {card.title}
                           </h3>
@@ -93,15 +96,8 @@ export default async function HomePage() {
                             <a
                               href={card.link.url}
                               className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
-                              target={card.link.external ? '_blank' : undefined}
-                              rel={card.link.external ? 'noopener noreferrer' : undefined}
                             >
                               {card.link.text || 'Learn More'}
-                              {card.link.external && (
-                                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                </svg>
-                              )}
                             </a>
                           )}
                         </div>
@@ -115,7 +111,7 @@ export default async function HomePage() {
 
         case 'textBlock':
           return (
-            <section key={index} className={`py-16 bg-${block.bgColor || 'white'}`}>
+            <section key={index} className="py-16">
               <div className="container mx-auto px-4">
                 <div className="max-w-4xl mx-auto">
                   {block.title && (
@@ -126,7 +122,7 @@ export default async function HomePage() {
                   {block.content && (
                     <div className="prose prose-lg max-w-none">
                       {/* Note: You'll need to implement rich text rendering */}
-                      <div dangerouslySetInnerHTML={{ __html: block.content as string }} />
+                      <div dangerouslySetInnerHTML={{ __html: JSON.stringify(block.content) }} />
                     </div>
                   )}
                 </div>
