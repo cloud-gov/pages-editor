@@ -76,7 +76,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
 
   ALTER TABLE "categories" ADD COLUMN "slug" varchar;
   ALTER TABLE "categories" ADD COLUMN "slug_lock" boolean DEFAULT true;
-  ALTER TABLE "categories" ADD COLUMN "site_id" integer NOT NULL;
+  ALTER TABLE "categories" ADD COLUMN "site_id" integer;
+  
+  -- Update existing categories to have a default site_id if they don't have one
+  -- First, get the first available site_id or create a default
+  UPDATE "categories" SET "site_id" = (SELECT "id" FROM "sites" LIMIT 1) WHERE "site_id" IS NULL;
+  
+  -- Now make the column NOT NULL
+  ALTER TABLE "categories" ALTER COLUMN "site_id" SET NOT NULL;
   ALTER TABLE "payload_locked_documents_rels" ADD COLUMN "reports_id" integer;
   DO $$ BEGIN
    ALTER TABLE "reports_report_files" ADD CONSTRAINT "reports_report_files_file_id_media_id_fk" FOREIGN KEY ("file_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;

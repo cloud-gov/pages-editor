@@ -20,6 +20,7 @@ import { Policies } from './collections/Policies'
 import { Sites } from './collections/Sites'
 import { Menu as MenuConfig } from './globals/Menu'
 import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
+import { HomePage as HomePageConfig } from './globals/HomePage'
 import { plugins } from './plugins'
 import endpoints from './endpoints'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -31,6 +32,7 @@ import { migrations } from './migrations'
 // Any site global fields must use the `createSiteGlobal` function
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
 const [Menu, MenuCollection] = createSiteGlobal(MenuConfig)
+const [HomePage, HomePageCollection] = createSiteGlobal(HomePageConfig)
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -145,9 +147,10 @@ const config = {
     Sites,
     MenuCollection,
     SiteConfigCollection,
+    HomePageCollection,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [SiteConfig, Menu],
+  globals: [SiteConfig, Menu, HomePage],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
