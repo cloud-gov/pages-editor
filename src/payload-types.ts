@@ -79,6 +79,7 @@ export interface Config {
     categories: Category;
     sites: Site;
     'menu-site-collection': MenuSiteCollection;
+    'pre-footer-site-collection': PreFooterSiteCollection;
     'site-config-site-collection': SiteConfigSiteCollection;
     redirects: Redirect;
     forms: Form;
@@ -107,6 +108,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
     'menu-site-collection': MenuSiteCollectionSelect<false> | MenuSiteCollectionSelect<true>;
+    'pre-footer-site-collection': PreFooterSiteCollectionSelect<false> | PreFooterSiteCollectionSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -123,10 +125,12 @@ export interface Config {
   globals: {
     'site-config': SiteConfig;
     menu: Menu;
+    'pre-footer': PreFooter;
   };
   globalsSelect: {
     'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
     menu: MenuSelect<false> | MenuSelect<true>;
+    'pre-footer': PreFooterSelect<false> | PreFooterSelect<true>;
   };
   locale: null;
   user: User & {
@@ -654,6 +658,112 @@ export interface MenuSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pre-footer-site-collection".
+ */
+export interface PreFooterSiteCollection {
+  id: number;
+  preFooterType: 'big' | 'slim';
+  connectSectionLocation?: ('bottom' | 'right') | null;
+  contactCenter?:
+    | {
+        name?: string | null;
+        phone?: string | null;
+        email?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  facebook?:
+    | {
+        facebookUrl: string;
+        id?: string | null;
+      }[]
+    | null;
+  platform_x?:
+    | {
+        xUrl: string;
+        id?: string | null;
+      }[]
+    | null;
+  youtube?:
+    | {
+        youtubeUrl: string;
+        id?: string | null;
+      }[]
+    | null;
+  instagram?:
+    | {
+        instagramUrl: string;
+        id?: string | null;
+      }[]
+    | null;
+  rssfeed?:
+    | {
+        rssfeedUrl: string;
+        id?: string | null;
+      }[]
+    | null;
+  groupCols: '1' | '2' | '3' | '4';
+  linksGroups?:
+    | {
+        groupName: string;
+        groupLinks: (
+          | {
+              name: string;
+              page: number | Page;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'pageLink';
+            }
+          | {
+              name: string;
+              page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'collectionLink';
+            }
+          | {
+              name: string;
+              linkUrl: string;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'externalLink';
+            }
+        )[];
+        id?: string | null;
+      }[]
+    | null;
+  slimLinks?:
+    | (
+        | {
+            name: string;
+            page: number | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'slimPageLink';
+          }
+        | {
+            name: string;
+            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'slimPageCollectionLink';
+          }
+        | {
+            name: string;
+            linkUrl: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'slimExternalLink';
+          }
+      )[]
+    | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * Set global branding details like site name, logo, and typography.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1086,6 +1196,10 @@ export interface PayloadLockedDocument {
         value: number | MenuSiteCollection;
       } | null)
     | ({
+        relationTo: 'pre-footer-site-collection';
+        value: number | PreFooterSiteCollection;
+      } | null)
+    | ({
         relationTo: 'site-config-site-collection';
         value: number | SiteConfigSiteCollection;
       } | null)
@@ -1437,6 +1551,119 @@ export interface MenuSiteCollectionSelect<T extends boolean = true> {
                           blockName?: T;
                         };
                   };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pre-footer-site-collection_select".
+ */
+export interface PreFooterSiteCollectionSelect<T extends boolean = true> {
+  preFooterType?: T;
+  connectSectionLocation?: T;
+  contactCenter?:
+    | T
+    | {
+        name?: T;
+        phone?: T;
+        email?: T;
+        id?: T;
+      };
+  facebook?:
+    | T
+    | {
+        facebookUrl?: T;
+        id?: T;
+      };
+  platform_x?:
+    | T
+    | {
+        xUrl?: T;
+        id?: T;
+      };
+  youtube?:
+    | T
+    | {
+        youtubeUrl?: T;
+        id?: T;
+      };
+  instagram?:
+    | T
+    | {
+        instagramUrl?: T;
+        id?: T;
+      };
+  rssfeed?:
+    | T
+    | {
+        rssfeedUrl?: T;
+        id?: T;
+      };
+  groupCols?: T;
+  linksGroups?:
+    | T
+    | {
+        groupName?: T;
+        groupLinks?:
+          | T
+          | {
+              pageLink?:
+                | T
+                | {
+                    name?: T;
+                    page?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              collectionLink?:
+                | T
+                | {
+                    name?: T;
+                    page?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              externalLink?:
+                | T
+                | {
+                    name?: T;
+                    linkUrl?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+            };
+        id?: T;
+      };
+  slimLinks?:
+    | T
+    | {
+        slimPageLink?:
+          | T
+          | {
+              name?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        slimPageCollectionLink?:
+          | T
+          | {
+              name?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        slimExternalLink?:
+          | T
+          | {
+              name?: T;
+              linkUrl?: T;
               id?: T;
               blockName?: T;
             };
@@ -1900,6 +2127,111 @@ export interface Menu {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pre-footer".
+ */
+export interface PreFooter {
+  id: number;
+  preFooterType: 'big' | 'slim';
+  connectSectionLocation?: ('bottom' | 'right') | null;
+  contactCenter?:
+    | {
+        name?: string | null;
+        phone?: string | null;
+        email?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  facebook?:
+    | {
+        facebookUrl: string;
+        id?: string | null;
+      }[]
+    | null;
+  platform_x?:
+    | {
+        xUrl: string;
+        id?: string | null;
+      }[]
+    | null;
+  youtube?:
+    | {
+        youtubeUrl: string;
+        id?: string | null;
+      }[]
+    | null;
+  instagram?:
+    | {
+        instagramUrl: string;
+        id?: string | null;
+      }[]
+    | null;
+  rssfeed?:
+    | {
+        rssfeedUrl: string;
+        id?: string | null;
+      }[]
+    | null;
+  groupCols: '1' | '2' | '3' | '4';
+  linksGroups?:
+    | {
+        groupName: string;
+        groupLinks: (
+          | {
+              name: string;
+              page: number | Page;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'pageLink';
+            }
+          | {
+              name: string;
+              page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'collectionLink';
+            }
+          | {
+              name: string;
+              linkUrl: string;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'externalLink';
+            }
+        )[];
+        id?: string | null;
+      }[]
+    | null;
+  slimLinks?:
+    | (
+        | {
+            name: string;
+            page: number | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'slimPageLink';
+          }
+        | {
+            name: string;
+            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'slimPageCollectionLink';
+          }
+        | {
+            name: string;
+            linkUrl: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'slimExternalLink';
+          }
+      )[]
+    | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config_select".
  */
 export interface SiteConfigSelect<T extends boolean = true> {
@@ -1965,6 +2297,119 @@ export interface MenuSelect<T extends boolean = true> {
                           blockName?: T;
                         };
                   };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pre-footer_select".
+ */
+export interface PreFooterSelect<T extends boolean = true> {
+  preFooterType?: T;
+  connectSectionLocation?: T;
+  contactCenter?:
+    | T
+    | {
+        name?: T;
+        phone?: T;
+        email?: T;
+        id?: T;
+      };
+  facebook?:
+    | T
+    | {
+        facebookUrl?: T;
+        id?: T;
+      };
+  platform_x?:
+    | T
+    | {
+        xUrl?: T;
+        id?: T;
+      };
+  youtube?:
+    | T
+    | {
+        youtubeUrl?: T;
+        id?: T;
+      };
+  instagram?:
+    | T
+    | {
+        instagramUrl?: T;
+        id?: T;
+      };
+  rssfeed?:
+    | T
+    | {
+        rssfeedUrl?: T;
+        id?: T;
+      };
+  groupCols?: T;
+  linksGroups?:
+    | T
+    | {
+        groupName?: T;
+        groupLinks?:
+          | T
+          | {
+              pageLink?:
+                | T
+                | {
+                    name?: T;
+                    page?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              collectionLink?:
+                | T
+                | {
+                    name?: T;
+                    page?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              externalLink?:
+                | T
+                | {
+                    name?: T;
+                    linkUrl?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+            };
+        id?: T;
+      };
+  slimLinks?:
+    | T
+    | {
+        slimPageLink?:
+          | T
+          | {
+              name?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        slimPageCollectionLink?:
+          | T
+          | {
+              name?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        slimExternalLink?:
+          | T
+          | {
+              name?: T;
+              linkUrl?: T;
               id?: T;
               blockName?: T;
             };
