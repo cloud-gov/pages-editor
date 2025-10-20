@@ -6,9 +6,17 @@ export const formatSlug = (val: string): string =>
     .replace(/[^\w-]+/g, '')
     .toLowerCase()
 
+export const generateRandomSlug = (): string => {
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+}
+
 export const formatSlugHook =
   (fallback: string): FieldHook =>
-  ({ data, operation, originalDoc, value }) => {
+  ({ data, operation, value }) => {
+    if (!value) {
+      return generateRandomSlug()
+    }
+
     if (typeof value === 'string') {
       return formatSlug(value)
     }
