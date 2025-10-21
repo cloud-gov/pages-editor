@@ -18,10 +18,12 @@ import { Resources } from './collections/Resources'
 import { Pages } from './collections/Pages'
 import { Policies } from './collections/Policies'
 import { Sites } from './collections/Sites'
+import { SideNavigations } from './collections/SideNavigations'
 import { Menu as MenuConfig } from './globals/Menu'
 import { PreFooter as PreFooterConfig } from './globals/PreFooter'
 import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
 import { HomePage as HomePageConfig } from './globals/HomePage'
+import { SideNavigation as SideNavigationConfig } from './globals/SideNavigation'
 import { plugins } from './plugins'
 import endpoints from './endpoints'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -35,6 +37,7 @@ const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
 const [Menu, MenuCollection] = createSiteGlobal(MenuConfig)
 const [HomePage, HomePageCollection] = createSiteGlobal(HomePageConfig)
 const [PreFooter, PreFooterCollection] = createSiteGlobal(PreFooterConfig)
+const [SideNavigation, SideNavigationCollection] = createSiteGlobal(SideNavigationConfig)
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -54,8 +57,8 @@ const config = {
       // },
       views: {
         dashboard: {
-          Component: '@/components/CustomDashboard'
-        }
+          Component: '@/components/CustomDashboard',
+        },
       },
     },
     groups: [
@@ -147,13 +150,15 @@ const config = {
     Users,
     // Site Configuration group
     Sites,
+    SideNavigations,
     MenuCollection,
     SiteConfigCollection,
     HomePageCollection,
     PreFooterCollection,
+    SideNavigationCollection,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [SiteConfig, Menu, HomePage, PreFooter],
+  globals: [SiteConfig, Menu, HomePage, PreFooter, SideNavigation],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,

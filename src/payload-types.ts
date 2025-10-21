@@ -78,6 +78,7 @@ export interface Config {
     media: Media;
     categories: Category;
     sites: Site;
+    'page-menus': PageMenu;
     'menu-site-collection': MenuSiteCollection;
     'site-config-site-collection': SiteConfigSiteCollection;
     'home-page-site-collection': HomePageSiteCollection;
@@ -108,6 +109,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
+    'page-menus': PageMenusSelect<false> | PageMenusSelect<true>;
     'menu-site-collection': MenuSiteCollectionSelect<false> | MenuSiteCollectionSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
     'home-page-site-collection': HomePageSiteCollectionSelect<false> | HomePageSiteCollectionSelect<true>;
@@ -569,11 +571,102 @@ export interface Page {
     [k: string]: unknown;
   } | null;
   site: number | Site;
+  /**
+   * Select a page menu to display in the sidebar for this page
+   */
+  sideNavigation?: (number | null) | PageMenu;
   reviewReady?: boolean | null;
   publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * Create and manage multiple page menus for different page sections.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-menus".
+ */
+export interface PageMenu {
+  id: number;
+  /**
+   * Internal name for this page menu (e.g., "About Us Menu")
+   */
+  name: string;
+  /**
+   * The title that appears above the page menu
+   */
+  title?: string | null;
+  /**
+   * Turn this page menu on/off
+   */
+  enabled?: boolean | null;
+  /**
+   * Add and organize menu items for this page menu
+   */
+  items?:
+    | (
+        | {
+            label: string;
+            page: number | Page;
+            /**
+             * Lower numbers appear first
+             */
+            order?: number | null;
+            /**
+             * Add sub-navigation items
+             */
+            subitems?:
+              | (
+                  | {
+                      label: string;
+                      page: number | Page;
+                      order?: number | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'pageLink';
+                    }
+                  | {
+                      label: string;
+                      url: string;
+                      order?: number | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'externalLink';
+                    }
+                )[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageLink';
+          }
+        | {
+            label: string;
+            url: string;
+            /**
+             * Lower numbers appear first
+             */
+            order?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+        | {
+            label: string;
+            page: 'posts' | 'events' | 'news' | 'reports' | 'resources' | 'leadership';
+            /**
+             * Lower numbers appear first
+             */
+            order?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionLink';
+          }
+      )[]
+    | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Legal or informational pages such as privacy, terms of use, and accessibility.
@@ -1272,6 +1365,10 @@ export interface PayloadLockedDocument {
         value: number | Site;
       } | null)
     | ({
+        relationTo: 'page-menus';
+        value: number | PageMenu;
+      } | null)
+    | ({
         relationTo: 'menu-site-collection';
         value: number | MenuSiteCollection;
       } | null)
@@ -1510,6 +1607,7 @@ export interface PagesSelect<T extends boolean = true> {
   image?: T;
   content?: T;
   site?: T;
+  sideNavigation?: T;
   reviewReady?: T;
   publishedAt?: T;
   updatedAt?: T;
@@ -1585,6 +1683,71 @@ export interface SitesSelect<T extends boolean = true> {
   orgId?: T;
   bucket?: T;
   users?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-menus_select".
+ */
+export interface PageMenusSelect<T extends boolean = true> {
+  name?: T;
+  title?: T;
+  enabled?: T;
+  items?:
+    | T
+    | {
+        pageLink?:
+          | T
+          | {
+              label?: T;
+              page?: T;
+              order?: T;
+              subitems?:
+                | T
+                | {
+                    pageLink?:
+                      | T
+                      | {
+                          label?: T;
+                          page?: T;
+                          order?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    externalLink?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          order?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              order?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionLink?:
+          | T
+          | {
+              label?: T;
+              page?: T;
+              order?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  site?: T;
   updatedAt?: T;
   createdAt?: T;
 }
