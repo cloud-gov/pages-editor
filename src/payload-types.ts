@@ -79,8 +79,9 @@ export interface Config {
     categories: Category;
     sites: Site;
     'menu-site-collection': MenuSiteCollection;
-    'site-config-site-collection': SiteConfigSiteCollection;
     'home-page-site-collection': HomePageSiteCollection;
+    'pre-footer-site-collection': PreFooterSiteCollection;
+    'site-config-site-collection': SiteConfigSiteCollection;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -108,8 +109,9 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
     'menu-site-collection': MenuSiteCollectionSelect<false> | MenuSiteCollectionSelect<true>;
-    'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
     'home-page-site-collection': HomePageSiteCollectionSelect<false> | HomePageSiteCollectionSelect<true>;
+    'pre-footer-site-collection': PreFooterSiteCollectionSelect<false> | PreFooterSiteCollectionSelect<true>;
+    'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -126,11 +128,13 @@ export interface Config {
     'site-config': SiteConfig;
     menu: Menu;
     'home-page': HomePage;
+    'pre-footer': PreFooter;
   };
   globalsSelect: {
     'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
     menu: MenuSelect<false> | MenuSelect<true>;
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
+    'pre-footer': PreFooterSelect<false> | PreFooterSelect<true>;
   };
   locale: null;
   user: User & {
@@ -658,6 +662,185 @@ export interface MenuSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Configure the home page content using flexible content blocks.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page-site-collection".
+ */
+export interface HomePageSiteCollection {
+  id: number;
+  content?:
+    | (
+        | {
+            title: string;
+            subtitle?: string | null;
+            description?: string | null;
+            bgImage?: (number | null) | Media;
+            ctaButton?: {
+              text?: string | null;
+              url?: string | null;
+              style?: ('primary' | 'secondary' | 'outline') | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            title?: string | null;
+            description?: string | null;
+            cards?:
+              | {
+                  title: string;
+                  description?: string | null;
+                  image?: (number | null) | Media;
+                  link?: {
+                    url?: string | null;
+                    text?: string | null;
+                  };
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cardGrid';
+          }
+        | {
+            title?: string | null;
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textBlock';
+          }
+      )[]
+    | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Build and organize site pre-footer
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pre-footer-site-collection".
+ */
+export interface PreFooterSiteCollection {
+  id: number;
+  type: 'big' | 'slim';
+  groupCol: '1' | '2' | '3' | '4';
+  linkGroup?:
+    | {
+        groupName: string;
+        link: (
+          | {
+              name: string;
+              page: number | Page;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'pageLink';
+            }
+          | {
+              name: string;
+              page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'collectionLink';
+            }
+          | {
+              name: string;
+              url: string;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'externalLink';
+            }
+        )[];
+        id?: string | null;
+      }[]
+    | null;
+  slimLink?:
+    | (
+        | {
+            name: string;
+            page: number | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'slimPageLink';
+          }
+        | {
+            name: string;
+            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'slimCollectionLink';
+          }
+        | {
+            name: string;
+            url: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'slimExternalLink';
+          }
+      )[]
+    | null;
+  connectSectionLocation?: ('bottom' | 'right') | null;
+  contactCenter?:
+    | {
+        name?: string | null;
+        phone?: string | null;
+        email?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  facebook?:
+    | {
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  platform_x?:
+    | {
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  youtube?:
+    | {
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  instagram?:
+    | {
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  rssfeed?:
+    | {
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * Set global branding details like site name, logo, and typography.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -787,77 +970,6 @@ export interface SiteConfigSiteCollection {
   logo?: (number | null) | Media;
   searchAccessKey?: string | null;
   searchAffiliate?: string | null;
-  site: number | Site;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Configure the home page content using flexible content blocks.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "home-page-site-collection".
- */
-export interface HomePageSiteCollection {
-  id: number;
-  content?:
-    | (
-        | {
-            title: string;
-            subtitle?: string | null;
-            description?: string | null;
-            bgImage?: (number | null) | Media;
-            ctaButton?: {
-              text?: string | null;
-              url?: string | null;
-              style?: ('primary' | 'secondary' | 'outline') | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'hero';
-          }
-        | {
-            title?: string | null;
-            description?: string | null;
-            cards?:
-              | {
-                  title: string;
-                  description?: string | null;
-                  image?: (number | null) | Media;
-                  link?: {
-                    url?: string | null;
-                    text?: string | null;
-                  };
-                  id?: string | null;
-                }[]
-              | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'cardGrid';
-          }
-        | {
-            title?: string | null;
-            content?: {
-              root: {
-                type: string;
-                children: {
-                  type: string;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'textBlock';
-          }
-      )[]
-    | null;
   site: number | Site;
   updatedAt: string;
   createdAt: string;
@@ -1161,12 +1273,16 @@ export interface PayloadLockedDocument {
         value: number | MenuSiteCollection;
       } | null)
     | ({
-        relationTo: 'site-config-site-collection';
-        value: number | SiteConfigSiteCollection;
-      } | null)
-    | ({
         relationTo: 'home-page-site-collection';
         value: number | HomePageSiteCollection;
+      } | null)
+    | ({
+        relationTo: 'pre-footer-site-collection';
+        value: number | PreFooterSiteCollection;
+      } | null)
+    | ({
+        relationTo: 'site-config-site-collection';
+        value: number | SiteConfigSiteCollection;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1527,25 +1643,6 @@ export interface MenuSiteCollectionSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "site-config-site-collection_select".
- */
-export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
-  agencyName?: T;
-  tagline?: T;
-  primaryColor?: T;
-  secondaryColor?: T;
-  primaryFont?: T;
-  favicon?: T;
-  logo?: T;
-  searchAccessKey?: T;
-  searchAffiliate?: T;
-  site?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "home-page-site-collection_select".
  */
 export interface HomePageSiteCollectionSelect<T extends boolean = true> {
@@ -1600,6 +1697,138 @@ export interface HomePageSiteCollectionSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pre-footer-site-collection_select".
+ */
+export interface PreFooterSiteCollectionSelect<T extends boolean = true> {
+  type?: T;
+  groupCol?: T;
+  linkGroup?:
+    | T
+    | {
+        groupName?: T;
+        link?:
+          | T
+          | {
+              pageLink?:
+                | T
+                | {
+                    name?: T;
+                    page?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              collectionLink?:
+                | T
+                | {
+                    name?: T;
+                    page?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              externalLink?:
+                | T
+                | {
+                    name?: T;
+                    url?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+            };
+        id?: T;
+      };
+  slimLink?:
+    | T
+    | {
+        slimPageLink?:
+          | T
+          | {
+              name?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        slimCollectionLink?:
+          | T
+          | {
+              name?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        slimExternalLink?:
+          | T
+          | {
+              name?: T;
+              url?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  connectSectionLocation?: T;
+  contactCenter?:
+    | T
+    | {
+        name?: T;
+        phone?: T;
+        email?: T;
+        id?: T;
+      };
+  facebook?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  platform_x?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  youtube?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  instagram?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  rssfeed?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-config-site-collection_select".
+ */
+export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
+  agencyName?: T;
+  tagline?: T;
+  primaryColor?: T;
+  secondaryColor?: T;
+  primaryFont?: T;
+  favicon?: T;
+  logo?: T;
+  searchAccessKey?: T;
+  searchAffiliate?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2109,6 +2338,113 @@ export interface HomePage {
   createdAt?: string | null;
 }
 /**
+ * Build and organize site pre-footer
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pre-footer".
+ */
+export interface PreFooter {
+  id: number;
+  type: 'big' | 'slim';
+  groupCol: '1' | '2' | '3' | '4';
+  linkGroup?:
+    | {
+        groupName: string;
+        link: (
+          | {
+              name: string;
+              page: number | Page;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'pageLink';
+            }
+          | {
+              name: string;
+              page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'collectionLink';
+            }
+          | {
+              name: string;
+              url: string;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'externalLink';
+            }
+        )[];
+        id?: string | null;
+      }[]
+    | null;
+  slimLink?:
+    | (
+        | {
+            name: string;
+            page: number | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'slimPageLink';
+          }
+        | {
+            name: string;
+            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'slimCollectionLink';
+          }
+        | {
+            name: string;
+            url: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'slimExternalLink';
+          }
+      )[]
+    | null;
+  connectSectionLocation?: ('bottom' | 'right') | null;
+  contactCenter?:
+    | {
+        name?: string | null;
+        phone?: string | null;
+        email?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  facebook?:
+    | {
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  platform_x?:
+    | {
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  youtube?:
+    | {
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  instagram?:
+    | {
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  rssfeed?:
+    | {
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config_select".
  */
@@ -2239,6 +2575,119 @@ export interface HomePageSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pre-footer_select".
+ */
+export interface PreFooterSelect<T extends boolean = true> {
+  type?: T;
+  groupCol?: T;
+  linkGroup?:
+    | T
+    | {
+        groupName?: T;
+        link?:
+          | T
+          | {
+              pageLink?:
+                | T
+                | {
+                    name?: T;
+                    page?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              collectionLink?:
+                | T
+                | {
+                    name?: T;
+                    page?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              externalLink?:
+                | T
+                | {
+                    name?: T;
+                    url?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+            };
+        id?: T;
+      };
+  slimLink?:
+    | T
+    | {
+        slimPageLink?:
+          | T
+          | {
+              name?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        slimCollectionLink?:
+          | T
+          | {
+              name?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        slimExternalLink?:
+          | T
+          | {
+              name?: T;
+              url?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  connectSectionLocation?: T;
+  contactCenter?:
+    | T
+    | {
+        name?: T;
+        phone?: T;
+        email?: T;
+        id?: T;
+      };
+  facebook?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  platform_x?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  youtube?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  instagram?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  rssfeed?:
+    | T
+    | {
+        url?: T;
+        id?: T;
       };
   _status?: T;
   updatedAt?: T;
