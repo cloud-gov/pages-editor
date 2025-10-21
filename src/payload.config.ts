@@ -21,6 +21,7 @@ import { Sites } from './collections/Sites'
 import { Menu as MenuConfig } from './globals/Menu'
 import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
 import { HomePage as HomePageConfig } from './globals/HomePage'
+import { SideNavigation as SideNavigationConfig } from './globals/SideNavigation'
 import { plugins } from './plugins'
 import endpoints from './endpoints'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -33,6 +34,7 @@ import { migrations } from './migrations'
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
 const [Menu, MenuCollection] = createSiteGlobal(MenuConfig)
 const [HomePage, HomePageCollection] = createSiteGlobal(HomePageConfig)
+const [SideNavigation, SideNavigationCollection] = createSiteGlobal(SideNavigationConfig)
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -148,9 +150,10 @@ const config = {
     MenuCollection,
     SiteConfigCollection,
     HomePageCollection,
+    SideNavigationCollection,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [SiteConfig, Menu, HomePage],
+  globals: [SiteConfig, Menu, HomePage, SideNavigation],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
