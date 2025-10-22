@@ -19,6 +19,7 @@ import { Pages } from './collections/Pages'
 import { Policies } from './collections/Policies'
 import { Sites } from './collections/Sites'
 import { Menu as MenuConfig } from './globals/Menu'
+import { PreFooter as PreFooterConfig } from './globals/PreFooter'
 import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
 import { HomePage as HomePageConfig } from './globals/HomePage'
 import { plugins } from './plugins'
@@ -33,6 +34,7 @@ import { migrations } from './migrations'
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
 const [Menu, MenuCollection] = createSiteGlobal(MenuConfig)
 const [HomePage, HomePageCollection] = createSiteGlobal(HomePageConfig)
+const [PreFooter, PreFooterCollection] = createSiteGlobal(PreFooterConfig)
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -148,9 +150,10 @@ const config = {
     MenuCollection,
     SiteConfigCollection,
     HomePageCollection,
+    PreFooterCollection,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [SiteConfig, Menu, HomePage],
+  globals: [SiteConfig, Menu, HomePage, PreFooter],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
