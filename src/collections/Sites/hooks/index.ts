@@ -1,4 +1,8 @@
-import type { CollectionAfterChangeHook, CollectionBeforeDeleteHook } from 'payload'
+import type {
+  CollectionBeforeValidateHook,
+  CollectionAfterChangeHook,
+  CollectionBeforeDeleteHook,
+} from 'payload'
 import { Site } from '@/payload-types'
 import { v4 as uuidv4 } from 'uuid'
 import {
@@ -10,8 +14,16 @@ import {
 
 import { encryptObjectValues } from '@/utilities/encryptor'
 import { generatePolicies, generateSinglePages } from '@/utilities/generateRecords'
+import { formatSlug, generateRandomSlug } from '@/fields/slug/formatSlug'
 
 const BUCKET_PREFIX = `_sites`
+
+export const formatSiteSlug: CollectionBeforeValidateHook<Site> = async ({ data, operation }) => {
+  if (data?.name && operation === 'create') {
+    data.slug = `${formatSlug(data.name)}-${generateRandomSlug()}`
+  }
+  return data
+}
 
 export const createSiteBot: CollectionAfterChangeHook<Site> = async ({ doc, req, operation }) => {
   const { payload } = req

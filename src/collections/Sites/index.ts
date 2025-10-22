@@ -7,6 +7,7 @@ import {
   createSiteBot,
   createSiteSinglePolicies,
   createSiteSinglePages,
+  formatSiteSlug,
   saveInfoToS3,
 } from './hooks'
 
@@ -31,6 +32,14 @@ export const Sites: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
+    },
+    {
+      name: 'slug',
+      type: 'text',
+      index: true,
+      admin: {
+        readOnly: true,
+      },
     },
     {
       name: 'initialManagerEmail',
@@ -72,6 +81,7 @@ export const Sites: CollectionConfig = {
     },
   ],
   hooks: {
+    beforeValidate: [formatSiteSlug],
     afterChange: [
       createManager,
       createSiteBot,

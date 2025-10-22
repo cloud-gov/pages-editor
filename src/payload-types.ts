@@ -245,6 +245,7 @@ export interface Media {
 export interface Site {
   id: number;
   name: string;
+  slug?: string | null;
   initialManagerEmail: string;
   pagesOrg?: string | null;
   pagesSiteId?: number | null;
@@ -1577,6 +1578,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface SitesSelect<T extends boolean = true> {
   name?: T;
+  slug?: T;
   initialManagerEmail?: T;
   pagesOrg?: T;
   pagesSiteId?: T;
