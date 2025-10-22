@@ -787,6 +787,8 @@ export interface SiteConfigSiteCollection {
   logo?: (number | null) | Media;
   searchAccessKey?: string | null;
   searchAffiliate?: string | null;
+  dapAgencyCode?: string | null;
+  dapSubAgencyCode?: string | null;
   site: number | Site;
   updatedAt: string;
   createdAt: string;
@@ -1539,6 +1541,8 @@ export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
   logo?: T;
   searchAccessKey?: T;
   searchAffiliate?: T;
+  dapAgencyCode?: T;
+  dapSubAgencyCode?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1980,6 +1984,8 @@ export interface SiteConfig {
   logo?: (number | null) | Media;
   searchAccessKey?: string | null;
   searchAffiliate?: string | null;
+  dapAgencyCode?: string | null;
+  dapSubAgencyCode?: string | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -2122,6 +2128,8 @@ export interface SiteConfigSelect<T extends boolean = true> {
   logo?: T;
   searchAccessKey?: T;
   searchAffiliate?: T;
+  dapAgencyCode?: T;
+  dapSubAgencyCode?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;

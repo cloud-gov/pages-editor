@@ -105,5 +105,15 @@ export const SiteConfig: GlobalConfig = {
       label: 'Search.gov Site Handle',
       type: 'text',
     },
+    {
+      name: 'dapAgencyCode',
+      label: 'DAP Agency Code',
+      type: 'text',
+    },
+    {
+      name: 'dapSubAgencyCode',
+      label: 'DAP Sub Agency Code',
+      type: 'text',
+    }
   ],
 }
