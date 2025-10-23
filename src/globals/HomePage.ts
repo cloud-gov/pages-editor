@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
+import { editor } from '@/utilities/editor'
 
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
@@ -164,6 +165,7 @@ export const HomePage: GlobalConfig = {
               name: 'content',
               type: 'richText',
               label: 'Content',
+              editor,
             },
           ],
         },
