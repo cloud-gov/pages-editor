@@ -38,10 +38,16 @@ describe('formatSlug', () => {
 })
 
 describe('generateRandomSlug', () => {
-  it('should generate a string', () => {
+  it('should generate a string with default length of 12', () => {
     const slug = generateRandomSlug()
     expect(typeof slug).toBe('string')
-    expect(slug.length).toBeGreaterThan(0)
+    expect(slug.length).toBe(12)
+  })
+
+  it('should generate a string with custom length', () => {
+    const slug = generateRandomSlug(8)
+    expect(typeof slug).toBe('string')
+    expect(slug.length).toBe(8)
   })
 
   it('should generate different slugs on multiple calls', () => {
@@ -52,6 +58,23 @@ describe('generateRandomSlug', () => {
 
   it('should generate alphanumeric characters only', () => {
     const slug = generateRandomSlug()
+    expect(slug).toMatch(/^[a-z0-9]+$/)
+  })
+
+  it('should generate alphanumeric characters only with custom length', () => {
+    const slug = generateRandomSlug(20)
+    expect(slug).toMatch(/^[a-z0-9]+$/)
+    expect(slug.length).toBe(20)
+  })
+
+  it('should handle zero length', () => {
+    const slug = generateRandomSlug(0)
+    expect(slug).toBe('')
+  })
+
+  it('should handle very long length', () => {
+    const slug = generateRandomSlug(100)
+    expect(slug.length).toBe(100)
     expect(slug).toMatch(/^[a-z0-9]+$/)
   })
 })
