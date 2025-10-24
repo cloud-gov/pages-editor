@@ -6,6 +6,7 @@ import type {
 import { Site } from '@/payload-types'
 import { v4 as uuidv4 } from 'uuid'
 import {
+  CopyObjectCommand,
   DeleteObjectCommand,
   PutObjectCommand,
   S3Client,
@@ -17,6 +18,15 @@ import { generatePolicies, generateSinglePages } from '@/utilities/generateRecor
 import { formatSlug, generateRandomSlug } from '@/fields/slug/formatSlug'
 
 const BUCKET_PREFIX = `_sites`
+
+// These are the prefixes for the active and deleted site configs that kick off
+// the deploys or destroys to launch the sites' preview apps.
+// The CI jobs for the preview apps are triggered by writes of the site config json
+// to these bucket prefixes.
+//
+// The CI jobs are found in the pages-site-gantry repository.
+const ACTIVE_PREVIEW_APP_PREFIX = `${BUCKET_PREFIX}/active`
+const DELETED_PREVIEW_APP_PREFIX = `${BUCKET_PREFIX}/deleted`
 
 export const formatSiteSlug: CollectionBeforeValidateHook<Site> = async ({ data, operation }) => {
   if (data?.name && operation === 'create') {
@@ -132,9 +142,11 @@ export const createSiteSinglePages: CollectionAfterChangeHook<Site> = async ({
 }
 
 export const saveInfoToS3: CollectionAfterChangeHook<Site> = async ({ doc, req, operation }) => {
+  const BUCKET = process.env.SITE_METADATA_BUCKET
   const { payload } = req
+
   if (operation === 'create') {
-    if (process.env.SITE_METADATA_BUCKET && process.env.NODE_ENV !== 'test') {
+    if (BUCKET && process.env.NODE_ENV !== 'test') {
       // TODO: ideally the bot User would be passed via hook `context`
       // but it was seemingly being overwritten, potentially by the "trick"
       // return from Users/hooks/removeDummyUsers
@@ -152,8 +164,8 @@ export const saveInfoToS3: CollectionAfterChangeHook<Site> = async ({ doc, req, 
       try {
         const client = new S3Client()
         const command = new PutObjectCommand({
-          Bucket: process.env.SITE_METADATA_BUCKET,
-          Key: `${BUCKET_PREFIX}/${doc.name}.json`,
+          Bucket: BUCKET,
+          Key: `${ACTIVE_PREVIEW_APP_PREFIX}/${doc.slug}.json`,
           Body: JSON.stringify({ ...doc, apiKey: bot.apiKey }),
         })
         await client.send(command)
@@ -169,9 +181,10 @@ export const saveInfoToS3: CollectionAfterChangeHook<Site> = async ({ doc, req, 
 }
 
 export const beforeDeleteHook: CollectionBeforeDeleteHook = async ({ req, id }) => {
+  const BUCKET = process.env.SITE_METADATA_BUCKET
   const { payload } = req
 
-  const site = await payload.findByID({
+  const site: Site = await payload.findByID({
     collection: 'sites',
     id,
     req,
@@ -201,15 +214,25 @@ export const beforeDeleteHook: CollectionBeforeDeleteHook = async ({ req, id }) 
   })
 
   // TODO: send info to Pages to remove the site
-
-  if (process.env.SITE_METADATA_BUCKET && process.env.NODE_ENV !== 'test') {
+  if (BUCKET && process.env.NODE_ENV !== 'test') {
     try {
+      const sourceObjectKey = `${ACTIVE_PREVIEW_APP_PREFIX}/${site.slug}.json`
+
       const client = new S3Client()
-      const command = new DeleteObjectCommand({
-        Bucket: process.env.SITE_METADATA_BUCKET,
-        Key: `${BUCKET_PREFIX}/${site.name}.json`,
+      const command = new CopyObjectCommand({
+        Bucket: BUCKET,
+        CopySource: `${BUCKET}/${sourceObjectKey}`,
+        Key: `${DELETED_PREVIEW_APP_PREFIX}/${site.slug}.json`,
       })
+
       await client.send(command)
+
+      const deleteCommand = new DeleteObjectCommand({
+        Bucket: BUCKET,
+        Key: sourceObjectKey,
+      })
+
+      await client.send(deleteCommand)
     } catch (error) {
       if (error instanceof S3ServiceException) {
         console.error(`Error from S3 while deleting object. ${error.name}: ${error.message}`)
