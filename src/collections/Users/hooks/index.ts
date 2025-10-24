@@ -1,8 +1,14 @@
 import { User } from '@/payload-types'
 import { getUserSiteIds, siteIdHelper } from '@/utilities/idHelper'
 import { generateUserInvitationEmailData } from '@/utilities/emailData'
-// import { redirect } from 'next/navigation'
-import { CollectionAfterLogoutHook, CollectionBeforeOperationHook, CollectionBeforeValidateHook, ValidationError, CollectionAfterChangeHook, FieldHook, CollectionBeforeChangeHook, CollectionAfterOperationHook } from 'payload'
+
+import {
+  CollectionBeforeOperationHook,
+  CollectionBeforeValidateHook,
+  ValidationError,
+  CollectionAfterChangeHook,
+  CollectionBeforeChangeHook,
+} from 'payload'
 import { v4 as uuidv4 } from 'uuid'
 
 // deduplicate sites, prioritizing the 'higher' role
@@ -10,20 +16,20 @@ import { v4 as uuidv4 } from 'uuid'
 function deDepulicateSites (sites) {
   const siteIndices = new Map()
   return sites.reduce((acc, elem) => {
-    // check previously stored versions of this site
-    const siteId = siteIdHelper(elem.site)
-    let { index, role } = siteIndices.get(siteId) ?? { index: false, role: false }
-    if (index === false) {
-      siteIndices.set(siteId, { index: acc.length, role: elem.role })
-      return [...acc, elem]
-      // ignore bots for now
-    } else if (elem.role === 'manager' && role === 'user') {
-      siteIndices.set(siteId, { index, role: elem.role })
-      const newArray = acc.slice()
-      newArray.splice(index, 1, elem)
-      return newArray
-    }
-    return acc
+      // check previously stored versions of this site
+      const siteId = siteIdHelper(elem.site)
+      let { index, role } = siteIndices.get(siteId) ?? { index: false, role: false }
+      if (index === false) {
+        siteIndices.set(siteId, { index: acc.length, role: elem.role })
+        return [...acc, elem]
+        // ignore bots for now
+      } else if (elem.role === 'manager' && role === 'user') {
+        siteIndices.set(siteId, { index, role: elem.role })
+        const newArray = acc.slice()
+        newArray.splice(index, 1, elem)
+        return newArray
+      }
+      return acc
   }, [] as typeof sites)
 }
 
@@ -85,28 +91,71 @@ export const addSelectedSiteId: CollectionBeforeValidateHook<User> = async ({
 // ensureSites is called pre-operation (rather than pre-validation)
 // because the sites array is used in access controls checked for
 // creation of the object
-export const ensureSites: CollectionBeforeOperationHook = async ({
-  args, operation, req,
-}) => {
-  const { user } = req;
+export const ensureSites: CollectionBeforeOperationHook = async ({ args, operation, req }) => {
+  const { user } = req
+
   if (!user) return args
+
+  if (!user.isAdmin && operation === 'read') {
+    // Check user object to make sure selectedSiteId exists
+    // If a user's selectSiteId is for a deleted site, set it to the first site in their sites array
+    // This is needed to avoid 403 errors when the selected site is deleted
+    if (user.sites.length > 0) {
+      const siteExists = user.sites.find((s) => {
+        if (typeof s.site === 'number') {
+          return s.site === user.selectedSiteId
+        }
+
+        return s.site.id === user.selectedSiteId
+      })
+
+      if (!siteExists) {
+        if (typeof user.sites[0].site === 'number') {
+          const selectedSiteId = user.sites[0].site
+
+          await req.payload.update({
+            collection: 'users',
+            id: user.id,
+            data: {
+              selectedSiteId,
+            },
+          })
+        } else {
+          const selectedSiteId = user.sites[0].site.id
+
+          await req.payload.update({
+            collection: 'users',
+            id: user.id,
+            data: {
+              selectedSiteId,
+            },
+          })
+        }
+      }
+    }
+  }
+
   if (operation === 'create' || operation === 'update') {
-    let { data: { sites } } : { data: { sites: User["sites"] }} = args;
+    let {
+      data: { sites },
+    }: { data: { sites: User['sites'] } } = args
     const hasNewSites = sites && sites.length > 0
 
     // with no sites on creation, this is a true error
     if (operation === 'create' && !hasNewSites) {
       throw new ValidationError({
-        errors: [{
-          label: 'Role',
-          message: 'User must have at least one role',
-          path: 'sites',
-        }]
+        errors: [
+          {
+            label: 'Role',
+            message: 'User must have at least one role',
+            path: 'sites',
+          },
+        ],
       })
     } else if (!user.isAdmin && hasNewSites) {
       // for every added role by non-admins, add a corresponding site id
       // @ts-ignore
-      sites = sites.map(site => ({ site: user.selectedSiteId, ...site }))
+      sites = sites.map((site) => ({ site: user.selectedSiteId, ...site }))
     }
     // always deduplicate sites if present
     if (hasNewSites) {
@@ -156,15 +205,15 @@ export const testEmailUniqueness: CollectionBeforeChangeHook<User> = async({
       if (siteId && getUserSiteIds(existingUser).includes(siteId)) {
         throw new ValidationError({
           errors: [{
-            message: `User with email ${data.email} exists for this site`,
-            path: 'email',
+              message: `User with email ${data.email} exists for this site`,
+              path: 'email',
           }]
         })
-      // until https://github.com/payloadcms/payload/discussions/11943
-      // if the user exists but on another site:
-      //  - pass data to create a new dummy user (so this operation "succeeds")
-      //  - update the existing user
-      //  - save the updated user in context for final redirect
+        // until https://github.com/payloadcms/payload/discussions/11943
+        // if the user exists but on another site:
+        //  - pass data to create a new dummy user (so this operation "succeeds")
+        //  - update the existing user
+        //  - save the updated user in context for final redirect
       }
 
       const updatedUser = await payload.update({
