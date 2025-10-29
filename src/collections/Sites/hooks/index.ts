@@ -12,7 +12,6 @@ import {
   S3Client,
   S3ServiceException,
 } from '@aws-sdk/client-s3'
-
 import { encryptObjectValues } from '@/utilities/encryptor'
 import { generatePolicies, generateSinglePages } from '@/utilities/generateRecords'
 import { formatSlug, generateRandomSlug } from '@/fields/slug/formatSlug'
@@ -29,7 +28,7 @@ const ACTIVE_PREVIEW_APP_PREFIX = `${BUCKET_PREFIX}/active`
 const DELETED_PREVIEW_APP_PREFIX = `${BUCKET_PREFIX}/deleted`
 
 export const formatSiteSlug: CollectionBeforeValidateHook<Site> = async ({ data, operation }) => {
-  if (data?.name && operation === 'create') {
+  if (data?.name && !data.slug && operation === 'create') {
     data.slug = `${formatSlug(data.name)}-${generateRandomSlug()}`
   }
   return data

@@ -1,6 +1,4 @@
 import type { CollectionConfig } from 'payload'
-
-import { previewWebhook } from '@/utilities/previews'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser, getAdmin } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
@@ -8,6 +6,7 @@ import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
 import { siteField } from '@/fields/relationships'
 import { completeReview } from '@/hooks/completeReview'
+import { getPagePreviewUrl } from '@/utilities/previews'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -16,14 +15,7 @@ export const Pages: CollectionConfig<'pages'> = {
     description: "Individual pages like About or Contact that aren't part of a content collection.",
     defaultColumns: ['title', 'slug', 'reviewReady', 'updatedAt'],
     livePreview: {
-      url: async ({ data, req }) => {
-        // site isn't fetched at the necessary depth in `data`
-        const site = await req.payload.findByID({
-          collection: 'sites',
-          id: data.site,
-        })
-        return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/${data.path}`
-      },
+      url: getPagePreviewUrl,
     },
     preview: (data) => {
       // TODO: fix per above
@@ -89,7 +81,7 @@ export const Pages: CollectionConfig<'pages'> = {
     },
   ],
   hooks: {
-    afterChange: [previewWebhook, publish],
+    afterChange: [publish],
     beforeChange: [addSite, completeReview],
   },
   versions: {

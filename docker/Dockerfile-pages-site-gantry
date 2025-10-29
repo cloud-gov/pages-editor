@@ -1,12 +1,13 @@
-    # Use a base Node.js image
-    FROM node:22 AS build
+# Use a base Node.js image
+FROM node:22.12.0-bullseye
 
-    WORKDIR /app
+WORKDIR /app
 
-    COPY package*.json ./
+RUN wget https://github.com/cloud-gov/pages-site-gantry/archive/refs/heads/main.zip && \
+    unzip main.zip && \
+    mv pages-site-gantry-main/* . && \
+    rm -rf pages-site-gantry-main main.zip
 
-    RUN npm ci
+RUN npm ci
 
-    COPY .  .
-
-    EXPOSE 4321
+EXPOSE 4321

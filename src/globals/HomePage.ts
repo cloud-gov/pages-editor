@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { editor } from '@/utilities/editor'
+import { getGlobalPreviewUrl } from '@/utilities/previews'
 
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
@@ -13,6 +14,9 @@ export const HomePage: GlobalConfig = {
   admin: {
     group: 'Single Pages',
     description: 'Configure the home page content using flexible content blocks.',
+    livePreview: {
+      url: getGlobalPreviewUrl,
+    },
   },
   fields: [
     {
@@ -44,7 +48,8 @@ export const HomePage: GlobalConfig = {
               name: 'description',
               type: 'textarea',
               label: 'Hero Description',
-              defaultValue: 'This is a description of what your site offers and why visitors should care.',
+              defaultValue:
+                'This is a description of what your site offers and why visitors should care.',
             },
             {
               name: 'bgImage',

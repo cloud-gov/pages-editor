@@ -1,11 +1,11 @@
 import type { CollectionConfig } from 'payload'
-import { previewWebhook } from '@/utilities/previews'
 import { siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { descriptionField, imageField } from '@/fields'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
+import { getCollectionPreviewUrl } from '@/utilities/previews'
 import { publish } from '@/hooks/publish'
 
 export const Leadership: CollectionConfig<'leadership'> = {
@@ -19,18 +19,7 @@ export const Leadership: CollectionConfig<'leadership'> = {
     description: 'Profiles of key staff or board members, including bios and headshots.',
     defaultColumns: ['title', 'jobTitle', 'slug', 'updatedAt'],
     livePreview: {
-      url: async ({ data, req }) => {
-        const site = await req.payload.findByID({
-          collection: 'sites',
-          id: data.site,
-        })
-        if(!process.env.PREVIEW_ROOT) {
-          return `${process.env.PREVIEW_URL}/leadership/${data.slug}`
-        } else {
-          return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/leadership/${data.slug}`
-        }
-        
-      },
+      url: getCollectionPreviewUrl('leadership'),
     },
     preview: (data) => {
       return `${process.env.PREVIEW_URL}/leadership/${data.slug}`
@@ -87,7 +76,7 @@ export const Leadership: CollectionConfig<'leadership'> = {
     ...slugField(),
   ],
   hooks: {
-    afterChange: [previewWebhook, publish],
+    afterChange: [publish],
     beforeChange: [addSite],
   },
   versions: {

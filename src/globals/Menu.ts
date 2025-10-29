@@ -1,6 +1,7 @@
 // payload/globals/Menu.ts
 import { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
+import { getGlobalPreviewUrl } from '@/utilities/previews'
 
 export const Menu: GlobalConfig = {
   slug: 'menu',
@@ -13,6 +14,9 @@ export const Menu: GlobalConfig = {
   admin: {
     group: 'Site Configuration',
     description: 'Build and organize site navigation for pages and content sections.',
+    livePreview: {
+      url: getGlobalPreviewUrl,
+    },
   },
   fields: [
     {

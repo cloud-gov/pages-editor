@@ -1,5 +1,4 @@
 import type { CollectionConfig } from 'payload'
-import { previewWebhook } from '@/utilities/previews'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
@@ -8,6 +7,7 @@ import { publish } from '@/hooks/publish'
 import { categoriesField, siteField } from '@/fields/relationships'
 import { descriptionField, imageField } from '@/fields'
 import { completeReview } from '@/hooks/completeReview'
+import { getCollectionPreviewUrl } from '@/utilities/previews'
 
 export const News: CollectionConfig<'news'> = {
   slug: 'news',
@@ -16,18 +16,7 @@ export const News: CollectionConfig<'news'> = {
     description: 'Announcements, updates, or press releases related to the organization.',
     defaultColumns: ['title', 'reviewReady', 'updatedAt'],
     livePreview: {
-      url: async ({ data, req }) => {
-        // site isn't fetched at the necessary depth in `data`
-        const site = await req.payload.findByID({
-          collection: 'sites',
-          id: data.site,
-        })
-        if(!process.env.PREVIEW_ROOT) {
-          return `${process.env.PREVIEW_URL}/news/${data.slug}`
-        } else {
-          return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/news/${data.slug}`
-        }
-      },
+      url: getCollectionPreviewUrl('news'),
     },
     preview: (data) => {
       // TODO: fix per above
@@ -91,7 +80,7 @@ export const News: CollectionConfig<'news'> = {
     ...slugField(),
   ],
   hooks: {
-    afterChange: [previewWebhook, publish],
+    afterChange: [publish],
     beforeChange: [addSite, completeReview],
   },
   versions: {

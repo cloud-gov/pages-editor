@@ -1,6 +1,5 @@
 import type { CollectionConfig } from 'payload'
-
-import { previewWebhook } from '@/utilities/previews'
+import { getCollectionPreviewUrl } from '@/utilities/previews'
 import { categoriesField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
@@ -24,14 +23,7 @@ export const Resources: CollectionConfig = {
       description: 'Resources allow you to categorize and publish resource content and files.',
     },
     livePreview: {
-      url: async ({ data, req }) => {
-        // site isn't fetched at the necessary depth in `data`
-        const site = await req.payload.findByID({
-          collection: 'sites',
-          id: data.site,
-        })
-        return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/resources/${data.slug}`
-      },
+      url: getCollectionPreviewUrl('resources'),
     },
     preview: (data) => {
       // TODO: fix per above
@@ -126,7 +118,7 @@ export const Resources: CollectionConfig = {
     },
   ],
   hooks: {
-    afterChange: [previewWebhook, publish],
+    afterChange: [publish],
     beforeChange: [addSite, completeReview],
   },
   versions: {

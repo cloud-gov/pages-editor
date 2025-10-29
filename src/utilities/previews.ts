@@ -1,26 +1,40 @@
-import type { CollectionAfterChangeHook } from 'payload'
-import type { Post, Site } from '../payload-types'
+import type { CollectionSlug } from 'payload'
 
-import pDebounce from 'p-debounce';
+async function getSiteSlug(req, siteId: number): Promise<string> {
+  const { slug } = await req.payload.findByID({
+    collection: 'sites',
+    id: siteId,
+  })
 
-const DEBOUNCE_TIME = 1000
-const debouncedFetch = pDebounce(fetch, DEBOUNCE_TIME, { before: true });
-
-// webhook to update preview
-export const previewWebhook: CollectionAfterChangeHook<Post> = async ({
-  doc, req: { payload }
-}) => {
-  if (process.env.PREVIEW_ROOT) {
-    try {
-      const url = `${process.env.PREVIEW_ROOT}-${(doc.site as Site).name}.app.cloud.gov/reload`
-      await debouncedFetch(url)
-    } catch (e) {
-      payload.logger.warn(e)
-    }
-  }
-  return doc
+  return slug
 }
 
-// export const livePreviewUrl:
+const choosePreviewUrl = (slug: string, path: string = ''): string => {
+  if (!process.env.PREVIEW_ROOT) {
+    return `http://${slug}/${path}`
+  } else {
+    return `https://${slug}.${process.env.PREVIEW_ROOT}/${path}`
+  }
+}
 
-// export const previewUrl:
+export const getCollectionPreviewUrl = (collection: CollectionSlug) => {
+  return async ({ data, req }): Promise<string> => {
+    const slug = await getSiteSlug(req, data.site)
+    const path = `${collection}/${data.slug}`
+
+    return choosePreviewUrl(slug, path)
+  }
+}
+
+export const getPagePreviewUrl = async ({ data, req }): Promise<string> => {
+  const slug = await getSiteSlug(req, data.site)
+  const path = data.slug
+
+  return choosePreviewUrl(slug, path)
+}
+
+export const getGlobalPreviewUrl = async ({ req }): Promise<string> => {
+  const slug = await getSiteSlug(req, req.user.selectedSiteId)
+
+  return choosePreviewUrl(slug)
+}

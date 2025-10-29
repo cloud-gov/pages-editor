@@ -29,7 +29,7 @@ applications:
       PUBLIC_URL: https://((route))
       COOKIE_DOMAIN: cloud.gov
       PAGES_URL: https://pages((postfix)).cloud.gov
-      PREVIEW_ROOT: https://pages-editor-((env))-preview # end is filled in per site
+      PREVIEW_ROOT: app.cloud.gov
       NEXT_TELEMETRY_DISABLED: 1
       NEXT_PUBLIC_SERVER_URL: https://((route))
     health-check-type: http

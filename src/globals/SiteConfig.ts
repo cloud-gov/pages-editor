@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { colorOptions } from '@/fields'
+import { getGlobalPreviewUrl } from '@/utilities/previews'
 
 export const SiteConfig: GlobalConfig = {
   slug: 'site-config',
@@ -13,6 +14,9 @@ export const SiteConfig: GlobalConfig = {
   admin: {
     group: 'Site Configuration',
     description: 'Set global branding details like site name, logo, and typography.',
+    livePreview: {
+      url: getGlobalPreviewUrl,
+    },
   },
   fields: [
     {
