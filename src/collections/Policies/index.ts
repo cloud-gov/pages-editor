@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
-import { previewWebhook } from '@/utilities/previews'
+import { getCollectionPreviewUrl } from '@/utilities/previews'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser, getAdmin } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
@@ -16,14 +16,7 @@ export const Policies: CollectionConfig<'policies'> = {
     description: 'Legal or informational pages such as privacy, terms of use, and accessibility.',
     defaultColumns: ['title', 'slug', 'reviewReady', 'updatedAt'],
     livePreview: {
-      url: async ({ data, req }) => {
-        // site isn't fetched at the necessary depth in `data`
-        const site = await req.payload.findByID({
-          collection: 'sites',
-          id: data.site,
-        })
-        return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/${data.path}`
-      },
+      url: getCollectionPreviewUrl('policies'),
     },
     preview: (data) => {
       // TODO: fix per above
@@ -68,7 +61,7 @@ export const Policies: CollectionConfig<'policies'> = {
     },
   ],
   hooks: {
-    afterChange: [previewWebhook, publish],
+    afterChange: [publish],
     beforeChange: [addSite, completeReview],
   },
   versions: {

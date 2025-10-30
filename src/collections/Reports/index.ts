@@ -1,12 +1,11 @@
 import type { CollectionConfig } from 'payload'
-
-import { previewWebhook } from '@/utilities/previews'
 import { categoriesField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { publish } from '@/hooks/publish'
 import { editor } from '@/utilities/editor'
+import { getCollectionPreviewUrl } from '@/utilities/previews'
 import { completeReview } from '@/hooks/completeReview'
 
 export const Reports: CollectionConfig = {
@@ -24,19 +23,7 @@ export const Reports: CollectionConfig = {
       description: 'Reports allow you to categorize and publish report content and files.',
     },
     livePreview: {
-      url: async ({ data, req }) => {
-        // site isn't fetched at the necessary depth in `data`
-        const site = await req.payload.findByID({
-          collection: 'sites',
-          id: data.site,
-        })
-        if(!process.env.PREVIEW_ROOT) {
-          return `${process.env.PREVIEW_URL}/reports/preview/${data.slug}`
-        } else {
-          return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/${data.slug}`
-        }
-        
-      },
+      url: getCollectionPreviewUrl('reports'),
     },
     preview: (data) => {
       // TODO: fix per above
@@ -131,7 +118,7 @@ export const Reports: CollectionConfig = {
     },
   ],
   hooks: {
-    afterChange: [previewWebhook, publish],
+    afterChange: [publish],
     beforeChange: [addSite, completeReview],
   },
   versions: {

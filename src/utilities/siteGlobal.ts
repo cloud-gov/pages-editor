@@ -1,7 +1,6 @@
 import type { GlobalConfig, CollectionConfig, Config, CollectionSlug } from 'payload'
 import { adminField } from '@/access/admin'
 import { SiteConfig } from '@/payload-types'
-import { previewWebhook } from '@/utilities/previews'
 import { publish } from '@/hooks/publish'
 
 export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, CollectionConfig] => {
@@ -104,7 +103,7 @@ export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, Collectio
     },
     // hooks should be passed to the global, not the collection, since the global is the main interface.
     hooks: {
-      afterChange: [previewWebhook, publish],
+      afterChange: [publish],
     },
     // custom site field is passed here to manage ownership of collections.
     fields: [

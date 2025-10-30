@@ -46,7 +46,7 @@ describe('Sites access', () => {
       expect(site.slug).toMatch(/^a-new-site-[a-z0-9]+$/)
     })
 
-    test('create a Site with slug field auto-generated (ignoring manual slug)', async ({
+    test('create a Site with slug field auto-generated (allow manual slug)', async ({
       tid,
       testUser,
     }) => {
@@ -58,7 +58,7 @@ describe('Sites access', () => {
           data: {
             name: 'Another New Site',
             initialManagerEmail: 'manager2@site.gov',
-            slug: 'manual-slug-should-be-ignored',
+            slug: 'manual-slug-should-be-allowed',
           } as any,
         },
         testUser,
@@ -66,8 +66,7 @@ describe('Sites access', () => {
 
       expect(site).toBeTruthy()
       expect(site.slug).toBeTruthy()
-      expect(site.slug).toMatch(/^another-new-site-[a-z0-9]+$/)
-      expect(site.slug).not.toBe('manual-slug-should-be-ignored')
+      expect(site.slug).toMatch('manual-slug-should-be-allowed')
     })
 
     test('update any Site', async ({ tid, testUser, sites }) => {

@@ -1,5 +1,6 @@
 import { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
+import { getGlobalPreviewUrl } from '@/utilities/previews'
 
 function bigFooterCondition(data): true | false {
   return (data?.type === 'big') ? true : false;
@@ -27,6 +28,9 @@ export const PreFooter: GlobalConfig = {
   admin: {
     group: 'Site Configuration',
     description: 'Build and organize site pre-footer',
+    livePreview: {
+      url: getGlobalPreviewUrl,
+    },
   },
   fields: [
     {

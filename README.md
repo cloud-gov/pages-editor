@@ -25,33 +25,18 @@ We have created some package.json scripts to make running the docker commands a 
 
 Docker compose will provide hardcoded PAYLOAD_API_KEY and EDITOR_APP_URL to the pages-site-gantry service.
 
-#### Get pages-site-gantry repo
-npm run dc:gantry
-
 #### Get and build docker images
-npm run dc:build
+`npm run dc:build`
 
 #### install node deps
-npm run dc:install
-
-#### install pages-site-gantry node deps
-npm run dc:gantry-install
+`npm run dc:install`
 
 #### Run the database migration and seed the database
 *Note: running the seed script will output bot API keys for you to use in the pages-site-gantry*
-npm run dc:seed
-
-#### Build gantry site
-npm run dc:gantry-build
+`npm run dc:seed`
 
 #### Launch the app locally
-docker compose up
-
-#### pages-site-gantry development
-If you need to have Gantry run independently from the Docker stack, you can stop the service and then run pages-site-gantry as usual from its cloned local directory.
-
-You will need to provide the .env variable PAYLOAD_API_KEY for the site# that gets printed to the console during dnpm run dc:seed to pages-site-gantry.
-```
+`npm run dc:up`
 
 After this, the editor is available at localhost:3000/admin; the first load will take a few seconds while the app is compiled.
 
@@ -65,9 +50,11 @@ The database is seeded with the following for local development:
   - By default, sites create a `bot` user with read-only access to site data.
   - To login as a user, use the password `password`
 
+#### Local Live Preview
+
+Using the local seed (`npm run dc:seed`) command creates the live preview experience locally for the two sites in our docker compose services. We build the main branch of [pages-site-gantry](https://github.com/cloud-gov/pages-site-gantry) in the [docker/Dockerfile-pages-site-gantry)](./docker/Dockerfile-pages-site-gantry) and we use hardcoded `PAYLOAD_API_KEY` keys to ensure both sites are accessible from the admin dashboard live preview.
 
 ### Creating database migrations
-
 
 If you want the database schema to change, you will need to update the schema by adjusting or adding to the collections/globals.
 Running the seed and creating the migrations in specific orders will make development faster and simpler.

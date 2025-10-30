@@ -120,14 +120,11 @@ services:
 
   site1:
     build:
-      context: ./pages-site-gantry
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-pages-site-gantry
+      context: ./docker
     command: ['npm', 'run', 'dev']
     ports:
       - 4561:4321
-    volumes:
-      - ./pages-site-gantry:/app
-      - gantry-node-modules:/app/node_modules
     environment:
       BASEURL: '/'
       EDITOR_APP_URL: http://app:3000
@@ -135,7 +132,7 @@ services:
       OAUTH_CLIENT_SECRET:
       NODE_ENV: development
       PAYLOAD_API_KEY: 'df301adb-6d26-4688-bd17-9454a2da62bd'
-      PAYLOAD_SECRET: 'secret-key-used-for-auth-encryption'
+      PAYLOAD_SECRET: mysecret
       RENDER_MODE: 'server'
       PREVIEW_MODE: true
       LOCAL_DEV: true
@@ -149,35 +146,30 @@ services:
       timeout: 5s
       retries: 5
 
-  ## Todo: Think about how we can setup the collection item preview
-  ##       to see the proper site in local dev
-  # site2:
-  #   build:
-  #     context: ./pages-site-gantry
-  #     dockerfile: Dockerfile
-  #   command: ['npm', 'run', 'dev']
-  #   ports:
-  #     - 4562:4321
-  #   volumes:
-  #     - ./pages-site-gantry:/app
-  #     - gantry-node-modules:/app/node_modules
-  #   environment:
-  #     BASEURL: '/'
-  #     EDITOR_APP_URL: http://app:3000
-  #     OAUTH_CLIENT_ID:
-  #     OAUTH_CLIENT_SECRET:
-  #     NODE_ENV: development
-  #     PAYLOAD_API_KEY: 'a6f81491-939b-456c-980a-4e0fb7461edf'
-  #     PAYLOAD_SECRET: 'secret-key-used-for-auth-encryption'
-  #     RENDER_MODE: 'server'
-  #     PREVIEW_MODE: true
-  #     LOCAL_DEV: true
-  #     PAGE_SIZE: 10
-  #   depends_on:
-  #     app:
-  #       condition: service_started
-  #   healthcheck:
-  #     test: ['CMD', 'curl', '-f', 'http://localhost:4321']
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
+  site2:
+    build:
+      dockerfile: Dockerfile-pages-site-gantry
+      context: ./docker
+    command: ['npm', 'run', 'dev']
+    ports:
+      - 4562:4321
+    environment:
+      BASEURL: '/'
+      EDITOR_APP_URL: http://app:3000
+      OAUTH_CLIENT_ID:
+      OAUTH_CLIENT_SECRET:
+      NODE_ENV: development
+      PAYLOAD_API_KEY: 'a6f81491-939b-456c-980a-4e0fb7461edf'
+      PAYLOAD_SECRET: mysecret
+      RENDER_MODE: 'server'
+      PREVIEW_MODE: true
+      LOCAL_DEV: true
+      PAGE_SIZE: 10
+    depends_on:
+      app:
+        condition: service_started
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:4321']
+      interval: 10s
+      timeout: 5s
+      retries: 5

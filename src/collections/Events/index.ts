@@ -1,5 +1,4 @@
 import type { CollectionConfig } from 'payload'
-import { previewWebhook } from '@/utilities/previews'
 import { categoriesField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
@@ -7,27 +6,18 @@ import { addSite } from '@/hooks/addSite'
 import { publish } from '@/hooks/publish'
 import { completeReview } from '@/hooks/completeReview'
 import { editor } from '@/utilities/editor'
+import { getCollectionPreviewUrl } from '@/utilities/previews'
 import { descriptionField, imageField } from '@/fields'
 
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
   admin: {
     group: 'Content Collection',
-    description: 'Details for upcoming or past events, including dates, locations, and descriptions.',
+    description:
+      'Details for upcoming or past events, including dates, locations, and descriptions.',
     defaultColumns: ['title', 'reviewReady', 'updatedAt'],
     livePreview: {
-      url: async ({ data, req }) => {
-        // site isn't fetched at the necessary depth in `data`
-        const site = await req.payload.findByID({
-          collection: 'sites',
-          id: data.site,
-        })
-        if(!process.env.PREVIEW_ROOT) {
-          return `${process.env.PREVIEW_URL}/events/${data.slug}`
-        } else {
-          return `${process.env.PREVIEW_ROOT}-${site.name}.app.cloud.gov/events/${data.slug}`
-        }
-      },
+      url: getCollectionPreviewUrl('events'),
     },
     preview: (data) => {
       // TODO: fix per above
@@ -54,7 +44,8 @@ export const Events: CollectionConfig<'events'> = {
       label: 'Title',
       required: true,
       admin: {
-        description: 'Details for upcoming or past events, including dates, locations, and descriptions.',
+        description:
+          'Details for upcoming or past events, including dates, locations, and descriptions.',
       },
     },
     {
@@ -180,7 +171,7 @@ export const Events: CollectionConfig<'events'> = {
     },
   ],
   hooks: {
-    afterChange: [previewWebhook, publish],
+    afterChange: [publish],
     beforeChange: [addSite, completeReview],
   },
   versions: {
