@@ -2,18 +2,20 @@ import { CollectionConfig } from 'payload'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { siteField } from '@/fields/relationships'
 import { addSite } from '@/hooks/addSite'
+import { completeReview } from '@/hooks/completeReview'
+import { publish } from '@/hooks/publish'
 
-export const SideNavigations: CollectionConfig = {
+export const PageMenus: CollectionConfig = {
   slug: 'page-menus',
   labels: {
     singular: 'Page Menu',
     plural: 'Page Menus',
   },
   access: {
-    read: getAdminOrSiteUser('page-menus', ['manager', 'user', 'bot']),
     create: getAdminOrSiteUser('page-menus'),
-    update: getAdminOrSiteUser('page-menus'),
     delete: getAdminOrSiteUser('page-menus'),
+    read: getAdminOrSiteUser('page-menus', ['manager', 'user', 'bot']),
+    update: getAdminOrSiteUser('page-menus'),
   },
   admin: {
     group: 'Site Configuration',
@@ -224,9 +226,44 @@ export const SideNavigations: CollectionConfig = {
         },
       ],
     },
+    {
+      name: 'reviewReady',
+      label: 'Ready for Review',
+      type: 'checkbox',
+      defaultValue: false,
+    },
+    {
+      name: 'publishedAt',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+      },
+      hooks: {
+        beforeChange: [
+          ({ siblingData, value }) => {
+            if (siblingData._status === 'published' && !value) {
+              return new Date()
+            }
+            return value
+          },
+        ],
+      },
+    },
     siteField,
   ],
   hooks: {
-    beforeChange: [addSite],
+    afterChange: [publish],
+    beforeChange: [addSite, completeReview],
+  },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 100,
+      },
+    },
+    maxPerDoc: 50,
   },
 }
