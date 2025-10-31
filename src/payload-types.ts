@@ -78,10 +78,12 @@ export interface Config {
     media: Media;
     categories: Category;
     sites: Site;
+    'page-menus': PageMenu;
     'menu-site-collection': MenuSiteCollection;
     'site-config-site-collection': SiteConfigSiteCollection;
     'home-page-site-collection': HomePageSiteCollection;
     'pre-footer-site-collection': PreFooterSiteCollection;
+    'side-navigation-site-collection': SideNavigationSiteCollection;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -108,10 +110,12 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
+    'page-menus': PageMenusSelect<false> | PageMenusSelect<true>;
     'menu-site-collection': MenuSiteCollectionSelect<false> | MenuSiteCollectionSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
     'home-page-site-collection': HomePageSiteCollectionSelect<false> | HomePageSiteCollectionSelect<true>;
     'pre-footer-site-collection': PreFooterSiteCollectionSelect<false> | PreFooterSiteCollectionSelect<true>;
+    'side-navigation-site-collection': SideNavigationSiteCollectionSelect<false> | SideNavigationSiteCollectionSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -129,12 +133,14 @@ export interface Config {
     menu: Menu;
     'home-page': HomePage;
     'pre-footer': PreFooter;
+    'side-navigation': SideNavigation;
   };
   globalsSelect: {
     'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
     menu: MenuSelect<false> | MenuSelect<true>;
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
     'pre-footer': PreFooterSelect<false> | PreFooterSelect<true>;
+    'side-navigation': SideNavigationSelect<false> | SideNavigationSelect<true>;
   };
   locale: null;
   user: User & {
@@ -569,8 +575,102 @@ export interface Page {
     [k: string]: unknown;
   } | null;
   site: number | Site;
+  /**
+   * Select a page menu to display in the sidebar for this page
+   */
+  sideNavigation?: (number | null) | PageMenu;
   reviewReady?: boolean | null;
   publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Create and manage multiple page menus for different page sections.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-menus".
+ */
+export interface PageMenu {
+  id: number;
+  /**
+   * Internal name for this page menu (e.g., "About Us Menu")
+   */
+  name: string;
+  /**
+   * The title that appears above the page menu
+   */
+  title?: string | null;
+  /**
+   * Turn this page menu on/off
+   */
+  enabled?: boolean | null;
+  /**
+   * Add and organize menu items for this page menu
+   */
+  items?:
+    | (
+        | {
+            label: string;
+            page: number | Page;
+            /**
+             * Lower numbers appear first
+             */
+            order?: number | null;
+            /**
+             * Add sub-navigation items
+             */
+            subitems?:
+              | (
+                  | {
+                      label: string;
+                      page: number | Page;
+                      order?: number | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'pageLink';
+                    }
+                  | {
+                      label: string;
+                      url: string;
+                      order?: number | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'externalLink';
+                    }
+                )[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageLink';
+          }
+        | {
+            label: string;
+            url: string;
+            /**
+             * Lower numbers appear first
+             */
+            order?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+        | {
+            label: string;
+            page: 'posts' | 'events' | 'news' | 'reports' | 'resources' | 'leadership';
+            /**
+             * Lower numbers appear first
+             */
+            order?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionLink';
+          }
+      )[]
+    | null;
+  reviewReady?: boolean | null;
+  publishedAt?: string | null;
+  site: number | Site;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -979,6 +1079,124 @@ export interface PreFooterSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Configure sidebar navigation for single pages.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "side-navigation-site-collection".
+ */
+export interface SideNavigationSiteCollection {
+  id: number;
+  /**
+   * Turn side navigation on/off for single pages
+   */
+  enabled?: boolean | null;
+  /**
+   * The title that appears above the side navigation
+   */
+  title?: string | null;
+  /**
+   * Add and organize navigation items for the side navigation
+   */
+  items?:
+    | (
+        | {
+            page: number | Page;
+            label: string;
+            /**
+             * Lower numbers appear first (optional)
+             */
+            order?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageLink';
+          }
+        | {
+            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+            label: string;
+            /**
+             * Lower numbers appear first (optional)
+             */
+            order?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionLink';
+          }
+        | {
+            /**
+             * Full URL including https://
+             */
+            url: string;
+            label: string;
+            /**
+             * Lower numbers appear first (optional)
+             */
+            order?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+        | {
+            label: string;
+            /**
+             * Lower numbers appear first (optional)
+             */
+            order?: number | null;
+            subitems?:
+              | (
+                  | {
+                      page: number | Page;
+                      label: string;
+                      /**
+                       * Lower numbers appear first (optional)
+                       */
+                      order?: number | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'pageLink';
+                    }
+                  | {
+                      page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+                      label: string;
+                      /**
+                       * Lower numbers appear first (optional)
+                       */
+                      order?: number | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'collectionLink';
+                    }
+                  | {
+                      /**
+                       * Full URL including https://
+                       */
+                      url: string;
+                      label: string;
+                      /**
+                       * Lower numbers appear first (optional)
+                       */
+                      order?: number | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'externalLink';
+                    }
+                )[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'dropdown';
+          }
+      )[]
+    | null;
+  /**
+   * If no navigation items are configured, automatically show all pages in alphabetical order
+   */
+  fallbackToAllPages?: boolean | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
@@ -1272,6 +1490,10 @@ export interface PayloadLockedDocument {
         value: number | Site;
       } | null)
     | ({
+        relationTo: 'page-menus';
+        value: number | PageMenu;
+      } | null)
+    | ({
         relationTo: 'menu-site-collection';
         value: number | MenuSiteCollection;
       } | null)
@@ -1286,6 +1508,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pre-footer-site-collection';
         value: number | PreFooterSiteCollection;
+      } | null)
+    | ({
+        relationTo: 'side-navigation-site-collection';
+        value: number | SideNavigationSiteCollection;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1510,6 +1736,7 @@ export interface PagesSelect<T extends boolean = true> {
   image?: T;
   content?: T;
   site?: T;
+  sideNavigation?: T;
   reviewReady?: T;
   publishedAt?: T;
   updatedAt?: T;
@@ -1587,6 +1814,74 @@ export interface SitesSelect<T extends boolean = true> {
   users?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-menus_select".
+ */
+export interface PageMenusSelect<T extends boolean = true> {
+  name?: T;
+  title?: T;
+  enabled?: T;
+  items?:
+    | T
+    | {
+        pageLink?:
+          | T
+          | {
+              label?: T;
+              page?: T;
+              order?: T;
+              subitems?:
+                | T
+                | {
+                    pageLink?:
+                      | T
+                      | {
+                          label?: T;
+                          page?: T;
+                          order?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    externalLink?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          order?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              order?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionLink?:
+          | T
+          | {
+              label?: T;
+              page?: T;
+              order?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  reviewReady?: T;
+  publishedAt?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1835,6 +2130,89 @@ export interface PreFooterSiteCollectionSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "side-navigation-site-collection_select".
+ */
+export interface SideNavigationSiteCollectionSelect<T extends boolean = true> {
+  enabled?: T;
+  title?: T;
+  items?:
+    | T
+    | {
+        pageLink?:
+          | T
+          | {
+              page?: T;
+              label?: T;
+              order?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionLink?:
+          | T
+          | {
+              page?: T;
+              label?: T;
+              order?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              url?: T;
+              label?: T;
+              order?: T;
+              id?: T;
+              blockName?: T;
+            };
+        dropdown?:
+          | T
+          | {
+              label?: T;
+              order?: T;
+              subitems?:
+                | T
+                | {
+                    pageLink?:
+                      | T
+                      | {
+                          page?: T;
+                          label?: T;
+                          order?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    collectionLink?:
+                      | T
+                      | {
+                          page?: T;
+                          label?: T;
+                          order?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    externalLink?:
+                      | T
+                      | {
+                          url?: T;
+                          label?: T;
+                          order?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  fallbackToAllPages?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2453,6 +2831,123 @@ export interface PreFooter {
   createdAt?: string | null;
 }
 /**
+ * Configure sidebar navigation for single pages.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "side-navigation".
+ */
+export interface SideNavigation {
+  id: number;
+  /**
+   * Turn side navigation on/off for single pages
+   */
+  enabled?: boolean | null;
+  /**
+   * The title that appears above the side navigation
+   */
+  title?: string | null;
+  /**
+   * Add and organize navigation items for the side navigation
+   */
+  items?:
+    | (
+        | {
+            page: number | Page;
+            label: string;
+            /**
+             * Lower numbers appear first (optional)
+             */
+            order?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageLink';
+          }
+        | {
+            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+            label: string;
+            /**
+             * Lower numbers appear first (optional)
+             */
+            order?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionLink';
+          }
+        | {
+            /**
+             * Full URL including https://
+             */
+            url: string;
+            label: string;
+            /**
+             * Lower numbers appear first (optional)
+             */
+            order?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+        | {
+            label: string;
+            /**
+             * Lower numbers appear first (optional)
+             */
+            order?: number | null;
+            subitems?:
+              | (
+                  | {
+                      page: number | Page;
+                      label: string;
+                      /**
+                       * Lower numbers appear first (optional)
+                       */
+                      order?: number | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'pageLink';
+                    }
+                  | {
+                      page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+                      label: string;
+                      /**
+                       * Lower numbers appear first (optional)
+                       */
+                      order?: number | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'collectionLink';
+                    }
+                  | {
+                      /**
+                       * Full URL including https://
+                       */
+                      url: string;
+                      label: string;
+                      /**
+                       * Lower numbers appear first (optional)
+                       */
+                      order?: number | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'externalLink';
+                    }
+                )[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'dropdown';
+          }
+      )[]
+    | null;
+  /**
+   * If no navigation items are configured, automatically show all pages in alphabetical order
+   */
+  fallbackToAllPages?: boolean | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config_select".
  */
@@ -2699,6 +3194,89 @@ export interface PreFooterSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "side-navigation_select".
+ */
+export interface SideNavigationSelect<T extends boolean = true> {
+  enabled?: T;
+  title?: T;
+  items?:
+    | T
+    | {
+        pageLink?:
+          | T
+          | {
+              page?: T;
+              label?: T;
+              order?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionLink?:
+          | T
+          | {
+              page?: T;
+              label?: T;
+              order?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              url?: T;
+              label?: T;
+              order?: T;
+              id?: T;
+              blockName?: T;
+            };
+        dropdown?:
+          | T
+          | {
+              label?: T;
+              order?: T;
+              subitems?:
+                | T
+                | {
+                    pageLink?:
+                      | T
+                      | {
+                          page?: T;
+                          label?: T;
+                          order?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    collectionLink?:
+                      | T
+                      | {
+                          page?: T;
+                          label?: T;
+                          order?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    externalLink?:
+                      | T
+                      | {
+                          url?: T;
+                          label?: T;
+                          order?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  fallbackToAllPages?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;

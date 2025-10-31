@@ -128,6 +128,21 @@ export const test = vitest.extend<LocalTestContext>({
     )
     await use(news)
   },
+  pageMenus: async ({ payload, tid, sites }, use) => {
+    const pageMenus = await Promise.all(
+      sites.map(async (site) => {
+        return create(payload, tid, {
+          collection: 'page-menus',
+          data: {
+            title: `${site.name} Title`,
+            name: `${site.name} Name`,
+            site,
+          },
+        })
+      }),
+    )
+    await use(pageMenus)
+  },
   reports: async ({ payload, tid, sites }, use) => {
     const reports = await Promise.all(
       sites.map(async (site) => {

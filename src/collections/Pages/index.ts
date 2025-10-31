@@ -54,6 +54,16 @@ export const Pages: CollectionConfig<'pages'> = {
     },
     siteField,
     {
+      name: 'sideNavigation',
+      type: 'relationship',
+      relationTo: 'page-menus',
+      label: 'Page Menu',
+      admin: {
+        description: 'Select a page menu to display in the sidebar for this page',
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'reviewReady',
       label: 'Ready for Review',
       type: 'checkbox',
