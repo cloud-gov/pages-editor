@@ -18,7 +18,7 @@ import { Resources } from './collections/Resources'
 import { Pages } from './collections/Pages'
 import { Policies } from './collections/Policies'
 import { Sites } from './collections/Sites'
-import { SideNavigations } from './collections/SideNavigations'
+import { PageMenus } from './collections/PageMenus'
 import { Menu as MenuConfig } from './globals/Menu'
 import { PreFooter as PreFooterConfig } from './globals/PreFooter'
 import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
@@ -150,7 +150,7 @@ const config = {
     Users,
     // Site Configuration group
     Sites,
-    SideNavigations,
+    PageMenus,
     MenuCollection,
     SiteConfigCollection,
     HomePageCollection,

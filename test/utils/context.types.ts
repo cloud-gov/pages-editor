@@ -10,6 +10,7 @@ import {
   Media,
   News,
   Page,
+  PageMenu,
   Policy,
 } from '@/payload-types'
 import { BasePayload } from 'payload'
@@ -30,6 +31,7 @@ export interface LocalTestContext {
   reports: Report[]
   resources: Resource[]
   pages: Page[]
+  pageMenus: PageMenu[]
   policies: Policy[]
   sites: Site[]
   users: User[]
