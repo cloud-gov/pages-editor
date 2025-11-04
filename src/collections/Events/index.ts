@@ -169,6 +169,16 @@ export const Events: CollectionConfig<'events'> = {
       type: 'checkbox',
       defaultValue: false,
     },
+    {
+      name: 'showInPageNav',
+      label: 'Show In-Page Navigation',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Display the in-page navigation sidebar on this event',
+      },
+    },
   ],
   hooks: {
     afterChange: [publish],

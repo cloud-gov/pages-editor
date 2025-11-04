@@ -212,6 +212,10 @@ export interface Post {
       }[]
     | null;
   publishedAt?: string | null;
+  /**
+   * Display the in-page navigation sidebar on this post
+   */
+  showInPageNav?: boolean | null;
   slug?: string | null;
   slugLock?: boolean | null;
   'Example Custom Field'?: ('radio' | 'television' | 'podcast' | 'video') | null;
@@ -368,6 +372,10 @@ export interface Event {
   format: 'inperson' | 'virtual';
   eventType: 'onetime' | 'series';
   reviewReady?: boolean | null;
+  /**
+   * Display the in-page navigation sidebar on this event
+   */
+  showInPageNav?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -406,10 +414,14 @@ export interface News {
     [k: string]: unknown;
   } | null;
   site: number | Site;
-  reviewReady?: boolean | null;
-  publishedAt?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
+  reviewReady?: boolean | null;
+  publishedAt?: string | null;
+  /**
+   * Display the in-page navigation sidebar on this news item
+   */
+  showInPageNav?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -453,6 +465,10 @@ export interface Report {
   } | null;
   reviewReady?: boolean | null;
   publishedAt?: string | null;
+  /**
+   * Display the in-page navigation sidebar on this report
+   */
+  showInPageNav?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -496,6 +512,10 @@ export interface Resource {
   } | null;
   reviewReady?: boolean | null;
   publishedAt?: string | null;
+  /**
+   * Display the in-page navigation sidebar on this resource
+   */
+  showInPageNav?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1595,6 +1615,7 @@ export interface PostsSelect<T extends boolean = true> {
         name?: T;
       };
   publishedAt?: T;
+  showInPageNav?: T;
   slug?: T;
   slugLock?: T;
   'Example Custom Field'?: T;
@@ -1632,6 +1653,7 @@ export interface EventsSelect<T extends boolean = true> {
   format?: T;
   eventType?: T;
   reviewReady?: T;
+  showInPageNav?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1647,10 +1669,11 @@ export interface NewsSelect<T extends boolean = true> {
   categories?: T;
   content?: T;
   site?: T;
-  reviewReady?: T;
-  publishedAt?: T;
   slug?: T;
   slugLock?: T;
+  reviewReady?: T;
+  publishedAt?: T;
+  showInPageNav?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1677,6 +1700,7 @@ export interface ReportsSelect<T extends boolean = true> {
   content?: T;
   reviewReady?: T;
   publishedAt?: T;
+  showInPageNav?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1703,6 +1727,7 @@ export interface ResourcesSelect<T extends boolean = true> {
   content?: T;
   reviewReady?: T;
   publishedAt?: T;
+  showInPageNav?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

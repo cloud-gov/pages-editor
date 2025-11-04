@@ -47,6 +47,29 @@ describe('News access',  () => {
 
         })
 
+        test('update showInPageNav field', async ({ tid, testUser, news }) => {
+            const newsItem = news[0]
+            const updatedNews = await update(payload, tid, {
+                collection: 'news',
+                id: newsItem.id,
+                data: {
+                    showInPageNav: false,
+                } as any
+            }, testUser)
+
+            expect((updatedNews as any).showInPageNav).toBe(false)
+
+            const updatedNews2 = await update(payload, tid, {
+                collection: 'news',
+                id: newsItem.id,
+                data: {
+                    showInPageNav: true,
+                } as any
+            }, testUser)
+
+            expect((updatedNews2 as any).showInPageNav).toBe(true)
+        })
+
         test('delete any News', async ({ tid, testUser, news }) => {
             await Promise.all(news.map(async news => {
                 return del(payload, tid, {
@@ -144,6 +167,22 @@ describe('News access',  () => {
             newNews.forEach(news => {
                 expect(news.title).toContain('Edited')
             })
+        })
+
+        test('update showInPageNav field on their News', async ({ tid, testUser, news }) => {
+            const siteId = testUser.selectedSiteId
+            const theirNews = news.filter(news => siteIdHelper(news.site) === siteId)
+            const newsItem = theirNews[0]
+
+            const updatedNews = await update(payload, tid, {
+                collection: 'news',
+                id: newsItem.id,
+                data: {
+                    showInPageNav: false,
+                } as any
+            }, testUser)
+
+            expect((updatedNews as any).showInPageNav).toBe(false)
         })
 
         test('not update not-their News', async ({ tid, testUser, news }) => {

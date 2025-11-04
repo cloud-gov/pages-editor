@@ -47,6 +47,29 @@ describe('Posts access',  () => {
 
         })
 
+        test('update showInPageNav field', async ({ tid, testUser, posts }) => {
+            const post = posts[0]
+            const updatedPost = await update(payload, tid, {
+                collection: 'posts',
+                id: post.id,
+                data: {
+                    showInPageNav: false,
+                } as any
+            }, testUser)
+
+            expect((updatedPost as any).showInPageNav).toBe(false)
+
+            const updatedPost2 = await update(payload, tid, {
+                collection: 'posts',
+                id: post.id,
+                data: {
+                    showInPageNav: true,
+                } as any
+            }, testUser)
+
+            expect((updatedPost2 as any).showInPageNav).toBe(true)
+        })
+
         test('delete any Post', async ({ tid, testUser, posts }) => {
             await Promise.all(posts.map(async post => {
                 return del(payload, tid, {
@@ -144,6 +167,22 @@ describe('Posts access',  () => {
             newPosts.forEach(post => {
                 expect(post.title).toContain('Edited')
             })
+        })
+
+        test('update showInPageNav field on their Posts', async ({ tid, testUser, posts }) => {
+            const siteId = testUser.selectedSiteId
+            const theirPosts = posts.filter(post => siteIdHelper(post.site) === siteId)
+            const post = theirPosts[0]
+
+            const updatedPost = await update(payload, tid, {
+                collection: 'posts',
+                id: post.id,
+                data: {
+                    showInPageNav: false,
+                } as any
+            }, testUser)
+
+            expect((updatedPost as any).showInPageNav).toBe(false)
         })
 
         test('not update not-their Posts', async ({ tid, testUser, posts }) => {

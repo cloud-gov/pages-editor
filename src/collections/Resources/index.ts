@@ -116,6 +116,16 @@ export const Resources: CollectionConfig = {
         ],
       },
     },
+    {
+      name: 'showInPageNav',
+      label: 'Show In-Page Navigation',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Display the in-page navigation sidebar on this resource',
+      },
+    },
   ],
   hooks: {
     afterChange: [publish],

@@ -12,4 +12,4 @@ source <(cat .env | \sed -e "s/'/'\\\''/g" -e "s/=\(.*\)/='\1'/g")
 set +o allexport
 export DATABASE_URI="$(echo "$VCAP_SERVICES" | jq --raw-output --arg service_name "pages-editor-$APP_ENV-rds" ".[][] | select(.name == \$service_name) | .credentials.uri")"
 yes \r | PGSSLMODE='no-verify' npm run payload migrate:create check
-! find src/migrations -type f -name "*check.ts" -print0 | grep check
+! find src/migrations -type f -name "*check.ts" -print0 | grep -I check

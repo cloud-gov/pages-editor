@@ -51,6 +51,7 @@ export const News: CollectionConfig<'news'> = {
       editor,
     },
     siteField,
+    ...slugField(),
     {
       name: 'reviewReady',
       label: 'Ready for Review',
@@ -77,7 +78,16 @@ export const News: CollectionConfig<'news'> = {
         ],
       },
     },
-    ...slugField(),
+    {
+      name: 'showInPageNav',
+      label: 'Show In-Page Navigation',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Display the in-page navigation sidebar on this news item',
+      },
+    },
   ],
   hooks: {
     afterChange: [publish],
