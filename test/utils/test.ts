@@ -2,6 +2,9 @@ import { test as vitest } from 'vitest'
 import { v4 as uuid } from 'uuid'
 import type { LocalTestContext } from './context.types'
 import { create, find } from './localHelpers'
+import type { CollectionSlug } from 'payload'
+
+const alertCollectionName: CollectionSlug = 'alerts' as CollectionSlug;
 
 export const test = vitest.extend<LocalTestContext>({
   tid: async ({ payload }, use) => {
@@ -239,6 +242,51 @@ export const test = vitest.extend<LocalTestContext>({
       },
     })
     await use(defaultUser)
+  },
+  alerts: async ({ payload, tid, sites }, use) => {
+    const alerts = await Promise.all(
+      sites.map(async (site) => {
+        return create(payload, tid, {
+          collection: alertCollectionName,
+          data: {
+            title: `${site.name} Alert Title`,
+            site,
+            content: {
+              "root": {
+                "type": "root",
+                "format": "",
+                "indent": 0,
+                "version": 1,
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "format": "",
+                    "indent": 0,
+                    "version": 1,
+                    "children": [
+                      {
+                        "mode": "normal",
+                        "text": "Alert Text",
+                        "type": "text",
+                        "style": "",
+                        "detail": 0,
+                        "format": 0,
+                        "version": 1
+                      }
+                    ],
+                    "direction": "ltr",
+                    "textStyle": "",
+                    "textFormat": 0
+                  }
+                ],
+                "direction": "ltr"
+              }
+            },
+          },
+        })
+      }),
+    )
+    await use(alerts)
   },
   payload: global.payload,
 })

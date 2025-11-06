@@ -31,6 +31,7 @@ import { getServerSideURL } from './utilities/getURL'
 import { createSiteGlobal } from './utilities/siteGlobal'
 import { afterSchemaInit } from './utilities/cascade'
 import { migrations } from './migrations'
+import { Alerts } from './collections/Alerts'
 
 // Any site global fields must use the `createSiteGlobal` function
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
@@ -134,6 +135,7 @@ const config = {
   }),
   collections: [
     // Collections group
+    Alerts,
     Posts,
     Events,
     News,

@@ -67,6 +67,7 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    alerts: Alert;
     posts: Post;
     events: Event;
     news: News;
@@ -99,6 +100,7 @@ export interface Config {
     };
   };
   collectionsSelect: {
+    alerts: AlertsSelect<false> | AlertsSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     news: NewsSelect<false> | NewsSelect<true>;
@@ -168,6 +170,84 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * Site wide alerts to display informational banners regarding a deadline, outage, new release, etc.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "alerts".
+ */
+export interface Alert {
+  id: number;
+  title: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  type: 'info' | 'warning' | 'success' | 'error' | 'emergency';
+  isActive: boolean;
+  publishDate?: string | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Multi-site management
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sites".
+ */
+export interface Site {
+  id: number;
+  name: string;
+  slug?: string | null;
+  initialManagerEmail: string;
+  pagesOrg?: string | null;
+  pagesSiteId?: number | null;
+  orgId?: number | null;
+  bucket?: string | null;
+  users?: {
+    docs?: (number | User)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage who can access and edit the site, including roles and permissions.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  email: string;
+  sub: string;
+  sites: {
+    site: number | Site;
+    role: 'manager' | 'user' | 'bot';
+    id?: string | null;
+  }[];
+  isAdmin?: boolean | null;
+  selectedSiteId: number;
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
 }
 /**
  * Articles, updates, or blog content used to share ideas, news, or stories.
@@ -245,52 +325,6 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-}
-/**
- * Multi-site management
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "sites".
- */
-export interface Site {
-  id: number;
-  name: string;
-  slug?: string | null;
-  initialManagerEmail: string;
-  pagesOrg?: string | null;
-  pagesSiteId?: number | null;
-  orgId?: number | null;
-  bucket?: string | null;
-  users?: {
-    docs?: (number | User)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Manage who can access and edit the site, including roles and permissions.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: number;
-  email: string;
-  sub: string;
-  sites: {
-    site: number | Site;
-    role: 'manager' | 'user' | 'bot';
-    id?: string | null;
-  }[];
-  isAdmin?: boolean | null;
-  selectedSiteId: number;
-  updatedAt: string;
-  createdAt: string;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
 }
 /**
  * Tags or groupings used to organize and filter content across the site.
@@ -1466,6 +1500,10 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
+        relationTo: 'alerts';
+        value: number | Alert;
+      } | null)
+    | ({
         relationTo: 'posts';
         value: number | Post;
       } | null)
@@ -1594,6 +1632,21 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "alerts_select".
+ */
+export interface AlertsSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  type?: T;
+  isActive?: T;
+  publishDate?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
