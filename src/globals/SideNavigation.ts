@@ -13,6 +13,12 @@ export const SideNavigation: GlobalConfig = {
   admin: {
     group: 'Site Configuration',
     description: 'Configure sidebar navigation for single pages.',
+    components: {
+      // Replace the default PublishButton with custom user-aware publish button
+      elements: {
+        PublishButton: '@/components/CustomPublishButton',
+      },
+    },
   },
   fields: [
     {
@@ -290,6 +296,12 @@ export const SideNavigation: GlobalConfig = {
       admin: {
         description: 'If no navigation items are configured, automatically show all pages in alphabetical order',
       },
+    },
+    {
+      name: 'reviewReady',
+      label: 'Ready for Review',
+      type: 'checkbox',
+      defaultValue: false,
     },
   ],
 }

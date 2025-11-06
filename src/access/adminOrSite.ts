@@ -110,7 +110,14 @@ export function getAdminOrSiteUserGlobals(
 
     if (!(matchedSite && requiredRole.includes(matchedSite.role))) return false
 
-    if (isUpdate && data && data._status === 'published' && matchedSite.role !== 'manager')
+    const isPublished = data?._status === 'published'
+    const isNewItem = !data?.id
+
+    if (isNewItem) return true
+
+    if (!isPublished) return true
+
+    if (data && data._status === 'published' && matchedSite.role !== 'manager')
       return false
 
     return true

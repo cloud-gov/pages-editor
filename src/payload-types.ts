@@ -813,6 +813,7 @@ export interface MenuSiteCollection {
           }
       )[]
     | null;
+  reviewReady?: boolean | null;
   site: number | Site;
   updatedAt: string;
   createdAt: string;
@@ -950,6 +951,7 @@ export interface SiteConfigSiteCollection {
   searchAffiliate?: string | null;
   dapAgencyCode?: string | null;
   dapSubAgencyCode?: string | null;
+  reviewReady?: boolean | null;
   site: number | Site;
   updatedAt: string;
   createdAt: string;
@@ -1021,6 +1023,7 @@ export interface HomePageSiteCollection {
           }
       )[]
     | null;
+  reviewReady?: boolean | null;
   site: number | Site;
   updatedAt: string;
   createdAt: string;
@@ -1129,6 +1132,7 @@ export interface PreFooterSiteCollection {
         id?: string | null;
       }[]
     | null;
+  reviewReady?: boolean | null;
   site: number | Site;
   updatedAt: string;
   createdAt: string;
@@ -1247,6 +1251,7 @@ export interface SideNavigationSiteCollection {
    * If no navigation items are configured, automatically show all pages in alphabetical order
    */
   fallbackToAllPages?: boolean | null;
+  reviewReady?: boolean | null;
   site: number | Site;
   updatedAt: string;
   createdAt: string;
@@ -2017,6 +2022,7 @@ export interface MenuSiteCollectionSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  reviewReady?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2038,6 +2044,7 @@ export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
   searchAffiliate?: T;
   dapAgencyCode?: T;
   dapSubAgencyCode?: T;
+  reviewReady?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2099,6 +2106,7 @@ export interface HomePageSiteCollectionSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  reviewReady?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2212,6 +2220,7 @@ export interface PreFooterSiteCollectionSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
+  reviewReady?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2295,6 +2304,7 @@ export interface SideNavigationSiteCollectionSelect<T extends boolean = true> {
             };
       };
   fallbackToAllPages?: T;
+  reviewReady?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2677,6 +2687,7 @@ export interface SiteConfig {
   searchAffiliate?: string | null;
   dapAgencyCode?: string | null;
   dapSubAgencyCode?: string | null;
+  reviewReady?: boolean | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -2731,6 +2742,7 @@ export interface Menu {
           }
       )[]
     | null;
+  reviewReady?: boolean | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -2801,6 +2813,7 @@ export interface HomePage {
           }
       )[]
     | null;
+  reviewReady?: boolean | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -2908,6 +2921,7 @@ export interface PreFooter {
         id?: string | null;
       }[]
     | null;
+  reviewReady?: boolean | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -3025,6 +3039,7 @@ export interface SideNavigation {
    * If no navigation items are configured, automatically show all pages in alphabetical order
    */
   fallbackToAllPages?: boolean | null;
+  reviewReady?: boolean | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -3045,6 +3060,7 @@ export interface SiteConfigSelect<T extends boolean = true> {
   searchAffiliate?: T;
   dapAgencyCode?: T;
   dapSubAgencyCode?: T;
+  reviewReady?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -3102,6 +3118,7 @@ export interface MenuSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  reviewReady?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -3163,6 +3180,7 @@ export interface HomePageSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  reviewReady?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -3276,6 +3294,7 @@ export interface PreFooterSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
+  reviewReady?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -3359,6 +3378,7 @@ export interface SideNavigationSelect<T extends boolean = true> {
             };
       };
   fallbackToAllPages?: T;
+  reviewReady?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;

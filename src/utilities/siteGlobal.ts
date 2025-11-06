@@ -2,6 +2,7 @@ import type { GlobalConfig, CollectionConfig, Config, CollectionSlug } from 'pay
 import { adminField } from '@/access/admin'
 import { SiteConfig } from '@/payload-types'
 import { publish } from '@/hooks/publish'
+import { completeReview } from '@/hooks/completeReview'
 
 export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, CollectionConfig] => {
   const fields = config.fields
@@ -22,6 +23,7 @@ export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, Collectio
       beforeChange: [
         async ({ req, data }) => {
           const siteId = req?.user?.selectedSiteId
+          if (!siteId || isNaN(Number(siteId))) return data;
 
           const existing = (
             await req.payload.find({
@@ -104,6 +106,7 @@ export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, Collectio
     // hooks should be passed to the global, not the collection, since the global is the main interface.
     hooks: {
       afterChange: [publish],
+      beforeChange: [completeReview],
     },
     // custom site field is passed here to manage ownership of collections.
     fields: [
