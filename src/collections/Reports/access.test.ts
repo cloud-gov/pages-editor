@@ -64,6 +64,39 @@ describe('Reports access', () => {
       })
     })
 
+    test('update showInPageNav field', async ({ tid, testUser, reports }) => {
+      const report = reports[0]
+      const updatedReport = await update(
+        payload,
+        tid,
+        {
+          collection: 'reports',
+          id: report.id,
+          data: {
+            showInPageNav: false,
+          } as any,
+        },
+        testUser,
+      )
+
+      expect((updatedReport as any).showInPageNav).toBe(false)
+
+      const updatedReport2 = await update(
+        payload,
+        tid,
+        {
+          collection: 'reports',
+          id: report.id,
+          data: {
+            showInPageNav: true,
+          } as any,
+        },
+        testUser,
+      )
+
+      expect((updatedReport2 as any).showInPageNav).toBe(true)
+    })
+
     test('delete any Reports', async ({ tid, testUser, reports }) => {
       await Promise.all(
         reports.map(async (report) => {
@@ -201,6 +234,27 @@ describe('Reports access', () => {
       newReports.forEach((report) => {
         expect(report.title).toContain('Edited')
       })
+    })
+
+    test('update showInPageNav field on their Reports', async ({ tid, testUser, reports }) => {
+      const siteId = testUser.selectedSiteId
+      const theirReports = reports.filter((report) => siteIdHelper(report.site) === siteId)
+      const report = theirReports[0]
+
+      const updatedReport = await update(
+        payload,
+        tid,
+        {
+          collection: 'reports',
+          id: report.id,
+          data: {
+            showInPageNav: false,
+          } as any,
+        },
+        testUser,
+      )
+
+      expect((updatedReport as any).showInPageNav).toBe(false)
     })
 
     test('not update not-their Reports', async ({ tid, testUser, reports }) => {

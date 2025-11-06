@@ -115,6 +115,16 @@ export const Posts: CollectionConfig<'posts'> = {
         ],
       },
     },
+    {
+      name: 'showInPageNav',
+      label: 'Show In-Page Navigation',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Display the in-page navigation sidebar on this post',
+      },
+    },
     ...slugField(),
     ...customFields,
   ],

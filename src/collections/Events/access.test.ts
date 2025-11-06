@@ -82,6 +82,39 @@ describe('Events access', () => {
       })
     })
 
+    test('update showInPageNav field', async ({ tid, testUser, events }) => {
+      const event = events[0]
+      const updatedEvent = await update(
+        payload,
+        tid,
+        {
+          collection: 'events',
+          id: event.id,
+          data: {
+            showInPageNav: false,
+          } as any,
+        },
+        testUser,
+      )
+
+      expect((updatedEvent as any).showInPageNav).toBe(false)
+
+      const updatedEvent2 = await update(
+        payload,
+        tid,
+        {
+          collection: 'events',
+          id: event.id,
+          data: {
+            showInPageNav: true,
+          } as any,
+        },
+        testUser,
+      )
+
+      expect((updatedEvent2 as any).showInPageNav).toBe(true)
+    })
+
     test('delete any Event', async ({ tid, testUser, events }) => {
       await Promise.all(
         events.map(async (event) => {
@@ -221,6 +254,27 @@ describe('Events access', () => {
       newEvents.forEach((event) => {
         expect(event.title).toContain('Edited')
       })
+    })
+
+    test('update showInPageNav field on their Events', async ({ tid, testUser, events }) => {
+      const siteId = testUser.selectedSiteId
+      const theirEvents = events.filter((event) => siteIdHelper(event.site) === siteId)
+      const event = theirEvents[0]
+
+      const updatedEvent = await update(
+        payload,
+        tid,
+        {
+          collection: 'events',
+          id: event.id,
+          data: {
+            showInPageNav: false,
+          } as any,
+        },
+        testUser,
+      )
+
+      expect((updatedEvent as any).showInPageNav).toBe(false)
     })
 
     test('not update not-their Events', async ({ tid, testUser, events }) => {

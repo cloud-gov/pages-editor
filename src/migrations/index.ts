@@ -31,6 +31,7 @@ import * as migration_20251021_194515_add_dap_agency_code_config from './2025102
 import * as migration_20251022_183554_add_prefooter_site_global from './20251022_183554_add_prefooter_site_global';
 import * as migration_20251022_203703_add_site_slug from './20251022_203703_add_site_slug';
 import * as migration_20251031_034159_add_side_navigation_and_page_menus from './20251031_034159_add_side_navigation_and_page_menus';
+import * as migration_20251106_155545_in_page_nav from './20251106_155545_in_page_nav';
 
 export const migrations = [
   {
@@ -196,6 +197,11 @@ export const migrations = [
   {
     up: migration_20251031_034159_add_side_navigation_and_page_menus.up,
     down: migration_20251031_034159_add_side_navigation_and_page_menus.down,
-    name: '20251031_034159_add_side_navigation_and_page_menus'
+    name: '20251031_034159_add_side_navigation_and_page_menus',
+  },
+  {
+    up: migration_20251106_155545_in_page_nav.up,
+    down: migration_20251106_155545_in_page_nav.down,
+    name: '20251106_155545_in_page_nav'
   },
 ];
