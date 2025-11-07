@@ -21,6 +21,8 @@
     "test": "NODE_ENV=test vitest",
     "test:ci": "NODE_ENV=test vitest --run",
     "seed": "yes | payload migrate:fresh && payload run scripts/seed.ts",
+    "export:globals": "payload run scripts/export-home-page.ts",
+    "dc:export:globals": "docker compose run --rm app npm run export:globals",
     "dc:app:build": "docker compose run --rm app npm run build",
     "dc:gantry": "git clone https://github.com/cloud-gov/pages-site-gantry.git && cp ./docker/Dockerfile-pages-site-gantry pages-site-gantry/Dockerfile",
     "dc:build": "docker compose build --build-arg BUILD_ENV=$(grep BUILD_ENV .env | cut -d '=' -f2)",
