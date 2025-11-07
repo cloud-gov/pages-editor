@@ -12,6 +12,7 @@ import {
   Page,
   PageMenu,
   Policy,
+  Alert,
 } from '@/payload-types'
 import { BasePayload } from 'payload'
 import type { Role } from '@/access/adminOrSite'
@@ -35,5 +36,6 @@ export interface LocalTestContext {
   policies: Policy[]
   sites: Site[]
   users: User[]
+  alerts: Alert[]
   payload: BasePayload
 }
