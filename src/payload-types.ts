@@ -196,6 +196,8 @@ export interface Alert {
     [k: string]: unknown;
   };
   type: 'info' | 'warning' | 'success' | 'error' | 'emergency';
+  slim: boolean;
+  icon: boolean;
   isActive: boolean;
   publishDate?: string | null;
   site: number | Site;
@@ -1641,6 +1643,8 @@ export interface AlertsSelect<T extends boolean = true> {
   title?: T;
   content?: T;
   type?: T;
+  slim?: T;
+  icon?: T;
   isActive?: T;
   publishDate?: T;
   site?: T;
