@@ -33,6 +33,7 @@ import * as migration_20251022_203703_add_site_slug from './20251022_203703_add_
 import * as migration_20251031_034159_add_side_navigation_and_page_menus from './20251031_034159_add_side_navigation_and_page_menus';
 import * as migration_20251106_155545_in_page_nav from './20251106_155545_in_page_nav';
 import * as migration_20251106_202836_add_alerts_collection from './20251106_202836_add_alerts_collection';
+import * as migration_20251107_212634_update_alerts_collection from './20251107_212634_update_alerts_collection';
 
 export const migrations = [
   {
@@ -208,6 +209,11 @@ export const migrations = [
   {
     up: migration_20251106_202836_add_alerts_collection.up,
     down: migration_20251106_202836_add_alerts_collection.down,
-    name: '20251106_202836_add_alerts_collection'
+    name: '20251106_202836_add_alerts_collection',
+  },
+  {
+    up: migration_20251107_212634_update_alerts_collection.up,
+    down: migration_20251107_212634_update_alerts_collection.down,
+    name: '20251107_212634_update_alerts_collection'
   },
 ];
