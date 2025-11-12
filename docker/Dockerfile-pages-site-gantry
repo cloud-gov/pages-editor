@@ -1,6 +1,9 @@
 # Use a base Node.js image
 FROM node:22.12.0-bullseye
 
+COPY ./Zscaler_Root_CA.pem /usr/local/share/ca-certificates/zscaler.crt
+RUN update-ca-certificates
+
 WORKDIR /app
 
 RUN wget https://github.com/cloud-gov/pages-site-gantry/archive/refs/heads/main.zip && \

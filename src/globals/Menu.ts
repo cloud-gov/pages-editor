@@ -17,6 +17,12 @@ export const Menu: GlobalConfig = {
     livePreview: {
       url: getGlobalPreviewUrl,
     },
+    components: {
+      // Replace the default PublishButton with custom user-aware publish button
+      elements: {
+        PublishButton: '@/components/CustomPublishButton',
+      },
+    },
   },
   fields: [
     {
@@ -151,6 +157,12 @@ export const Menu: GlobalConfig = {
           ],
         },
       ],
+    },
+    {
+      name: 'reviewReady',
+      label: 'Ready for Review',
+      type: 'checkbox',
+      defaultValue: false,
     },
   ],
 }

@@ -26,7 +26,8 @@ const SiteSelect: React.FC<SiteSelectProps> = ({ sites, selectedSiteId }) => {
         body: JSON.stringify({ value: valueAsNumber })
       })
       setLocalSiteId(valueAsNumber.toString())
-      router.refresh()
+      // refresh the page so that user.selectedSiteId is updated
+      window.location.reload();
     }
   }
 

@@ -17,6 +17,12 @@ export const SiteConfig: GlobalConfig = {
     livePreview: {
       url: getGlobalPreviewUrl,
     },
+    components: {
+      // Replace the default PublishButton with custom user-aware publish button
+      elements: {
+        PublishButton: '@/components/CustomPublishButton',
+      },
+    },
   },
   fields: [
     {
@@ -118,6 +124,12 @@ export const SiteConfig: GlobalConfig = {
       name: 'dapSubAgencyCode',
       label: 'DAP Sub Agency Code',
       type: 'text',
-    }
+    },
+    {
+      name: 'reviewReady',
+      label: 'Ready for Review',
+      type: 'checkbox',
+      defaultValue: false,
+    },
   ],
 }
