@@ -5,9 +5,9 @@ import '@payloadcms/next/css'
 import type { ServerFunctionClient } from 'payload'
 import { handleServerFunctions, RootLayout } from '@payloadcms/next/layouts'
 import React from 'react'
-
 import { importMap } from './admin/importMap.js'
 import './custom.scss'
+import { MainContentWrapper } from '@/components/MainContentWrapper'
 
 type Args = {
   children: React.ReactNode
@@ -23,9 +23,15 @@ const serverFunction: ServerFunctionClient = async function (args) {
 }
 
 const Layout = ({ children }: Args) => (
-  <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
-    {children}
-  </RootLayout>
+  <>
+    <a className="usa-skipnav" href="#main-content">
+      Skip to main content
+    </a>
+    <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
+      <MainContentWrapper />
+      {children}
+    </RootLayout>
+  </>
 )
 
 export default Layout
