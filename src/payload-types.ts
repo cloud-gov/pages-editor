@@ -179,7 +179,7 @@ export interface UserAuthOperations {
  */
 export interface Alert {
   id: number;
-  title: string;
+  title?: string | null;
   content: {
     root: {
       type: string;
@@ -201,6 +201,7 @@ export interface Alert {
   isActive: boolean;
   publishDate?: string | null;
   site: number | Site;
+  reviewReady?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1653,6 +1654,7 @@ export interface AlertsSelect<T extends boolean = true> {
   isActive?: T;
   publishDate?: T;
   site?: T;
+  reviewReady?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

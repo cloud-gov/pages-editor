@@ -5,6 +5,7 @@ import { addSite } from '@/hooks/addSite'
 import { publish } from '@/hooks/publish'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
+import { completeReview } from '@/hooks/completeReview'
 
 const alertsCollectionName: CollectionSlug = 'alerts' as CollectionSlug
 
@@ -40,7 +41,6 @@ export const Alerts: CollectionConfig = {
       name: 'title',
       type: 'text',
       label: 'Title',
-      required: true,
     },
     {
       name: 'content',
@@ -120,10 +120,16 @@ export const Alerts: CollectionConfig = {
       ],
     },
     siteField,
+    {
+      name: 'reviewReady',
+      label: 'Ready for Review',
+      type: 'checkbox',
+      defaultValue: false,
+    },
   ],
   hooks: {
     afterChange: [publish],
-    beforeChange: [addSite],
+    beforeChange: [addSite, completeReview],
   },
   versions: {
     drafts: {
