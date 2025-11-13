@@ -137,8 +137,8 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
             <div className="grid-row grid-gap-2">
               {items.map(item => (
                 <div key={item.slug} className="grid-col-12 tablet:grid-col-6 desktop:grid-col-3">
-                  <div className="usa-card">
-                    <Link href={item.href} className="usa-card__link">
+                  <Link href={item.href} className="usa-card__link">
+                    <div className="usa-card">
                       <div className="usa-card__container">
                         <div className="usa-card__header">
                           <div className="display-flex flex-justify-between flex-align-center">
@@ -150,12 +150,13 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
                         </div>
                         {item.description && (
                           <div className="usa-card__body">
+                            <span className="usa-sr-only">Description: </span>
                             <p>{typeof item.description === 'string' ? item.description : ''}</p>
                           </div>
                         )}
                       </div>
-                    </Link>
                   </div>
+                  </Link>
                 </div>
               ))}
             </div>
