@@ -12,10 +12,10 @@ export const PageMenus: CollectionConfig = {
     plural: 'Page Menus',
   },
   access: {
-    create: getAdminOrSiteUser('reports'),
-    delete: getAdminOrSiteUser('reports'),
-    read: getAdminOrSiteUser('reports', ['manager', 'user', 'bot']),
-    update: getAdminOrSiteUser('reports'),
+    create: getAdminOrSiteUser('page-menus'),
+    delete: getAdminOrSiteUser('page-menus'),
+    read: getAdminOrSiteUser('page-menus', ['manager', 'user', 'bot']),
+    update: getAdminOrSiteUser('page-menus'),
   },
   admin: {
     group: 'Site Configuration',
