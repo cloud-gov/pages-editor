@@ -8,7 +8,7 @@ export function generateUserInvitationEmailData(userEmail: string, siteName: str
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>You've been invited to join ${siteName} on Cloud Pages Pro</title>
+        <title>You've been invited to join ${siteName} on Cloud.gov Publisher</title>
       </head>
       <body style="font-family: Arial, Helvetica, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 0; background-color: #ffffff;">
         
@@ -30,7 +30,7 @@ export function generateUserInvitationEmailData(userEmail: string, siteName: str
         <!-- Main Content -->
         <div style="padding: 40px 24px;">
           <h1 style="font-size: 24px; margin: 0 0 16px 0; text-align: center;">
-            You've been invited to join <strong>${siteName}</strong> on Cloud Pages Pro
+            You've been invited to join <strong>${siteName}</strong> on Cloud.gov Publisher
           </h1>
           
           <div style="background: #f8f9fa; padding: 16px; margin: 16px 0;">
@@ -39,7 +39,7 @@ export function generateUserInvitationEmailData(userEmail: string, siteName: str
             <p style="margin: 0 0 4px 0;"><strong>Site:</strong> ${siteName}</p>
           </div>
           
-          <p style="font-size: 16px; margin: 16px 0;">To get started on Cloud Pages Pro, log in with your credentials:</p>
+          <p style="font-size: 16px; margin: 16px 0;">To get started on Cloud.gov Publisher, log in with your credentials:</p>
           
           <!-- Main CTA Button -->
           <div style="text-align: center; margin: 24px 0;">
