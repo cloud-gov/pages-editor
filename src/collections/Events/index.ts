@@ -6,7 +6,7 @@ import { addSite } from '@/hooks/addSite'
 import { publish } from '@/hooks/publish'
 import { completeReview } from '@/hooks/completeReview'
 import { editor } from '@/utilities/editor'
-import { getCollectionPreviewUrl } from '@/utilities/previews'
+import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
 import { descriptionField, imageField } from '@/fields'
 
 export const Events: CollectionConfig<'events'> = {
@@ -19,10 +19,7 @@ export const Events: CollectionConfig<'events'> = {
     livePreview: {
       url: getCollectionPreviewUrl('events'),
     },
-    preview: (data) => {
-      // TODO: fix per above
-      return `${process.env.PREVIEW_URL}/events/${data.slug}`
-    },
+    preview: getAdminCollectionPreview('events'),
     useAsTitle: 'title',
     hideAPIURL: true,
   },

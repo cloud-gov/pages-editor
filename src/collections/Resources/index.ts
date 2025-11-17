@@ -25,9 +25,9 @@ export const Resources: CollectionConfig = {
     livePreview: {
       url: getCollectionPreviewUrl('resources'),
     },
-    preview: (data) => {
-      // TODO: fix per above
-      return `${process.env.PREVIEW_URL}/resources/${data.slug}`
+    preview: async (doc, { req }) => {
+      const build = getCollectionPreviewUrl('posts')
+      return build( { data: doc, req })
     },
     useAsTitle: 'title',
     hideAPIURL: true,
