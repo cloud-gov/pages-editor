@@ -222,21 +222,20 @@ button {
 }
 
 // Cards
-.usa-card {
-    a {
-        text-decoration: none;
-        color: inherit;
-        outline: none;
-    }
+.usa-card__link {
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+    display: block;
     
-    a:hover {
+    &:hover {
         text-decoration: none;
         .usa-card__container {
             background-color: #e6e6e6;
         }
     }
     
-    a:focus-visible {
+    &:focus-visible {
         outline: 2px solid var(--color-primary);
         outline-offset: 2px;
         border-radius: var(--radius-base);
