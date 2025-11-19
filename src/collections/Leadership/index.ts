@@ -5,7 +5,7 @@ import { descriptionField, imageField } from '@/fields'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
-import { getCollectionPreviewUrl } from '@/utilities/previews'
+import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
 import { publish } from '@/hooks/publish'
 
 export const Leadership: CollectionConfig<'leadership'> = {
@@ -20,10 +20,8 @@ export const Leadership: CollectionConfig<'leadership'> = {
     defaultColumns: ['title', 'jobTitle', 'slug', 'updatedAt'],
     livePreview: {
       url: getCollectionPreviewUrl('leadership'),
-    },
-    preview: (data) => {
-      return `${process.env.PREVIEW_URL}/leadership/${data.slug}`
-    },
+    },    
+    preview: getAdminCollectionPreview('leadership'),
     useAsTitle: 'title',
     hideAPIURL: true,
   },

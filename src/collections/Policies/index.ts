@@ -1,6 +1,5 @@
 import type { CollectionConfig } from 'payload'
-
-import { getCollectionPreviewUrl } from '@/utilities/previews'
+import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser, getAdmin } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
@@ -18,10 +17,7 @@ export const Policies: CollectionConfig<'policies'> = {
     livePreview: {
       url: getCollectionPreviewUrl('policies'),
     },
-    preview: (data) => {
-      // TODO: fix per above
-      return `${process.env.PREVIEW_URL}/${data.path}`
-    },
+    preview: getAdminCollectionPreview('policies'),
     useAsTitle: 'title',
     hideAPIURL: true,
   },

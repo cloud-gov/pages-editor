@@ -7,7 +7,7 @@ import { publish } from '@/hooks/publish'
 import { categoriesField, siteField } from '@/fields/relationships'
 import { descriptionField, imageField } from '@/fields'
 import { completeReview } from '@/hooks/completeReview'
-import { getCollectionPreviewUrl } from '@/utilities/previews'
+import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
 
 export const News: CollectionConfig<'news'> = {
   slug: 'news',
@@ -18,10 +18,7 @@ export const News: CollectionConfig<'news'> = {
     livePreview: {
       url: getCollectionPreviewUrl('news'),
     },
-    preview: (data) => {
-      // TODO: fix per above
-      return `${process.env.PREVIEW_URL}/news/${data.slug}`
-    },
+    preview: getAdminCollectionPreview('news'),
     useAsTitle: 'title',
     hideAPIURL: true,
   },

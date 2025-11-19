@@ -9,7 +9,7 @@ import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
-import { getCollectionPreviewUrl } from '@/utilities/previews'
+import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
@@ -20,10 +20,7 @@ export const Posts: CollectionConfig<'posts'> = {
     livePreview: {
       url: getCollectionPreviewUrl('posts'),
     },
-    preview: (data) => {
-      // TODO: fix per above
-      return `${process.env.PREVIEW_URL}/posts/${data.slug}`
-    },
+    preview: getAdminCollectionPreview('posts'),
     useAsTitle: 'title',
     hideAPIURL: true,
   },
