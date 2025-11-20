@@ -5,6 +5,7 @@ import { create, find } from './localHelpers'
 import type { CollectionSlug } from 'payload'
 
 const alertCollectionName: CollectionSlug = 'alerts' as CollectionSlug;
+const footerCollectionName: CollectionSlug = 'footer-site-collection' as CollectionSlug
 
 export const test = vitest.extend<LocalTestContext>({
   tid: async ({ payload }, use) => {
@@ -287,6 +288,51 @@ export const test = vitest.extend<LocalTestContext>({
       }),
     )
     await use(alerts)
+  },
+  footerSiteCollection: async ({ payload, tid, sites }, use) => {
+    const footerSiteCollection = await Promise.all(
+      sites.map(async (site) => {
+        return create(payload, tid, {
+          collection: footerCollectionName,
+          data: {
+            domain: `${site.name} Domain`,
+            site,
+            content: {
+              "root": {
+                "type": "root",
+                "format": "",
+                "indent": 0,
+                "version": 1,
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "format": "",
+                    "indent": 0,
+                    "version": 1,
+                    "children": [
+                      {
+                        "mode": "normal",
+                        "text": "Alert Text",
+                        "type": "text",
+                        "style": "",
+                        "detail": 0,
+                        "format": 0,
+                        "version": 1
+                      }
+                    ],
+                    "direction": "ltr",
+                    "textStyle": "",
+                    "textFormat": 0
+                  }
+                ],
+                "direction": "ltr"
+              }
+            },
+          },
+        })
+      }),
+    )
+    await use(footerSiteCollection)
   },
   payload: global.payload,
 })

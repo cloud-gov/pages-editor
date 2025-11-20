@@ -13,6 +13,7 @@ import {
   PageMenu,
   Policy,
   Alert,
+  FooterSiteCollection,
 } from '@/payload-types'
 import { BasePayload } from 'payload'
 import type { Role } from '@/access/adminOrSite'
@@ -37,5 +38,6 @@ export interface LocalTestContext {
   sites: Site[]
   users: User[]
   alerts: Alert[]
+  footerSiteCollection: FooterSiteCollection[]
   payload: BasePayload
 }
