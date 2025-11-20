@@ -83,6 +83,7 @@ export interface Config {
     'menu-site-collection': MenuSiteCollection;
     'site-config-site-collection': SiteConfigSiteCollection;
     'home-page-site-collection': HomePageSiteCollection;
+    'footer-site-collection': FooterSiteCollection;
     'pre-footer-site-collection': PreFooterSiteCollection;
     'side-navigation-site-collection': SideNavigationSiteCollection;
     redirects: Redirect;
@@ -116,6 +117,7 @@ export interface Config {
     'menu-site-collection': MenuSiteCollectionSelect<false> | MenuSiteCollectionSelect<true>;
     'site-config-site-collection': SiteConfigSiteCollectionSelect<false> | SiteConfigSiteCollectionSelect<true>;
     'home-page-site-collection': HomePageSiteCollectionSelect<false> | HomePageSiteCollectionSelect<true>;
+    'footer-site-collection': FooterSiteCollectionSelect<false> | FooterSiteCollectionSelect<true>;
     'pre-footer-site-collection': PreFooterSiteCollectionSelect<false> | PreFooterSiteCollectionSelect<true>;
     'side-navigation-site-collection': SideNavigationSiteCollectionSelect<false> | SideNavigationSiteCollectionSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -134,6 +136,7 @@ export interface Config {
     'site-config': SiteConfig;
     menu: Menu;
     'home-page': HomePage;
+    footer: Footer;
     'pre-footer': PreFooter;
     'side-navigation': SideNavigation;
   };
@@ -141,6 +144,7 @@ export interface Config {
     'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
     menu: MenuSelect<false> | MenuSelect<true>;
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
     'pre-footer': PreFooterSelect<false> | PreFooterSelect<true>;
     'side-navigation': SideNavigationSelect<false> | SideNavigationSelect<true>;
   };
@@ -1031,6 +1035,275 @@ export interface HomePageSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Build and organize site footer
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer-site-collection".
+ */
+export interface FooterSiteCollection {
+  id: number;
+  domain: string;
+  /**
+   * The highest-level agencies associated with a site or service.
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  logos?:
+    | {
+        url: string;
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  link?:
+    | (
+        | {
+            name: string;
+            page: number | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageLink';
+          }
+        | {
+            name: string;
+            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionLink';
+          }
+        | {
+            name: string;
+            url: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+      )[]
+    | null;
+  identifierColor?:
+    | (
+        | 'blue-cool'
+        | 'blue-cool-vivid'
+        | 'blue'
+        | 'blue-vivid'
+        | 'blue-warm'
+        | 'blue-warm-vivid'
+        | 'cyan'
+        | 'cyan-vivid'
+        | 'gold'
+        | 'gold-vivid'
+        | 'gray-cool'
+        | 'gray'
+        | 'gray-warm'
+        | 'green-cool'
+        | 'green-cool-vivid'
+        | 'green'
+        | 'green-vivid'
+        | 'green-warm'
+        | 'green-warm-vivid'
+        | 'indigo-cool'
+        | 'indigo-cool-vivid'
+        | 'indigo'
+        | 'indigo-vivid'
+        | 'indigo-warm'
+        | 'indigo-warm-vivid'
+        | 'magenta'
+        | 'magenta-vivid'
+        | 'mint-cool'
+        | 'mint-cool-vivid'
+        | 'mint'
+        | 'mint-vivid'
+        | 'orange'
+        | 'orange-vivid'
+        | 'orange-warm'
+        | 'orange-warm-vivid'
+        | 'red-cool'
+        | 'red-cool-vivid'
+        | 'red'
+        | 'red-vivid'
+        | 'red-warm'
+        | 'red-warm-vivid'
+        | 'violet'
+        | 'violet-vivid'
+        | 'violet-warm'
+        | 'violet-warm-vivid'
+        | 'yellow'
+        | 'yellow-vivid'
+      )
+    | null;
+  identityDomainColor?:
+    | (
+        | 'blue-cool'
+        | 'blue-cool-vivid'
+        | 'blue'
+        | 'blue-vivid'
+        | 'blue-warm'
+        | 'blue-warm-vivid'
+        | 'cyan'
+        | 'cyan-vivid'
+        | 'gold'
+        | 'gold-vivid'
+        | 'gray-cool'
+        | 'gray'
+        | 'gray-warm'
+        | 'green-cool'
+        | 'green-cool-vivid'
+        | 'green'
+        | 'green-vivid'
+        | 'green-warm'
+        | 'green-warm-vivid'
+        | 'indigo-cool'
+        | 'indigo-cool-vivid'
+        | 'indigo'
+        | 'indigo-vivid'
+        | 'indigo-warm'
+        | 'indigo-warm-vivid'
+        | 'magenta'
+        | 'magenta-vivid'
+        | 'mint-cool'
+        | 'mint-cool-vivid'
+        | 'mint'
+        | 'mint-vivid'
+        | 'orange'
+        | 'orange-vivid'
+        | 'orange-warm'
+        | 'orange-warm-vivid'
+        | 'red-cool'
+        | 'red-cool-vivid'
+        | 'red'
+        | 'red-vivid'
+        | 'red-warm'
+        | 'red-warm-vivid'
+        | 'violet'
+        | 'violet-vivid'
+        | 'violet-warm'
+        | 'violet-warm-vivid'
+        | 'yellow'
+        | 'yellow-vivid'
+      )
+    | null;
+  primaryLinkColor?:
+    | (
+        | 'blue-cool'
+        | 'blue-cool-vivid'
+        | 'blue'
+        | 'blue-vivid'
+        | 'blue-warm'
+        | 'blue-warm-vivid'
+        | 'cyan'
+        | 'cyan-vivid'
+        | 'gold'
+        | 'gold-vivid'
+        | 'gray-cool'
+        | 'gray'
+        | 'gray-warm'
+        | 'green-cool'
+        | 'green-cool-vivid'
+        | 'green'
+        | 'green-vivid'
+        | 'green-warm'
+        | 'green-warm-vivid'
+        | 'indigo-cool'
+        | 'indigo-cool-vivid'
+        | 'indigo'
+        | 'indigo-vivid'
+        | 'indigo-warm'
+        | 'indigo-warm-vivid'
+        | 'magenta'
+        | 'magenta-vivid'
+        | 'mint-cool'
+        | 'mint-cool-vivid'
+        | 'mint'
+        | 'mint-vivid'
+        | 'orange'
+        | 'orange-vivid'
+        | 'orange-warm'
+        | 'orange-warm-vivid'
+        | 'red-cool'
+        | 'red-cool-vivid'
+        | 'red'
+        | 'red-vivid'
+        | 'red-warm'
+        | 'red-warm-vivid'
+        | 'violet'
+        | 'violet-vivid'
+        | 'violet-warm'
+        | 'violet-warm-vivid'
+        | 'yellow'
+        | 'yellow-vivid'
+      )
+    | null;
+  secondaryLinkColor?:
+    | (
+        | 'blue-cool'
+        | 'blue-cool-vivid'
+        | 'blue'
+        | 'blue-vivid'
+        | 'blue-warm'
+        | 'blue-warm-vivid'
+        | 'cyan'
+        | 'cyan-vivid'
+        | 'gold'
+        | 'gold-vivid'
+        | 'gray-cool'
+        | 'gray'
+        | 'gray-warm'
+        | 'green-cool'
+        | 'green-cool-vivid'
+        | 'green'
+        | 'green-vivid'
+        | 'green-warm'
+        | 'green-warm-vivid'
+        | 'indigo-cool'
+        | 'indigo-cool-vivid'
+        | 'indigo'
+        | 'indigo-vivid'
+        | 'indigo-warm'
+        | 'indigo-warm-vivid'
+        | 'magenta'
+        | 'magenta-vivid'
+        | 'mint-cool'
+        | 'mint-cool-vivid'
+        | 'mint'
+        | 'mint-vivid'
+        | 'orange'
+        | 'orange-vivid'
+        | 'orange-warm'
+        | 'orange-warm-vivid'
+        | 'red-cool'
+        | 'red-cool-vivid'
+        | 'red'
+        | 'red-vivid'
+        | 'red-warm'
+        | 'red-warm-vivid'
+        | 'violet'
+        | 'violet-vivid'
+        | 'violet-warm'
+        | 'violet-warm-vivid'
+        | 'yellow'
+        | 'yellow-vivid'
+      )
+    | null;
+  reviewReady?: boolean | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * Build and organize site pre-footer
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1572,6 +1845,10 @@ export interface PayloadLockedDocument {
         value: number | HomePageSiteCollection;
       } | null)
     | ({
+        relationTo: 'footer-site-collection';
+        value: number | FooterSiteCollection;
+      } | null)
+    | ({
         relationTo: 'pre-footer-site-collection';
         value: number | PreFooterSiteCollection;
       } | null)
@@ -2108,6 +2385,58 @@ export interface HomePageSiteCollectionSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  reviewReady?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer-site-collection_select".
+ */
+export interface FooterSiteCollectionSelect<T extends boolean = true> {
+  domain?: T;
+  content?: T;
+  logos?:
+    | T
+    | {
+        url?: T;
+        image?: T;
+        id?: T;
+      };
+  link?:
+    | T
+    | {
+        pageLink?:
+          | T
+          | {
+              name?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionLink?:
+          | T
+          | {
+              name?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              name?: T;
+              url?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  identifierColor?: T;
+  identityDomainColor?: T;
+  primaryLinkColor?: T;
+  secondaryLinkColor?: T;
   reviewReady?: T;
   site?: T;
   updatedAt?: T;
@@ -2821,6 +3150,274 @@ export interface HomePage {
   createdAt?: string | null;
 }
 /**
+ * Build and organize site footer
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  domain: string;
+  /**
+   * The highest-level agencies associated with a site or service.
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  logos?:
+    | {
+        url: string;
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  link?:
+    | (
+        | {
+            name: string;
+            page: number | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageLink';
+          }
+        | {
+            name: string;
+            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionLink';
+          }
+        | {
+            name: string;
+            url: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+      )[]
+    | null;
+  identifierColor?:
+    | (
+        | 'blue-cool'
+        | 'blue-cool-vivid'
+        | 'blue'
+        | 'blue-vivid'
+        | 'blue-warm'
+        | 'blue-warm-vivid'
+        | 'cyan'
+        | 'cyan-vivid'
+        | 'gold'
+        | 'gold-vivid'
+        | 'gray-cool'
+        | 'gray'
+        | 'gray-warm'
+        | 'green-cool'
+        | 'green-cool-vivid'
+        | 'green'
+        | 'green-vivid'
+        | 'green-warm'
+        | 'green-warm-vivid'
+        | 'indigo-cool'
+        | 'indigo-cool-vivid'
+        | 'indigo'
+        | 'indigo-vivid'
+        | 'indigo-warm'
+        | 'indigo-warm-vivid'
+        | 'magenta'
+        | 'magenta-vivid'
+        | 'mint-cool'
+        | 'mint-cool-vivid'
+        | 'mint'
+        | 'mint-vivid'
+        | 'orange'
+        | 'orange-vivid'
+        | 'orange-warm'
+        | 'orange-warm-vivid'
+        | 'red-cool'
+        | 'red-cool-vivid'
+        | 'red'
+        | 'red-vivid'
+        | 'red-warm'
+        | 'red-warm-vivid'
+        | 'violet'
+        | 'violet-vivid'
+        | 'violet-warm'
+        | 'violet-warm-vivid'
+        | 'yellow'
+        | 'yellow-vivid'
+      )
+    | null;
+  identityDomainColor?:
+    | (
+        | 'blue-cool'
+        | 'blue-cool-vivid'
+        | 'blue'
+        | 'blue-vivid'
+        | 'blue-warm'
+        | 'blue-warm-vivid'
+        | 'cyan'
+        | 'cyan-vivid'
+        | 'gold'
+        | 'gold-vivid'
+        | 'gray-cool'
+        | 'gray'
+        | 'gray-warm'
+        | 'green-cool'
+        | 'green-cool-vivid'
+        | 'green'
+        | 'green-vivid'
+        | 'green-warm'
+        | 'green-warm-vivid'
+        | 'indigo-cool'
+        | 'indigo-cool-vivid'
+        | 'indigo'
+        | 'indigo-vivid'
+        | 'indigo-warm'
+        | 'indigo-warm-vivid'
+        | 'magenta'
+        | 'magenta-vivid'
+        | 'mint-cool'
+        | 'mint-cool-vivid'
+        | 'mint'
+        | 'mint-vivid'
+        | 'orange'
+        | 'orange-vivid'
+        | 'orange-warm'
+        | 'orange-warm-vivid'
+        | 'red-cool'
+        | 'red-cool-vivid'
+        | 'red'
+        | 'red-vivid'
+        | 'red-warm'
+        | 'red-warm-vivid'
+        | 'violet'
+        | 'violet-vivid'
+        | 'violet-warm'
+        | 'violet-warm-vivid'
+        | 'yellow'
+        | 'yellow-vivid'
+      )
+    | null;
+  primaryLinkColor?:
+    | (
+        | 'blue-cool'
+        | 'blue-cool-vivid'
+        | 'blue'
+        | 'blue-vivid'
+        | 'blue-warm'
+        | 'blue-warm-vivid'
+        | 'cyan'
+        | 'cyan-vivid'
+        | 'gold'
+        | 'gold-vivid'
+        | 'gray-cool'
+        | 'gray'
+        | 'gray-warm'
+        | 'green-cool'
+        | 'green-cool-vivid'
+        | 'green'
+        | 'green-vivid'
+        | 'green-warm'
+        | 'green-warm-vivid'
+        | 'indigo-cool'
+        | 'indigo-cool-vivid'
+        | 'indigo'
+        | 'indigo-vivid'
+        | 'indigo-warm'
+        | 'indigo-warm-vivid'
+        | 'magenta'
+        | 'magenta-vivid'
+        | 'mint-cool'
+        | 'mint-cool-vivid'
+        | 'mint'
+        | 'mint-vivid'
+        | 'orange'
+        | 'orange-vivid'
+        | 'orange-warm'
+        | 'orange-warm-vivid'
+        | 'red-cool'
+        | 'red-cool-vivid'
+        | 'red'
+        | 'red-vivid'
+        | 'red-warm'
+        | 'red-warm-vivid'
+        | 'violet'
+        | 'violet-vivid'
+        | 'violet-warm'
+        | 'violet-warm-vivid'
+        | 'yellow'
+        | 'yellow-vivid'
+      )
+    | null;
+  secondaryLinkColor?:
+    | (
+        | 'blue-cool'
+        | 'blue-cool-vivid'
+        | 'blue'
+        | 'blue-vivid'
+        | 'blue-warm'
+        | 'blue-warm-vivid'
+        | 'cyan'
+        | 'cyan-vivid'
+        | 'gold'
+        | 'gold-vivid'
+        | 'gray-cool'
+        | 'gray'
+        | 'gray-warm'
+        | 'green-cool'
+        | 'green-cool-vivid'
+        | 'green'
+        | 'green-vivid'
+        | 'green-warm'
+        | 'green-warm-vivid'
+        | 'indigo-cool'
+        | 'indigo-cool-vivid'
+        | 'indigo'
+        | 'indigo-vivid'
+        | 'indigo-warm'
+        | 'indigo-warm-vivid'
+        | 'magenta'
+        | 'magenta-vivid'
+        | 'mint-cool'
+        | 'mint-cool-vivid'
+        | 'mint'
+        | 'mint-vivid'
+        | 'orange'
+        | 'orange-vivid'
+        | 'orange-warm'
+        | 'orange-warm-vivid'
+        | 'red-cool'
+        | 'red-cool-vivid'
+        | 'red'
+        | 'red-vivid'
+        | 'red-warm'
+        | 'red-warm-vivid'
+        | 'violet'
+        | 'violet-vivid'
+        | 'violet-warm'
+        | 'violet-warm-vivid'
+        | 'yellow'
+        | 'yellow-vivid'
+      )
+    | null;
+  reviewReady?: boolean | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * Build and organize site pre-footer
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3182,6 +3779,58 @@ export interface HomePageSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  reviewReady?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  domain?: T;
+  content?: T;
+  logos?:
+    | T
+    | {
+        url?: T;
+        image?: T;
+        id?: T;
+      };
+  link?:
+    | T
+    | {
+        pageLink?:
+          | T
+          | {
+              name?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionLink?:
+          | T
+          | {
+              name?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              name?: T;
+              url?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  identifierColor?: T;
+  identityDomainColor?: T;
+  primaryLinkColor?: T;
+  secondaryLinkColor?: T;
   reviewReady?: T;
   _status?: T;
   updatedAt?: T;

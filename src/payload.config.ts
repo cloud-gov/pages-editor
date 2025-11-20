@@ -21,6 +21,7 @@ import { Sites } from './collections/Sites'
 import { PageMenus } from './collections/PageMenus'
 import { Menu as MenuConfig } from './globals/Menu'
 import { PreFooter as PreFooterConfig } from './globals/PreFooter'
+import { Footer as FooterConfig } from './globals/Footer'
 import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
 import { HomePage as HomePageConfig } from './globals/HomePage'
 import { SideNavigation as SideNavigationConfig } from './globals/SideNavigation'
@@ -37,6 +38,7 @@ import { Alerts } from './collections/Alerts'
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
 const [Menu, MenuCollection] = createSiteGlobal(MenuConfig)
 const [HomePage, HomePageCollection] = createSiteGlobal(HomePageConfig)
+const [Footer, FooterCollection] = createSiteGlobal(FooterConfig)
 const [PreFooter, PreFooterCollection] = createSiteGlobal(PreFooterConfig)
 const [SideNavigation, SideNavigationCollection] = createSiteGlobal(SideNavigationConfig)
 
@@ -156,11 +158,12 @@ const config = {
     MenuCollection,
     SiteConfigCollection,
     HomePageCollection,
+    FooterCollection,
     PreFooterCollection,
     SideNavigationCollection,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [SiteConfig, Menu, HomePage, PreFooter, SideNavigation],
+  globals: [SiteConfig, Menu, HomePage, Footer, PreFooter, SideNavigation],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
