@@ -7,6 +7,7 @@ import { publish } from '@/hooks/publish'
 import { editor } from '@/utilities/editor'
 import { getCollectionPreviewUrl } from '@/utilities/previews'
 import { completeReview } from '@/hooks/completeReview'
+import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
 
 export const Reports: CollectionConfig = {
   slug: 'reports',
@@ -17,7 +18,7 @@ export const Reports: CollectionConfig = {
   admin: {
     group: 'Content Collection',
     description: 'Downloadable or reference materials like guides and reports.',
-    defaultColumns: ['title', '_status', 'reviewReady'],
+    defaultColumns: ['title', 'slug', 'updatedAt', 'updatedBy', '_status'],
     meta: {
       title: 'Reports',
       description: 'Reports allow you to categorize and publish report content and files.',
@@ -97,6 +98,17 @@ export const Reports: CollectionConfig = {
       defaultValue: false,
     },
     {
+      name: 'updatedBy',
+      type: 'relationship',
+      relationTo: 'users',
+      admin: {
+        readOnly: true,
+        components: {
+          Cell: 'src/components/UpdatedByCellData/',
+        },
+      }
+    },
+    {
       name: 'publishedAt',
       type: 'date',
       admin: {
@@ -129,7 +141,7 @@ export const Reports: CollectionConfig = {
   ],
   hooks: {
     afterChange: [publish],
-    beforeChange: [addSite, completeReview],
+    beforeChange: [addSite, completeReview, populateUpdatedBy],
   },
   versions: {
     drafts: {

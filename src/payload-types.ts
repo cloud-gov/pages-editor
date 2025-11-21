@@ -298,6 +298,7 @@ export interface Post {
         name?: string | null;
       }[]
     | null;
+  updatedBy?: (number | null) | User;
   publishedAt?: string | null;
   /**
    * Display the in-page navigation sidebar on this post
@@ -459,6 +460,7 @@ export interface News {
   slugLock?: boolean | null;
   reviewReady?: boolean | null;
   publishedAt?: string | null;
+  updatedBy?: (number | null) | User;
   /**
    * Display the in-page navigation sidebar on this news item
    */
@@ -505,6 +507,7 @@ export interface Report {
     [k: string]: unknown;
   } | null;
   reviewReady?: boolean | null;
+  updatedBy?: (number | null) | User;
   publishedAt?: string | null;
   /**
    * Display the in-page navigation sidebar on this report
@@ -534,6 +537,7 @@ export interface Resource {
   slug?: string | null;
   slugLock?: boolean | null;
   resourceDate?: string | null;
+  updatedBy?: (number | null) | User;
   categories?: (number | Category)[] | null;
   site: number | Site;
   content?: {
@@ -1955,6 +1959,7 @@ export interface PostsSelect<T extends boolean = true> {
         id?: T;
         name?: T;
       };
+  updatedBy?: T;
   publishedAt?: T;
   showInPageNav?: T;
   slug?: T;
@@ -2014,6 +2019,7 @@ export interface NewsSelect<T extends boolean = true> {
   slugLock?: T;
   reviewReady?: T;
   publishedAt?: T;
+  updatedBy?: T;
   showInPageNav?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2040,6 +2046,7 @@ export interface ReportsSelect<T extends boolean = true> {
   site?: T;
   content?: T;
   reviewReady?: T;
+  updatedBy?: T;
   publishedAt?: T;
   showInPageNav?: T;
   updatedAt?: T;
@@ -2063,6 +2070,7 @@ export interface ResourcesSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   resourceDate?: T;
+  updatedBy?: T;
   categories?: T;
   site?: T;
   content?: T;

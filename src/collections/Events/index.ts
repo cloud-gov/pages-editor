@@ -15,7 +15,7 @@ export const Events: CollectionConfig<'events'> = {
     group: 'Content Collection',
     description:
       'Details for upcoming or past events, including dates, locations, and descriptions.',
-    defaultColumns: ['title', 'reviewReady', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'startDate', 'endDate', '_status'],
     livePreview: {
       url: getCollectionPreviewUrl('events'),
     },

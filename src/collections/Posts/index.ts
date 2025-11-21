@@ -10,13 +10,14 @@ import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
 import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
+import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
   admin: {
     group: 'Content Collection',
     description: 'Articles, updates, or blog content used to share ideas, news, or stories.',
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'updatedAt', 'updatedBy', '_status'],
     livePreview: {
       url: getCollectionPreviewUrl('posts'),
     },
@@ -93,6 +94,17 @@ export const Posts: CollectionConfig<'posts'> = {
       ],
     },
     {
+      name: 'updatedBy',
+      type: 'relationship',
+      relationTo: 'users',
+      admin: {
+        readOnly: true,
+        components: {
+          Cell: 'src/components/UpdatedByCellData/',
+        },
+      }
+    },
+    {
       name: 'publishedAt',
       type: 'date',
       admin: {
@@ -129,7 +141,7 @@ export const Posts: CollectionConfig<'posts'> = {
     afterChange: [revalidatePost, publish],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
-    beforeChange: [addSite],
+    beforeChange: [addSite, populateUpdatedBy],
   },
   versions: {
     drafts: {

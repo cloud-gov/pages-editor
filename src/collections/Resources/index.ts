@@ -7,6 +7,7 @@ import { addSite } from '@/hooks/addSite'
 import { publish } from '@/hooks/publish'
 import { editor } from '@/utilities/editor'
 import { completeReview } from '@/hooks/completeReview'
+import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
 
 export const Resources: CollectionConfig = {
   slug: 'resources',
@@ -17,7 +18,7 @@ export const Resources: CollectionConfig = {
   admin: {
     group: 'Content Collection',
     description: 'Downloadable or reference materials like guides and reports.',
-    defaultColumns: ['title', '_status', 'reviewReady'],
+    defaultColumns: ['title', 'slug', 'updatedAt', 'updatedBy', '_status'],
     meta: {
       title: 'Resources',
       description: 'Resources allow you to categorize and publish resource content and files.',
@@ -83,6 +84,17 @@ export const Resources: CollectionConfig = {
         },
       },
     },
+    {
+      name: 'updatedBy',
+      type: 'relationship',
+      relationTo: 'users',
+      admin: {
+        readOnly: true,
+        components: {
+          Cell: 'src/components/UpdatedByCellData/',
+        },
+      }
+    },
     categoriesField,
     siteField,
     {
@@ -129,7 +141,7 @@ export const Resources: CollectionConfig = {
   ],
   hooks: {
     afterChange: [publish],
-    beforeChange: [addSite, completeReview],
+    beforeChange: [addSite, completeReview, populateUpdatedBy],
   },
   versions: {
     drafts: {

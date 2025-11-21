@@ -8,13 +8,14 @@ import { categoriesField, siteField } from '@/fields/relationships'
 import { descriptionField, imageField } from '@/fields'
 import { completeReview } from '@/hooks/completeReview'
 import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
+import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
 
 export const News: CollectionConfig<'news'> = {
   slug: 'news',
   admin: {
     group: 'Content Collection',
     description: 'Announcements, updates, or press releases related to the organization.',
-    defaultColumns: ['title', 'reviewReady', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'updatedAt', 'updatedBy', '_status'],
     livePreview: {
       url: getCollectionPreviewUrl('news'),
     },
@@ -76,6 +77,17 @@ export const News: CollectionConfig<'news'> = {
       },
     },
     {
+      name: 'updatedBy',
+      type: 'relationship',
+      relationTo: 'users',
+      admin: {
+        readOnly: true,
+        components: {
+          Cell: 'src/components/UpdatedByCellData/',
+        },
+      }
+    },
+    {
       name: 'showInPageNav',
       label: 'Show In-Page Navigation',
       type: 'checkbox',
@@ -88,7 +100,7 @@ export const News: CollectionConfig<'news'> = {
   ],
   hooks: {
     afterChange: [publish],
-    beforeChange: [addSite, completeReview],
+    beforeChange: [addSite, completeReview, populateUpdatedBy],
   },
   versions: {
     drafts: {
