@@ -33,6 +33,8 @@ import { createSiteGlobal } from './utilities/siteGlobal'
 import { afterSchemaInit } from './utilities/cascade'
 import { migrations } from './migrations'
 import { Alerts } from './collections/Alerts'
+import { CustomCollections } from './collections/CustomCollections'
+import { CustomCollectionPages } from './collections/CustomCollectionPages'
 
 // Any site global fields must use the `createSiteGlobal` function
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
@@ -144,6 +146,8 @@ const config = {
     Reports,
     Resources,
     Leadership,
+    CustomCollections,
+    CustomCollectionPages,
     // Standalone Pages group
     Pages,
     Policies,

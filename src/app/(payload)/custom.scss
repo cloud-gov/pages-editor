@@ -222,11 +222,22 @@ button {
 }
 
 // Cards
+// Ensure grid columns stretch to equal heights
+.grid-row {
+    .grid-col-12,
+    [class*="grid-col-"] {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
 .usa-card__link {
     text-decoration: none;
     color: inherit;
     outline: none;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     
     &:hover {
         text-decoration: none;
@@ -240,6 +251,12 @@ button {
         outline-offset: 2px;
         border-radius: var(--radius-base);
     }
+}
+
+.usa-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .usa-card__container {
