@@ -34,7 +34,7 @@ export const Footer: GlobalConfig = {
     },
     {
       type: 'collapsible',
-      label: "Parent Agencies' description",
+      label: "Masthead (parent agencies’ description)",
       required: true,
       admin: {
         initCollapsed: false,
@@ -100,7 +100,7 @@ export const Footer: GlobalConfig = {
     },
     {
       type: 'collapsible',
-      label: 'Links',
+      label: 'Required links',
       admin: {
         initCollapsed: false,
       },
@@ -206,30 +206,33 @@ export const Footer: GlobalConfig = {
     },
     {
       type: 'collapsible',
-      label: 'Colors',
+      label: 'Colors (default to site theme if none selected)',
       admin: {
         initCollapsed: false,
       },
       fields: [
         colorOptions({
           name: 'identifierColor',
-          label: 'Identifier',
-          defaultValue: 'gray',
+          label: 'Background',
+          useDefaultValue: false,
         }),
         colorOptions({
           name: 'identityDomainColor',
-          label: 'Identity domain',
-          defaultValue: 'gray',
+          label: 'Text in the masthead section',
+          defaultValue: 'blue-warm-vivid',
+          useDefaultValue: false,
         }),
         colorOptions({
           name: 'primaryLinkColor',
-          label: 'Primary link',
+          label: 'Links in the masthead section',
           defaultValue: 'gray',
+          useDefaultValue: false,
         }),
         colorOptions({
           name: 'secondaryLinkColor',
-          label: 'Secondary link',
+          label: 'Site domain and links in the required links section',
           defaultValue: 'gray',
+          useDefaultValue: false,
         }),
       ],
     },

@@ -45,10 +45,12 @@ export const colorOptions = ({
   name = 'color',
   label = 'Select the color family',
   defaultValue = 'blue-warm-vivid',
+  useDefaultValue = true,
 }: {
   name: string
   label: string
-  defaultValue: string
+  defaultValue?: string,
+  useDefaultValue?: boolean
 }): SelectField => {
   return {
     name,
@@ -244,6 +246,6 @@ export const colorOptions = ({
         value: 'yellow-vivid',
       },
     ],
-    defaultValue,
+    ...(useDefaultValue && { defaultValue }),
   }
 }
