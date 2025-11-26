@@ -121,6 +121,37 @@ export const SideNavigation: GlobalConfig = {
           ],
         },
         {
+          slug: 'customCollectionLink',
+          dbName: 'custom_col_link',
+          labels: {
+            singular: 'Custom Collection Link',
+            plural: 'Custom Collection Links',
+          },
+          fields: [
+            {
+              name: 'customCollection',
+              label: 'Select the custom collection the navigation link will link to',
+              type: 'relationship',
+              relationTo: 'custom-collections',
+              required: true,
+            },
+            {
+              name: 'label',
+              label: 'The name used on the navigation link',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'order',
+              type: 'number',
+              label: 'Sort Order',
+              admin: {
+                description: 'Lower numbers appear first (optional)',
+              },
+            },
+          ],
+        },
+        {
           slug: 'externalLink',
           labels: {
             singular: 'External Link',
@@ -232,6 +263,37 @@ export const SideNavigation: GlobalConfig = {
                         { label: 'Resources', value: 'resources' },
                       ],
                       hasMany: false,
+                      required: true,
+                    },
+                    {
+                      name: 'label',
+                      label: 'The name used on the navigation link',
+                      type: 'text',
+                      required: true,
+                    },
+                    {
+                      name: 'order',
+                      type: 'number',
+                      label: 'Sort Order',
+                      admin: {
+                        description: 'Lower numbers appear first (optional)',
+                      },
+                    },
+                  ],
+                },
+                {
+                  slug: 'customCollectionLink',
+                  dbName: 'custom_col_link',
+                  labels: {
+                    singular: 'Custom Collection Link',
+                    plural: 'Custom Collection Links',
+                  },
+                  fields: [
+                    {
+                      name: 'customCollection',
+                      label: 'Select the custom collection the navigation link will link to',
+                      type: 'relationship',
+                      relationTo: 'custom-collections',
                       required: true,
                     },
                     {

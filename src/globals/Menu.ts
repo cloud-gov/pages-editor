@@ -83,6 +83,29 @@ export const Menu: GlobalConfig = {
           ],
         },
         {
+          slug: 'customCollectionLink',
+          dbName: 'custom_col_link',
+          labels: {
+            singular: 'Custom Collection Link',
+            plural: 'Custom Collection Links',
+          },
+          fields: [
+            {
+              name: 'customCollection',
+              label: 'Select the custom collection the menu link will link to',
+              type: 'relationship',
+              relationTo: 'custom-collections',
+              required: true,
+            },
+            {
+              name: 'label',
+              label: 'The name used on your menu link',
+              type: 'text',
+              required: true,
+            },
+          ],
+        },
+        {
           slug: 'dropdown',
           labels: {
             singular: 'Dropdown',
@@ -142,6 +165,29 @@ export const Menu: GlobalConfig = {
                         { label: 'Resources', value: 'resources' },
                       ],
                       hasMany: false,
+                      required: true,
+                    },
+                    {
+                      name: 'label',
+                      label: 'The name used on your menu link',
+                      type: 'text',
+                      required: true,
+                    },
+                  ],
+                },
+                {
+                  slug: 'customCollectionLink',
+                  dbName: 'custom_col_link',
+                  labels: {
+                    singular: 'Custom Collection Link',
+                    plural: 'Custom Collection Links',
+                  },
+                  fields: [
+                    {
+                      name: 'customCollection',
+                      label: 'Select the custom collection the menu link will link to',
+                      type: 'relationship',
+                      relationTo: 'custom-collections',
                       required: true,
                     },
                     {

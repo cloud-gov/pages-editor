@@ -177,6 +177,32 @@ export const Footer: GlobalConfig = {
               ],
             },
             {
+              slug: 'customCollectionLink',
+              dbName: 'custom_col_link',
+              labels: {
+                singular: 'Custom Collection Link',
+                plural: 'Custom Collection Links',
+              },
+              admin: {
+                disableBlockName: true,
+              },
+              fields: [
+                {
+                  name: 'name',
+                  label: 'Name',
+                  type: 'text',
+                  required: true,
+                },
+                {
+                  name: 'customCollection',
+                  label: 'Custom collection',
+                  type: 'relationship',
+                  relationTo: 'custom-collections',
+                  required: true,
+                },
+              ],
+            },
+            {
               slug: 'externalLink',
               labels: {
                 singular: 'External Link',
