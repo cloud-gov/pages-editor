@@ -21,25 +21,41 @@ class Loader {
    * Clean data for Payload operations by converting relationship objects to IDs
    * This handles cases where exported data includes full relationship objects
    */
-  cleanDataForPayload(data: any): any {
+  cleanDataForPayload(data: any, isBlockItem: boolean = false): any {
     if (data === null || data === undefined) {
       return data
     }
 
     if (Array.isArray(data)) {
-      return data.map((item) => this.cleanDataForPayload(item))
+      return data.map((item) => this.cleanDataForPayload(item, isBlockItem))
     }
 
     if (typeof data === 'object') {
       // Known relationship field names that should be converted to IDs
-      const relationshipFields = ['bgImage', 'image', 'page', 'media', 'site']
-      
+      const relationshipFields = ['bgImage', 'image', 'page', 'media', 'site', 'customCollection']
+
       // If object has an 'id' property and looks like a relationship object, return just the ID
       if ('id' in data && typeof data.id === 'number') {
         const keys = Object.keys(data)
         // If it has many properties (more than just id), it's likely a full relationship object
         // Check for common relationship object properties
-        if (keys.length > 3 || keys.some(k => ['altText', 'filename', 'mimeType', 'filesize', 'width', 'height', 'focalX', 'focalY', 'createdAt', 'updatedAt'].includes(k))) {
+        if (
+          keys.length > 3 ||
+          keys.some((k) =>
+            [
+              'altText',
+              'filename',
+              'mimeType',
+              'filesize',
+              'width',
+              'height',
+              'focalX',
+              'focalY',
+              'createdAt',
+              'updatedAt',
+            ].includes(k),
+          )
+        ) {
           return data.id
         }
       }
@@ -47,20 +63,32 @@ class Loader {
       // Recursively clean nested objects
       const cleaned: any = {}
       for (const [key, value] of Object.entries(data)) {
-        // Skip block IDs in content blocks (string IDs)
+        // Remove block IDs - Payload will generate them automatically
+        // This prevents "invalid id" errors when Payload doesn't expect the id field
         if (key === 'id' && typeof value === 'string') {
-          // Keep block IDs as they're needed for content blocks
-          cleaned[key] = value
+          // Skip block IDs - Payload will generate new ones automatically
           continue
         }
-        
+
         // Handle relationship fields - convert objects to IDs
-        if (relationshipFields.includes(key) && value && typeof value === 'object' && 'id' in value && typeof value.id === 'number') {
+        if (
+          relationshipFields.includes(key) &&
+          value &&
+          typeof value === 'object' &&
+          'id' in value &&
+          typeof value.id === 'number'
+        ) {
           cleaned[key] = value.id
           continue
         }
-        
-        cleaned[key] = this.cleanDataForPayload(value)
+
+        // Recursively clean, marking block items when we encounter blockType
+        const isNestedBlockItem =
+          isBlockItem ||
+          key === 'items' ||
+          key === 'subitems' ||
+          (key === 'blocks' && Array.isArray(value))
+        cleaned[key] = this.cleanDataForPayload(value, isNestedBlockItem)
       }
       return cleaned
     }
@@ -134,10 +162,15 @@ class Loader {
 
     if (typeof data === 'object') {
       const resolved: any = {}
-      
+
       for (const [key, value] of Object.entries(data)) {
         // Handle media references (bgImage, image)
-        if ((key === 'bgImage' || key === 'image') && value && typeof value === 'object' && 'filename' in value) {
+        if (
+          (key === 'bgImage' || key === 'image') &&
+          value &&
+          typeof value === 'object' &&
+          'filename' in value
+        ) {
           try {
             const mediaData = await this.payload.find({
               collection: 'media',
@@ -147,11 +180,13 @@ class Loader {
               },
               limit: 1,
             })
-            
+
             if (mediaData.docs.length > 0) {
               resolved[key] = mediaData.docs[0].id
             } else {
-              console.warn(`Media file "${value.filename}" not found for site ${siteId}, setting to null`)
+              console.warn(
+                `Media file "${value.filename}" not found for site ${siteId}, setting to null`,
+              )
               resolved[key] = null
             }
           } catch (error) {
@@ -162,7 +197,7 @@ class Loader {
           resolved[key] = await this.resolveMediaReferences(siteId, value)
         }
       }
-      
+
       return resolved
     }
 
@@ -200,7 +235,7 @@ class Loader {
     const dataWithMedia = await this.resolveMediaReferences(siteId, rawData)
     // Clean the data to convert relationship objects to IDs
     const data = this.cleanDataForPayload(dataWithMedia)
-    
+
     // Check if home page global already exists for this site
     const existing = await this.payload.find({
       collection: 'home-page-site-collection',
@@ -235,59 +270,106 @@ class Loader {
 
   async loadMenu(siteId: number) {
     const rawData = menu()
-    
+
     // Resolve page relationships in menu items
     const resolveItems = async (items: any[]): Promise<any[]> => {
       return Promise.all(
         (items || []).map(async (item: any) => {
           // Handle pageLink blocks - resolve by title from page object
           if (item.blockType === 'pageLink' && item.page) {
-            if (typeof item.page === 'object' && item.page.title) {
-              // Page object has title, resolve by title
+            // If page is already a number, it's already resolved - verify it exists
+            if (typeof item.page === 'number') {
+              // Verify the page exists for this site
               try {
-                const pageId = await this.getPageByTitle(siteId, item.page.title)
-                return {
-                  ...item,
-                  page: pageId,
+                const page = await this.payload.findByID({
+                  collection: 'pages',
+                  id: item.page,
+                })
+                if (page && page.site === siteId) {
+                  return item
+                } else {
+                  console.warn(
+                    `Page with ID ${item.page} not found for site ${siteId}, skipping menu item`,
+                  )
+                  return null
                 }
               } catch (error) {
-                console.warn(`Page "${item.page.title}" not found for site ${siteId}, skipping menu item`)
+                console.warn(
+                  `Page with ID ${item.page} not found for site ${siteId}, skipping menu item`,
+                )
                 return null
               }
-            } else if (typeof item.page === 'object' && item.page.id) {
-              // Page object has id, but it's from another site - try to resolve by slug if available
+            }
+
+            if (typeof item.page === 'object') {
+              // Try to resolve by title first (most reliable)
+              if (item.page.title) {
+                try {
+                  const pageId = await this.getPageByTitle(siteId, item.page.title)
+                  // Create a clean item with only the page ID, removing any other page object properties
+                  const { page: _, ...restItem } = item
+                  return {
+                    ...restItem,
+                    page: pageId,
+                  }
+                } catch (error) {
+                  console.warn(
+                    `Page "${item.page.title}" not found for site ${siteId}, skipping menu item`,
+                  )
+                  return null
+                }
+              }
+
+              // If no title, try to resolve by slug
               if (item.page.slug) {
                 const pageId = await this.getPageBySlug(siteId, item.page.slug)
                 if (pageId) {
+                  // Create a clean item with only the page ID, removing any other page object properties
+                  const { page: _, ...restItem } = item
                   return {
-                    ...item,
+                    ...restItem,
                     page: pageId,
                   }
                 }
+                console.warn(
+                  `Page with slug "${item.page.slug}" not found for site ${siteId}, skipping menu item`,
+                )
+                return null
               }
-              console.warn(`Page with ID ${item.page.id} not found for site ${siteId}, skipping menu item`)
-              return null
+
+              // If page object has id but no title or slug, it's from another site - skip it
+              if (item.page.id) {
+                console.warn(
+                  `Page with ID ${item.page.id} (no title/slug) not found for site ${siteId}, skipping menu item`,
+                )
+                return null
+              }
             }
           }
-          
+
           // Handle dropdown blocks with subitems
           if (item.blockType === 'dropdown' && item.subitems) {
+            const resolvedSubitems = await resolveItems(item.subitems)
             return {
               ...item,
-              subitems: await resolveItems(item.subitems),
+              subitems: resolvedSubitems.filter((subitem) => subitem !== null),
             }
           }
-          
+
           // Handle collectionLink and customCollectionLink - these don't need resolution
           return item
         }),
       )
     }
-    
+
     const resolvedItems = await resolveItems(rawData.items || [])
     const menuData = {
       items: resolvedItems.filter((item) => item !== null),
     }
+
+    // Clean the data to ensure all relationship objects are converted to IDs
+    // Pass true for isBlockItem since items is an array of blocks
+    const cleanedData = this.cleanDataForPayload(menuData, true)
 
     // Check if menu already exists for this site
     const existing = await this.payload.find({
@@ -302,7 +384,7 @@ class Loader {
         collection: 'menu-site-collection',
         id: existing.docs[0].id,
         data: {
-          ...menuData,
+          ...cleanedData,
           site: siteId,
           _status: 'published',
         } as any,
@@ -311,7 +393,7 @@ class Loader {
       return await this.payload.create({
         collection: 'menu-site-collection',
         data: {
-          ...menuData,
+          ...cleanedData,
           site: siteId,
           _status: 'published',
         } as any,
@@ -321,49 +403,92 @@ class Loader {
 
   async loadSideNavigation(siteId: number) {
     const rawData = sideNavigation()
-    
+
     // Resolve page relationships in side navigation items
     const resolveItems = async (items: any[]): Promise<any[]> => {
       return Promise.all(
         (items || []).map(async (item: any) => {
           // Handle pageLink blocks - resolve by title from page object
           if (item.blockType === 'pageLink' && item.page) {
-            if (typeof item.page === 'object' && item.page.title) {
-              // Page object has title, resolve by title
+            // If page is already a number, it's already resolved - verify it exists
+            if (typeof item.page === 'number') {
+              // Verify the page exists for this site
               try {
-                const pageId = await this.getPageByTitle(siteId, item.page.title)
-                return {
-                  ...item,
-                  page: pageId,
+                const page = await this.payload.findByID({
+                  collection: 'pages',
+                  id: item.page,
+                })
+                if (page && page.site === siteId) {
+                  return item
+                } else {
+                  console.warn(
+                    `Page with ID ${item.page} not found for site ${siteId}, skipping side nav item`,
+                  )
+                  return null
                 }
               } catch (error) {
-                console.warn(`Page "${item.page.title}" not found for site ${siteId}, skipping side nav item`)
+                console.warn(
+                  `Page with ID ${item.page} not found for site ${siteId}, skipping side nav item`,
+                )
                 return null
               }
-            } else if (typeof item.page === 'object' && item.page.id) {
-              // Page object has id, but it's from another site - try to resolve by slug if available
+            }
+
+            if (typeof item.page === 'object') {
+              // Try to resolve by title first (most reliable)
+              if (item.page.title) {
+                try {
+                  const pageId = await this.getPageByTitle(siteId, item.page.title)
+                  // Create a clean item with only the page ID, removing any other page object properties
+                  const { page: _, ...restItem } = item
+                  return {
+                    ...restItem,
+                    page: pageId,
+                  }
+                } catch (error) {
+                  console.warn(
+                    `Page "${item.page.title}" not found for site ${siteId}, skipping side nav item`,
+                  )
+                  return null
+                }
+              }
+
+              // If no title, try to resolve by slug
               if (item.page.slug) {
                 const pageId = await this.getPageBySlug(siteId, item.page.slug)
                 if (pageId) {
+                  // Create a clean item with only the page ID, removing any other page object properties
+                  const { page: _, ...restItem } = item
                   return {
-                    ...item,
+                    ...restItem,
                     page: pageId,
                   }
                 }
+                console.warn(
+                  `Page with slug "${item.page.slug}" not found for site ${siteId}, skipping side nav item`,
+                )
+                return null
               }
-              console.warn(`Page with ID ${item.page.id} not found for site ${siteId}, skipping side nav item`)
-              return null
+
+              // If page object has id but no title or slug, it's from another site - skip it
+              if (item.page.id) {
+                console.warn(
+                  `Page with ID ${item.page.id} (no title/slug) not found for site ${siteId}, skipping side nav item`,
+                )
+                return null
+              }
             }
           }
-          
+
           // Handle subitems recursively
           if (item.subitems) {
+            const resolvedSubitems = await resolveItems(item.subitems)
             return {
               ...item,
-              subitems: await resolveItems(item.subitems),
+              subitems: resolvedSubitems.filter((subitem) => subitem !== null),
             }
           }
-          
+
           // Handle collectionLink and customCollectionLink - these don't need resolution
           return item
         }),
@@ -372,9 +497,15 @@ class Loader {
 
     const resolvedItems = await resolveItems(rawData.items || [])
     const sideNavData = {
-      ...rawData,
+      enabled: rawData.enabled,
+      title: rawData.title,
+      fallbackToAllPages: rawData.fallbackToAllPages,
       items: resolvedItems.filter((item) => item !== null),
     }
+
+    // Clean the data to ensure all relationship objects are converted to IDs
+    // Pass true for isBlockItem since items is an array of blocks
+    const cleanedData = this.cleanDataForPayload(sideNavData, true)
 
     // Check if side navigation already exists for this site
     const existing = await this.payload.find({
@@ -389,7 +520,7 @@ class Loader {
         collection: 'side-navigation-site-collection',
         id: existing.docs[0].id,
         data: {
-          ...sideNavData,
+          ...cleanedData,
           site: siteId,
           _status: 'published',
         } as any,
@@ -398,7 +529,7 @@ class Loader {
       return await this.payload.create({
         collection: 'side-navigation-site-collection',
         data: {
-          ...sideNavData,
+          ...cleanedData,
           site: siteId,
           _status: 'published',
         } as any,

@@ -1,5 +1,4 @@
 import type { CollectionConfig } from 'payload'
-import { getCollectionPreviewUrl } from '@/utilities/previews'
 import { categoriesField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
@@ -8,7 +7,6 @@ import { publish } from '@/hooks/publish'
 import { editor } from '@/utilities/editor'
 import { completeReview } from '@/hooks/completeReview'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
-import { getAdminCollectionPreview } from '@/utilities/previews'
 
 export const CustomCollectionPages: CollectionConfig = {
   slug: 'custom-collection-pages',
