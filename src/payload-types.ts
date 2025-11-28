@@ -206,10 +206,11 @@ export interface Alert {
   type: 'info' | 'warning' | 'success' | 'error' | 'emergency';
   slim: boolean;
   icon: boolean;
+  alignment: 'left' | 'center';
   isActive: boolean;
-  publishDate?: string | null;
   site: number | Site;
   reviewReady?: boolean | null;
+  publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -2093,10 +2094,11 @@ export interface AlertsSelect<T extends boolean = true> {
   type?: T;
   slim?: T;
   icon?: T;
+  alignment?: T;
   isActive?: T;
-  publishDate?: T;
   site?: T;
   reviewReady?: T;
+  publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

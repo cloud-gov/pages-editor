@@ -251,6 +251,7 @@ export const test = vitest.extend<LocalTestContext>({
           collection: alertCollectionName,
           data: {
             title: `${site.name} Alert Title`,
+            alignment: 'center',
             site,
             content: {
               "root": {

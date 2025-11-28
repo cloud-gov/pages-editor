@@ -6,6 +6,7 @@ import { publish } from '@/hooks/publish'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
 import { completeReview } from '@/hooks/completeReview'
+import { publishedAtField } from '@/fields'
 
 const alertsCollectionName: CollectionSlug = 'alerts' as CollectionSlug
 
@@ -43,17 +44,27 @@ export const Alerts: CollectionConfig = {
       label: 'Title',
     },
     {
-      name: 'content',
-      type: 'richText',
+      type: 'collapsible',
       label: 'Description',
       required: true,
-      editor: lexicalEditor({
-        features: [
-          LinkFeature({
-            enabledCollections: [], // No internal links to collections
+      admin: {
+        initCollapsed: false,
+      },
+      fields: [
+        {
+          name: 'content',
+          type: 'richText',
+          label: ' ', // will add required to the field
+          required: true,
+          editor: lexicalEditor({
+            features: [
+              LinkFeature({
+                enabledCollections: [], // No internal links to collections
+              }),
+            ],
           }),
-        ],
-      }),
+        },
+      ],
     },
     {
       name: 'type',
@@ -90,11 +101,36 @@ export const Alerts: CollectionConfig = {
           defaultValue: true,
           required: true,
         },
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'alignment',
+              type: 'radio',
+              label: 'Text alignment',
+              required: true,
+              options: [
+                {
+                  label: 'Left',
+                  value: 'left',
+                },
+                {
+                  label: 'Center',
+                  value: 'center',
+                },
+              ],
+              admin: {
+                layout: 'horizontal',
+                width: '100%',
+              },
+            },
+          ],
+        },
       ],
     },
     {
       type: 'collapsible',
-      label: 'Alert triggers',
+      label: 'Alert trigger',
       admin: {
         initCollapsed: false,
       },
@@ -106,17 +142,6 @@ export const Alerts: CollectionConfig = {
           defaultValue: false,
           required: true,
         },
-        {
-          name: 'publishDate',
-          type: 'date',
-          label: 'Publish date',
-          admin: {
-            date: {
-              pickerAppearance: 'dayAndTime',
-              displayFormat: 'MMM d, yyyy h:mm a',
-            },
-          },
-        },
       ],
     },
     siteField,
@@ -126,6 +151,7 @@ export const Alerts: CollectionConfig = {
       type: 'checkbox',
       defaultValue: false,
     },
+    publishedAtField,
   ],
   hooks: {
     afterChange: [publish],
