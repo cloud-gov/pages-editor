@@ -8,11 +8,11 @@ import type { CollectionSlug } from 'payload'
 
 const alertCollectionName: CollectionSlug = 'alerts' as CollectionSlug
 
-const fieldsToFill: Pick<Alert, 'title' | 'type' | 'isActive' | 'publishDate' | 'content'> = {
+const fieldsToFill: Pick<Alert, 'title' | 'type' | 'isActive' | 'alignment' | 'content'> = {
   title: 'Alert Title',
   type: 'info',
   isActive: false,
-  publishDate: new Date().toISOString(),
+  alignment: 'center',
   content: {
     "root": {
       "type": "root",
