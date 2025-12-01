@@ -10,7 +10,7 @@ import {
   Media,
   News,
   Page,
-  PageMenu,
+  SideNavigation,
   Policy,
   Alert,
   FooterSiteCollection,
@@ -33,7 +33,7 @@ export interface LocalTestContext {
   reports: Report[]
   resources: Resource[]
   pages: Page[]
-  pageMenus: PageMenu[]
+  sideNavigations: SideNavigation[]
   policies: Policy[]
   sites: Site[]
   users: User[]

@@ -18,13 +18,12 @@ import { Resources } from './collections/Resources'
 import { Pages } from './collections/Pages'
 import { Policies } from './collections/Policies'
 import { Sites } from './collections/Sites'
-import { PageMenus } from './collections/PageMenus'
+import { SideNavigation } from './collections/SideNavigation'
 import { Menu as MenuConfig } from './globals/Menu'
 import { PreFooter as PreFooterConfig } from './globals/PreFooter'
 import { Footer as FooterConfig } from './globals/Footer'
 import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
 import { HomePage as HomePageConfig } from './globals/HomePage'
-import { SideNavigation as SideNavigationConfig } from './globals/SideNavigation'
 import { plugins } from './plugins'
 import endpoints from './endpoints'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -42,7 +41,6 @@ const [Menu, MenuCollection] = createSiteGlobal(MenuConfig)
 const [HomePage, HomePageCollection] = createSiteGlobal(HomePageConfig)
 const [Footer, FooterCollection] = createSiteGlobal(FooterConfig)
 const [PreFooter, PreFooterCollection] = createSiteGlobal(PreFooterConfig)
-const [SideNavigation, SideNavigationCollection] = createSiteGlobal(SideNavigationConfig)
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -158,16 +156,15 @@ const config = {
     Users,
     // Site Configuration group
     Sites,
-    PageMenus,
+    SideNavigation,
     MenuCollection,
     SiteConfigCollection,
     HomePageCollection,
     FooterCollection,
     PreFooterCollection,
-    SideNavigationCollection,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [SiteConfig, Menu, HomePage, Footer, PreFooter, SideNavigation],
+  globals: [SiteConfig, Menu, HomePage, Footer, PreFooter],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,

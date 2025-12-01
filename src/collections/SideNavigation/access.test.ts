@@ -4,30 +4,30 @@ import { test } from '@test/utils/test'
 import { siteIdHelper } from '@/utilities/idHelper'
 import { isAccessError, notFoundError } from '@test/utils/errors'
 
-describe('Page Menus access', () => {
+describe('Side Navigation access', () => {
   describe('admins can...', async () => {
     test.scoped({ defaultUserAdmin: true })
 
-    test('read all Page Menus', async ({ tid, testUser, pageMenus }) => {
+    test('read all Side Navigation', async ({ tid, testUser, sideNavigations }) => {
       const foundItems = await find(
         payload,
         tid,
         {
-          collection: 'page-menus',
+          collection: 'side-navigation',
         },
         testUser,
       )
-      expect(foundItems.docs).toHaveLength(pageMenus.length)
+      expect(foundItems.docs).toHaveLength(sideNavigations.length)
     })
 
-    test('write a Page Menus to any site', async ({ tid, testUser, sites }) => {
+    test('write a Side Navigation to any site', async ({ tid, testUser, sites }) => {
       const newReports = await Promise.all(
         sites.map(async (site) => {
           return create(
             payload,
             tid,
             {
-              collection: 'page-menus',
+              collection: 'side-navigation',
               data: {
                 title: `${site.name} - Title`,
                 name: `${site.name} - Name`,
@@ -42,14 +42,14 @@ describe('Page Menus access', () => {
       expect(newReports).toHaveLength(sites.length)
     })
 
-    test('update any Page Menus', async ({ tid, testUser, pageMenus }) => {
+    test('update any Side Navigation', async ({ tid, testUser, sideNavigations }) => {
       const newReports = await Promise.all(
-        pageMenus.map(async (item) => {
+        sideNavigations.map(async (item) => {
           return update(
             payload,
             tid,
             {
-              collection: 'page-menus',
+              collection: 'side-navigation',
               id: item.id,
               data: {
                 title: `${item.title} (Edited)`,
@@ -65,14 +65,14 @@ describe('Page Menus access', () => {
       })
     })
 
-    test('delete any Page Menus', async ({ tid, testUser, pageMenus }) => {
+    test('delete any Side Navigation', async ({ tid, testUser, sideNavigations }) => {
       await Promise.all(
-        pageMenus.map(async (item) => {
+        sideNavigations.map(async (item) => {
           return del(
             payload,
             tid,
             {
-              collection: 'page-menus',
+              collection: 'side-navigation',
               id: item.id,
             },
             testUser,
@@ -81,7 +81,7 @@ describe('Page Menus access', () => {
       )
 
       const foundItems = await find(payload, tid, {
-        collection: 'page-menus',
+        collection: 'side-navigation',
       })
       expect(foundItems.docs.length).toBe(0)
     })
@@ -91,19 +91,19 @@ describe('Page Menus access', () => {
     // TODO: this is a bug in https://github.com/vitest-dev/vitest/pull/7233
     test.scoped({ defaultUserAdmin: false })
 
-    test('read their Page Menus', async ({ tid, testUser, pageMenus }) => {
+    test('read their Page Menus', async ({ tid, testUser, sideNavigations }) => {
       const siteId = testUser.selectedSiteId
 
       const foundItems = await find(
         payload,
         tid,
         {
-          collection: 'page-menus',
+          collection: 'side-navigation',
         },
         testUser,
       )
 
-      const expectedReports = pageMenus.filter((item) => siteIdHelper(item.site) === siteId)
+      const expectedReports = sideNavigations.filter((item) => siteIdHelper(item.site) === siteId)
 
       expect(foundItems.docs).toHaveLength(expectedReports.length)
       foundItems.docs.forEach((item) => {
@@ -111,19 +111,19 @@ describe('Page Menus access', () => {
       })
     })
 
-    test('not read not-their Page Menus', async ({ tid, testUser, pageMenus }) => {
+    test('not read not-their Page Menus', async ({ tid, testUser, sideNavigations }) => {
       const siteId = testUser.selectedSiteId
 
-      const notTheirPageMenus = pageMenus.filter((item) => siteIdHelper(item.site) !== siteId)
+      const notTheirSideNavigations = sideNavigations.filter((item) => siteIdHelper(item.site) !== siteId)
 
       await Promise.all(
-        notTheirPageMenus.map(async (item) => {
+        notTheirSideNavigations.map(async (item) => {
           return notFoundError(
             findByID(
               payload,
               tid,
               {
-                collection: 'page-menus',
+                collection: 'side-navigation',
                 id: item.id,
               },
               testUser,
@@ -133,17 +133,17 @@ describe('Page Menus access', () => {
       )
     })
 
-    test('write a Page Menus to their site', async ({ tid, testUser }) => {
+    test('write a Side Navigation to their site', async ({ tid, testUser }) => {
       const siteId = testUser.selectedSiteId
 
       const newReport = await create(
         payload,
         tid,
         {
-          collection: 'page-menus',
+          collection: 'side-navigation',
           data: {
-            title: `Page Menus Title - ${siteId}`,
-            name: `Page Menu Name - ${siteId}`,
+            title: `Side Navigation Title - ${siteId}`,
+            name: `Side Navigation Name - ${siteId}`,
             site: siteId,
           },
         },
@@ -153,7 +153,7 @@ describe('Page Menus access', () => {
       expect(newReport).toBeTruthy()
     })
 
-    test('not write a Page Menus to not-their site', async ({ tid, testUser, sites }) => {
+    test('not write a Side Navigation to not-their site', async ({ tid, testUser, sites }) => {
       const siteId = testUser.selectedSiteId
 
       const notTheirSites = sites.filter((site) => site.id !== siteId)
@@ -165,7 +165,7 @@ describe('Page Menus access', () => {
               payload,
               tid,
               {
-                collection: 'page-menus',
+                collection: 'side-navigation',
                 data: {
                   title: `${site.name} - Title`,
                   name: `${site.name} - Name`,
@@ -179,10 +179,10 @@ describe('Page Menus access', () => {
       )
     })
 
-    test('update their Page Menus', async ({ tid, testUser, pageMenus }) => {
+    test('update their Side Navigation', async ({ tid, testUser, sideNavigations }) => {
       const siteId = testUser.selectedSiteId
 
-      const theirReports = pageMenus.filter((item) => siteIdHelper(item.site) === siteId)
+      const theirReports = sideNavigations.filter((item) => siteIdHelper(item.site) === siteId)
 
       const newReports = await Promise.all(
         theirReports.map(async (item) => {
@@ -190,7 +190,7 @@ describe('Page Menus access', () => {
             payload,
             tid,
             {
-              collection: 'page-menus',
+              collection: 'side-navigation',
               id: item.id,
               data: {
                 title: `${item.title} (Edited)`,
@@ -206,19 +206,19 @@ describe('Page Menus access', () => {
       })
     })
 
-    test('not update not-their Page Menus', async ({ tid, testUser, pageMenus }) => {
+    test('not update not-their Side Navigation', async ({ tid, testUser, sideNavigations }) => {
       const siteId = testUser.selectedSiteId
 
-      const notTheirPageMenus = pageMenus.filter((item) => siteIdHelper(item.site) !== siteId)
+      const notTheirSideNavigations = sideNavigations.filter((item) => siteIdHelper(item.site) !== siteId)
 
       await Promise.all(
-        notTheirPageMenus.map(async (item) => {
+        notTheirSideNavigations.map(async (item) => {
           return isAccessError(
             update(
               payload,
               tid,
               {
-                collection: 'page-menus',
+                collection: 'side-navigation',
                 id: item.id,
                 data: {
                   title: `${item.title} (Edited)`,
@@ -231,10 +231,10 @@ describe('Page Menus access', () => {
       )
     })
 
-    test('delete their Page Menus', async ({ tid, testUser, pageMenus }) => {
+    test('delete their Side Navigation', async ({ tid, testUser, sideNavigations }) => {
       const siteId = testUser.selectedSiteId
 
-      const theirReports = pageMenus.filter((item) => siteIdHelper(item.site) === siteId)
+      const theirReports = sideNavigations.filter((item) => siteIdHelper(item.site) === siteId)
 
       await Promise.all(
         theirReports.map((item) => {
@@ -242,7 +242,7 @@ describe('Page Menus access', () => {
             payload,
             tid,
             {
-              collection: 'page-menus',
+              collection: 'side-navigation',
               id: item.id,
             },
             testUser,
@@ -251,24 +251,24 @@ describe('Page Menus access', () => {
       )
 
       const foundItems = await find(payload, tid, {
-        collection: 'page-menus',
+        collection: 'side-navigation',
       })
-      expect(foundItems.docs.length).toBe(pageMenus.length - theirReports.length)
+      expect(foundItems.docs.length).toBe(sideNavigations.length - theirReports.length)
     })
 
-    test('not delete not-their Page Menus', async ({ tid, testUser, pageMenus }) => {
+    test('not delete not-their Side Navigation', async ({ tid, testUser, sideNavigations }) => {
       const siteId = testUser.selectedSiteId
 
-      const notTheirPageMenus = pageMenus.filter((item) => siteIdHelper(item.site) !== siteId)
+      const notTheirSideNavigations = sideNavigations.filter((item) => siteIdHelper(item.site) !== siteId)
 
       await Promise.all(
-        notTheirPageMenus.map(async (item) => {
+        notTheirSideNavigations.map(async (item) => {
           return isAccessError(
             del(
               payload,
               tid,
               {
-                collection: 'page-menus',
+                collection: 'side-navigation',
                 id: item.id,
               },
               testUser,
@@ -292,10 +292,10 @@ describe('Page Menus access', () => {
       })
     }
 
-    test('read all their Page Menus, upon site selection', async ({
+    test('read all their Side Navigation, upon site selection', async ({
       tid,
       testUser,
-      pageMenus,
+      sideNavigations,
       sites,
     }) => {
       testUser = await addSiteToUser(testUser, tid, { site: sites[1], role: 'user' })
@@ -305,12 +305,12 @@ describe('Page Menus access', () => {
         payload,
         tid,
         {
-          collection: 'page-menus',
+          collection: 'side-navigation',
         },
         testUser,
       )
 
-      let expectedReports = pageMenus.filter((item) => siteIdHelper(item.site) === siteId)
+      let expectedReports = sideNavigations.filter((item) => siteIdHelper(item.site) === siteId)
 
       expect(foundItems.docs).toHaveLength(expectedReports.length)
       foundItems.docs.forEach((item) => {
@@ -325,12 +325,12 @@ describe('Page Menus access', () => {
         payload,
         tid,
         {
-          collection: 'page-menus',
+          collection: 'side-navigation',
         },
         testUser,
       )
 
-      expectedReports = pageMenus.filter((item) => siteIdHelper(item.site) === newSiteId)
+      expectedReports = sideNavigations.filter((item) => siteIdHelper(item.site) === newSiteId)
 
       expect(foundItems.docs).toHaveLength(expectedReports.length)
       foundItems.docs.forEach((item) => {
@@ -338,7 +338,7 @@ describe('Page Menus access', () => {
       })
     })
 
-    test('create a Page Menus for all their sites, upon site selection', async ({
+    test('create a Side Navigation for all their sites, upon site selection', async ({
       tid,
       testUser,
       sites,
@@ -350,10 +350,10 @@ describe('Page Menus access', () => {
         payload,
         tid,
         {
-          collection: 'page-menus',
+          collection: 'side-navigation',
           data: {
-            title: `Page Menus Title - ${siteId}`,
-            name: `Page Menus Name - ${siteId}`,
+            title: `Side Navigation Title - ${siteId}`,
+            name: `Side Navigation Name - ${siteId}`,
             site: siteId,
           },
         },
@@ -371,10 +371,10 @@ describe('Page Menus access', () => {
         payload,
         tid,
         {
-          collection: 'page-menus',
+          collection: 'side-navigation',
           data: {
-            title: `Page Menus Title - ${newSiteId}`,
-            name: `Page Menus Name - ${newSiteId}`,
+            title: `Side Navigation Title - ${newSiteId}`,
+            name: `Side Navigation Name - ${newSiteId}`,
             site: newSiteId,
           },
         },
@@ -384,16 +384,16 @@ describe('Page Menus access', () => {
       expect(siteIdHelper(newReport.site)).toBe(newSiteId)
     })
 
-    test('delete a Page Menus for all their sites, upon site selection', async ({
+    test('delete a Side Navigation for all their sites, upon site selection', async ({
       tid,
       testUser,
       sites,
-      pageMenus,
+      sideNavigations,
     }) => {
       testUser = await addSiteToUser(testUser, tid, { site: sites[1], role: 'manager' })
       const siteId = testUser.selectedSiteId
 
-      const theirReports = pageMenus.filter((item) => siteIdHelper(item.site) === siteId)
+      const theirReports = sideNavigations.filter((item) => siteIdHelper(item.site) === siteId)
 
       await Promise.all(
         theirReports.map((item) => {
@@ -401,7 +401,7 @@ describe('Page Menus access', () => {
             payload,
             tid,
             {
-              collection: 'page-menus',
+              collection: 'side-navigation',
               id: item.id,
             },
             testUser,
@@ -410,15 +410,15 @@ describe('Page Menus access', () => {
       )
 
       let foundItems = await find(payload, tid, {
-        collection: 'page-menus',
+        collection: 'side-navigation',
       })
-      expect(foundItems.docs.length).toBe(pageMenus.length - theirReports.length)
+      expect(foundItems.docs.length).toBe(sideNavigations.length - theirReports.length)
 
       // switch site
       testUser = await setUserSite(payload, tid, testUser, sites[1].id)
       const newSiteId = testUser.selectedSiteId
 
-      const moreReports = pageMenus.filter((item) => siteIdHelper(item.site) === newSiteId)
+      const moreReports = sideNavigations.filter((item) => siteIdHelper(item.site) === newSiteId)
 
       await Promise.all(
         moreReports.map((item) => {
@@ -426,7 +426,7 @@ describe('Page Menus access', () => {
             payload,
             tid,
             {
-              collection: 'page-menus',
+              collection: 'side-navigation',
               id: item.id,
             },
             testUser,
@@ -435,28 +435,28 @@ describe('Page Menus access', () => {
       )
 
       foundItems = await find(payload, tid, {
-        collection: 'page-menus',
+        collection: 'side-navigation',
       })
-      expect(foundItems.docs.length).toBe(pageMenus.length - theirReports.length - moreReports.length)
+      expect(foundItems.docs.length).toBe(sideNavigations.length - theirReports.length - moreReports.length)
     })
   })
 
   describe('bots can...', async () => {
     test.scoped({ defaultUserAdmin: false, defaultUserRole: 'bot' })
 
-    test('read their Page Menus', async ({ tid, testUser, pageMenus }) => {
+    test('read their Page Menus', async ({ tid, testUser, sideNavigations }) => {
       const siteId = testUser.selectedSiteId
 
       const foundItems = await find(
         payload,
         tid,
         {
-          collection: 'page-menus',
+          collection: 'side-navigation',
         },
         testUser,
       )
 
-      const expectedReports = pageMenus.filter((item) => siteIdHelper(item.site) === siteId)
+      const expectedReports = sideNavigations.filter((item) => siteIdHelper(item.site) === siteId)
 
       expect(foundItems.docs).toHaveLength(expectedReports.length)
       foundItems.docs.forEach((item) => {
@@ -464,19 +464,19 @@ describe('Page Menus access', () => {
       })
     })
 
-    test('not read not-their Page Menus', async ({ tid, testUser, pageMenus }) => {
+    test('not read not-their Page Menus', async ({ tid, testUser, sideNavigations }) => {
       const siteId = testUser.selectedSiteId
 
-      const notTheirPageMenus = pageMenus.filter((item) => siteIdHelper(item.site) !== siteId)
+      const notTheirSideNavigations = sideNavigations.filter((item) => siteIdHelper(item.site) !== siteId)
 
       await Promise.all(
-        notTheirPageMenus.map(async (item) => {
+        notTheirSideNavigations.map(async (item) => {
           return notFoundError(
             findByID(
               payload,
               tid,
               {
-                collection: 'page-menus',
+                collection: 'side-navigation',
                 id: item.id,
               },
               testUser,
@@ -486,7 +486,7 @@ describe('Page Menus access', () => {
       )
     })
 
-    test('not write a Page Menus', async ({ tid, testUser, sites }) => {
+    test('not write a Side Navigation', async ({ tid, testUser, sites }) => {
       await Promise.all(
         sites.map(async (site) => {
           return isAccessError(
@@ -494,7 +494,7 @@ describe('Page Menus access', () => {
               payload,
               tid,
               {
-                collection: 'page-menus',
+                collection: 'side-navigation',
                 data: {
                   title: `${site.name} - Title`,
                   name: `${site.name} - Name`,
@@ -508,15 +508,15 @@ describe('Page Menus access', () => {
       )
     })
 
-    test('not update Page Menus', async ({ tid, testUser, pageMenus }) => {
+    test('not update Side Navigation', async ({ tid, testUser, sideNavigations }) => {
       await Promise.all(
-        pageMenus.map(async (item) => {
+        sideNavigations.map(async (item) => {
           return isAccessError(
             update(
               payload,
               tid,
               {
-                collection: 'page-menus',
+                collection: 'side-navigation',
                 id: item.id,
                 data: {
                   title: `${item.title} (Edited)`,
@@ -529,15 +529,15 @@ describe('Page Menus access', () => {
       )
     })
 
-    test('not delete Page Menus', async ({ tid, testUser, pageMenus }) => {
+    test('not delete Side Navigation', async ({ tid, testUser, sideNavigations }) => {
       await Promise.all(
-        pageMenus.map(async (item) => {
+        sideNavigations.map(async (item) => {
           return isAccessError(
             del(
               payload,
               tid,
               {
-                collection: 'page-menus',
+                collection: 'side-navigation',
                 id: item.id,
               },
               testUser,
