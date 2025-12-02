@@ -56,10 +56,10 @@ export const Pages: CollectionConfig<'pages'> = {
     {
       name: 'sideNavigation',
       type: 'relationship',
-      relationTo: 'page-menus',
-      label: 'Page Menu',
+      relationTo: 'side-navigation',
+      label: 'Side Navigation',
       admin: {
-        description: 'Select a page menu to display in the sidebar for this page',
+        description: 'Select a side navigation menu to display in the sidebar for this page',
         position: 'sidebar',
       },
     },
