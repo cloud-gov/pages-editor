@@ -54,6 +54,25 @@ The database is seeded with the following for local development:
 
 Using the local seed (`npm run dc:seed`) command creates the live preview experience locally for the two sites in our docker compose services. We build the main branch of [pages-site-gantry](https://github.com/cloud-gov/pages-site-gantry) in the [docker/Dockerfile-pages-site-gantry)](./docker/Dockerfile-pages-site-gantry) and we use hardcoded `PAYLOAD_API_KEY` keys to ensure both sites are accessible from the admin dashboard live preview.
 
+#### Seeding and Exporting Data
+
+The `npm run dc:seed` command seeds the database with initial data including sites, users, and collection content. For global data (like Home Page, Menu, Footer, PreFooter, and Site Config), you can export the current state from a running instance:
+
+```bash
+# Export global data to seed files
+npm run export:globals
+```
+
+This command exports the current state of all global collections to `scripts/datasets/globals/` directory. These exported files are then used by the seed script to populate globals when running `npm run dc:seed`.
+
+**Note:** The `export:globals` command only handles global types. Collection data (like Pages, Posts, Events, etc.) is managed separately and seeded from the dataset files in `scripts/datasets/collections/`.
+
+To update seed data:
+1. Make changes to globals in the admin UI or via API
+2. Run `npm run export:globals` to capture the current state
+3. Commit the updated seed files
+4. Future `npm run dc:seed` runs will use the updated data
+
 ### Creating database migrations
 
 If you want the database schema to change, you will need to update the schema by adjusting or adding to the collections/globals.
