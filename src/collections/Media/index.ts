@@ -16,6 +16,7 @@ export const Media: CollectionConfig = {
     description: 'Site-wide images, videos, and files used across pages and content.',
     hidden: false,
     defaultColumns: ['filename', '_status', 'reviewReady'],
+    useAsTitle: 'filename',
   },
   slug: 'media',
   access: {
