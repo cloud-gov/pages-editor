@@ -132,11 +132,11 @@ export const test = vitest.extend<LocalTestContext>({
     )
     await use(news)
   },
-  pageMenus: async ({ payload, tid, sites }, use) => {
-    const pageMenus = await Promise.all(
+  sideNavigations: async ({ payload, tid, sites }, use) => {
+    const sideNavigations = await Promise.all(
       sites.map(async (site) => {
         return create(payload, tid, {
-          collection: 'page-menus',
+          collection: 'side-navigation',
           data: {
             title: `${site.name} Title`,
             name: `${site.name} Name`,
@@ -145,7 +145,7 @@ export const test = vitest.extend<LocalTestContext>({
         })
       }),
     )
-    await use(pageMenus)
+    await use(sideNavigations)
   },
   reports: async ({ payload, tid, sites }, use) => {
     const reports = await Promise.all(

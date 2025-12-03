@@ -139,7 +139,7 @@ async function exportSideNavigation() {
   try {
     // Query the site collection directly since it's a site-specific global
     const sideNavDocs = await payload.find({
-      collection: 'side-navigation-site-collection',
+      collection: 'side-navigation',
       where: {
         site: { equals: siteId },
       },

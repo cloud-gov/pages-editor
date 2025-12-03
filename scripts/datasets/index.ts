@@ -509,7 +509,7 @@ class Loader {
 
     // Check if side navigation already exists for this site
     const existing = await this.payload.find({
-      collection: 'side-navigation-site-collection',
+      collection: 'side-navigation',
       where: {
         site: { equals: siteId },
       },
@@ -517,7 +517,7 @@ class Loader {
 
     if (existing.docs.length > 0) {
       return await this.payload.update({
-        collection: 'side-navigation-site-collection',
+        collection: 'side-navigation',
         id: existing.docs[0].id,
         data: {
           ...cleanedData,
@@ -527,7 +527,7 @@ class Loader {
       })
     } else {
       return await this.payload.create({
-        collection: 'side-navigation-site-collection',
+        collection: 'side-navigation',
         data: {
           ...cleanedData,
           site: siteId,
