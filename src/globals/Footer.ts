@@ -34,7 +34,7 @@ export const Footer: GlobalConfig = {
     },
     {
       type: 'collapsible',
-      label: "Masthead (parent agencies’ description)",
+      label: 'Masthead (parent agencies’ description)',
       required: true,
       admin: {
         initCollapsed: false,
@@ -88,10 +88,9 @@ export const Footer: GlobalConfig = {
             },
             {
               ...imageField,
-              label: '',
+              label: 'Logo image',
               admin: {
-                ...imageField.admin,
-                description: '',
+                description: 'The logo image to be displayed in the footer',
               },
             },
           ],
