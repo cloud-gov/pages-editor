@@ -29,6 +29,7 @@ async function bootstrap() {
       data: {
         name: 'admin-site',
       },
+      draft: true,
     })
   }
 
