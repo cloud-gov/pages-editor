@@ -24,7 +24,7 @@
 // root variables & fallbacks
 :root {
     --font-body: "Source Sans Pro", -apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    
+
     // fallback values in case variables don't load
     --color-primary: #005ea2;
     --color-primary-darker: #1a4480;
@@ -144,7 +144,7 @@ main.collection-edit {
 }
 
 .document-fields__main .document-fields__edit {
-    padding-left: 0; 
+    padding-left: 0;
     padding-bottom: 2rem;
 }
 
@@ -153,7 +153,7 @@ main.collection-edit {
 }
 
 .doc-controls__content, .doc-controls {
-    padding: 0 !important; 
+    padding: 0 !important;
 }
 
 .doc-header__title {
@@ -170,7 +170,7 @@ main.collection-edit {
     margin-bottom: var(--spacing-2);
 }
 
-.editor > *, 
+.editor > *,
 .fixed-toolbar > *,
 button {
     font-family: var(--font-body);
@@ -181,8 +181,8 @@ button {
     line-height: 25px;
 }
 
-.list-header, 
-.doc-controls__wrapper, 
+.list-header,
+.doc-controls__wrapper,
 .login {
     .btn {
         @extend .usa-button;
@@ -238,14 +238,14 @@ button {
     display: flex;
     flex-direction: column;
     height: 100%;
-    
+
     &:hover {
         text-decoration: none;
         .usa-card__container {
             background-color: #e6e6e6;
         }
     }
-    
+
     &:focus-visible {
         outline: 2px solid var(--color-primary);
         outline-offset: 2px;
@@ -268,17 +268,17 @@ button {
     flex-direction: column;
     height: 100%;
     box-shadow: var(--shadow-sm);
-    
+
     .usa-card__header {
         padding: var(--spacing-4) var(--spacing-4) var(--spacing-2) var(--spacing-4);
     }
-    
+
     .usa-card__heading {
         font-family: var(--font-body);
         font-size: var(--font-size-base);
         font-weight: 600;
     }
-    
+
     .usa-card__body {
         flex-grow: 1;
         padding: 0 var(--spacing-4) var(--spacing-4) var(--spacing-4);
@@ -307,7 +307,7 @@ button {
 
 .nav-group__toggle {
     color: var(--color-base-darker);
-    
+
     svg,
     svg path {
         fill: none;
@@ -389,7 +389,7 @@ button {
 .nav__subnav {
     margin-left: var(--spacing-3);
     border-left: 1px solid #dfe1e2;
-    
+
     .nav__link {
         padding-left: var(--spacing-4);
         font-size: var(--font-size-sm);
@@ -408,10 +408,47 @@ button {
 
 // responsive design
 @media (max-width: 768px) {
-    .nav, 
+    .nav,
     .template-default__nav {
         width: 100%;
         border-right: none;
         border-bottom: 1px solid #dfe1e2;
     }
+}
+
+// Custom drawer styles
+
+.drawer__content {
+    width: 100% !important;
+}
+
+.drawer__content-children {
+    padding: 0 var(--spacing-24);
+    h2 span {
+        font-size: var(--font-size-4xl);
+        font-weight: 500;
+    }
+    @media (max-width: 768px) {
+        padding: 0 var(--spacing-4);
+    }
+}
+
+.list-header__content {
+    margin-bottom: var(--spacing-4);
+}
+
+.custom-view-description {
+    margin-bottom: var(--spacing-2);
+}
+
+.gutter.doc-drawer__header {
+    padding-left: 0;
+}
+
+.drawer__close {
+    display: none;
+}
+
+.list-header__actions {
+    margin-left: var(--spacing-4);
 }
