@@ -1185,6 +1185,9 @@ export interface FooterSiteCollection {
   logos?:
     | {
         url: string;
+        /**
+         * The logo image to be displayed in the footer
+         */
         image?: (number | null) | Media;
         id?: string | null;
       }[]
@@ -3237,6 +3240,9 @@ export interface Footer {
   logos?:
     | {
         url: string;
+        /**
+         * The logo image to be displayed in the footer
+         */
         image?: (number | null) | Media;
         id?: string | null;
       }[]

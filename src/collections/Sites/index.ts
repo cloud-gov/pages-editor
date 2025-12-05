@@ -7,6 +7,7 @@ import {
   createSiteBot,
   createSiteSinglePolicies,
   createSiteSinglePages,
+  deleteSiteBot,
   formatSiteSlug,
   saveInfoToS3,
 } from './hooks'
@@ -90,6 +91,7 @@ export const Sites: CollectionConfig = {
       saveInfoToS3,
     ],
     beforeDelete: [beforeDeleteHook],
+    afterDelete: [deleteSiteBot],
   },
   timestamps: true,
 }

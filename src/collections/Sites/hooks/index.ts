@@ -2,6 +2,7 @@ import type {
   CollectionBeforeValidateHook,
   CollectionAfterChangeHook,
   CollectionBeforeDeleteHook,
+  CollectionAfterDeleteHook,
 } from 'payload'
 import { Site } from '@/payload-types'
 import { v4 as uuidv4 } from 'uuid'
@@ -78,6 +79,25 @@ export const createSiteBot: CollectionAfterChangeHook<Site> = async ({ doc, req,
     }
   }
   return doc
+}
+
+export const deleteSiteBot: CollectionAfterDeleteHook<Site> = async ({ doc }) => {
+  if (process.env.PAGES_URL) {
+    const payload = encryptObjectValues(
+      { siteId: doc.pagesSiteId },
+      process.env.PAGES_ENCRYPTION_KEY,
+    )
+
+    await fetch(`${process.env.PAGES_URL}/webhook/site`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+  }
+
+  return
 }
 
 export const createManager: CollectionAfterChangeHook<Site> = async ({ doc, req, operation }) => {
