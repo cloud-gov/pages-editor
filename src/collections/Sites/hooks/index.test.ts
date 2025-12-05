@@ -1,4 +1,4 @@
-import { describe, expect, beforeEach, vi, afterAll } from 'vitest'
+import { describe, expect, beforeEach, vi, afterAll, beforeAll, MockInstance } from 'vitest'
 import { mockClient } from 'aws-sdk-client-mock'
 import {
   S3Client,
@@ -9,13 +9,80 @@ import {
 } from '@aws-sdk/client-s3'
 import { beforeDeleteHook, saveInfoToS3 } from './index'
 import { test } from '@test/utils/test'
-import { create, update, find } from '@test/utils/localHelpers'
+import { create, del, update, find } from '@test/utils/localHelpers'
 import { Site } from '@/payload-types'
 
 const BUCKET_NAME = 'test-bucket'
 
 // Mock the S3 client
 const s3Mock = mockClient(S3Client)
+
+let fetchMock: MockInstance
+
+describe('afterDeleteHook', () => {
+  test.scoped({ defaultUserAdmin: true })
+
+  const pagesUrl = process.env.PAGES_URL
+  const pagesStubUrl = 'http://example.gov'
+  const encryptionKey = process.env.PAGES_ENCRYPTION_KEY || 'test-encryption-key'
+
+  beforeAll(() => {
+    vi.stubEnv('PAGES_URL', pagesStubUrl)
+    vi.stubEnv('PAGES_ENCRYPTION_KEY', encryptionKey)
+
+    // Create a mock fetch function
+    fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+    } as Response)
+
+    // Stub global fetch to intercept the request
+    vi.stubGlobal('fetch', fetchMock)
+  })
+
+  afterAll(() => {
+    vi.stubEnv('PAGES_URL', pagesUrl)
+    if (process.env.PAGES_ENCRYPTION_KEY) {
+      vi.stubEnv('PAGES_ENCRYPTION_KEY', process.env.PAGES_ENCRYPTION_KEY)
+    }
+    vi.unstubAllGlobals()
+  })
+
+  test('should successfully send the delete site request', async ({ payload, tid }) => {
+    // Create a test site
+    const site = await create(payload, tid, {
+      collection: 'sites',
+      data: {
+        name: 'test-site-to-delete',
+        initialManagerEmail: 'test@gsa.gov',
+        pagesSiteId: 123,
+      },
+    })
+
+    await del(payload, tid, {
+      collection: 'sites',
+      id: site.id,
+    })
+
+    // Verify the fetch call arguments
+    const fetchCall = fetchMock.mock.calls.find(
+      (call) => call[0] === `${pagesStubUrl}/webhook/site` && call[1]?.method === 'DELETE',
+    )
+
+    // Verify fetchCall exists and contains the expected data
+    expect(fetchCall).toBeDefined()
+    expect(fetchCall?.[0]).toBe(`${pagesStubUrl}/webhook/site`)
+    expect(fetchCall?.[1]?.method).toBe('DELETE')
+
+    // Verify the body contains the encrypted siteId
+    const body = JSON.parse((fetchCall?.[1]?.body as string) || '{}')
+    expect(body).toHaveProperty('siteId')
+    expect(typeof body.siteId).toBe('string')
+    expect(body.siteId.length).toBeGreaterThan(0)
+
+    vi.unstubAllGlobals()
+  })
+})
 
 describe('beforeDeleteHook', () => {
   test.scoped({ defaultUserAdmin: true })
