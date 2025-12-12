@@ -9,6 +9,7 @@ import { descriptionField, imageField } from '@/fields'
 import { completeReview } from '@/hooks/completeReview'
 import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
+import { relatedItems } from '@/fields/relatedItems'
 
 export const News: CollectionConfig<'news'> = {
   slug: 'news',
@@ -97,6 +98,7 @@ export const News: CollectionConfig<'news'> = {
         description: 'Display the in-page navigation sidebar on this news item',
       },
     },
+    relatedItems('news'),
   ],
   hooks: {
     afterChange: [publish],
