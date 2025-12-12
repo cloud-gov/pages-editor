@@ -42,6 +42,7 @@ import * as migration_20251125_162928_add_custom_collection from './20251125_162
 import * as migration_20251128_152929_update_alert_collection_aligment from './20251128_152929_update_alert_collection_aligment';
 import * as migration_20251201_173417_rename_side_navigation from './20251201_173417_rename_side_navigation';
 import * as migration_20251204_202526_update_payload_3_66_0 from './20251204_202526_update_payload_3_66_0';
+import * as migration_20251210_164948_add_404_page from './20251210_164948_add_404_page';
 
 export const migrations = [
   {
@@ -262,6 +263,11 @@ export const migrations = [
   {
     up: migration_20251204_202526_update_payload_3_66_0.up,
     down: migration_20251204_202526_update_payload_3_66_0.down,
-    name: '20251204_202526_update_payload_3_66_0'
+    name: '20251204_202526_update_payload_3_66_0',
+  },
+  {
+    up: migration_20251210_164948_add_404_page.up,
+    down: migration_20251210_164948_add_404_page.down,
+    name: '20251210_164948_add_404_page'
   },
 ];
