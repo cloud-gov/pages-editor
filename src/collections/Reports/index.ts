@@ -8,6 +8,7 @@ import { editor } from '@/utilities/editor'
 import { getCollectionPreviewUrl } from '@/utilities/previews'
 import { completeReview } from '@/hooks/completeReview'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
+import { relatedItems } from '@/fields/relatedItems'
 
 export const Reports: CollectionConfig = {
   slug: 'reports',
@@ -138,6 +139,7 @@ export const Reports: CollectionConfig = {
         description: 'Display the in-page navigation sidebar on this report',
       },
     },
+    relatedItems('reports'),
   ],
   hooks: {
     afterChange: [publish],

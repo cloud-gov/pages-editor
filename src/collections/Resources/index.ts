@@ -8,6 +8,7 @@ import { publish } from '@/hooks/publish'
 import { editor } from '@/utilities/editor'
 import { completeReview } from '@/hooks/completeReview'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
+import { relatedItems } from '@/fields/relatedItems'
 
 export const Resources: CollectionConfig = {
   slug: 'resources',
@@ -138,6 +139,7 @@ export const Resources: CollectionConfig = {
         description: 'Display the in-page navigation sidebar on this resource',
       },
     },
+    relatedItems('resources'),
   ],
   hooks: {
     afterChange: [publish],

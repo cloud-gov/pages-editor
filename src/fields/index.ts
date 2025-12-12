@@ -249,3 +249,5 @@ export const colorOptions = ({
     ...(useDefaultValue && { defaultValue }),
   }
 }
+
+export { relatedItems } from './relatedItems'
