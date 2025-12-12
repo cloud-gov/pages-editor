@@ -1,4 +1,5 @@
 // standardize our editor features
+import { AccordionBlock } from '@/blocks/Accordion'
 import { ProcessListBlock } from '@/blocks/ProcessList'
 import { 
   lexicalEditor,
@@ -13,7 +14,7 @@ export const editor = lexicalEditor({
     FixedToolbarFeature(),
     EXPERIMENTAL_TableFeature(),
     BlocksFeature({
-      blocks: [ProcessListBlock],
+      blocks: [ProcessListBlock, AccordionBlock],
     }),
   ],
 })
