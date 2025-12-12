@@ -305,6 +305,37 @@ export interface Post {
    * Display the in-page navigation sidebar on this post
    */
   showInPageNav?: boolean | null;
+  /**
+   * Add related items to display at the bottom of this page. Can include internal items or external links.
+   */
+  relatedItems?:
+    | (
+        | {
+            /**
+             * Select a related posts item
+             */
+            item: number | Post;
+            /**
+             * Optional custom description for this related item
+             */
+            description?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'internalItem';
+          }
+        | {
+            title: string;
+            url: string;
+            /**
+             * Brief description of the external resource
+             */
+            description?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+      )[]
+    | null;
   slug?: string | null;
   slugLock?: boolean | null;
   'Example Custom Field'?: ('radio' | 'television' | 'podcast' | 'video') | null;
@@ -419,6 +450,37 @@ export interface Event {
    * Display the in-page navigation sidebar on this event
    */
   showInPageNav?: boolean | null;
+  /**
+   * Add related items to display at the bottom of this page. Can include internal items or external links.
+   */
+  relatedItems?:
+    | (
+        | {
+            /**
+             * Select a related events item
+             */
+            item: number | Event;
+            /**
+             * Optional custom description for this related item
+             */
+            description?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'internalItem';
+          }
+        | {
+            title: string;
+            url: string;
+            /**
+             * Brief description of the external resource
+             */
+            description?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+      )[]
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -466,6 +528,37 @@ export interface News {
    * Display the in-page navigation sidebar on this news item
    */
   showInPageNav?: boolean | null;
+  /**
+   * Add related items to display at the bottom of this page. Can include internal items or external links.
+   */
+  relatedItems?:
+    | (
+        | {
+            /**
+             * Select a related news item
+             */
+            item: number | News;
+            /**
+             * Optional custom description for this related item
+             */
+            description?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'internalItem';
+          }
+        | {
+            title: string;
+            url: string;
+            /**
+             * Brief description of the external resource
+             */
+            description?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+      )[]
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -514,6 +607,37 @@ export interface Report {
    * Display the in-page navigation sidebar on this report
    */
   showInPageNav?: boolean | null;
+  /**
+   * Add related items to display at the bottom of this page. Can include internal items or external links.
+   */
+  relatedItems?:
+    | (
+        | {
+            /**
+             * Select a related reports item
+             */
+            item: number | Report;
+            /**
+             * Optional custom description for this related item
+             */
+            description?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'internalItem';
+          }
+        | {
+            title: string;
+            url: string;
+            /**
+             * Brief description of the external resource
+             */
+            description?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+      )[]
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -562,6 +686,37 @@ export interface Resource {
    * Display the in-page navigation sidebar on this resource
    */
   showInPageNav?: boolean | null;
+  /**
+   * Add related items to display at the bottom of this page. Can include internal items or external links.
+   */
+  relatedItems?:
+    | (
+        | {
+            /**
+             * Select a related resources item
+             */
+            item: number | Resource;
+            /**
+             * Optional custom description for this related item
+             */
+            description?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'internalItem';
+          }
+        | {
+            title: string;
+            url: string;
+            /**
+             * Brief description of the external resource
+             */
+            description?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+      )[]
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -708,6 +863,37 @@ export interface CustomCollectionPage {
    * Display the in-page navigation sidebar on this content
    */
   showInPageNav?: boolean | null;
+  /**
+   * Add related items to display at the bottom of this page. Can include internal items or external links.
+   */
+  relatedItems?:
+    | (
+        | {
+            /**
+             * Select a related custom-collection-pages item
+             */
+            item: number | CustomCollectionPage;
+            /**
+             * Optional custom description for this related item
+             */
+            description?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'internalItem';
+          }
+        | {
+            title: string;
+            url: string;
+            /**
+             * Brief description of the external resource
+             */
+            description?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+      )[]
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1979,6 +2165,27 @@ export interface PostsSelect<T extends boolean = true> {
   updatedBy?: T;
   publishedAt?: T;
   showInPageNav?: T;
+  relatedItems?:
+    | T
+    | {
+        internalItem?:
+          | T
+          | {
+              item?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   slug?: T;
   slugLock?: T;
   'Example Custom Field'?: T;
@@ -2017,6 +2224,27 @@ export interface EventsSelect<T extends boolean = true> {
   eventType?: T;
   reviewReady?: T;
   showInPageNav?: T;
+  relatedItems?:
+    | T
+    | {
+        internalItem?:
+          | T
+          | {
+              item?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2038,6 +2266,27 @@ export interface NewsSelect<T extends boolean = true> {
   publishedAt?: T;
   updatedBy?: T;
   showInPageNav?: T;
+  relatedItems?:
+    | T
+    | {
+        internalItem?:
+          | T
+          | {
+              item?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2066,6 +2315,27 @@ export interface ReportsSelect<T extends boolean = true> {
   updatedBy?: T;
   publishedAt?: T;
   showInPageNav?: T;
+  relatedItems?:
+    | T
+    | {
+        internalItem?:
+          | T
+          | {
+              item?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2094,6 +2364,27 @@ export interface ResourcesSelect<T extends boolean = true> {
   reviewReady?: T;
   publishedAt?: T;
   showInPageNav?: T;
+  relatedItems?:
+    | T
+    | {
+        internalItem?:
+          | T
+          | {
+              item?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2158,6 +2449,27 @@ export interface CustomCollectionPagesSelect<T extends boolean = true> {
   reviewReady?: T;
   publishedAt?: T;
   showInPageNav?: T;
+  relatedItems?:
+    | T
+    | {
+        internalItem?:
+          | T
+          | {
+              item?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

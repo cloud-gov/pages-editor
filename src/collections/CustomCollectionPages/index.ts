@@ -7,6 +7,7 @@ import { publish } from '@/hooks/publish'
 import { editor } from '@/utilities/editor'
 import { completeReview } from '@/hooks/completeReview'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
+import { relatedItems } from '@/fields/relatedItems'
 
 export const CustomCollectionPages: CollectionConfig = {
   slug: 'custom-collection-pages',
@@ -158,6 +159,7 @@ export const CustomCollectionPages: CollectionConfig = {
         description: 'Display the in-page navigation sidebar on this content',
       },
     },
+    relatedItems('custom-collection-pages'),
   ],
   hooks: {
     afterChange: [publish],
