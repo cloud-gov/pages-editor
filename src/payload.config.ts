@@ -24,6 +24,7 @@ import { PreFooter as PreFooterConfig } from './globals/PreFooter'
 import { Footer as FooterConfig } from './globals/Footer'
 import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
 import { HomePage as HomePageConfig } from './globals/HomePage'
+import { NotFoundPage as NotFoundPageConfig } from './globals/404'
 import { plugins } from './plugins'
 import endpoints from './endpoints'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -41,6 +42,7 @@ const [Menu, MenuCollection] = createSiteGlobal(MenuConfig)
 const [HomePage, HomePageCollection] = createSiteGlobal(HomePageConfig)
 const [Footer, FooterCollection] = createSiteGlobal(FooterConfig)
 const [PreFooter, PreFooterCollection] = createSiteGlobal(PreFooterConfig)
+const [NotFoundPage, NotFoundPageCollection] = createSiteGlobal(NotFoundPageConfig)
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -162,9 +164,10 @@ const config = {
     HomePageCollection,
     FooterCollection,
     PreFooterCollection,
+    NotFoundPageCollection,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [SiteConfig, Menu, HomePage, Footer, PreFooter],
+  globals: [SiteConfig, Menu, HomePage, Footer, PreFooter, NotFoundPage],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
