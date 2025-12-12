@@ -4,9 +4,9 @@ import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { publish } from '@/hooks/publish'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
-import { lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
 import { completeReview } from '@/hooks/completeReview'
 import { publishedAtField } from '@/fields'
+import { editor } from '@/utilities/editor'
 
 const alertsCollectionName: CollectionSlug = 'alerts' as CollectionSlug
 
@@ -44,27 +44,11 @@ export const Alerts: CollectionConfig = {
       label: 'Title',
     },
     {
-      type: 'collapsible',
+      name: 'content',
       label: 'Description',
+      type: 'richText',
+      editor,
       required: true,
-      admin: {
-        initCollapsed: false,
-      },
-      fields: [
-        {
-          name: 'content',
-          type: 'richText',
-          label: ' ', // will add required to the field
-          required: true,
-          editor: lexicalEditor({
-            features: [
-              LinkFeature({
-                enabledCollections: [], // No internal links to collections
-              }),
-            ],
-          }),
-        },
-      ],
     },
     {
       name: 'type',
