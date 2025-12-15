@@ -87,11 +87,13 @@ export interface Config {
     'home-page-site-collection': HomePageSiteCollection;
     'footer-site-collection': FooterSiteCollection;
     'pre-footer-site-collection': PreFooterSiteCollection;
+    'not-found-page-site-collection': NotFoundPageSiteCollection;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
     search: Search;
     users: User;
+    'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -122,11 +124,13 @@ export interface Config {
     'home-page-site-collection': HomePageSiteCollectionSelect<false> | HomePageSiteCollectionSelect<true>;
     'footer-site-collection': FooterSiteCollectionSelect<false> | FooterSiteCollectionSelect<true>;
     'pre-footer-site-collection': PreFooterSiteCollectionSelect<false> | PreFooterSiteCollectionSelect<true>;
+    'not-found-page-site-collection': NotFoundPageSiteCollectionSelect<false> | NotFoundPageSiteCollectionSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -134,12 +138,14 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
+  fallbackLocale: null;
   globals: {
     'site-config': SiteConfig;
     menu: Menu;
     'home-page': HomePage;
     footer: Footer;
     'pre-footer': PreFooter;
+    'not-found-page': NotFoundPage;
   };
   globalsSelect: {
     'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
@@ -147,6 +153,7 @@ export interface Config {
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'pre-footer': PreFooterSelect<false> | PreFooterSelect<true>;
+    'not-found-page': NotFoundPageSelect<false> | NotFoundPageSelect<true>;
   };
   locale: null;
   user: User & {
@@ -188,7 +195,7 @@ export interface Alert {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -280,7 +287,7 @@ export interface Post {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -388,7 +395,7 @@ export interface Event {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -445,7 +452,7 @@ export interface News {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -496,7 +503,7 @@ export interface Report {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -545,7 +552,7 @@ export interface Resource {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -595,7 +602,7 @@ export interface Leadership {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -690,7 +697,7 @@ export interface CustomCollectionPage {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -728,7 +735,7 @@ export interface Page {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -855,7 +862,7 @@ export interface Policy {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -1129,7 +1136,7 @@ export interface HomePageSiteCollection {
               root: {
                 type: string;
                 children: {
-                  type: string;
+                  type: any;
                   version: number;
                   [k: string]: unknown;
                 }[];
@@ -1168,7 +1175,7 @@ export interface FooterSiteCollection {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -1548,6 +1555,37 @@ export interface PreFooterSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Customize the 404 error page content.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "not-found-page-site-collection".
+ */
+export interface NotFoundPageSiteCollection {
+  id: number;
+  title: string;
+  heading: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  showSearch?: boolean | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
@@ -1610,7 +1648,7 @@ export interface Form {
               root: {
                 type: string;
                 children: {
-                  type: string;
+                  type: any;
                   version: number;
                   [k: string]: unknown;
                 }[];
@@ -1693,7 +1731,7 @@ export interface Form {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -1725,7 +1763,7 @@ export interface Form {
           root: {
             type: string;
             children: {
-              type: string;
+              type: any;
               version: number;
               [k: string]: unknown;
             }[];
@@ -1788,6 +1826,23 @@ export interface Search {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-kv".
+ */
+export interface PayloadKv {
+  id: number;
+  key: string;
+  data:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1875,6 +1930,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pre-footer-site-collection';
         value: number | PreFooterSiteCollection;
+      } | null)
+    | ({
+        relationTo: 'not-found-page-site-collection';
+        value: number | NotFoundPageSiteCollection;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -2662,6 +2721,20 @@ export interface PreFooterSiteCollectionSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "not-found-page-site-collection_select".
+ */
+export interface NotFoundPageSiteCollectionSelect<T extends boolean = true> {
+  title?: T;
+  heading?: T;
+  content?: T;
+  showSearch?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -2872,6 +2945,14 @@ export interface UsersSelect<T extends boolean = true> {
   enableAPIKey?: T;
   apiKey?: T;
   apiKeyIndex?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-kv_select".
+ */
+export interface PayloadKvSelect<T extends boolean = true> {
+  key?: T;
+  data?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3160,7 +3241,7 @@ export interface HomePage {
               root: {
                 type: string;
                 children: {
-                  type: string;
+                  type: any;
                   version: number;
                   [k: string]: unknown;
                 }[];
@@ -3198,7 +3279,7 @@ export interface Footer {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -3576,6 +3657,36 @@ export interface PreFooter {
   createdAt?: string | null;
 }
 /**
+ * Customize the 404 error page content.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "not-found-page".
+ */
+export interface NotFoundPage {
+  id: number;
+  title: string;
+  heading: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  showSearch?: boolean | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config_select".
  */
@@ -3910,6 +4021,20 @@ export interface PreFooterSelect<T extends boolean = true> {
         id?: T;
       };
   reviewReady?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "not-found-page_select".
+ */
+export interface NotFoundPageSelect<T extends boolean = true> {
+  title?: T;
+  heading?: T;
+  content?: T;
+  showSearch?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;
