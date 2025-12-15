@@ -8,6 +8,8 @@ import { completeReview } from '@/hooks/completeReview'
 import { editor } from '@/utilities/editor'
 import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
 import { descriptionField, imageField } from '@/fields'
+import { relatedItems } from '@/fields/relatedItems'
+
 
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
@@ -176,6 +178,8 @@ export const Events: CollectionConfig<'events'> = {
         description: 'Display the in-page navigation sidebar on this event',
       },
     },
+    relatedItems('events'),
+
   ],
   hooks: {
     afterChange: [publish],

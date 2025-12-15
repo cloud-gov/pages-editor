@@ -43,6 +43,7 @@ import * as migration_20251128_152929_update_alert_collection_aligment from './2
 import * as migration_20251201_173417_rename_side_navigation from './20251201_173417_rename_side_navigation';
 import * as migration_20251204_202526_update_payload_3_66_0 from './20251204_202526_update_payload_3_66_0';
 import * as migration_20251215_214228_add_not_found_page from './20251215_214228_add_not_found_page';
+import * as migration_20251215_225725_add_related_items_field from './20251215_225725_add_related_items_field';
 
 export const migrations = [
   {
@@ -268,6 +269,11 @@ export const migrations = [
   {
     up: migration_20251215_214228_add_not_found_page.up,
     down: migration_20251215_214228_add_not_found_page.down,
-    name: '20251215_214228_add_not_found_page'
+    name: '20251215_214228_add_not_found_page',
+  },
+  {
+    up: migration_20251215_225725_add_related_items_field.up,
+    down: migration_20251215_225725_add_related_items_field.down,
+    name: '20251215_225725_add_related_items_field'
   },
 ];

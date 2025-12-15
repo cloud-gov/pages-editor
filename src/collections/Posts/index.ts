@@ -11,6 +11,7 @@ import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
 import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
+import { relatedItems } from '@/fields/relatedItems'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
@@ -134,6 +135,7 @@ export const Posts: CollectionConfig<'posts'> = {
         description: 'Display the in-page navigation sidebar on this post',
       },
     },
+    relatedItems('posts'),
     ...slugField(),
     ...customFields,
   ],
