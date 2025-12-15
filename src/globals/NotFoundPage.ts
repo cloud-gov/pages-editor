@@ -4,8 +4,8 @@ import { editor } from '@/utilities/editor'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 
 export const NotFoundPage: GlobalConfig = {
-  slug: '404',
-  label: '404 Page',
+  slug: 'not-found-page',
+  label: 'Not Found 404 Page',
   access: {
     read: getAdminOrSiteUserGlobals(['manager', 'user', 'bot']),
     update: getAdminOrSiteUserGlobals(),
