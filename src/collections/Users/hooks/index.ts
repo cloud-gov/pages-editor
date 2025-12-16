@@ -136,9 +136,8 @@ export const ensureSites: CollectionBeforeOperationHook = async ({ args, operati
   }
 
   if (operation === 'create' || operation === 'update') {
-    let {
-      data: { sites },
-    }: { data: { sites: User['sites'] } } = args
+    const data = args.data as Partial<User> | undefined
+    let sites = data?.sites as User['sites'] | undefined
     const hasNewSites = sites && sites.length > 0
 
     // with no sites on creation, this is a true error
@@ -158,8 +157,8 @@ export const ensureSites: CollectionBeforeOperationHook = async ({ args, operati
       sites = sites.map((site) => ({ site: user.selectedSiteId, ...site }))
     }
     // always deduplicate sites if present
-    if (hasNewSites) {
-      args.data.sites = deDepulicateSites(sites)
+    if (hasNewSites && data) {
+      args['data']['sites'] = deDepulicateSites(sites)
     }
   }
 
