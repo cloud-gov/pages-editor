@@ -8,6 +8,7 @@ import { editor } from '@/utilities/editor'
 import { completeReview } from '@/hooks/completeReview'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
 import { relatedItems } from '@/fields/relatedItems'
+import { getCustomCollectionLivePreview, getCustomCollectionPreview } from '@/utilities/previews'
 
 export const CustomCollectionPages: CollectionConfig = {
   slug: 'custom-collection-pages',
@@ -21,6 +22,10 @@ export const CustomCollectionPages: CollectionConfig = {
     defaultColumns: ['title', 'collectionConfig', 'slug', 'updatedAt', 'updatedBy', '_status'],
     useAsTitle: 'title',
     hideAPIURL: true,
+    livePreview: {
+      url: getCustomCollectionLivePreview,
+    },
+    preview: getCustomCollectionPreview
   },
   access: {
     create: getAdminOrSiteUser('custom-collection-pages'),

@@ -30,8 +30,8 @@ export const Alerts: CollectionConfig = {
     livePreview: {
       url: getGlobalPreviewUrl,
     },
-    preview: () => {
-      return `${process.env.PREVIEW_URL}`
+    preview: async({ req }) => {
+      return getGlobalPreviewUrl({ req })
     },
     useAsTitle: 'title',
     hideAPIURL: true,

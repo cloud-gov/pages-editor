@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { getCollectionPreviewUrl } from '@/utilities/previews'
+import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
 import { categoriesField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
@@ -27,10 +27,7 @@ export const Resources: CollectionConfig = {
     livePreview: {
       url: getCollectionPreviewUrl('resources'),
     },
-    preview: async (doc, { req }) => {
-      const build = getCollectionPreviewUrl('posts')
-      return build( { data: doc, req })
-    },
+    preview: getAdminCollectionPreview('resources'),
     useAsTitle: 'title',
     hideAPIURL: true,
   },

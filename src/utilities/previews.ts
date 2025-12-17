@@ -17,12 +17,39 @@ const choosePreviewUrl = (slug: string, path: string = ''): string => {
   }
 }
 
-export const getCollectionPreviewUrl = (collection: CollectionSlug) => {
+export const getCollectionPreviewUrl = (
+  collection: CollectionSlug,
+  useCollectionPrefix: boolean = true,
+) => {
   return async ({ data, req }): Promise<string> => {
     const slug = await getSiteSlug(req, data.site)
-    const path = `${collection}/${data.slug}`
+    const path = useCollectionPrefix ? `${collection}/${data.slug}` : data.slug
 
     return choosePreviewUrl(slug, path)
+  }
+}
+
+export const getCustomCollectionLivePreview = async ({ data, req }): Promise<string | null> => {
+  try {
+    const record = await req.payload.findByID({
+      collection: 'custom-collection-pages',
+      id: data.id,
+    })
+
+    const slug = await getSiteSlug(req, data.site)
+    const path = `${record.collectionConfig.slug}/${record.slug}`
+
+    return choosePreviewUrl(slug, path)
+  } catch (error) {
+    return null
+  }
+}
+
+export const getCustomCollectionPreview = async (doc, { req }): Promise<string | null> => {
+  try {
+    return getCustomCollectionLivePreview({ data: { id: doc.id }, req })
+  } catch (error) {
+    return null
   }
 }
 
@@ -67,7 +94,7 @@ function __extractSlug(value: unknown): string {
   if (typeof value === 'string') return value
   if (typeof value === 'object') {
     const vals = Object.values(value as Record<string, unknown>).filter(
-      v => typeof v === 'string',
+      (v) => typeof v === 'string',
     ) as string[]
     return vals[0] || ''
   }
@@ -83,10 +110,14 @@ function __extractSlug(value: unknown): string {
  * - Normalizing `slug` to a plain string
  * - Passing { data, req } to your existing utility
  */
-export const getAdminCollectionPreview = (collection: string): GeneratePreviewURL => {
+export const getAdminCollectionPreview = (
+  collection: string,
+  useCollectionPrefix: boolean = true,
+): GeneratePreviewURL => {
   // import the existing utility lazily to avoid circular imports if needed
   const getUrlFactory = getCollectionPreviewUrl as (
     c: string,
+    useCollectionPrefix: boolean,
   ) => ({ data, req }: { data: any; req: PayloadRequest }) => Promise<string>
 
   return async (doc, { req }) => {
@@ -96,7 +127,7 @@ export const getAdminCollectionPreview = (collection: string): GeneratePreviewUR
       slug: __extractSlug((doc as any).slug),
     }
 
-    const buildUrl = getUrlFactory(collection)
+    const buildUrl = getUrlFactory(collection, useCollectionPrefix)
     return buildUrl({ data: normalized, req: req as PayloadRequest })
   }
 }
