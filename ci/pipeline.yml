@@ -195,7 +195,7 @@ resources:
     icon: github
     source:
       uri: git@github.com:((pages-editor-repository-path))
-      branch: main
+      branch: testing-auth-logs
       commit_verification_keys: ((cloud-gov-pages-gpg-keys))
       private_key: ((pages-gpg-operations-github-sshkey.private_key))
 

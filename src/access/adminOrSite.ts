@@ -39,6 +39,10 @@ export function getAdminOrSiteUser(
     data,
   }) => {
     let { user } = req
+
+    console.log('REQ PAYLOAD: ', req.payload)
+    console.log('USER: ', user)
+    console.log('DATA: ', data)
     if (!user) return false
     if (user.isAdmin) return true
 
@@ -48,6 +52,7 @@ export function getAdminOrSiteUser(
     // if (!isRoleForSelectedSite(user, requiredRole)) return false
     // NOTE: skip the utility function to keep our site role for other checks
     const matchedSite = user.sites.find((site) => siteIdHelper(site.site) === siteId)
+    console.log('Matched Site: ', matchedSite)
     if (!(matchedSite && requiredRole.includes(matchedSite.role))) return false
 
     // if collection data exists, extract the site id and match against it
