@@ -5,7 +5,7 @@ import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { publish } from '@/hooks/publish'
 import { editor } from '@/utilities/editor'
-import { getCollectionPreviewUrl } from '@/utilities/previews'
+import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
 import { completeReview } from '@/hooks/completeReview'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
 import { relatedItems } from '@/fields/relatedItems'
@@ -27,10 +27,7 @@ export const Reports: CollectionConfig = {
     livePreview: {
       url: getCollectionPreviewUrl('reports'),
     },
-    preview: (data) => {
-      // TODO: fix per above
-      return `${process.env.PREVIEW_URL}/reports/${data.slug}`
-    },
+    preview: getAdminCollectionPreview('reports'),
     useAsTitle: 'title',
     hideAPIURL: true,
   },
@@ -107,7 +104,7 @@ export const Reports: CollectionConfig = {
         components: {
           Cell: 'src/components/UpdatedByCellData/',
         },
-      }
+      },
     },
     {
       name: 'publishedAt',

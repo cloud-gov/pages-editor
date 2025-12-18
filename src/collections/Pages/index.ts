@@ -6,7 +6,7 @@ import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
 import { siteField } from '@/fields/relationships'
 import { completeReview } from '@/hooks/completeReview'
-import { getPagePreviewUrl } from '@/utilities/previews'
+import { getAdminCollectionPreview, getPagePreviewUrl } from '@/utilities/previews'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -17,10 +17,7 @@ export const Pages: CollectionConfig<'pages'> = {
     livePreview: {
       url: getPagePreviewUrl,
     },
-    preview: (data) => {
-      // TODO: fix per above
-      return `${process.env.PREVIEW_URL}/${data.path}`
-    },
+    preview: getAdminCollectionPreview('pages', false),
     useAsTitle: 'title',
     hideAPIURL: true,
   },
