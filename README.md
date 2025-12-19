@@ -131,6 +131,7 @@ This repository's CI deploys the `pages-editor-((env))` application and [`pages-
 | pages-editor-((env))-auth     | cloud-gov-identity-provider | oauth-client   | [Create the service](https://cloud.gov/docs/services/cloud-gov-identity-provider/). Add these credentials to `pages-editor-((env))-creds` |
 | pages-editor-((env))-creds    | user-provided               |                | Credentials here are captured in the `.profile` script for different applications                                                         |
 | pages-editor-((env))-s3       | pages-s3                    | basic-vpc      | Used for storing site information to be passed on to Concourse                                                                            |
+| publisher-((env))-domain      | external-domain             | domain-with-cdn| Set the domain "pubisher((env-postfix)).cloud.gov and forward_headers to "Authorization" to allow for API Key access                      |
 
 Each environment has a network access policy for sending email per [these instructions](https://github.com/cloud-gov/pages-mailer/?tab=readme-ov-file#usage) (make sure to specify additional ports if needed to match the `EMAIL_HOST` environment variable)
 
