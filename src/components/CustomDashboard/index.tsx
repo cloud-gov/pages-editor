@@ -100,6 +100,27 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
     groupedItems[groupKey].push(item)
   })
 
+  const usersGroup = collections.find(c => c.slug === 'users')?.group || 'User Management'
+
+  const rolesAndPermissionsPage = {
+    slug: 'sites-roles-and-permissions',
+    label: 'Site Roles and Permissions',
+    description: 'Documentation on roles and permissions.',
+    group: typeof usersGroup === 'string' ? usersGroup : 'User Management',
+    href: '/admin/sites-roles-and-permissions',
+  }
+
+  if (!groupedItems[rolesAndPermissionsPage.group]) {
+    groupedItems[rolesAndPermissionsPage.group] = []
+  }
+
+  const usersIdx = groupedItems[rolesAndPermissionsPage.group].findIndex(i => i.slug === 'users')
+  if(usersIdx >= 0) {
+    groupedItems[rolesAndPermissionsPage.group].splice(usersIdx + 1, 0, rolesAndPermissionsPage as any)
+  } else {
+    groupedItems[rolesAndPermissionsPage.group].push(rolesAndPermissionsPage as any)
+  }
+
   // Define the order of groups
   const groupOrder = [
     'Content Collection',

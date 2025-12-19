@@ -17,6 +17,9 @@
 @forward "usa-skipnav";
 @forward "usa-summary-box";
 @forward "uswds-utilities";
+@forward "usa-table";
+@forward "usa-accordion";
+@forward "usa-in-page-navigation";
 
 // Import USWDS variables early so they're available for custom styles
 @import "../styles/uswds-variables.scss";
@@ -451,4 +454,49 @@ button {
 
 .list-header__actions {
     margin-left: var(--spacing-4);
+}
+
+// In page nav container
+// Roles and Permissions page
+
+.usa-in-page-nav-container {
+  position: relative;
+  max-width: 75rem;
+  margin-left: auto;
+  margin-right: auto;
+  main {
+    max-width: 55rem;
+    h2, h4 {
+        font-family: inherit;
+    }
+    .usa-prose > ul.margin-top-1 {
+        margin-top: .5rem;
+        li {
+            line-height: 1;
+        }
+    }
+    .usa-prose > .usa-table-container--scrollable td {
+        vertical-align: top;
+    }
+  }
+}
+
+.usa-table--borderless thead.bg-base-lighter th {
+    background-color: #dfe1e2;
+}
+
+.usa-accordion__button.bg-primary {
+    background-color: #005ea2;
+    color: #ffffff;
+    background-image: url(/assets/images/remove-white.svg), linear-gradient(transparent, transparent);
+    &:hover {
+        background-color: #1a4480;
+    }
+}
+
+.usa-accordion__button.bg-primary[aria-expanded=false] {
+    background-image: url(/assets/images/add-white.svg), linear-gradient(transparent, transparent);
+    &:hover {
+        background-color: #1a4480;
+    }
 }
