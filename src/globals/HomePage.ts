@@ -119,7 +119,7 @@ export const HomePage: GlobalConfig = {
               type: 'array',
               label: 'Content Cards',
               minRows: 1,
-              maxRows: 6,
+              maxRows: 24,
               fields: [
                 {
                   name: 'title',
