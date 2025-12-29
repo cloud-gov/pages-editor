@@ -15,24 +15,35 @@ export const generateRandomSlug = (length: number = 12): string => {
   return result
 }
 
+const getFieldChange = (original, updated, fields: string[]): string | undefined => {
+  return fields.find((field) => {
+    return original[field] !== updated[field]
+  })
+}
+
 export const formatSlugHook =
   (fallback: string): FieldHook =>
-  ({ data, operation, value }) => {
-    if (!value) {
-      return generateRandomSlug()
-    }
+  ({ data, operation, originalDoc, value }) => {
+    if (operation === 'update' && data?.[fallback]) {
+      const changedField = getFieldChange(data, originalDoc, [fallback, 'slug'])
+      if (changedField === fallback && data && data.slugLock === false) {
+        return data[fallback] ? formatSlug(data[fallback]) : generateRandomSlug()
+      }
 
-    if (typeof value === 'string') {
-      return formatSlug(value)
+      if (changedField === 'slug') {
+        return value ? formatSlug(value) : generateRandomSlug()
+      }
     }
 
     if (operation === 'create' || !data?.slug) {
-      const fallbackData = data?.[fallback] || data?.[fallback]
+      const fallbackData = data?.[fallback]
 
       if (fallbackData && typeof fallbackData === 'string') {
         return formatSlug(fallbackData)
       }
+
+      return generateRandomSlug()
     }
 
-    return value
+    return value || generateRandomSlug()
   }

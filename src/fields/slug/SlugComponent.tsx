@@ -1,5 +1,5 @@
 'use client'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { TextFieldClientProps } from 'payload'
 
 import { useField, Button, TextInput, FieldLabel, useFormFields, useForm } from '@payloadcms/ui'
@@ -34,23 +34,6 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
   const checkboxValue = useFormFields(([fields]) => {
     return fields[checkboxFieldPath]?.value as string
   })
-
-  // The value of the field we're listening to for the slug
-  const targetFieldValue = useFormFields(([fields]) => {
-    return fields[fieldToUse]?.value as string
-  })
-
-  useEffect(() => {
-    if (checkboxValue) {
-      if (targetFieldValue) {
-        const formattedSlug = formatSlug(targetFieldValue)
-
-        if (value !== formattedSlug) setValue(formattedSlug)
-      } else {
-        if (value !== '') setValue('')
-      }
-    }
-  }, [targetFieldValue, checkboxValue, setValue, value])
 
   const handleLock = useCallback(
     (e) => {

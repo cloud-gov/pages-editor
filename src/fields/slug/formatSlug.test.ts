@@ -128,13 +128,42 @@ describe('formatSlugHook', () => {
     expect(result.length).toBeGreaterThan(0)
   })
 
-  it('should format string value', () => {
+  it('should format string value on slug field update', () => {
+    const value = 'Hello World!'
     const hook = formatSlugHook('title')
     const result = hook(createMockHookArgs({
-      data: { title: 'Test Title' },
-      value: 'Hello World!'
+      data: { title: 'Test Title', slug: value, },
+      originalDoc: { title: 'Test Title', slug: 'test-title' },
+      value,
+      operation: 'update'
     }))
     expect(result).toBe('hello-world')
+  })
+
+  it('should generate formatted string value on empty title', () => {
+    const hook = formatSlugHook('title')
+    const result = hook(createMockHookArgs({
+      data: { title: '', slug: '', },
+      originalDoc: { title: 'Test Title', slug: 'test-title' },
+      value: '',
+      operation: 'update'
+    }))
+
+    console.log(result)
+    expect(typeof result).toBe('string')
+    expect(result.length).toBeGreaterThan(0)
+  })
+
+  it('should not re-format value on slug field update if slug is locked', () => {
+    const value = 'locked-slug'
+    const hook = formatSlugHook('title')
+    const result = hook(createMockHookArgs({
+      data: { title: 'Test Title', slug: value, slugLock: true },
+      originalDoc: { title: 'Test Title', slug: value },
+      value,
+      operation: 'update'
+    }))
+    expect(result).toBe(value)
   })
 
   it('should use fallback field for create operation when no value', () => {
@@ -144,7 +173,8 @@ describe('formatSlugHook', () => {
       value: null
     }))
     expect(typeof result).toBe('string')
-    expect(result.length).toBeGreaterThan(0)
+    expect(result.length).toBeGreaterThanOrEqual(6)
+    expect(result).toMatch(/^[a-z0-9-]+$/)
   })
 
   it('should use fallback field for create operation when no existing slug', () => {
