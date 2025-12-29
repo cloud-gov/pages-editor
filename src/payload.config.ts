@@ -3,7 +3,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 
 import sharp from 'sharp' // sharp-import
 import path from 'path'
-import { buildConfig } from 'payload'
+import { AdminViewConfig, buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
@@ -47,6 +47,15 @@ const [NotFoundPage, NotFoundPageCollection] = createSiteGlobal(NotFoundPageConf
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// Predeclare the roles and permissions page component to conform views values with AdminViewConfig
+const UserRolesAndPermissionsView: AdminViewConfig = {
+  Component: '@/components/UserRolesAndPermissions',
+  path: '/sites-roles-and-permissions',
+  meta: {
+    title: 'Payload - Sites Roles and Permissions'
+  }
+}
+
 const config = {
   admin: {
     theme: 'light' as const,
@@ -64,6 +73,7 @@ const config = {
         dashboard: {
           Component: '@/components/CustomDashboard',
         },
+        userRolesAndPermissions: UserRolesAndPermissionsView,
       },
     },
     groups: [
