@@ -2,6 +2,7 @@ import type { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { editor } from '@/utilities/editor'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
+import { validateTextRequired } from '@/utilities/validators/text'
 
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
@@ -126,6 +127,7 @@ export const HomePage: GlobalConfig = {
                   type: 'text',
                   label: 'Card Title',
                   required: true,
+                  validate: validateTextRequired,
                 },
                 {
                   name: 'description',

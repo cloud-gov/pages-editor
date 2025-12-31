@@ -3,6 +3,11 @@ import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
 import { colorOptions, imageField } from '@/fields'
+import { validateRichTextRequired } from '@/utilities/validators/richText'
+import { validateTextRequired } from '@/utilities/validators/text'
+import { makeValidateRelationshipSingle, validatePage } from '@/utilities/validators/relationship'
+import { validateSelectSingle } from '@/utilities/validators/select'
+
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
@@ -31,6 +36,7 @@ export const Footer: GlobalConfig = {
       type: 'text',
       label: 'Site domain',
       required: true,
+      validate: validateTextRequired,
     },
     {
       type: 'collapsible',
@@ -45,6 +51,7 @@ export const Footer: GlobalConfig = {
           type: 'richText',
           label: ' ', // will add required to the field
           required: true,
+          validate: validateRichTextRequired,
           editor: lexicalEditor({
             features: [
               LinkFeature({
@@ -85,6 +92,7 @@ export const Footer: GlobalConfig = {
               label: 'Logo link url',
               type: 'text',
               required: true,
+              validate: validateTextRequired,
             },
             {
               ...imageField,
@@ -129,6 +137,7 @@ export const Footer: GlobalConfig = {
                   label: 'Name',
                   type: 'text',
                   required: true,
+                  validate: validateTextRequired,
                 },
                 {
                   name: 'page',
@@ -136,6 +145,7 @@ export const Footer: GlobalConfig = {
                   type: 'relationship',
                   relationTo: 'pages',
                   required: true,
+                  validate: validatePage,
                   admin: {
                     allowCreate: false,
                   },
@@ -157,6 +167,7 @@ export const Footer: GlobalConfig = {
                   label: 'Name',
                   type: 'text',
                   required: true,
+                  validate: validateTextRequired,
                 },
                 {
                   name: 'page',
@@ -172,6 +183,7 @@ export const Footer: GlobalConfig = {
                   ],
                   hasMany: false,
                   required: true,
+                  validate: validateSelectSingle,
                 },
               ],
             },
@@ -191,6 +203,7 @@ export const Footer: GlobalConfig = {
                   label: 'Name',
                   type: 'text',
                   required: true,
+                  validate: validateTextRequired,
                 },
                 {
                   name: 'customCollection',
@@ -198,6 +211,15 @@ export const Footer: GlobalConfig = {
                   type: 'relationship',
                   relationTo: 'custom-collections',
                   required: true,
+                  validate: makeValidateRelationshipSingle({
+                    relationTo: 'custom-collections',
+                    requirePublished: false, // set to true if you want only published custom-collections to be selectable on publish
+                    messages: {
+                      required: 'Please select a custom collection.',
+                      notFound: 'Selected custom collection could not be found.',
+                      notPublished: 'Selected custom collection is not published.',
+                    },
+                  }),
                 },
               ],
             },
@@ -216,12 +238,14 @@ export const Footer: GlobalConfig = {
                   label: 'Name',
                   type: 'text',
                   required: true,
+                  validate: validateTextRequired,
                 },
                 {
                   name: 'url',
                   label: 'Url',
                   type: 'text',
                   required: true,
+                  validate: validateTextRequired,
                 },
               ],
             },

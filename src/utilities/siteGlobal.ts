@@ -21,9 +21,27 @@ export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, Collectio
     },
     hooks: {
       beforeChange: [
-        async ({ req, data }) => {
+        async ({ req, data, originalDoc }) => {
           const siteId = req?.user?.selectedSiteId
           if (!siteId || isNaN(Number(siteId))) return data;
+
+          // skip writes during autosave draft saves
+          const isAutosave = req.query.autosave === 'true';
+          const wasPublished = originalDoc?._status === 'published'
+          if (isAutosave && wasPublished) return data;
+
+          // strip fields that should be owned by the DB or the collection itself
+
+          const {
+            id,
+            globalType,
+            createdAt,
+            updatedAt,
+            _status,
+            ...rest
+          } = (data as Record<string, unknown>) || {}
+
+          const sanitized = { ...rest, site: siteId }
 
           const existing = (
             await req.payload.find({
@@ -38,23 +56,14 @@ export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, Collectio
             await req.payload.update({
               collection: collectionName,
               id: existing[0].id,
-              data: {
-                ...data,
-                site: siteId,
-                // We want the collection to create its own ID, and to exclude the `globalType` field
-                id: undefined,
-                globalType: undefined,
-              },
+              data: sanitized,
+              req,
             })
           } else {
             await req.payload.create({
               collection: collectionName,
-              data: {
-                ...data,
-                site: siteId,
-                id: undefined,
-                globalType: undefined,
-              },
+              data: sanitized,
+              req,
             })
           }
 
@@ -63,9 +72,17 @@ export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, Collectio
         ...(config.hooks?.beforeChange || []),
       ],
       beforeRead: [
-        async ({ req }) => {
+        async ({ req, doc }) => {
           const siteId = req?.user?.selectedSiteId
 
+          // if reading a draft/autosave, return the Global doc (do not swap in collection)
+          const isDraftOrAutosave = req.query?.draft === 'true' || req.query?.autosave === 'true'
+
+          if (isDraftOrAutosave || (doc?._status === 'draft')) {
+            return doc ?? {} // show the actual Global draft version
+          }
+
+          // For non-draft reads, use the site collection mirror
           const globalSiteCollection = await req.payload.find({
             collection: collectionName,
             // The admin expects to fetch its own relationships, so we must force depth to 0,
@@ -78,7 +95,8 @@ export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, Collectio
           if (globalSiteCollection.docs[0]) {
             return globalSiteCollection.docs[0]
           } else {
-            return {}
+            // fallback to Global if mirror doesn't exist yet
+            return doc ?? {}
           }
         },
         ...(config.hooks?.beforeRead || []),
