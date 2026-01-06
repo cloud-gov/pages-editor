@@ -231,26 +231,26 @@ describe('Pages access', () => {
       )
     })
 
-    test('not delete their Pages', async ({ tid, testUser, pages }) => {
+    test('delete their Pages', async ({ tid, testUser, pages }) => {
       const siteId = testUser.selectedSiteId
 
-      const theirEvents = pages.filter((item) => siteIdHelper(item.site) === siteId)
+      const theirPages = pages.filter((item) => siteIdHelper(item.site) === siteId)
 
-      await Promise.all(
-        theirEvents.map((item) => {
-          return isAccessError(
-            del(
-              payload,
-              tid,
-              {
-                collection: 'pages',
-                id: item.id,
-              },
-              testUser,
-            ),
+      const deleted = await Promise.all(
+        theirPages.map((item) => {
+          return del(
+            payload,
+            tid,
+            {
+              collection: 'pages',
+              id: item.id,
+            },
+            testUser,
           )
         }),
       )
+
+      expect(deleted.length).toBe(theirPages.length)
     })
 
     test('not delete not-their Pages', async ({ tid, testUser, pages }) => {
