@@ -22,8 +22,8 @@ export const Pages: CollectionConfig<'pages'> = {
     hideAPIURL: true,
   },
   access: {
-    create: getAdminOrSiteUser('pages', ['manager', 'user']),
-    delete: getAdmin,
+    create: getAdminOrSiteUser('pages'),
+    delete: getAdminOrSiteUser('pages'),
     read: getAdminOrSiteUser('pages', ['manager', 'user', 'bot']),
     update: getAdminOrSiteUser('pages'),
   },

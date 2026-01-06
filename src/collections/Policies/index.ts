@@ -22,8 +22,8 @@ export const Policies: CollectionConfig<'policies'> = {
     hideAPIURL: true,
   },
   access: {
-    create: getAdmin,
-    delete: getAdmin,
+    create: getAdminOrSiteUser('policies'),
+    delete: getAdminOrSiteUser('policies'),
     read: getAdminOrSiteUser('policies', ['manager', 'user', 'bot']),
     update: getAdminOrSiteUser('policies'),
   },
@@ -37,10 +37,6 @@ export const Policies: CollectionConfig<'policies'> = {
       name: 'title',
       type: 'text',
       required: true,
-      access: {
-        read: () => true,
-        update: getAdmin,
-      },
     },
     ...slugField(),
     {

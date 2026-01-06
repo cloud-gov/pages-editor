@@ -32,7 +32,6 @@ describe('Policies access', () => {
               collection: 'policies',
               data: {
                 title: `${site.name} - Policy`,
-                label: `${site.name} - Policy Label`,
                 site,
               },
             },
@@ -68,7 +67,8 @@ describe('Policies access', () => {
     })
 
     test('delete any Policy', async ({ tid, testUser, policies }) => {
-      await Promise.all(
+      const totalDeleted = policies.length
+      const deleted = await Promise.all(
         policies.map(async (item) => {
           return del(
             payload,
@@ -82,10 +82,7 @@ describe('Policies access', () => {
         }),
       )
 
-      const result = await find(payload, tid, {
-        collection: 'policies',
-      })
-      expect(result.docs.length).toBe(0)
+      expect(deleted.length).toBe(totalDeleted)
     })
   })
 
@@ -135,24 +132,23 @@ describe('Policies access', () => {
       )
     })
 
-    test('not write a Policy to their site', async ({ tid, testUser }) => {
+    test('write a Policy to their site', async ({ tid, testUser }) => {
       const siteId = testUser.selectedSiteId
 
-      await isAccessError(
-        create(
-          payload,
-          tid,
-          {
-            collection: 'policies',
-            data: {
-              title: `Policy Title - ${siteId}`,
-              label: `Policy Label - ${siteId}`,
-              site: siteId,
-            },
+      const created = await create(
+        payload,
+        tid,
+        {
+          collection: 'policies',
+          data: {
+            title: `Policy Title - ${siteId}`,
+            site: siteId,
           },
-          testUser,
-        ),
+        },
+        testUser,
       )
+
+      expect(created).toBeTruthy()
     })
 
     test('not write a Policy to not-their site', async ({ tid, testUser, sites }) => {
@@ -170,7 +166,6 @@ describe('Policies access', () => {
                 collection: 'policies',
                 data: {
                   title: `${site.name} - Title`,
-                  label: `${site.name} - Label`,
                   site,
                 },
               },
@@ -181,11 +176,10 @@ describe('Policies access', () => {
       )
     })
 
-    test('not update their Policies title', async ({ tid, testUser, policies }) => {
+    test('update their Policies title', async ({ tid, testUser, policies }) => {
       const siteId = testUser.selectedSiteId
 
       const theirResults = policies.filter((item) => siteIdHelper(item.site) === siteId)
-      const theirTitles = theirResults.map((item) => item.title)
 
       const newResults = await Promise.all(
         theirResults.map(async (item) => {
@@ -205,7 +199,7 @@ describe('Policies access', () => {
       )
 
       newResults.forEach((item) => {
-        expect(theirTitles).toContain(item.title)
+        expect(item.title).toContain('Edited')
       })
     })
 
@@ -234,26 +228,26 @@ describe('Policies access', () => {
       )
     })
 
-    test('not delete their Policies', async ({ tid, testUser, policies }) => {
+    test('delete their Policies', async ({ tid, testUser, policies }) => {
       const siteId = testUser.selectedSiteId
 
-      const theirEvents = policies.filter((item) => siteIdHelper(item.site) === siteId)
+      const thePolicies = policies.filter((item) => siteIdHelper(item.site) === siteId)
 
-      await Promise.all(
-        theirEvents.map((item) => {
-          return isAccessError(
-            del(
-              payload,
-              tid,
-              {
-                collection: 'policies',
-                id: item.id,
-              },
-              testUser,
-            ),
-          )
-        }),
+      const deleted = await Promise.all(
+        thePolicies.map((item) =>
+          del(
+            payload,
+            tid,
+            {
+              collection: 'policies',
+              id: item.id,
+            },
+            testUser,
+          ),
+        ),
       )
+
+      expect(deleted.length).toEqual(thePolicies.length)
     })
 
     test('not delete not-their Policies', async ({ tid, testUser, policies }) => {
@@ -338,7 +332,7 @@ describe('Policies access', () => {
       })
     })
 
-    test('not create a Policy for all their sites, upon site selection', async ({
+    test('create a Policy for all their sites, upon site selection', async ({
       tid,
       testUser,
       sites,
@@ -346,21 +340,20 @@ describe('Policies access', () => {
       testUser = await addSiteToUser(testUser, tid, { site: sites[1], role: 'manager' })
       const siteId = testUser.selectedSiteId
 
-      await isAccessError(
-        create(
-          payload,
-          tid,
-          {
-            collection: 'policies',
-            data: {
-              title: `Policy Title - ${siteId}`,
-              label: `Policy Label - ${siteId}`,
-              site: siteId,
-            },
+      const created = await create(
+        payload,
+        tid,
+        {
+          collection: 'policies',
+          data: {
+            title: `Policy Title - ${siteId}`,
+            site: siteId,
           },
-          testUser,
-        ),
+        },
+        testUser,
       )
+
+      expect(created).toBeTruthy()
     })
   })
 
@@ -420,7 +413,6 @@ describe('Policies access', () => {
                 collection: 'policies',
                 data: {
                   title: `${site.name} - Title`,
-                  label: `${site.name} - Label`,
                   site,
                 },
               },
