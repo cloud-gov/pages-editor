@@ -280,6 +280,6 @@ export const migrations = [
   {
     up: migration_20251222_172007_update_slug_lock_default_to_false.up,
     down: migration_20251222_172007_update_slug_lock_default_to_false.down,
-    name: '20251222_172007_update_slug_lock_default_to_false'
+    name: '20251222_172007_update_slug_lock_default_to_false',
   },
 ];

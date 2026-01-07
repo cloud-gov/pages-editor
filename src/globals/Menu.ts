@@ -2,6 +2,9 @@
 import { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
+import { validateTextRequired } from '@/utilities/validators/text'
+import { validateSelectSingle } from '@/utilities/validators/select'
+import { makeValidateRelationshipSingle, validatePage } from '@/utilities/validators/relationship'
 
 export const Menu: GlobalConfig = {
   slug: 'menu',
@@ -43,12 +46,14 @@ export const Menu: GlobalConfig = {
               type: 'relationship',
               relationTo: 'pages',
               required: true,
+              validate: validatePage,
             },
             {
               name: 'label',
               label: 'The name used on your menu link',
               type: 'text',
               required: true,
+              validate: validateTextRequired,
             },
           ],
         },
@@ -73,12 +78,14 @@ export const Menu: GlobalConfig = {
               ],
               hasMany: false,
               required: true,
+              validate: validateSelectSingle,
             },
             {
               name: 'label',
               label: 'The name used on your menu link',
               type: 'text',
               required: true,
+              validate: validateTextRequired,
             },
           ],
         },
@@ -96,12 +103,22 @@ export const Menu: GlobalConfig = {
               type: 'relationship',
               relationTo: 'custom-collections',
               required: true,
+              validate: makeValidateRelationshipSingle({
+                relationTo: 'custom-collections',
+                requirePublished: false, // set to true if you want only published custom-collections to be selectable on publish
+                messages: {
+                  required: 'Please select a custom collection.',
+                  notFound: 'Selected custom collection could not be found.',
+                  notPublished: 'Selected custom collection is not published.',
+                },
+              }),
             },
             {
               name: 'label',
               label: 'The name used on your menu link',
               type: 'text',
               required: true,
+              validate: validateTextRequired,
             },
           ],
         },
@@ -136,12 +153,14 @@ export const Menu: GlobalConfig = {
                       type: 'relationship',
                       relationTo: 'pages',
                       required: true,
+                      validate: validatePage,
                     },
                     {
                       name: 'label',
                       label: 'The name used on your menu link',
                       type: 'text',
                       required: true,
+                      validate: validateTextRequired,
                     },
                   ],
                 },
@@ -166,12 +185,14 @@ export const Menu: GlobalConfig = {
                       ],
                       hasMany: false,
                       required: true,
+                      validate: validateSelectSingle,
                     },
                     {
                       name: 'label',
                       label: 'The name used on your menu link',
                       type: 'text',
                       required: true,
+                      validate: validateTextRequired,
                     },
                   ],
                 },
@@ -189,12 +210,22 @@ export const Menu: GlobalConfig = {
                       type: 'relationship',
                       relationTo: 'custom-collections',
                       required: true,
+                      validate: makeValidateRelationshipSingle({
+                        relationTo: 'custom-collections',
+                        requirePublished: false, // set to true if you want only published custom-collections to be selectable on publish
+                        messages: {
+                          required: 'Please select a custom collection.',
+                          notFound: 'Selected custom collection could not be found.',
+                          notPublished: 'Selected custom collection is not published.',
+                        },
+                      }),
                     },
                     {
                       name: 'label',
                       label: 'The name used on your menu link',
                       type: 'text',
                       required: true,
+                      validate: validateTextRequired,
                     },
                   ],
                 },

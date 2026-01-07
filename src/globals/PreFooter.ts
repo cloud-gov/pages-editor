@@ -1,6 +1,10 @@
 import { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
+import { validateTextRequired } from '@/utilities/validators/text';
+import { makeValidateBlocksMin } from '@/utilities/validators/blocks';
+import { makeValidateRelationshipSingle, validatePage } from '@/utilities/validators/relationship';
+import { validateSelectSingle } from '@/utilities/validators/select';
 
 function bigFooterCondition(data): true | false {
   return (data?.type === 'big') ? true : false;
@@ -91,6 +95,7 @@ export const PreFooter: GlobalConfig = {
               type: 'text',
               label: 'Group Name',
               required: true,
+              validate: validateTextRequired,
             },
             {
               name: 'link',
@@ -101,6 +106,7 @@ export const PreFooter: GlobalConfig = {
                 plural: 'Links',
               },
               required: true,
+              validate: makeValidateBlocksMin(1),
               blocks: [
                 {
                   slug: 'pageLink',
@@ -117,6 +123,7 @@ export const PreFooter: GlobalConfig = {
                       label: 'Name',
                       type: 'text',
                       required: true,
+                      validate: validateTextRequired,
                     },
                     {
                       name: 'page',
@@ -124,6 +131,7 @@ export const PreFooter: GlobalConfig = {
                       type: 'relationship',
                       relationTo: 'pages',
                       required: true,
+                      validate: validatePage,
                       admin: {
                         allowCreate: false,
                       },
@@ -145,6 +153,7 @@ export const PreFooter: GlobalConfig = {
                       label: 'Name',
                       type: 'text',
                       required: true,
+                      validate: validateTextRequired,
                     },
                     {
                       name: 'page',
@@ -160,6 +169,7 @@ export const PreFooter: GlobalConfig = {
                       ],
                       hasMany: false,
                       required: true,
+                      validate: validateSelectSingle,
                     },
                   ],
                 },
@@ -179,6 +189,7 @@ export const PreFooter: GlobalConfig = {
                       label: 'Name',
                       type: 'text',
                       required: true,
+                      validate: validateTextRequired,
                     },
                     {
                       name: 'customCollection',
@@ -186,6 +197,15 @@ export const PreFooter: GlobalConfig = {
                       type: 'relationship',
                       relationTo: 'custom-collections',
                       required: true,
+                      validate: makeValidateRelationshipSingle({
+                        relationTo: 'custom-collections',
+                        requirePublished: false, // set to true if you want only published custom-collections to be selectable on publish
+                        messages: {
+                          required: 'Please select a custom collection.',
+                          notFound: 'Selected custom collection could not be found.',
+                          notPublished: 'Selected custom collection is not published.',
+                        },
+                      }),
                     },
                   ],
                 },
@@ -204,12 +224,14 @@ export const PreFooter: GlobalConfig = {
                       label: 'Name',
                       type: 'text',
                       required: true,
+                      validate: validateTextRequired,
                     },
                     {
                       name: 'url',
                       label: 'Url',
                       type: 'text',
                       required: true,
+                      validate: validateTextRequired,
                     },
                   ],
                 },
@@ -253,6 +275,7 @@ export const PreFooter: GlobalConfig = {
                   label: 'Name',
                   type: 'text',
                   required: true,
+                  validate: validateTextRequired,
                 },
                 {
                   name: 'page',
@@ -260,6 +283,7 @@ export const PreFooter: GlobalConfig = {
                   type: 'relationship',
                   relationTo: 'pages',
                   required: true,
+                  validate: validatePage,
                   admin: {
                     allowCreate: false,
                   },
@@ -282,6 +306,7 @@ export const PreFooter: GlobalConfig = {
                   label: 'Name',
                   type: 'text',
                   required: true,
+                  validate: validateTextRequired,
                 },
                 {
                   name: 'page',
@@ -297,6 +322,7 @@ export const PreFooter: GlobalConfig = {
                   ],
                   hasMany: false,
                   required: true,
+                  validate: validateSelectSingle,
                 },
               ],
             },
@@ -315,12 +341,14 @@ export const PreFooter: GlobalConfig = {
                   label: 'Name',
                   type: 'text',
                   required: true,
+                  validate: validatePage,
                 },
                 {
                   name: 'url',
                   label: 'Url',
                   type: 'text',
                   required: true,
+                  validate: validatePage,
                 },
               ],
             },
@@ -411,6 +439,7 @@ export const PreFooter: GlobalConfig = {
               type: 'text',
               label: 'Url',
               required: true,
+              validate: validateTextRequired,
             },
           ],
         },
@@ -439,6 +468,7 @@ export const PreFooter: GlobalConfig = {
               type: 'text',
               label: 'Url',
               required: true,
+              validate: validateTextRequired,
             },
           ],
         },
@@ -467,6 +497,7 @@ export const PreFooter: GlobalConfig = {
               type: 'text',
               label: 'Url',
               required: true,
+              validate: validateTextRequired,
             },
           ],
         },
@@ -495,6 +526,7 @@ export const PreFooter: GlobalConfig = {
               type: 'text',
               label: 'Url',
               required: true,
+              validate: validateTextRequired,
             },
           ],
         },
@@ -523,6 +555,7 @@ export const PreFooter: GlobalConfig = {
               type: 'text',
               label: 'Url',
               required: true,
+              validate: validateTextRequired,
             },
           ],
         },
@@ -535,4 +568,9 @@ export const PreFooter: GlobalConfig = {
       defaultValue: false,
     },
   ],
+  versions: {
+    drafts: {
+      autosave: true,
+    }
+  }
 }
