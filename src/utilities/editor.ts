@@ -1,5 +1,6 @@
 // standardize our editor features
 import { AccordionBlock } from '@/blocks/Accordion'
+import { CardGridBlock } from '@/blocks/CardGrid'
 import { ProcessListBlock } from '@/blocks/ProcessList'
 import { 
   lexicalEditor,
@@ -14,7 +15,7 @@ export const editor = lexicalEditor({
     FixedToolbarFeature(),
     EXPERIMENTAL_TableFeature(),
     BlocksFeature({
-      blocks: [ProcessListBlock, AccordionBlock],
+      blocks: [ProcessListBlock, AccordionBlock, CardGridBlock],
     }),
   ],
 })
