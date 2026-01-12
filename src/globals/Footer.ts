@@ -180,6 +180,7 @@ export const Footer: GlobalConfig = {
                     { label: 'Blog Posts', value: 'posts' },
                     { label: 'Reports', value: 'reports' },
                     { label: 'Resources', value: 'resources' },
+                    { label: 'Policies', value: 'policies' },
                   ],
                   hasMany: false,
                   required: true,
