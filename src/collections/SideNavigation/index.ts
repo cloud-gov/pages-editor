@@ -212,6 +212,7 @@ export const SideNavigation: CollectionConfig = {
                 { label: 'Reports', value: 'reports' },
                 { label: 'Resources', value: 'resources' },
                 { label: 'Leadership', value: 'leadership' },
+                { label: 'Policies', value: 'policies' },
               ],
             },
             {
