@@ -2,6 +2,7 @@
 import { AccordionBlock } from '@/blocks/Accordion'
 import { CardGridBlock } from '@/blocks/CardGrid'
 import { ProcessListBlock } from '@/blocks/ProcessList'
+import { ImageBlock } from '@/blocks/Image'
 import { 
   lexicalEditor,
   FixedToolbarFeature,
@@ -15,7 +16,7 @@ export const editor = lexicalEditor({
     FixedToolbarFeature(),
     EXPERIMENTAL_TableFeature(),
     BlocksFeature({
-      blocks: [ProcessListBlock, AccordionBlock, CardGridBlock],
+      blocks: [ProcessListBlock, AccordionBlock, CardGridBlock, ImageBlock],
     }),
   ],
 })
