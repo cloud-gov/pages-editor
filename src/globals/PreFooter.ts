@@ -175,7 +175,6 @@ export const PreFooter: GlobalConfig = {
                 },
                 {
                   slug: 'customCollectionLink',
-                  dbName: 'custom_col_link',
                   labels: {
                     singular: 'Custom Collection Link',
                     plural: 'Custom Collection Links',
