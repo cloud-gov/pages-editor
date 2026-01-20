@@ -180,6 +180,12 @@ export const HomePage: GlobalConfig = {
               label: 'Content',
               editor,
             },
+            {
+              name: 'bgImage',
+              type: 'upload',
+              label: 'Background Image',
+              relationTo: 'media',
+            },
           ],
         },
       ],

@@ -45,6 +45,7 @@ import * as migration_20251204_202526_update_payload_3_66_0 from './20251204_202
 import * as migration_20251215_214228_add_not_found_page from './20251215_214228_add_not_found_page';
 import * as migration_20251215_225725_add_related_items_field from './20251215_225725_add_related_items_field';
 import * as migration_20251222_172007_update_slug_lock_default_to_false from './20251222_172007_update_slug_lock_default_to_false';
+import * as migration_20260113_165126_add_bg_image_homepage_text_block from './20260113_165126_add_bg_image_homepage_text_block';
 
 export const migrations = [
   {
@@ -281,5 +282,10 @@ export const migrations = [
     up: migration_20251222_172007_update_slug_lock_default_to_false.up,
     down: migration_20251222_172007_update_slug_lock_default_to_false.down,
     name: '20251222_172007_update_slug_lock_default_to_false',
+  },
+  {
+    up: migration_20260113_165126_add_bg_image_homepage_text_block.up,
+    down: migration_20260113_165126_add_bg_image_homepage_text_block.down,
+    name: '20260113_165126_add_bg_image_homepage_text_block'
   },
 ];
