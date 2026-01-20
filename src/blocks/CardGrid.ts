@@ -45,6 +45,16 @@ export const CardGridBlock: Block = {
           maxLength: 300,
         },
         {
+          name: 'link',
+          label: 'Link Url',
+          type: 'text',
+        },
+        {
+          name: 'linkText',
+          label: 'Link Text',
+          type: 'text',
+        },
+        {
           name: 'orientation',
           type: 'select',
           defaultValue: 'vertical',
