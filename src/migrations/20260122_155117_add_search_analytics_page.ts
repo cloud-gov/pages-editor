@@ -12,6 +12,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"search_search_affiliate" varchar,
   	"analytics_dap_agency_code" varchar,
   	"analytics_dap_sub_agency_code" varchar,
+  	"review_ready" boolean DEFAULT false,
   	"site_id" integer,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
@@ -25,6 +26,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"version_search_search_affiliate" varchar,
   	"version_analytics_dap_agency_code" varchar,
   	"version_analytics_dap_sub_agency_code" varchar,
+  	"version_review_ready" boolean DEFAULT false,
   	"version_site_id" integer,
   	"version_updated_at" timestamp(3) with time zone,
   	"version_created_at" timestamp(3) with time zone,
@@ -41,6 +43,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"search_search_affiliate" varchar,
   	"analytics_dap_agency_code" varchar,
   	"analytics_dap_sub_agency_code" varchar,
+  	"review_ready" boolean DEFAULT false,
   	"_status" "enum_search_analytics_page_status" DEFAULT 'draft',
   	"updated_at" timestamp(3) with time zone,
   	"created_at" timestamp(3) with time zone
@@ -52,6 +55,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"version_search_search_affiliate" varchar,
   	"version_analytics_dap_agency_code" varchar,
   	"version_analytics_dap_sub_agency_code" varchar,
+  	"version_review_ready" boolean DEFAULT false,
   	"version__status" "enum__search_analytics_page_v_version_status" DEFAULT 'draft',
   	"version_updated_at" timestamp(3) with time zone,
   	"version_created_at" timestamp(3) with time zone,
@@ -104,38 +108,65 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "_site_config_v" DROP COLUMN "version_dap_sub_agency_code";`)
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+export async function down({ db }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
-   ALTER TABLE "search_analytics_page_site_collection" DISABLE ROW LEVEL SECURITY;
-  ALTER TABLE "_search_analytics_page_site_collection_v" DISABLE ROW LEVEL SECURITY;
-  ALTER TABLE "search_analytics_page" DISABLE ROW LEVEL SECURITY;
-  ALTER TABLE "_search_analytics_page_v" DISABLE ROW LEVEL SECURITY;
-  DROP TABLE "search_analytics_page_site_collection" CASCADE;
-  DROP TABLE "_search_analytics_page_site_collection_v" CASCADE;
-  DROP TABLE "search_analytics_page" CASCADE;
-  DROP TABLE "_search_analytics_page_v" CASCADE;
-  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT "payload_locked_documents_rels_search_analytics_page_site__fk";
-  
-  DROP INDEX "payload_locked_documents_rels_search_analytics_page_site_idx";
-  ALTER TABLE "site_config_site_collection" ADD COLUMN "search_access_key" varchar;
-  ALTER TABLE "site_config_site_collection" ADD COLUMN "search_affiliate" varchar;
-  ALTER TABLE "site_config_site_collection" ADD COLUMN "dap_agency_code" varchar;
-  ALTER TABLE "site_config_site_collection" ADD COLUMN "dap_sub_agency_code" varchar;
-  ALTER TABLE "_site_config_site_collection_v" ADD COLUMN "version_search_access_key" varchar;
-  ALTER TABLE "_site_config_site_collection_v" ADD COLUMN "version_search_affiliate" varchar;
-  ALTER TABLE "_site_config_site_collection_v" ADD COLUMN "version_dap_agency_code" varchar;
-  ALTER TABLE "_site_config_site_collection_v" ADD COLUMN "version_dap_sub_agency_code" varchar;
-  ALTER TABLE "site_config" ADD COLUMN "search_access_key" varchar;
-  ALTER TABLE "site_config" ADD COLUMN "search_affiliate" varchar;
-  ALTER TABLE "site_config" ADD COLUMN "dap_agency_code" varchar;
-  ALTER TABLE "site_config" ADD COLUMN "dap_sub_agency_code" varchar;
-  ALTER TABLE "_site_config_v" ADD COLUMN "version_search_access_key" varchar;
-  ALTER TABLE "_site_config_v" ADD COLUMN "version_search_affiliate" varchar;
-  ALTER TABLE "_site_config_v" ADD COLUMN "version_dap_agency_code" varchar;
-  ALTER TABLE "_site_config_v" ADD COLUMN "version_dap_sub_agency_code" varchar;
-  ALTER TABLE "payload_locked_documents_rels" DROP COLUMN "search_analytics_page_site_collection_id";
-  DROP TYPE "public"."enum_search_analytics_page_site_collection_status";
-  DROP TYPE "public"."enum__search_analytics_page_site_collection_v_version_status";
-  DROP TYPE "public"."enum_search_analytics_page_status";
-  DROP TYPE "public"."enum__search_analytics_page_v_version_status";`)
+    ALTER TABLE "payload_locked_documents_rels"
+      DROP CONSTRAINT IF EXISTS "payload_locked_documents_rels_search_analytics_page_site__fk";
+
+    DROP INDEX IF EXISTS "payload_locked_documents_rels_search_analytics_page_site_idx";
+
+    ALTER TABLE "payload_locked_documents_rels"
+      DROP COLUMN IF EXISTS "search_analytics_page_site_collection_id";
+
+    ALTER TABLE IF EXISTS "search_analytics_page_site_collection" DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE IF EXISTS "_search_analytics_page_site_collection_v" DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE IF EXISTS "search_analytics_page" DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE IF EXISTS "_search_analytics_page_v" DISABLE ROW LEVEL SECURITY;
+
+    DROP TABLE IF EXISTS "_search_analytics_page_site_collection_v";
+    DROP TABLE IF EXISTS "search_analytics_page_site_collection";
+    DROP TABLE IF EXISTS "_search_analytics_page_v";
+    DROP TABLE IF EXISTS "search_analytics_page";
+
+    ALTER TABLE "site_config_site_collection"
+      ADD COLUMN IF NOT EXISTS "search_access_key" varchar;
+    ALTER TABLE "site_config_site_collection"
+      ADD COLUMN IF NOT EXISTS "search_affiliate" varchar;
+    ALTER TABLE "site_config_site_collection"
+      ADD COLUMN IF NOT EXISTS "dap_agency_code" varchar;
+    ALTER TABLE "site_config_site_collection"
+      ADD COLUMN IF NOT EXISTS "dap_sub_agency_code" varchar;
+
+    ALTER TABLE "_site_config_site_collection_v"
+      ADD COLUMN IF NOT EXISTS "version_search_access_key" varchar;
+    ALTER TABLE "_site_config_site_collection_v"
+      ADD COLUMN IF NOT EXISTS "version_search_affiliate" varchar;
+    ALTER TABLE "_site_config_site_collection_v"
+      ADD COLUMN IF NOT EXISTS "version_dap_agency_code" varchar;
+    ALTER TABLE "_site_config_site_collection_v"
+      ADD COLUMN IF NOT EXISTS "version_dap_sub_agency_code" varchar;
+
+    ALTER TABLE "site_config"
+      ADD COLUMN IF NOT EXISTS "search_access_key" varchar;
+    ALTER TABLE "site_config"
+      ADD COLUMN IF NOT EXISTS "search_affiliate" varchar;
+    ALTER TABLE "site_config"
+      ADD COLUMN IF NOT EXISTS "dap_agency_code" varchar;
+    ALTER TABLE "site_config"
+      ADD COLUMN IF NOT EXISTS "dap_sub_agency_code" varchar;
+
+    ALTER TABLE "_site_config_v"
+      ADD COLUMN IF NOT EXISTS "version_search_access_key" varchar;
+    ALTER TABLE "_site_config_v"
+      ADD COLUMN IF NOT EXISTS "version_search_affiliate" varchar;
+    ALTER TABLE "_site_config_v"
+      ADD COLUMN IF NOT EXISTS "version_dap_agency_code" varchar;
+    ALTER TABLE "_site_config_v"
+      ADD COLUMN IF NOT EXISTS "version_dap_sub_agency_code" varchar;
+
+    DROP TYPE IF EXISTS "public"."enum_search_analytics_page_site_collection_status";
+    DROP TYPE IF EXISTS "public"."enum__search_analytics_page_site_collection_v_version_status";
+    DROP TYPE IF EXISTS "public"."enum_search_analytics_page_status";
+    DROP TYPE IF EXISTS "public"."enum__search_analytics_page_v_version_status";
+  `)
 }

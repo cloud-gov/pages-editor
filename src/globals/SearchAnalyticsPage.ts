@@ -55,6 +55,12 @@ export const SearchAnalyticsPage: GlobalConfig = {
           type: 'text',
         },
       ]
-    }
+    },
+    {
+      name: 'reviewReady',
+      label: 'Ready for Review',
+      type: 'checkbox',
+      defaultValue: false,
+    },
   ],
 }

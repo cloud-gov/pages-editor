@@ -88,6 +88,7 @@ export interface Config {
     'footer-site-collection': FooterSiteCollection;
     'pre-footer-site-collection': PreFooterSiteCollection;
     'not-found-page-site-collection': NotFoundPageSiteCollection;
+    'search-analytics-page-site-collection': SearchAnalyticsPageSiteCollection;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -125,6 +126,7 @@ export interface Config {
     'footer-site-collection': FooterSiteCollectionSelect<false> | FooterSiteCollectionSelect<true>;
     'pre-footer-site-collection': PreFooterSiteCollectionSelect<false> | PreFooterSiteCollectionSelect<true>;
     'not-found-page-site-collection': NotFoundPageSiteCollectionSelect<false> | NotFoundPageSiteCollectionSelect<true>;
+    'search-analytics-page-site-collection': SearchAnalyticsPageSiteCollectionSelect<false> | SearchAnalyticsPageSiteCollectionSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -146,6 +148,7 @@ export interface Config {
     footer: Footer;
     'pre-footer': PreFooter;
     'not-found-page': NotFoundPage;
+    'search-analytics-page': SearchAnalyticsPage;
   };
   globalsSelect: {
     'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
@@ -154,6 +157,7 @@ export interface Config {
     footer: FooterSelect<false> | FooterSelect<true>;
     'pre-footer': PreFooterSelect<false> | PreFooterSelect<true>;
     'not-found-page': NotFoundPageSelect<false> | NotFoundPageSelect<true>;
+    'search-analytics-page': SearchAnalyticsPageSelect<false> | SearchAnalyticsPageSelect<true>;
   };
   locale: null;
   user: User & {
@@ -1263,10 +1267,6 @@ export interface SiteConfigSiteCollection {
     | null;
   favicon?: (number | null) | Media;
   logo?: (number | null) | Media;
-  searchAccessKey?: string | null;
-  searchAffiliate?: string | null;
-  dapAgencyCode?: string | null;
-  dapSubAgencyCode?: string | null;
   reviewReady?: boolean | null;
   site: number | Site;
   updatedAt: string;
@@ -1772,6 +1772,28 @@ export interface NotFoundPageSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Configure site search settings and digital analytics integrations.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search-analytics-page-site-collection".
+ */
+export interface SearchAnalyticsPageSiteCollection {
+  id: number;
+  Search?: {
+    searchAccessKey?: string | null;
+    searchAffiliate?: string | null;
+  };
+  Analytics?: {
+    dapAgencyCode?: string | null;
+    dapSubAgencyCode?: string | null;
+  };
+  reviewReady?: boolean | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
@@ -2120,6 +2142,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'not-found-page-site-collection';
         value: number | NotFoundPageSiteCollection;
+      } | null)
+    | ({
+        relationTo: 'search-analytics-page-site-collection';
+        value: number | SearchAnalyticsPageSiteCollection;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -2777,10 +2803,6 @@ export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
   primaryFont?: T;
   favicon?: T;
   logo?: T;
-  searchAccessKey?: T;
-  searchAffiliate?: T;
-  dapAgencyCode?: T;
-  dapSubAgencyCode?: T;
   reviewReady?: T;
   site?: T;
   updatedAt?: T;
@@ -3040,6 +3062,29 @@ export interface NotFoundPageSiteCollectionSelect<T extends boolean = true> {
   heading?: T;
   content?: T;
   showSearch?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search-analytics-page-site-collection_select".
+ */
+export interface SearchAnalyticsPageSiteCollectionSelect<T extends boolean = true> {
+  Search?:
+    | T
+    | {
+        searchAccessKey?: T;
+        searchAffiliate?: T;
+      };
+  Analytics?:
+    | T
+    | {
+        dapAgencyCode?: T;
+        dapSubAgencyCode?: T;
+      };
+  reviewReady?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -3426,10 +3471,6 @@ export interface SiteConfig {
     | null;
   favicon?: (number | null) | Media;
   logo?: (number | null) | Media;
-  searchAccessKey?: string | null;
-  searchAffiliate?: string | null;
-  dapAgencyCode?: string | null;
-  dapSubAgencyCode?: string | null;
   reviewReady?: boolean | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
@@ -3999,6 +4040,27 @@ export interface NotFoundPage {
   createdAt?: string | null;
 }
 /**
+ * Configure site search settings and digital analytics integrations.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search-analytics-page".
+ */
+export interface SearchAnalyticsPage {
+  id: number;
+  Search?: {
+    searchAccessKey?: string | null;
+    searchAffiliate?: string | null;
+  };
+  Analytics?: {
+    dapAgencyCode?: string | null;
+    dapSubAgencyCode?: string | null;
+  };
+  reviewReady?: boolean | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config_select".
  */
@@ -4010,10 +4072,6 @@ export interface SiteConfigSelect<T extends boolean = true> {
   primaryFont?: T;
   favicon?: T;
   logo?: T;
-  searchAccessKey?: T;
-  searchAffiliate?: T;
-  dapAgencyCode?: T;
-  dapSubAgencyCode?: T;
   reviewReady?: T;
   _status?: T;
   updatedAt?: T;
@@ -4347,6 +4405,29 @@ export interface NotFoundPageSelect<T extends boolean = true> {
   heading?: T;
   content?: T;
   showSearch?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search-analytics-page_select".
+ */
+export interface SearchAnalyticsPageSelect<T extends boolean = true> {
+  Search?:
+    | T
+    | {
+        searchAccessKey?: T;
+        searchAffiliate?: T;
+      };
+  Analytics?:
+    | T
+    | {
+        dapAgencyCode?: T;
+        dapSubAgencyCode?: T;
+      };
+  reviewReady?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -23249,6 +23249,13 @@
           "primaryKey": false,
           "notNull": false
         },
+        "review_ready": {
+          "name": "review_ready",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
         "site_id": {
           "name": "site_id",
           "type": "integer",
@@ -23400,6 +23407,13 @@
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
+        },
+        "version_review_ready": {
+          "name": "version_review_ready",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
         },
         "version_site_id": {
           "name": "version_site_id",
@@ -34595,6 +34609,13 @@
           "primaryKey": false,
           "notNull": false
         },
+        "review_ready": {
+          "name": "review_ready",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
         "_status": {
           "name": "_status",
           "type": "enum_search_analytics_page_status",
@@ -34673,6 +34694,13 @@
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
+        },
+        "version_review_ready": {
+          "name": "version_review_ready",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
         },
         "version__status": {
           "name": "version__status",
@@ -36993,6 +37021,6 @@
     "tables": {},
     "columns": {}
   },
-  "id": "0ff159a7-02fe-430f-b94b-83a490b324c9",
+  "id": "d8195011-d1a5-4ce1-99a7-a4bb2d87e38f",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }
