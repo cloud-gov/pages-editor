@@ -18,7 +18,7 @@ export const CustomCollectionPages: CollectionConfig = {
   },
   admin: {
     group: 'Content Collection',
-    description: 'Add content pages to your custom collections. All fields are available for maximum flexibility.',
+    description: 'Content pages within custom collections with all fields available for maximum flexibility.',
     defaultColumns: ['title', 'collectionConfig', 'slug', 'updatedAt', 'updatedBy', '_status'],
     useAsTitle: 'title',
     hideAPIURL: true,

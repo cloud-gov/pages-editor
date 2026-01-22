@@ -18,7 +18,7 @@ export const Resources: CollectionConfig = {
   },
   admin: {
     group: 'Content Collection',
-    description: 'Downloadable or reference materials like guides and reports.',
+    description: 'Downloadable or reference materials like guides or reports.',
     defaultColumns: ['title', 'slug', 'updatedAt', 'updatedBy', '_status'],
     meta: {
       title: 'Resources',

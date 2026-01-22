@@ -187,7 +187,7 @@ export interface UserAuthOperations {
   };
 }
 /**
- * Site wide alerts to display informational banners regarding a deadline, outage, new release, etc.
+ * Site-wide informational banners for announcements such as deadlines, outages, and new releases.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "alerts".
@@ -378,7 +378,7 @@ export interface Media {
   focalY?: number | null;
 }
 /**
- * Tags or groupings used to organize and filter content across the site.
+ * Tags or grouping used to organize and filter content across the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
@@ -402,7 +402,7 @@ export interface Category {
   createdAt: string;
 }
 /**
- * Details for upcoming or past events, including dates, locations, and descriptions.
+ * Event information including dates, locations, and descriptions.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
@@ -654,7 +654,7 @@ export interface Report {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Downloadable or reference materials like guides and reports.
+ * Downloadable or reference materials like guides or reports.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "resources".
@@ -780,7 +780,7 @@ export interface Leadership {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Create and manage custom content collections. Each collection can have its own name and URL slug.
+ * A flexible content collection with configurable names and URL slugs.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "custom-collections".
@@ -808,7 +808,7 @@ export interface CustomCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Add content pages to your custom collections. All fields are available for maximum flexibility.
+ * Content pages within custom collections with all fields available for maximum flexibility.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "custom-collection-pages".
@@ -910,7 +910,7 @@ export interface CustomCollectionPage {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Individual pages like About or Contact that aren't part of a content collection.
+ * Individual pages like About or Contact that aren’t part of a content collection.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
@@ -948,7 +948,7 @@ export interface Page {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Create and manage side navigation menus for single pages.
+ * Create and manage side navigation menus for single pages and collections.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "side-navigation".
@@ -1070,7 +1070,7 @@ export interface Policy {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Build and organize site navigation for pages and content sections.
+ * Build and organize primary site navigation for pages and content sections.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "menu-site-collection".
@@ -1274,7 +1274,7 @@ export interface SiteConfigSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Configure the home page content using flexible content blocks.
+ * A customizable homepage composed of flexible content blocks.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "home-page-site-collection".
@@ -1346,7 +1346,7 @@ export interface HomePageSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Build and organize site footer
+ * Build and organize site footer content and links.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "footer-site-collection".
@@ -1625,7 +1625,7 @@ export interface FooterSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Build and organize site pre-footer
+ * Build and organize site pre-footer content and links.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pre-footer-site-collection".
@@ -1741,7 +1741,7 @@ export interface PreFooterSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Customize the 404 error page content.
+ * Customizable 404 error page.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "not-found-page-site-collection".
@@ -3477,7 +3477,7 @@ export interface SiteConfig {
   createdAt?: string | null;
 }
 /**
- * Build and organize site navigation for pages and content sections.
+ * Build and organize primary site navigation for pages and content sections.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "menu".
@@ -3546,7 +3546,7 @@ export interface Menu {
   createdAt?: string | null;
 }
 /**
- * Configure the home page content using flexible content blocks.
+ * A customizable homepage composed of flexible content blocks.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "home-page".
@@ -3617,7 +3617,7 @@ export interface HomePage {
   createdAt?: string | null;
 }
 /**
- * Build and organize site footer
+ * Build and organize site footer content and links.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "footer".
@@ -3895,7 +3895,7 @@ export interface Footer {
   createdAt?: string | null;
 }
 /**
- * Build and organize site pre-footer
+ * Build and organize site pre-footer content and links.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pre-footer".
@@ -4010,7 +4010,7 @@ export interface PreFooter {
   createdAt?: string | null;
 }
 /**
- * Customize the 404 error page content.
+ * Customizable 404 error page.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "not-found-page".

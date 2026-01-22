@@ -25,7 +25,7 @@ export const Alerts: CollectionConfig = {
   admin: {
     group: 'Global Assets',
     description:
-      'Site wide alerts to display informational banners regarding a deadline, outage, new release, etc.',
+      'Site-wide informational banners for announcements such as deadlines, outages, and new releases.',
     defaultColumns: ['title', 'type', 'isActive', 'publishDate', '_status'],
     livePreview: {
       url: getGlobalPreviewUrl,

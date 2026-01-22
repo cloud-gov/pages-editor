@@ -12,7 +12,7 @@ export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   admin: {
     group: 'Single Pages',
-    description: "Individual pages like About or Contact that aren't part of a content collection.",
+    description: "Individual pages like About or Contact that aren’t part of a content collection.",
     defaultColumns: ['title', 'slug', 'reviewReady', 'updatedAt'],
     livePreview: {
       url: getPagePreviewUrl,

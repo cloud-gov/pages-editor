@@ -19,7 +19,7 @@ export const Footer: GlobalConfig = {
   },
   admin: {
     group: 'Site Configuration',
-    description: 'Build and organize site footer',
+    description: 'Build and organize site footer content and links.',
     livePreview: {
       url: getGlobalPreviewUrl,
     },

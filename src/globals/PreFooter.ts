@@ -31,7 +31,7 @@ export const PreFooter: GlobalConfig = {
   },
   admin: {
     group: 'Site Configuration',
-    description: 'Build and organize site pre-footer',
+    description: 'Build and organize site pre-footer content and links.',
     livePreview: {
       url: getGlobalPreviewUrl,
     },

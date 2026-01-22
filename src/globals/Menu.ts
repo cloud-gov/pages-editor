@@ -16,7 +16,7 @@ export const Menu: GlobalConfig = {
   },
   admin: {
     group: 'Site Configuration',
-    description: 'Build and organize site navigation for pages and content sections.',
+    description: 'Build and organize primary site navigation for pages and content sections.',
     livePreview: {
       url: getGlobalPreviewUrl,
     },
