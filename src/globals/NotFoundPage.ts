@@ -12,7 +12,7 @@ export const NotFoundPage: GlobalConfig = {
     readVersions: getAdminOrSiteUserGlobals(),
   },
   admin: {
-    group: 'Single Pages',
+    group: 'Global Assets',
     description: 'Customize the 404 error page content.',
     livePreview: {
       url: getGlobalPreviewUrl,

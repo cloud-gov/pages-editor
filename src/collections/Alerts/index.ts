@@ -23,7 +23,7 @@ export const Alerts: CollectionConfig = {
     slug: true,
   },
   admin: {
-    group: 'Content Collection',
+    group: 'Global Assets',
     description:
       'Site wide alerts to display informational banners regarding a deadline, outage, new release, etc.',
     defaultColumns: ['title', 'type', 'isActive', 'publishDate', '_status'],

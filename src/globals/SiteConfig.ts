@@ -106,26 +106,6 @@ export const SiteConfig: GlobalConfig = {
       relationTo: 'media',
     },
     {
-      name: 'searchAccessKey',
-      label: 'Key obtained from Search.gov admin center',
-      type: 'text',
-    },
-    {
-      name: 'searchAffiliate',
-      label: 'Search.gov Site Handle',
-      type: 'text',
-    },
-    {
-      name: 'dapAgencyCode',
-      label: 'DAP Agency Code',
-      type: 'text',
-    },
-    {
-      name: 'dapSubAgencyCode',
-      label: 'DAP Sub Agency Code',
-      type: 'text',
-    },
-    {
       name: 'reviewReady',
       label: 'Ready for Review',
       type: 'checkbox',
