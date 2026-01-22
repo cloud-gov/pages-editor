@@ -19,7 +19,7 @@ export const SideNavigation: CollectionConfig = {
   },
   admin: {
     group: 'Site Configuration',
-    description: 'Create and manage side navigation menus for single pages.',
+    description: 'Create and manage side navigation menus for single pages and collections.',
     useAsTitle: 'name',
     defaultColumns: ['name', 'title', 'enabled', 'updatedAt'],
   },

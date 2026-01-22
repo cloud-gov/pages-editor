@@ -19,6 +19,11 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
 
   // Get all collections and globals from the config
   const config = payload.config
+
+  // Hidden collections
+  const hiddenCollections = [
+    'reports',
+  ]
   
   // Map collections to dashboard items
   const collections = config.collections?.map(collection => {
@@ -57,6 +62,10 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
   }).filter(collection => {
     // Hide Sites collection for non-admin users
     if (collection.slug === 'sites' && !user?.isAdmin) {
+      return false
+    }
+    // Don't show collection items flagged as hidden
+    if(hiddenCollections.includes(collection.slug)) {
       return false
     }
     return true

@@ -12,8 +12,8 @@ export const NotFoundPage: GlobalConfig = {
     readVersions: getAdminOrSiteUserGlobals(),
   },
   admin: {
-    group: 'Single Pages',
-    description: 'Customize the 404 error page content.',
+    group: 'Global Assets',
+    description: 'Customizable 404 error page.',
     livePreview: {
       url: getGlobalPreviewUrl,
     },
