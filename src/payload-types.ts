@@ -1330,6 +1330,7 @@ export interface HomePageSiteCollection {
               };
               [k: string]: unknown;
             } | null;
+            bgImage?: (number | null) | Media;
             id?: string | null;
             blockName?: string | null;
             blockType: 'textBlock';
@@ -2819,6 +2820,7 @@ export interface HomePageSiteCollectionSelect<T extends boolean = true> {
           | {
               title?: T;
               content?: T;
+              bgImage?: T;
               id?: T;
               blockName?: T;
             };
@@ -3536,6 +3538,7 @@ export interface HomePage {
               };
               [k: string]: unknown;
             } | null;
+            bgImage?: (number | null) | Media;
             id?: string | null;
             blockName?: string | null;
             blockType: 'textBlock';
@@ -4118,6 +4121,7 @@ export interface HomePageSelect<T extends boolean = true> {
           | {
               title?: T;
               content?: T;
+              bgImage?: T;
               id?: T;
               blockName?: T;
             };
