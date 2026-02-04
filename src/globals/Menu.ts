@@ -91,7 +91,6 @@ export const Menu: GlobalConfig = {
         },
         {
           slug: 'customCollectionLink',
-          dbName: 'custom_col_link',
           labels: {
             singular: 'Custom Collection Link',
             plural: 'Custom Collection Links',
@@ -198,7 +197,6 @@ export const Menu: GlobalConfig = {
                 },
                 {
                   slug: 'customCollectionLink',
-                  dbName: 'custom_col_link',
                   labels: {
                     singular: 'Custom Collection Link',
                     plural: 'Custom Collection Links',
