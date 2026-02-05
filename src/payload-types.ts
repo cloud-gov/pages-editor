@@ -156,9 +156,7 @@ export interface Config {
     'not-found-page': NotFoundPageSelect<false> | NotFoundPageSelect<true>;
   };
   locale: null;
-  user: User & {
-    collection: 'users';
-  };
+  user: User;
   jobs: {
     tasks: unknown;
     workflows: unknown;
@@ -263,6 +261,7 @@ export interface User {
   enableAPIKey?: boolean | null;
   apiKey?: string | null;
   apiKeyIndex?: string | null;
+  collection: 'users';
 }
 /**
  * Articles, updates, or blog content used to share ideas, news, or stories.
