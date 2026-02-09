@@ -45,6 +45,7 @@ import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/component
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { default as default_6d0fe59af291eda0374bdc5d5f9a5829 } from '@/components/CustomDashboard'
 import { default as default_7bac276e3812125fd6b97470a9f2783d } from '@/components/UserRolesAndPermissions'
+import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 export const importMap = {
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -93,5 +94,6 @@ export const importMap = {
   "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@/components/CustomDashboard#default": default_6d0fe59af291eda0374bdc5d5f9a5829,
-  "@/components/UserRolesAndPermissions#default": default_7bac276e3812125fd6b97470a9f2783d
+  "@/components/UserRolesAndPermissions#default": default_7bac276e3812125fd6b97470a9f2783d,
+  "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
