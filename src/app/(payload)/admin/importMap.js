@@ -39,6 +39,8 @@ import { default as default_2e6cf1b1b850543a1bd5771a5b86ee4d } from '@/component
 import { default as default_32d7f490396abda7b466903585904485 } from '@/components/RemoveUser'
 import { default as default_7ce813284ffa92867fd9fdc508e13505 } from 'src/components/UserCollectionDescription'
 import { default as default_fedc587b86d65a6c9503093fbd9e9e2f } from '@/components/CustomPublishButton'
+import { Icon as Icon_9c1a3ff8a9adb7b1e4b7a5cd42725bdb } from '../../../graphics/Icon/index.tsx'
+import { Logo as Logo_217937c36742cdefe571d11857c968fa } from '../../../graphics/Logo/index.tsx'
 import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/components/BeforeLogin'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { default as default_6d0fe59af291eda0374bdc5d5f9a5829 } from '@/components/CustomDashboard'
@@ -86,6 +88,8 @@ export const importMap = {
   "@/components/RemoveUser#default": default_32d7f490396abda7b466903585904485,
   "src/components/UserCollectionDescription#default": default_7ce813284ffa92867fd9fdc508e13505,
   "@/components/CustomPublishButton#default": default_fedc587b86d65a6c9503093fbd9e9e2f,
+  "/graphics/Icon/index.tsx#Icon": Icon_9c1a3ff8a9adb7b1e4b7a5cd42725bdb,
+  "/graphics/Logo/index.tsx#Logo": Logo_217937c36742cdefe571d11857c968fa,
   "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@/components/CustomDashboard#default": default_6d0fe59af291eda0374bdc5d5f9a5829,

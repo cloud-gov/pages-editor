@@ -194,3 +194,113 @@ TBD
 #### API Tests
 
 TBD
+
+### Customize branding
+
+#### Favicon
+
+Use a typical favicon.ico and place it in a directory like `/public/assets/favicon.ico`
+
+Add to `admin.meta.icons` in payload.config.ts
+```
+admin {
+   ... 
+   meta: {
+      icons: [
+         {
+            type: 'image/png',
+            rel: 'icon',
+            url: '/assets/favicon.ico',
+         }
+      ]
+   }
+}
+```
+*https://github.com/payloadcms/payload/blob/main/examples/whitelabel/src/payload.config.ts#L26*
+
+#### Meta title suffix
+
+Appears in the browser tab appended to page name.
+
+Apply to `admin.meta.titleSuffix` in payload.config.ts
+
+```
+admin {
+   ...
+   meta: {
+      titleSuffix: ' | Cloud.gov Publisher',
+   }
+}
+```
+*https://github.com/payloadcms/payload/blob/main/examples/whitelabel/src/payload.config.ts#L44*
+
+#### Login page logo
+
+A logo that appears above the Login via UAA button on the login page.
+
+This gets added as a React .tsx component and is inserted in payload.config.ts.
+```
+components: {
+  ...
+  graphics: {
+    ...
+    Logo: '/graphics/Logo/index.tsx#Logo',
+  }
+}
+```
+*https://github.com/payloadcms/payload/blob/main/examples/whitelabel/src/payload.config.ts#L19*
+Example component: https://github.com/payloadcms/payload/blob/main/examples/whitelabel/src/graphics/Logo/index.tsx
+
+Example shown above uses an svg markup. The component can also render an img tag with a path to an image in the public assets directory.
+```
+export const Logo = () => {
+  return (
+    <img src="/assets/images/pages-vertical.png" alt="pages" />
+  )
+}
+```
+
+#### Icon
+
+An icon that appears in the breadcrumb at the top of the page.
+
+This gets added as a React .tsx component and is inserted in payload.config.ts.
+```
+components: {
+  ...
+  graphics: {
+    Icon: '/graphics/Icon/index.tsx#Logo',
+    ...
+  }
+}
+```
+*https://github.com/payloadcms/payload/blob/main/examples/whitelabel/src/payload.config.ts#L18*
+Example component: https://github.com/payloadcms/payload/blob/main/examples/whitelabel/src/graphics/Icon/index.tsx
+
+Example shown above uses an svg markup. The component can also render an img tag with a path to an image in the public assets directory.
+```
+export const Icon = () => {
+  return (
+    <img src="/assets/images/pages-mark-only.png" alt="pages" />
+  )
+}
+```
+
+#### Color style overrides
+
+Color or other typographical and most block customizations can be applied in the `/src/app/(payload)/custom.scss` file.
+
+#### Notable limitations or workarounds
+
+Some documentation is out of date with current Payload customization syntax. However the README.md here https://github.com/payloadcms/payload/tree/main/examples/whitelabel is current in spite of linking to an older blog post.
+
+- Review changelogs before major upgrades
+- Explore community examples and GitHub issue queue
+
+Additional blocks such as a custom footer or sidebar require custom React blocks or view overrides.
+
+These can be effected in the admin.components config similarly to how the custom dashboard was added.
+
+By documenting customization it will be easier to track down any breaking changes with future Payload upgrades.
+
+By leveraging the existing Payload customization features these changes are relatively trival and should not create many complications for rolling out.

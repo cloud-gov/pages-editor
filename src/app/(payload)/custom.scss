@@ -84,6 +84,39 @@ html {
     color: #000000;
 }
 
+.template-default,
+.usa-card__container {
+    color: var(--color-primary-darker);
+}
+
+.pill {
+    color: var(--color-primary-darker);
+}
+
+label.field-label:not(.unstyled) {
+    color: var(--color-primary-darker);
+}
+
+.btn--style-tab.btn--disabled {
+    color: var(--color-primary-darker);
+}
+
+.array-field--has-no-error>.array-field__header .array-field__header-content {
+    color: var(--color-primary-darker);
+}
+
+.array-field__header-action {
+    color: var(--color-primary-darker);
+}
+
+.btn--style-primary {
+    --bg-color: var(--color-primary-darker);
+}
+
+.list-header .btn {
+    background-color: var(--color-primary-darker);
+}
+
 // Hide any theme selector components
 [data-theme-selector],
 .theme-selector,
@@ -309,7 +342,7 @@ button {
 }
 
 .nav-group__toggle {
-    color: var(--color-base-darker);
+    color: var(--color-primary-darker);
 
     svg,
     svg path {
