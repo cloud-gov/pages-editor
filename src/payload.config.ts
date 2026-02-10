@@ -52,7 +52,7 @@ const UserRolesAndPermissionsView: AdminViewConfig = {
   Component: '@/components/UserRolesAndPermissions',
   path: '/sites-roles-and-permissions',
   meta: {
-    title: 'Payload - Sites Roles and Permissions'
+    title: 'Payload - Sites Roles and Permissions',
   }
 }
 
@@ -64,11 +64,11 @@ const config = {
     },
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
-      // graphics: { // TODO custom logo
+      graphics: { // TODO custom logo
       // whitelabeling example: https://github.com/payloadcms/payload/blob/main/examples/whitelabel/src/payload.config.ts
-      //   Icon: '/graphics/Icon/index.tsx#Icon',
-      //   Logo: '/graphics/Logo/index.tsx#Logo',
-      // },
+        Logo: '/graphics/Logo/index.tsx#Logo',
+        Icon: '/graphics/Icon/index.tsx#Icon',
+      },
       views: {
         dashboard: {
           Component: '@/components/CustomDashboard',
@@ -137,6 +137,16 @@ const config = {
         },
       ],
     },
+    meta: {
+      titleSuffix: ' | Cloud.gov Publisher',
+      icons: [
+        {
+          type: 'image/png',
+          rel: 'icon',
+          url: '/assets/favicon.ico',
+        }
+      ]
+    }
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
