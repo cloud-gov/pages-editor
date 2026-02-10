@@ -88,6 +88,7 @@ export interface Config {
     'footer-site-collection': FooterSiteCollection;
     'pre-footer-site-collection': PreFooterSiteCollection;
     'not-found-page-site-collection': NotFoundPageSiteCollection;
+    'search-analytics-page-site-collection': SearchAnalyticsPageSiteCollection;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -125,6 +126,7 @@ export interface Config {
     'footer-site-collection': FooterSiteCollectionSelect<false> | FooterSiteCollectionSelect<true>;
     'pre-footer-site-collection': PreFooterSiteCollectionSelect<false> | PreFooterSiteCollectionSelect<true>;
     'not-found-page-site-collection': NotFoundPageSiteCollectionSelect<false> | NotFoundPageSiteCollectionSelect<true>;
+    'search-analytics-page-site-collection': SearchAnalyticsPageSiteCollectionSelect<false> | SearchAnalyticsPageSiteCollectionSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -146,6 +148,7 @@ export interface Config {
     footer: Footer;
     'pre-footer': PreFooter;
     'not-found-page': NotFoundPage;
+    'search-analytics-page': SearchAnalyticsPage;
   };
   globalsSelect: {
     'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
@@ -154,6 +157,7 @@ export interface Config {
     footer: FooterSelect<false> | FooterSelect<true>;
     'pre-footer': PreFooterSelect<false> | PreFooterSelect<true>;
     'not-found-page': NotFoundPageSelect<false> | NotFoundPageSelect<true>;
+    'search-analytics-page': SearchAnalyticsPageSelect<false> | SearchAnalyticsPageSelect<true>;
   };
   locale: null;
   user: User;
@@ -181,7 +185,7 @@ export interface UserAuthOperations {
   };
 }
 /**
- * Site wide alerts to display informational banners regarding a deadline, outage, new release, etc.
+ * Site-wide informational banners for announcements such as deadlines, outages, and new releases.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "alerts".
@@ -373,7 +377,7 @@ export interface Media {
   focalY?: number | null;
 }
 /**
- * Tags or groupings used to organize and filter content across the site.
+ * Tags or grouping used to organize and filter content across the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
@@ -397,7 +401,7 @@ export interface Category {
   createdAt: string;
 }
 /**
- * Details for upcoming or past events, including dates, locations, and descriptions.
+ * Event information including dates, locations, and descriptions.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
@@ -649,7 +653,7 @@ export interface Report {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Downloadable or reference materials like guides and reports.
+ * Downloadable or reference materials like guides or reports.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "resources".
@@ -775,7 +779,7 @@ export interface Leadership {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Create and manage custom content collections. Each collection can have its own name and URL slug.
+ * A flexible content collection with configurable names and URL slugs.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "custom-collections".
@@ -803,7 +807,7 @@ export interface CustomCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Add content pages to your custom collections. All fields are available for maximum flexibility.
+ * Content pages within custom collections with all fields available for maximum flexibility.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "custom-collection-pages".
@@ -905,7 +909,7 @@ export interface CustomCollectionPage {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Individual pages like About or Contact that aren't part of a content collection.
+ * Individual pages like About or Contact that aren’t part of a content collection.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
@@ -943,7 +947,7 @@ export interface Page {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Create and manage side navigation menus for single pages.
+ * Create and manage side navigation menus for single pages and collections.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "side-navigation".
@@ -1065,7 +1069,7 @@ export interface Policy {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Build and organize site navigation for pages and content sections.
+ * Build and organize primary site navigation for pages and content sections.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "menu-site-collection".
@@ -1262,10 +1266,6 @@ export interface SiteConfigSiteCollection {
     | null;
   favicon?: (number | null) | Media;
   logo?: (number | null) | Media;
-  searchAccessKey?: string | null;
-  searchAffiliate?: string | null;
-  dapAgencyCode?: string | null;
-  dapSubAgencyCode?: string | null;
   reviewReady?: boolean | null;
   site: number | Site;
   updatedAt: string;
@@ -1273,7 +1273,7 @@ export interface SiteConfigSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Configure the home page content using flexible content blocks.
+ * A customizable homepage composed of flexible content blocks.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "home-page-site-collection".
@@ -1346,7 +1346,7 @@ export interface HomePageSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Build and organize site footer
+ * Build and organize site footer content and links.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "footer-site-collection".
@@ -1625,7 +1625,7 @@ export interface FooterSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Build and organize site pre-footer
+ * Build and organize site pre-footer content and links.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pre-footer-site-collection".
@@ -1741,7 +1741,7 @@ export interface PreFooterSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Customize the 404 error page content.
+ * Customizable 404 error page.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "not-found-page-site-collection".
@@ -1766,6 +1766,28 @@ export interface NotFoundPageSiteCollection {
     [k: string]: unknown;
   } | null;
   showSearch?: boolean | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Configure site search settings and digital analytics integrations.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search-analytics-page-site-collection".
+ */
+export interface SearchAnalyticsPageSiteCollection {
+  id: number;
+  Search?: {
+    searchAccessKey?: string | null;
+    searchAffiliate?: string | null;
+  };
+  Analytics?: {
+    dapAgencyCode?: string | null;
+    dapSubAgencyCode?: string | null;
+  };
+  reviewReady?: boolean | null;
   site: number | Site;
   updatedAt: string;
   createdAt: string;
@@ -2120,6 +2142,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'not-found-page-site-collection';
         value: number | NotFoundPageSiteCollection;
+      } | null)
+    | ({
+        relationTo: 'search-analytics-page-site-collection';
+        value: number | SearchAnalyticsPageSiteCollection;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -2777,10 +2803,6 @@ export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
   primaryFont?: T;
   favicon?: T;
   logo?: T;
-  searchAccessKey?: T;
-  searchAffiliate?: T;
-  dapAgencyCode?: T;
-  dapSubAgencyCode?: T;
   reviewReady?: T;
   site?: T;
   updatedAt?: T;
@@ -3041,6 +3063,29 @@ export interface NotFoundPageSiteCollectionSelect<T extends boolean = true> {
   heading?: T;
   content?: T;
   showSearch?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search-analytics-page-site-collection_select".
+ */
+export interface SearchAnalyticsPageSiteCollectionSelect<T extends boolean = true> {
+  Search?:
+    | T
+    | {
+        searchAccessKey?: T;
+        searchAffiliate?: T;
+      };
+  Analytics?:
+    | T
+    | {
+        dapAgencyCode?: T;
+        dapSubAgencyCode?: T;
+      };
+  reviewReady?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -3427,17 +3472,13 @@ export interface SiteConfig {
     | null;
   favicon?: (number | null) | Media;
   logo?: (number | null) | Media;
-  searchAccessKey?: string | null;
-  searchAffiliate?: string | null;
-  dapAgencyCode?: string | null;
-  dapSubAgencyCode?: string | null;
   reviewReady?: boolean | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
 /**
- * Build and organize site navigation for pages and content sections.
+ * Build and organize primary site navigation for pages and content sections.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "menu".
@@ -3506,7 +3547,7 @@ export interface Menu {
   createdAt?: string | null;
 }
 /**
- * Configure the home page content using flexible content blocks.
+ * A customizable homepage composed of flexible content blocks.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "home-page".
@@ -3578,7 +3619,7 @@ export interface HomePage {
   createdAt?: string | null;
 }
 /**
- * Build and organize site footer
+ * Build and organize site footer content and links.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "footer".
@@ -3856,7 +3897,7 @@ export interface Footer {
   createdAt?: string | null;
 }
 /**
- * Build and organize site pre-footer
+ * Build and organize site pre-footer content and links.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pre-footer".
@@ -3971,7 +4012,7 @@ export interface PreFooter {
   createdAt?: string | null;
 }
 /**
- * Customize the 404 error page content.
+ * Customizable 404 error page.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "not-found-page".
@@ -4001,6 +4042,27 @@ export interface NotFoundPage {
   createdAt?: string | null;
 }
 /**
+ * Configure site search settings and digital analytics integrations.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search-analytics-page".
+ */
+export interface SearchAnalyticsPage {
+  id: number;
+  Search?: {
+    searchAccessKey?: string | null;
+    searchAffiliate?: string | null;
+  };
+  Analytics?: {
+    dapAgencyCode?: string | null;
+    dapSubAgencyCode?: string | null;
+  };
+  reviewReady?: boolean | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config_select".
  */
@@ -4012,10 +4074,6 @@ export interface SiteConfigSelect<T extends boolean = true> {
   primaryFont?: T;
   favicon?: T;
   logo?: T;
-  searchAccessKey?: T;
-  searchAffiliate?: T;
-  dapAgencyCode?: T;
-  dapSubAgencyCode?: T;
   reviewReady?: T;
   _status?: T;
   updatedAt?: T;
@@ -4350,6 +4408,29 @@ export interface NotFoundPageSelect<T extends boolean = true> {
   heading?: T;
   content?: T;
   showSearch?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search-analytics-page_select".
+ */
+export interface SearchAnalyticsPageSelect<T extends boolean = true> {
+  Search?:
+    | T
+    | {
+        searchAccessKey?: T;
+        searchAffiliate?: T;
+      };
+  Analytics?:
+    | T
+    | {
+        dapAgencyCode?: T;
+        dapSubAgencyCode?: T;
+      };
+  reviewReady?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;

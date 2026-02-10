@@ -6,6 +6,10 @@ import { slugField } from '@/fields/slug'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
+  labels: {
+    singular: 'Tag',
+    plural: 'Tags'
+  },
   access: {
     create: getAdminOrSiteUser('reports'),
     delete: getAdminOrSiteUser('reports'),
@@ -14,7 +18,7 @@ export const Categories: CollectionConfig = {
   },
   admin: {
     group: 'Global Assets',
-    description: 'Tags or groupings used to organize and filter content across the site.',
+    description: 'Tags or grouping used to organize and filter content across the site.',
     useAsTitle: 'title',
     hidden: false,
   },

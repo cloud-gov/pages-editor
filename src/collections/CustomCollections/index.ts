@@ -14,7 +14,7 @@ export const CustomCollections: CollectionConfig = {
   },
   admin: {
     group: 'Content Collection',
-    description: 'Create and manage custom content collections. Each collection can have its own name and URL slug.',
+    description: 'A flexible content collection with configurable names and URL slugs.',
     defaultColumns: ['title', 'slug', 'site', 'updatedAt'],
     useAsTitle: 'title',
     hideAPIURL: true,

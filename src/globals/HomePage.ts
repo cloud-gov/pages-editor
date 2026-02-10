@@ -14,7 +14,7 @@ export const HomePage: GlobalConfig = {
   },
   admin: {
     group: 'Single Pages',
-    description: 'Configure the home page content using flexible content blocks.',
+    description: 'A customizable homepage composed of flexible content blocks.',
     livePreview: {
       url: getGlobalPreviewUrl,
     },
