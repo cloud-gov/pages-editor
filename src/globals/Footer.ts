@@ -5,9 +5,8 @@ import { lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
 import { colorOptions, imageField } from '@/fields'
 import { validateRichTextRequired } from '@/utilities/validators/richText'
 import { validateTextRequired } from '@/utilities/validators/text'
-import { makeValidateRelationshipSingle, validatePage } from '@/utilities/validators/relationship'
+import {  validatePage } from '@/utilities/validators/relationship'
 import { validateSelectSingle } from '@/utilities/validators/select'
-
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
@@ -203,22 +202,6 @@ export const Footer: GlobalConfig = {
                   type: 'text',
                   required: true,
                   validate: validateTextRequired,
-                },
-                {
-                  name: 'customCollection',
-                  label: 'Custom collection',
-                  type: 'relationship',
-                  relationTo: 'custom-collections',
-                  required: true,
-                  validate: makeValidateRelationshipSingle({
-                    relationTo: 'custom-collections',
-                    requirePublished: false, // set to true if you want only published custom-collections to be selectable on publish
-                    messages: {
-                      required: 'Please select a custom collection.',
-                      notFound: 'Selected custom collection could not be found.',
-                      notPublished: 'Selected custom collection is not published.',
-                    },
-                  }),
                 },
               ],
             },

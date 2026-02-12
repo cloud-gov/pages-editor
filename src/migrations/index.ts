@@ -48,6 +48,8 @@ import * as migration_20251222_172007_update_slug_lock_default_to_false from './
 import * as migration_20260113_165126_add_bg_image_homepage_text_block from './20260113_165126_add_bg_image_homepage_text_block';
 import * as migration_20260204_155259_remove_custom_col_link_table from './20260204_155259_remove_custom_col_link_table';
 import * as migration_20260210_160146_add_search_analytics_page from './20260210_160146_add_search_analytics_page';
+import * as migration_20260210_201435_remove_custom_collection_type from './20260210_201435_remove_custom_collection_type';
+import * as migration_20260210_223943_add_collection_types_and_entities from './20260210_223943_add_collection_types_and_entities';
 
 export const migrations = [
   {
@@ -298,6 +300,16 @@ export const migrations = [
   {
     up: migration_20260210_160146_add_search_analytics_page.up,
     down: migration_20260210_160146_add_search_analytics_page.down,
-    name: '20260210_160146_add_search_analytics_page'
+    name: '20260210_160146_add_search_analytics_page',
+  },
+  {
+    up: migration_20260210_201435_remove_custom_collection_type.up,
+    down: migration_20260210_201435_remove_custom_collection_type.down,
+    name: '20260210_201435_remove_custom_collection_type',
+  },
+  {
+    up: migration_20260210_223943_add_collection_types_and_entities.up,
+    down: migration_20260210_223943_add_collection_types_and_entities.down,
+    name: '20260210_223943_add_collection_types_and_entities'
   },
 ];

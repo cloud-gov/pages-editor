@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
-import { categoriesField, siteField } from '@/fields/relationships'
+import { tagsField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { descriptionField, imageField } from '@/fields'
 import { customFields } from './custom'
@@ -47,7 +47,7 @@ export const Posts: CollectionConfig<'posts'> = {
     },
     descriptionField,
     imageField,
-    categoriesField,
+    tagsField,
     siteField,
     {
       name: 'content',

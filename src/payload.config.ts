@@ -6,7 +6,7 @@ import path from 'path'
 import { AdminViewConfig, buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
-import { Categories } from './collections/Categories'
+import { Tags } from './collections/Tags'
 import { Events } from './collections/Events'
 import { Leadership } from './collections/Leadership'
 import { Media } from './collections/Media'
@@ -34,8 +34,8 @@ import { createSiteGlobal } from './utilities/siteGlobal'
 import { afterSchemaInit } from './utilities/cascade'
 import { migrations } from './migrations'
 import { Alerts } from './collections/Alerts'
-import { CustomCollections } from './collections/CustomCollections'
-import { CustomCollectionPages } from './collections/CustomCollectionPages'
+import { CollectionTypes } from './collections/CollectionTypes'
+import { CollectionEntries } from './collections/CollectionEntries'
 
 // Any site global fields must use the `createSiteGlobal` function
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
@@ -44,7 +44,8 @@ const [HomePage, HomePageCollection] = createSiteGlobal(HomePageConfig)
 const [Footer, FooterCollection] = createSiteGlobal(FooterConfig)
 const [PreFooter, PreFooterCollection] = createSiteGlobal(PreFooterConfig)
 const [NotFoundPage, NotFoundPageCollection] = createSiteGlobal(NotFoundPageConfig)
-const [SearchAnalyticsPage, SearchAnalyticsPageCollection] = createSiteGlobal(SearchAnalyticsPageConfig)
+const [SearchAnalyticsPage, SearchAnalyticsPageCollection] =
+  createSiteGlobal(SearchAnalyticsPageConfig)
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -55,7 +56,7 @@ const UserRolesAndPermissionsView: AdminViewConfig = {
   path: '/sites-roles-and-permissions',
   meta: {
     title: 'Payload - Sites Roles and Permissions',
-  }
+  },
 }
 
 const config = {
@@ -66,8 +67,9 @@ const config = {
     },
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
-      graphics: { // TODO custom logo
-      // whitelabeling example: https://github.com/payloadcms/payload/blob/main/examples/whitelabel/src/payload.config.ts
+      graphics: {
+        // TODO custom logo
+        // whitelabeling example: https://github.com/payloadcms/payload/blob/main/examples/whitelabel/src/payload.config.ts
         Logo: '/graphics/Logo/index.tsx#Logo',
         Icon: '/graphics/Icon/index.tsx#Icon',
       },
@@ -80,9 +82,9 @@ const config = {
     },
     groups: [
       {
-        label: 'Content Collection',
+        label: 'Your Site Content Collections',
         admin: {
-          description: 'Content collections',
+          description: 'The collections and content entries that are part of your site. ',
         },
       },
       {
@@ -94,7 +96,7 @@ const config = {
       {
         label: 'Global Assets',
         admin: {
-          description: 'Media and categories',
+          description: 'Media and tags',
         },
       },
       {
@@ -146,9 +148,9 @@ const config = {
           type: 'image/png',
           rel: 'icon',
           url: '/assets/favicon.ico',
-        }
-      ]
-    }
+        },
+      ],
+    },
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
@@ -168,14 +170,14 @@ const config = {
     Reports,
     Resources,
     Leadership,
-    CustomCollections,
-    CustomCollectionPages,
+    CollectionTypes,
+    CollectionEntries,
     // Standalone Pages group
     Pages,
     Policies,
     // Global Assets group
     Media,
-    Categories,
+    Tags,
     // User Management group
     Users,
     // Site Configuration group

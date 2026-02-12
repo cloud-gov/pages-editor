@@ -4,7 +4,7 @@ import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
-import { categoriesField, siteField } from '@/fields/relationships'
+import { tagsField, siteField } from '@/fields/relationships'
 import { descriptionField, imageField } from '@/fields'
 import { completeReview } from '@/hooks/completeReview'
 import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
@@ -43,7 +43,7 @@ export const News: CollectionConfig<'news'> = {
     },
     descriptionField,
     imageField,
-    categoriesField,
+    tagsField,
     {
       name: 'content',
       type: 'richText',

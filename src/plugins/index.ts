@@ -1,17 +1,13 @@
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
-import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
-import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { uaaOauth } from './uaa'
 import { Plugin } from 'payload'
-import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
-import { beforeSyncWithSearch } from '@/search/beforeSync'
 
 import { Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -27,32 +23,6 @@ const generateURL: GenerateURL<Post> = ({ doc }) => {
 }
 
 export const plugins: Plugin[] = [
-  redirectsPlugin({
-    collections: ['posts'],
-    overrides: {
-      admin: { hidden: true },
-      // @ts-expect-error
-      fields: ({ defaultFields }) => {
-        return defaultFields.map((field) => {
-          if ('name' in field && field.name === 'from') {
-            return {
-              ...field,
-              admin: {
-                description: 'You will need to rebuild the website when changing this field.',
-              },
-            }
-          }
-          return field
-        })
-      },
-      hooks: {
-        afterChange: [revalidateRedirects],
-      },
-    },
-  }),
-  nestedDocsPlugin({
-    collections: ['categories'],
-  }),
   seoPlugin({
     generateTitle,
     generateURL,
@@ -105,8 +75,7 @@ export const plugins: Plugin[] = [
     },
   }),
   searchPlugin({
-    collections: ['posts'],
-    beforeSync: beforeSyncWithSearch,
+    collections: ['pages'],
     searchOverrides: {
       admin: { hidden: true },
       fields: ({ defaultFields }) => {

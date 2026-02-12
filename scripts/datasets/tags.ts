@@ -1,4 +1,4 @@
-const categories = (siteId: number) => [
+const tags = (siteId: number) => [
   {
     title: 'geography',
     slug: 'geography',
@@ -31,4 +31,4 @@ const categories = (siteId: number) => [
   },
 ]
 
-export default categories
+export default tags
