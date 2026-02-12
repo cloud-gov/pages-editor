@@ -74,12 +74,12 @@ export interface Config {
     reports: Report;
     resources: Resource;
     leadership: Leadership;
-    'custom-collections': CustomCollection;
-    'custom-collection-pages': CustomCollectionPage;
+    'collection-types': CollectionType;
+    'collection-entries': CollectionEntry;
     pages: Page;
     policies: Policy;
     media: Media;
-    categories: Category;
+    tags: Tag;
     sites: Site;
     'side-navigation': SideNavigation;
     'menu-site-collection': MenuSiteCollection;
@@ -89,7 +89,6 @@ export interface Config {
     'pre-footer-site-collection': PreFooterSiteCollection;
     'not-found-page-site-collection': NotFoundPageSiteCollection;
     'search-analytics-page-site-collection': SearchAnalyticsPageSiteCollection;
-    redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
     search: Search;
@@ -112,12 +111,12 @@ export interface Config {
     reports: ReportsSelect<false> | ReportsSelect<true>;
     resources: ResourcesSelect<false> | ResourcesSelect<true>;
     leadership: LeadershipSelect<false> | LeadershipSelect<true>;
-    'custom-collections': CustomCollectionsSelect<false> | CustomCollectionsSelect<true>;
-    'custom-collection-pages': CustomCollectionPagesSelect<false> | CustomCollectionPagesSelect<true>;
+    'collection-types': CollectionTypesSelect<false> | CollectionTypesSelect<true>;
+    'collection-entries': CollectionEntriesSelect<false> | CollectionEntriesSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     policies: PoliciesSelect<false> | PoliciesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
     'side-navigation': SideNavigationSelect<false> | SideNavigationSelect<true>;
     'menu-site-collection': MenuSiteCollectionSelect<false> | MenuSiteCollectionSelect<true>;
@@ -127,7 +126,6 @@ export interface Config {
     'pre-footer-site-collection': PreFooterSiteCollectionSelect<false> | PreFooterSiteCollectionSelect<true>;
     'not-found-page-site-collection': NotFoundPageSiteCollectionSelect<false> | NotFoundPageSiteCollectionSelect<true>;
     'search-analytics-page-site-collection': SearchAnalyticsPageSiteCollectionSelect<false> | SearchAnalyticsPageSiteCollectionSelect<true>;
-    redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
@@ -284,7 +282,7 @@ export interface Post {
    * This featured image will be used as a thumbnail and cover image
    */
   image?: (number | null) | Media;
-  categories?: (number | Category)[] | null;
+  tags?: (number | Tag)[] | null;
   site: number | Site;
   content?: {
     root: {
@@ -377,26 +375,18 @@ export interface Media {
   focalY?: number | null;
 }
 /**
- * Tags or grouping used to organize and filter content across the site.
+ * Tags used to organize and filter content across the site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
+ * via the `definition` "tags".
  */
-export interface Category {
+export interface Tag {
   id: number;
   title: string;
+  description?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
   site: number | Site;
-  parent?: (number | null) | Category;
-  breadcrumbs?:
-    | {
-        doc?: (number | null) | Category;
-        url?: string | null;
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -449,7 +439,7 @@ export interface Event {
   pointOfContact?: string | null;
   pointOfContactEmail?: string | null;
   pointOfContactPhone?: string | null;
-  categories?: (number | Category)[] | null;
+  tags?: (number | Tag)[] | null;
   publishedAt?: string | null;
   startDate: string;
   endDate?: string | null;
@@ -512,7 +502,7 @@ export interface News {
    * This featured image will be used as a thumbnail and cover image
    */
   image?: (number | null) | Media;
-  categories?: (number | Category)[] | null;
+  tags?: (number | Tag)[] | null;
   content?: {
     root: {
       type: string;
@@ -593,7 +583,7 @@ export interface Report {
   slug?: string | null;
   slugLock?: boolean | null;
   reportDate?: string | null;
-  categories?: (number | Category)[] | null;
+  tags?: (number | Tag)[] | null;
   site: number | Site;
   content?: {
     root: {
@@ -673,7 +663,7 @@ export interface Resource {
   slugLock?: boolean | null;
   resourceDate?: string | null;
   updatedBy?: (number | null) | User;
-  categories?: (number | Category)[] | null;
+  tags?: (number | Tag)[] | null;
   site: number | Site;
   content?: {
     root: {
@@ -779,26 +769,30 @@ export interface Leadership {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * A flexible content collection with configurable names and URL slugs.
+ * Create and manage content collection types. Each collection type can have its own name and URL slug.
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "custom-collections".
+ * via the `definition` "collection-types".
  */
-export interface CustomCollection {
+export interface CollectionType {
   id: number;
   /**
-   * The display name for this custom collection (e.g., "Articles", "Resources", "Blog Posts")
+   * The display name for this collection type (e.g., "Articles", "Resources", "Blog Posts")
    */
   title: string;
   /**
-   * The URL slug for this collection (e.g., "articles", "resources"). This will be used in the website URL.
+   * The URL slug for this collection type (e.g., "articles", "resources"). This will be used in the website URL.
    */
   slug?: string | null;
   slugLock?: boolean | null;
   /**
-   * Optional description of what this collection is used for
+   * The collection type's description or summary
    */
   description?: string | null;
+  /**
+   * This image will be used as the thumbnail
+   */
+  image?: (number | null) | Media;
   updatedBy?: (number | null) | User;
   site: number | Site;
   reviewReady?: boolean | null;
@@ -807,22 +801,36 @@ export interface CustomCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Content pages within custom collections with all fields available for maximum flexibility.
+ * Add content page entries to your collections types. All fields are available for maximum flexibility.
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "custom-collection-pages".
+ * via the `definition` "collection-entries".
  */
-export interface CustomCollectionPage {
+export interface CollectionEntry {
   id: number;
   /**
-   * Select which custom collection this page belongs to
+   * Select which collection type this page belongs to
    */
-  collectionConfig: number | CustomCollection;
+  collectionType: number | CollectionType;
   title: string;
   /**
-   * Short description or summary of the content
+   * Content entry's description or summary
    */
-  excerpt?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   /**
    * This image will be used as the thumbnail
    */
@@ -846,28 +854,77 @@ export interface CustomCollectionPage {
    * Optional date associated with this content
    */
   contentDate?: string | null;
-  categories?: (number | Category)[] | null;
+  tags?: (number | Tag)[] | null;
   site: number | Site;
-  /**
-   * Main content body
-   */
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  content?:
+    | (
+        | {
+            /**
+             * Main content body
+             */
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'richText';
+          }
+        | {
+            title?: string | null;
+            description?: string | null;
+            cards?:
+              | {
+                  title: string;
+                  description?: string | null;
+                  image?: (number | null) | Media;
+                  link?: {
+                    url?: string | null;
+                    text?: string | null;
+                  };
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cardGrid';
+          }
+        | {
+            title?: string | null;
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            bgImage?: (number | null) | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textBlock';
+          }
+      )[]
+    | null;
   updatedBy?: (number | null) | User;
-  reviewReady?: boolean | null;
   publishedAt?: string | null;
   /**
    * Display the in-page navigation sidebar on this content
@@ -880,9 +937,9 @@ export interface CustomCollectionPage {
     | (
         | {
             /**
-             * Select a related custom-collection-pages item
+             * Select a related collection-entries item
              */
-            item: number | CustomCollectionPage;
+            item: number | CollectionEntry;
             /**
              * Optional custom description for this related item
              */
@@ -904,6 +961,7 @@ export interface CustomCollectionPage {
           }
       )[]
     | null;
+  reviewReady?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1093,7 +1151,6 @@ export interface MenuSiteCollection {
             blockType: 'collectionLink';
           }
         | {
-            customCollection: number | CustomCollection;
             label: string;
             id?: string | null;
             blockName?: string | null;
@@ -1118,7 +1175,6 @@ export interface MenuSiteCollection {
                       blockType: 'collectionLink';
                     }
                   | {
-                      customCollection: number | CustomCollection;
                       label: string;
                       id?: string | null;
                       blockName?: string | null;
@@ -1400,7 +1456,6 @@ export interface FooterSiteCollection {
           }
         | {
             name: string;
-            customCollection: number | CustomCollection;
             id?: string | null;
             blockName?: string | null;
             blockType: 'customCollectionLink';
@@ -1654,7 +1709,6 @@ export interface PreFooterSiteCollection {
             }
           | {
               name: string;
-              customCollection: number | CustomCollection;
               id?: string | null;
               blockName?: string | null;
               blockType: 'customCollectionLink';
@@ -1792,27 +1846,6 @@ export interface SearchAnalyticsPageSiteCollection {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "redirects".
- */
-export interface Redirect {
-  id: number;
-  /**
-   * You will need to rebuild the website when changing this field.
-   */
-  from: string;
-  to?: {
-    type?: ('reference' | 'custom') | null;
-    reference?: {
-      relationTo: 'posts';
-      value: number | Post;
-    } | null;
-    url?: string | null;
-  };
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2016,8 +2049,8 @@ export interface Search {
   title?: string | null;
   priority?: number | null;
   doc: {
-    relationTo: 'posts';
-    value: number | Post;
+    relationTo: 'pages';
+    value: number | Page;
   };
   slug?: string | null;
   meta?: {
@@ -2025,7 +2058,7 @@ export interface Search {
     description?: string | null;
     image?: (number | null) | Media;
   };
-  categories?:
+  tags?:
     | {
         relationTo?: string | null;
         id?: string | null;
@@ -2088,12 +2121,12 @@ export interface PayloadLockedDocument {
         value: number | Leadership;
       } | null)
     | ({
-        relationTo: 'custom-collections';
-        value: number | CustomCollection;
+        relationTo: 'collection-types';
+        value: number | CollectionType;
       } | null)
     | ({
-        relationTo: 'custom-collection-pages';
-        value: number | CustomCollectionPage;
+        relationTo: 'collection-entries';
+        value: number | CollectionEntry;
       } | null)
     | ({
         relationTo: 'pages';
@@ -2108,8 +2141,8 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
-        relationTo: 'categories';
-        value: number | Category;
+        relationTo: 'tags';
+        value: number | Tag;
       } | null)
     | ({
         relationTo: 'sites';
@@ -2146,10 +2179,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'search-analytics-page-site-collection';
         value: number | SearchAnalyticsPageSiteCollection;
-      } | null)
-    | ({
-        relationTo: 'redirects';
-        value: number | Redirect;
       } | null)
     | ({
         relationTo: 'forms';
@@ -2236,7 +2265,7 @@ export interface PostsSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   image?: T;
-  categories?: T;
+  tags?: T;
   site?: T;
   content?: T;
   reviewReady?: T;
@@ -2301,7 +2330,7 @@ export interface EventsSelect<T extends boolean = true> {
   pointOfContact?: T;
   pointOfContactEmail?: T;
   pointOfContactPhone?: T;
-  categories?: T;
+  tags?: T;
   publishedAt?: T;
   startDate?: T;
   endDate?: T;
@@ -2342,7 +2371,7 @@ export interface NewsSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   image?: T;
-  categories?: T;
+  tags?: T;
   content?: T;
   site?: T;
   slug?: T;
@@ -2393,7 +2422,7 @@ export interface ReportsSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   reportDate?: T;
-  categories?: T;
+  tags?: T;
   site?: T;
   content?: T;
   reviewReady?: T;
@@ -2443,7 +2472,7 @@ export interface ResourcesSelect<T extends boolean = true> {
   slugLock?: T;
   resourceDate?: T;
   updatedBy?: T;
-  categories?: T;
+  tags?: T;
   site?: T;
   content?: T;
   reviewReady?: T;
@@ -2494,13 +2523,14 @@ export interface LeadershipSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "custom-collections_select".
+ * via the `definition` "collection-types_select".
  */
-export interface CustomCollectionsSelect<T extends boolean = true> {
+export interface CollectionTypesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   slugLock?: T;
   description?: T;
+  image?: T;
   updatedBy?: T;
   site?: T;
   reviewReady?: T;
@@ -2510,12 +2540,12 @@ export interface CustomCollectionsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "custom-collection-pages_select".
+ * via the `definition` "collection-entries_select".
  */
-export interface CustomCollectionPagesSelect<T extends boolean = true> {
-  collectionConfig?: T;
+export interface CollectionEntriesSelect<T extends boolean = true> {
+  collectionType?: T;
   title?: T;
-  excerpt?: T;
+  description?: T;
   image?: T;
   files?:
     | T
@@ -2527,11 +2557,51 @@ export interface CustomCollectionPagesSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   contentDate?: T;
-  categories?: T;
+  tags?: T;
   site?: T;
-  content?: T;
+  content?:
+    | T
+    | {
+        richText?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        cardGrid?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              cards?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    image?: T;
+                    link?:
+                      | T
+                      | {
+                          url?: T;
+                          text?: T;
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        textBlock?:
+          | T
+          | {
+              title?: T;
+              content?: T;
+              bgImage?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedBy?: T;
-  reviewReady?: T;
   publishedAt?: T;
   showInPageNav?: T;
   relatedItems?:
@@ -2555,6 +2625,7 @@ export interface CustomCollectionPagesSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  reviewReady?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2614,22 +2685,14 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories_select".
+ * via the `definition` "tags_select".
  */
-export interface CategoriesSelect<T extends boolean = true> {
+export interface TagsSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
   slug?: T;
   slugLock?: T;
   site?: T;
-  parent?: T;
-  breadcrumbs?:
-    | T
-    | {
-        doc?: T;
-        url?: T;
-        label?: T;
-        id?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2744,7 +2807,6 @@ export interface MenuSiteCollectionSelect<T extends boolean = true> {
         customCollectionLink?:
           | T
           | {
-              customCollection?: T;
               label?: T;
               id?: T;
               blockName?: T;
@@ -2775,7 +2837,6 @@ export interface MenuSiteCollectionSelect<T extends boolean = true> {
                     customCollectionLink?:
                       | T
                       | {
-                          customCollection?: T;
                           label?: T;
                           id?: T;
                           blockName?: T;
@@ -2909,7 +2970,6 @@ export interface FooterSiteCollectionSelect<T extends boolean = true> {
           | T
           | {
               name?: T;
-              customCollection?: T;
               id?: T;
               blockName?: T;
             };
@@ -2966,7 +3026,6 @@ export interface PreFooterSiteCollectionSelect<T extends boolean = true> {
                 | T
                 | {
                     name?: T;
-                    customCollection?: T;
                     id?: T;
                     blockName?: T;
                   };
@@ -3090,22 +3149,6 @@ export interface SearchAnalyticsPageSiteCollectionSelect<T extends boolean = tru
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "redirects_select".
- */
-export interface RedirectsSelect<T extends boolean = true> {
-  from?: T;
-  to?:
-    | T
-    | {
-        type?: T;
-        reference?: T;
-        url?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3272,7 +3315,7 @@ export interface SearchSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
-  categories?:
+  tags?:
     | T
     | {
         relationTo?: T;
@@ -3502,7 +3545,6 @@ export interface Menu {
             blockType: 'collectionLink';
           }
         | {
-            customCollection: number | CustomCollection;
             label: string;
             id?: string | null;
             blockName?: string | null;
@@ -3527,7 +3569,6 @@ export interface Menu {
                       blockType: 'collectionLink';
                     }
                   | {
-                      customCollection: number | CustomCollection;
                       label: string;
                       id?: string | null;
                       blockName?: string | null;
@@ -3673,7 +3714,6 @@ export interface Footer {
           }
         | {
             name: string;
-            customCollection: number | CustomCollection;
             id?: string | null;
             blockName?: string | null;
             blockType: 'customCollectionLink';
@@ -3926,7 +3966,6 @@ export interface PreFooter {
             }
           | {
               name: string;
-              customCollection: number | CustomCollection;
               id?: string | null;
               blockName?: string | null;
               blockType: 'customCollectionLink';
@@ -4107,7 +4146,6 @@ export interface MenuSelect<T extends boolean = true> {
         customCollectionLink?:
           | T
           | {
-              customCollection?: T;
               label?: T;
               id?: T;
               blockName?: T;
@@ -4138,7 +4176,6 @@ export interface MenuSelect<T extends boolean = true> {
                     customCollectionLink?:
                       | T
                       | {
-                          customCollection?: T;
                           label?: T;
                           id?: T;
                           blockName?: T;
@@ -4254,7 +4291,6 @@ export interface FooterSelect<T extends boolean = true> {
           | T
           | {
               name?: T;
-              customCollection?: T;
               id?: T;
               blockName?: T;
             };
@@ -4311,7 +4347,6 @@ export interface PreFooterSelect<T extends boolean = true> {
                 | T
                 | {
                     name?: T;
-                    customCollection?: T;
                     id?: T;
                     blockName?: T;
                   };

@@ -1,6 +1,6 @@
 import { CollectionConfig } from 'payload'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
-import { siteField } from '@/fields/relationships'
+import { pageField, siteField } from '@/fields/relationships'
 import { addSite } from '@/hooks/addSite'
 import { completeReview } from '@/hooks/completeReview'
 import { publish } from '@/hooks/publish'
@@ -72,13 +72,7 @@ export const SideNavigation: CollectionConfig = {
               label: 'Link Text',
               required: true,
             },
-            {
-              name: 'page',
-              type: 'relationship',
-              relationTo: 'pages',
-              label: 'Page',
-              required: true,
-            },
+            pageField,
             {
               name: 'order',
               type: 'number',
@@ -108,13 +102,7 @@ export const SideNavigation: CollectionConfig = {
                       label: 'Link Text',
                       required: true,
                     },
-                    {
-                      name: 'page',
-                      type: 'relationship',
-                      relationTo: 'pages',
-                      label: 'Page',
-                      required: true,
-                    },
+                    pageField,
                     {
                       name: 'order',
                       type: 'number',

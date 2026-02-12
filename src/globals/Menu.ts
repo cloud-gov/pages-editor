@@ -97,22 +97,6 @@ export const Menu: GlobalConfig = {
           },
           fields: [
             {
-              name: 'customCollection',
-              label: 'Select the custom collection the menu link will link to',
-              type: 'relationship',
-              relationTo: 'custom-collections',
-              required: true,
-              validate: makeValidateRelationshipSingle({
-                relationTo: 'custom-collections',
-                requirePublished: false, // set to true if you want only published custom-collections to be selectable on publish
-                messages: {
-                  required: 'Please select a custom collection.',
-                  notFound: 'Selected custom collection could not be found.',
-                  notPublished: 'Selected custom collection is not published.',
-                },
-              }),
-            },
-            {
               name: 'label',
               label: 'The name used on your menu link',
               type: 'text',
@@ -202,22 +186,6 @@ export const Menu: GlobalConfig = {
                     plural: 'Custom Collection Links',
                   },
                   fields: [
-                    {
-                      name: 'customCollection',
-                      label: 'Select the custom collection the menu link will link to',
-                      type: 'relationship',
-                      relationTo: 'custom-collections',
-                      required: true,
-                      validate: makeValidateRelationshipSingle({
-                        relationTo: 'custom-collections',
-                        requirePublished: false, // set to true if you want only published custom-collections to be selectable on publish
-                        messages: {
-                          required: 'Please select a custom collection.',
-                          notFound: 'Selected custom collection could not be found.',
-                          notPublished: 'Selected custom collection is not published.',
-                        },
-                      }),
-                    },
                     {
                       name: 'label',
                       label: 'The name used on your menu link',

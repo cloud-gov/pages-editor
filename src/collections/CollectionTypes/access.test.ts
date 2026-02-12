@@ -15,7 +15,7 @@ describe('CustomCollections access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collections',
+              collection: 'collection-types',
               data: {
                 title: `${site.name} Collection`,
                 site,
@@ -30,7 +30,7 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
         },
         testUser,
       )
@@ -44,7 +44,7 @@ describe('CustomCollections access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collections',
+              collection: 'collection-types',
               data: {
                 title: `${site.name} - Title`,
                 site,
@@ -65,7 +65,7 @@ describe('CustomCollections access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collections',
+              collection: 'collection-types',
               data: {
                 title: `${site.name} Collection`,
                 site,
@@ -82,7 +82,7 @@ describe('CustomCollections access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collections',
+              collection: 'collection-types',
               id: collection.id,
               data: {
                 title: `${collection.title} (Edited)`,
@@ -105,7 +105,7 @@ describe('CustomCollections access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collections',
+              collection: 'collection-types',
               data: {
                 title: `${site.name} Collection`,
                 site,
@@ -122,7 +122,7 @@ describe('CustomCollections access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collections',
+              collection: 'collection-types',
               id: collection.id,
             },
             testUser,
@@ -131,7 +131,7 @@ describe('CustomCollections access', () => {
       )
 
       const foundCollections = await find(payload, tid, {
-        collection: 'custom-collections',
+        collection: 'collection-types',
       })
       expect(foundCollections.docs.length).toBe(0)
     })
@@ -148,7 +148,7 @@ describe('CustomCollections access', () => {
       const customCollections = await Promise.all(
         sites.map(async (site) => {
           return create(payload, tid, {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site,
@@ -161,7 +161,7 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
         },
         testUser,
       )
@@ -183,7 +183,7 @@ describe('CustomCollections access', () => {
       const customCollections = await Promise.all(
         sites.map(async (site) => {
           return create(payload, tid, {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site,
@@ -203,7 +203,7 @@ describe('CustomCollections access', () => {
               payload,
               tid,
               {
-                collection: 'custom-collections',
+                collection: 'collection-types',
                 id: collection.id,
               },
               testUser,
@@ -220,7 +220,7 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           data: {
             title: `Collection Title - ${siteId}`,
             site: siteId,
@@ -244,7 +244,7 @@ describe('CustomCollections access', () => {
               payload,
               tid,
               {
-                collection: 'custom-collections',
+                collection: 'collection-types',
                 data: {
                   title: `${site.name} - Title`,
                   site,
@@ -265,7 +265,7 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           data: {
             title: `Collection - ${siteId}`,
             site: siteId,
@@ -278,7 +278,7 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           id: customCollection.id,
           data: {
             title: `${customCollection.title} (Edited)`,
@@ -297,7 +297,7 @@ describe('CustomCollections access', () => {
       const customCollections = await Promise.all(
         sites.map(async (site) => {
           return create(payload, tid, {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site,
@@ -317,7 +317,7 @@ describe('CustomCollections access', () => {
               payload,
               tid,
               {
-                collection: 'custom-collections',
+                collection: 'collection-types',
                 id: collection.id,
                 data: {
                   title: `${collection.title} (Edited)`,
@@ -338,7 +338,7 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           data: {
             title: `Collection - ${siteId}`,
             site: siteId,
@@ -351,14 +351,14 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           id: customCollection.id,
         },
         testUser,
       )
 
       const foundCollections = await find(payload, tid, {
-        collection: 'custom-collections',
+        collection: 'collection-types',
       })
       expect(foundCollections.docs.length).toBe(0)
     })
@@ -370,7 +370,7 @@ describe('CustomCollections access', () => {
       const customCollections = await Promise.all(
         sites.map(async (site) => {
           return create(payload, tid, {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site,
@@ -390,7 +390,7 @@ describe('CustomCollections access', () => {
               payload,
               tid,
               {
-                collection: 'custom-collections',
+                collection: 'collection-types',
                 id: collection.id,
               },
               testUser,
@@ -426,7 +426,7 @@ describe('CustomCollections access', () => {
       const customCollections = await Promise.all(
         sites.map(async (site) => {
           return create(payload, tid, {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site,
@@ -439,7 +439,7 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
         },
         testUser,
       )
@@ -461,7 +461,7 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
         },
         testUser,
       )
@@ -488,7 +488,7 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           data: {
             title: `Collection Title - ${siteId}`,
             site: siteId,
@@ -508,7 +508,7 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           data: {
             title: `Collection Title - ${newSiteId}`,
             site: newSiteId,
@@ -533,7 +533,7 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           data: {
             title: `Collection - ${siteId}`,
             site: siteId,
@@ -546,14 +546,14 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           id: customCollection1.id,
         },
         testUser,
       )
 
       let foundCollections = await find(payload, tid, {
-        collection: 'custom-collections',
+        collection: 'collection-types',
       })
       expect(foundCollections.docs.length).toBe(0)
 
@@ -566,7 +566,7 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           data: {
             title: `Collection - ${newSiteId}`,
             site: newSiteId,
@@ -579,14 +579,14 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           id: customCollection2.id,
         },
         testUser,
       )
 
       foundCollections = await find(payload, tid, {
-        collection: 'custom-collections',
+        collection: 'collection-types',
       })
       expect(foundCollections.docs.length).toBe(0)
     })
@@ -602,7 +602,7 @@ describe('CustomCollections access', () => {
       const customCollections = await Promise.all(
         sites.map(async (site) => {
           return create(payload, tid, {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site,
@@ -615,7 +615,7 @@ describe('CustomCollections access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
         },
         testUser,
       )
@@ -637,7 +637,7 @@ describe('CustomCollections access', () => {
       const customCollections = await Promise.all(
         sites.map(async (site) => {
           return create(payload, tid, {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site,
@@ -657,7 +657,7 @@ describe('CustomCollections access', () => {
               payload,
               tid,
               {
-                collection: 'custom-collections',
+                collection: 'collection-types',
                 id: collection.id,
               },
               testUser,
@@ -673,7 +673,7 @@ describe('CustomCollections access', () => {
           payload,
           tid,
           {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${sites[0].name} - Title`,
               site: sites[0],
@@ -687,7 +687,7 @@ describe('CustomCollections access', () => {
     test('not update CustomCollections', async ({ tid, testUser, sites }) => {
       // Create custom collection without user (using overrideAccess)
       const customCollection = await create(payload, tid, {
-        collection: 'custom-collections',
+        collection: 'collection-types',
         data: {
           title: `${sites[0].name} Collection`,
           site: sites[0],
@@ -699,7 +699,7 @@ describe('CustomCollections access', () => {
           payload,
           tid,
           {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             id: customCollection.id,
             data: {
               title: `${customCollection.title} (Edited)`,
@@ -713,7 +713,7 @@ describe('CustomCollections access', () => {
     test('not delete CustomCollections', async ({ tid, testUser, sites }) => {
       // Create custom collection without user (using overrideAccess)
       const customCollection = await create(payload, tid, {
-        collection: 'custom-collections',
+        collection: 'collection-types',
         data: {
           title: `${sites[0].name} Collection`,
           site: sites[0],
@@ -725,7 +725,7 @@ describe('CustomCollections access', () => {
           payload,
           tid,
           {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             id: customCollection.id,
           },
           testUser,

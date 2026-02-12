@@ -1,10 +1,10 @@
 import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
-import { getAdminOrSiteUser, getAdmin } from '@/access/adminOrSite'
+import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
-import { siteField } from '@/fields/relationships'
+import { siteField, sideNavigationField } from '@/fields/relationships'
 import { completeReview } from '@/hooks/completeReview'
 import { getAdminCollectionPreview, getPagePreviewUrl } from '@/utilities/previews'
 
@@ -50,16 +50,7 @@ export const Pages: CollectionConfig<'pages'> = {
       editor,
     },
     siteField,
-    {
-      name: 'sideNavigation',
-      type: 'relationship',
-      relationTo: 'side-navigation',
-      label: 'Side Navigation',
-      admin: {
-        description: 'Select a side navigation menu to display in the sidebar for this page',
-        position: 'sidebar',
-      },
-    },
+    sideNavigationField,
     {
       name: 'reviewReady',
       label: 'Ready for Review',

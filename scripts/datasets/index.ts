@@ -1,5 +1,5 @@
 import type { BasePayload, CollectionSlug } from 'payload'
-import categories from './categories'
+import tags from './tags'
 import events from './events'
 import leadership from './leadership'
 import news from './news'
@@ -104,9 +104,9 @@ class Loader {
     return Promise.all(list.map((data) => this.loader(collection, data)))
   }
 
-  async loadCategories(siteId: number) {
-    const data = categories(siteId)
-    return this.loadList('categories', data)
+  async loadtags(siteId: number) {
+    const data = tags(siteId)
+    return this.loadList('tags', data)
   }
 
   async loadEvents(siteId: number) {
@@ -219,13 +219,13 @@ class Loader {
     return this.loadList('leadership', data)
   }
 
-  async loadReports(siteId: number, categories) {
-    const data = reports(siteId, categories)
+  async loadReports(siteId: number, tags) {
+    const data = reports(siteId, tags)
     return this.loadList('reports', data)
   }
 
-  async loadResources(siteId: number, categories) {
-    const data = resources(siteId, categories)
+  async loadResources(siteId: number, tags) {
+    const data = resources(siteId, tags)
     return this.loadList('resources', data)
   }
 
@@ -539,13 +539,13 @@ class Loader {
 
   async runLoading(siteId: number) {
     try {
-      const categories = await this.loadCategories(siteId)
+      const tags = await this.loadtags(siteId)
       await this.loadEvents(siteId)
       await this.loadLeadership(siteId)
       await this.loadNews(siteId)
       await this.loadPages(siteId)
-      await this.loadReports(siteId, categories)
-      await this.loadResources(siteId, categories)
+      await this.loadReports(siteId, tags)
+      await this.loadResources(siteId, tags)
       await this.loadHomePage(siteId)
       await this.loadMenu(siteId)
       await this.loadSideNavigation(siteId)

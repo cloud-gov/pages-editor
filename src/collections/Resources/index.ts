@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
-import { categoriesField, siteField } from '@/fields/relationships'
+import { tagsField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
@@ -93,7 +93,7 @@ export const Resources: CollectionConfig = {
         },
       }
     },
-    categoriesField,
+    tagsField,
     siteField,
     {
       name: 'content',

@@ -1,5 +1,5 @@
 import {
-  Category,
+  Tag,
   Site,
   Leadership,
   Post,
@@ -24,7 +24,7 @@ export interface LocalTestContext {
   defaultUserRole: Role
   defaultUserAdmin: boolean
   testUser: User
-  categories: Category[]
+  tags: Tag[]
   events: Event[]
   leadership: Leadership[]
   media?: Media[]

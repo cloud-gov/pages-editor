@@ -1,10 +1,6 @@
-function getRandomCategories(arr) {
-  const randomNumber = Math.floor(Math.random() * arr.length);
-  const shuffled = arr.sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, randomNumber);
-}
+import { getRandomTags } from './utils'
 
-const resources = (siteId: number, categories: { id: number }[]) => {
+const resources = (siteId: number, tags: { id: number }[]) => {
   return [
     {
       id: 11,
@@ -142,7 +138,7 @@ const resources = (siteId: number, categories: { id: number }[]) => {
           textFormat: 0,
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       _status: 'published',
     },
     {
@@ -281,7 +277,7 @@ const resources = (siteId: number, categories: { id: number }[]) => {
           textFormat: 0,
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       _status: 'published',
     },
     {
@@ -420,7 +416,7 @@ const resources = (siteId: number, categories: { id: number }[]) => {
           textFormat: 0,
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       _status: 'published',
     },
     {
@@ -559,7 +555,7 @@ const resources = (siteId: number, categories: { id: number }[]) => {
           textFormat: 0,
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       _status: 'published',
     },
     {
@@ -698,7 +694,7 @@ const resources = (siteId: number, categories: { id: number }[]) => {
           textFormat: 0,
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       _status: 'published',
     },
   ];

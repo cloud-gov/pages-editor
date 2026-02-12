@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { categoriesField, siteField } from '@/fields/relationships'
+import { tagsField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
@@ -82,7 +82,7 @@ export const Reports: CollectionConfig = {
         },
       },
     },
-    categoriesField,
+    tagsField,
     siteField,
     {
       name: 'content',

@@ -1,24 +1,21 @@
 import { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
-import { validateTextRequired } from '@/utilities/validators/text';
-import { makeValidateBlocksMin } from '@/utilities/validators/blocks';
-import { makeValidateRelationshipSingle, validatePage } from '@/utilities/validators/relationship';
-import { validateSelectSingle } from '@/utilities/validators/select';
+import { validateTextRequired } from '@/utilities/validators/text'
+import { makeValidateBlocksMin } from '@/utilities/validators/blocks'
+import { validatePage } from '@/utilities/validators/relationship'
+import { validateSelectSingle } from '@/utilities/validators/select'
 
 function bigFooterCondition(data): true | false {
-  return (data?.type === 'big') ? true : false;
+  return data?.type === 'big' ? true : false
 }
 
 function slimFooterCondition(data): true | false {
-  return (data?.type === 'slim') ? true : false;
+  return data?.type === 'slim' ? true : false
 }
 
 function preFooterTypeSelectedCondition(data): true | false {
-  return (
-    bigFooterCondition(data) ||
-    slimFooterCondition(data)
-  )
+  return bigFooterCondition(data) || slimFooterCondition(data)
 }
 
 export const PreFooter: GlobalConfig = {
@@ -48,7 +45,11 @@ export const PreFooter: GlobalConfig = {
       type: 'select',
       label: 'Pre-Footer type',
       options: [
-        { label: 'Big - up to 4 named link groups, social media icons, and contact details (name, phone, email)', value: 'big'},
+        {
+          label:
+            'Big - up to 4 named link groups, social media icons, and contact details (name, phone, email)',
+          value: 'big',
+        },
         { label: 'Slim - up to 4 links and contact details (phone end email)', value: 'slim' },
       ],
       required: true,
@@ -189,22 +190,6 @@ export const PreFooter: GlobalConfig = {
                       type: 'text',
                       required: true,
                       validate: validateTextRequired,
-                    },
-                    {
-                      name: 'customCollection',
-                      label: 'Custom collection',
-                      type: 'relationship',
-                      relationTo: 'custom-collections',
-                      required: true,
-                      validate: makeValidateRelationshipSingle({
-                        relationTo: 'custom-collections',
-                        requirePublished: false, // set to true if you want only published custom-collections to be selectable on publish
-                        messages: {
-                          required: 'Please select a custom collection.',
-                          notFound: 'Selected custom collection could not be found.',
-                          notPublished: 'Selected custom collection is not published.',
-                        },
-                      }),
                     },
                   ],
                 },
@@ -570,6 +555,6 @@ export const PreFooter: GlobalConfig = {
   versions: {
     drafts: {
       autosave: true,
-    }
-  }
+    },
+  },
 }

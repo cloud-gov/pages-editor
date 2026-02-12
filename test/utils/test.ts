@@ -48,11 +48,11 @@ export const test = vitest.extend<LocalTestContext>({
     )
     await use(posts)
   },
-  categories: async ({ payload, tid, sites }, use) => {
-    const categories = await Promise.all(
+  tags: async ({ payload, tid, sites }, use) => {
+    const tags = await Promise.all(
       sites.map(async (site) => {
         return create(payload, tid, {
-          collection: 'categories',
+          collection: 'tags',
           data: {
             title: `Foo`,
             site,
@@ -60,7 +60,7 @@ export const test = vitest.extend<LocalTestContext>({
         })
       }),
     )
-    await use(categories)
+    await use(tags)
   },
   events: async ({ payload, tid, sites }, use) => {
     const events = await Promise.all(

@@ -1,10 +1,6 @@
-function getRandomCategories(arr) {
-  const randomNumber = Math.floor(Math.random() * arr.length);
-  const shuffled = arr.sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, randomNumber);
-}
+import { getRandomTags } from './utils'
 
-const reports = (siteId: number, categories: { id: number }[]) => {
+const reports = (siteId: number, tags: { id: number }[]) => {
   return [
     {
       id: 11,
@@ -494,7 +490,7 @@ const reports = (siteId: number, categories: { id: number }[]) => {
           direction: 'ltr',
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       reviewReady: false,
       publishedAt: '2025-08-07T23:33:37.098Z',
       updatedAt: '2025-08-07T23:33:37.099Z',
@@ -776,7 +772,7 @@ const reports = (siteId: number, categories: { id: number }[]) => {
           direction: 'ltr',
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       reviewReady: false,
       publishedAt: '2025-08-07T23:31:59.655Z',
       updatedAt: '2025-08-07T23:31:59.656Z',
@@ -2074,7 +2070,7 @@ const reports = (siteId: number, categories: { id: number }[]) => {
           direction: 'ltr',
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       reviewReady: false,
       publishedAt: '2025-08-07T23:30:18.819Z',
       updatedAt: '2025-08-07T23:30:18.820Z',
@@ -2714,7 +2710,7 @@ const reports = (siteId: number, categories: { id: number }[]) => {
           direction: 'ltr',
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       reviewReady: false,
       publishedAt: '2025-08-07T23:28:52.976Z',
       updatedAt: '2025-08-07T23:28:52.976Z',
@@ -3195,7 +3191,7 @@ const reports = (siteId: number, categories: { id: number }[]) => {
           direction: 'ltr',
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       reviewReady: false,
       publishedAt: '2025-08-07T23:26:48.574Z',
       updatedAt: '2025-08-07T23:26:48.574Z',
@@ -4001,7 +3997,7 @@ const reports = (siteId: number, categories: { id: number }[]) => {
           direction: 'ltr',
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       reviewReady: false,
       publishedAt: '2025-08-07T23:24:28.373Z',
       updatedAt: '2025-08-07T23:24:28.374Z',
@@ -4904,7 +4900,7 @@ const reports = (siteId: number, categories: { id: number }[]) => {
           direction: 'ltr',
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       reviewReady: false,
       publishedAt: '2025-08-07T23:22:47.484Z',
       updatedAt: '2025-08-07T23:22:47.485Z',
@@ -5513,7 +5509,7 @@ const reports = (siteId: number, categories: { id: number }[]) => {
           direction: 'ltr',
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       reviewReady: false,
       publishedAt: '2025-08-07T23:20:36.003Z',
       updatedAt: '2025-08-07T23:20:36.004Z',
@@ -6452,7 +6448,7 @@ const reports = (siteId: number, categories: { id: number }[]) => {
           direction: 'ltr',
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       reviewReady: false,
       publishedAt: '2025-08-07T23:18:13.257Z',
       updatedAt: '2025-08-07T23:18:13.257Z',
@@ -6862,7 +6858,7 @@ const reports = (siteId: number, categories: { id: number }[]) => {
           direction: 'ltr',
         },
       },
-      categories: getRandomCategories(categories),
+      tags: getRandomTags(tags),
       reviewReady: false,
       publishedAt: '2025-08-07T23:14:08.378Z',
       updatedAt: '2025-08-07T23:14:08.381Z',
