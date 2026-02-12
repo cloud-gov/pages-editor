@@ -301,7 +301,6 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
-  reviewReady?: boolean | null;
   authors?: (number | User)[] | null;
   populatedAuthors?:
     | {
@@ -349,6 +348,7 @@ export interface Post {
   slug?: string | null;
   slugLock?: boolean | null;
   'Example Custom Field'?: ('radio' | 'television' | 'podcast' | 'video') | null;
+  reviewReady?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -455,7 +455,6 @@ export interface Event {
   endDate?: string | null;
   format: 'inperson' | 'virtual';
   eventType: 'onetime' | 'series';
-  reviewReady?: boolean | null;
   /**
    * Display the in-page navigation sidebar on this event
    */
@@ -491,6 +490,7 @@ export interface Event {
           }
       )[]
     | null;
+  reviewReady?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -531,7 +531,6 @@ export interface News {
   site: number | Site;
   slug?: string | null;
   slugLock?: boolean | null;
-  reviewReady?: boolean | null;
   publishedAt?: string | null;
   updatedBy?: (number | null) | User;
   /**
@@ -569,6 +568,7 @@ export interface News {
           }
       )[]
     | null;
+  reviewReady?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -610,7 +610,6 @@ export interface Report {
     };
     [k: string]: unknown;
   } | null;
-  reviewReady?: boolean | null;
   updatedBy?: (number | null) | User;
   publishedAt?: string | null;
   /**
@@ -648,6 +647,7 @@ export interface Report {
           }
       )[]
     | null;
+  reviewReady?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -690,7 +690,6 @@ export interface Resource {
     };
     [k: string]: unknown;
   } | null;
-  reviewReady?: boolean | null;
   publishedAt?: string | null;
   /**
    * Display the in-page navigation sidebar on this resource
@@ -727,6 +726,7 @@ export interface Resource {
           }
       )[]
     | null;
+  reviewReady?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -867,7 +867,6 @@ export interface CustomCollectionPage {
     [k: string]: unknown;
   } | null;
   updatedBy?: (number | null) | User;
-  reviewReady?: boolean | null;
   publishedAt?: string | null;
   /**
    * Display the in-page navigation sidebar on this content
@@ -904,6 +903,7 @@ export interface CustomCollectionPage {
           }
       )[]
     | null;
+  reviewReady?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -2239,7 +2239,6 @@ export interface PostsSelect<T extends boolean = true> {
   categories?: T;
   site?: T;
   content?: T;
-  reviewReady?: T;
   authors?: T;
   populatedAuthors?:
     | T
@@ -2274,6 +2273,7 @@ export interface PostsSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   'Example Custom Field'?: T;
+  reviewReady?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2307,7 +2307,6 @@ export interface EventsSelect<T extends boolean = true> {
   endDate?: T;
   format?: T;
   eventType?: T;
-  reviewReady?: T;
   showInPageNav?: T;
   relatedItems?:
     | T
@@ -2330,6 +2329,7 @@ export interface EventsSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  reviewReady?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2347,7 +2347,6 @@ export interface NewsSelect<T extends boolean = true> {
   site?: T;
   slug?: T;
   slugLock?: T;
-  reviewReady?: T;
   publishedAt?: T;
   updatedBy?: T;
   showInPageNav?: T;
@@ -2372,6 +2371,7 @@ export interface NewsSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  reviewReady?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2396,7 +2396,6 @@ export interface ReportsSelect<T extends boolean = true> {
   categories?: T;
   site?: T;
   content?: T;
-  reviewReady?: T;
   updatedBy?: T;
   publishedAt?: T;
   showInPageNav?: T;
@@ -2421,6 +2420,7 @@ export interface ReportsSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  reviewReady?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2446,7 +2446,6 @@ export interface ResourcesSelect<T extends boolean = true> {
   categories?: T;
   site?: T;
   content?: T;
-  reviewReady?: T;
   publishedAt?: T;
   showInPageNav?: T;
   relatedItems?:
@@ -2470,6 +2469,7 @@ export interface ResourcesSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  reviewReady?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2531,7 +2531,6 @@ export interface CustomCollectionPagesSelect<T extends boolean = true> {
   site?: T;
   content?: T;
   updatedBy?: T;
-  reviewReady?: T;
   publishedAt?: T;
   showInPageNav?: T;
   relatedItems?:
@@ -2555,6 +2554,7 @@ export interface CustomCollectionPagesSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  reviewReady?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

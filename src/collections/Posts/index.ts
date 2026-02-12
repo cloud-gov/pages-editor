@@ -55,12 +55,6 @@ export const Posts: CollectionConfig<'posts'> = {
       editor,
     },
     {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
-    {
       name: 'authors',
       type: 'relationship',
       admin: {
@@ -138,6 +132,12 @@ export const Posts: CollectionConfig<'posts'> = {
     relatedItems('posts'),
     ...slugField(),
     ...customFields,
+    {
+      name: 'reviewReady',
+      label: 'Ready for Review',
+      type: 'checkbox',
+      defaultValue: false,
+    },
   ],
   hooks: {
     afterChange: [revalidatePost, publish],
