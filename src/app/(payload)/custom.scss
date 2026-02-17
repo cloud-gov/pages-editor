@@ -113,7 +113,7 @@ label.field-label:not(.unstyled) {
     --bg-color: var(--color-primary-darker);
 }
 
-.list-header .btn {
+.list-header .btn:not(.btn--style-none) {
     background-color: var(--color-primary-darker);
 }
 
