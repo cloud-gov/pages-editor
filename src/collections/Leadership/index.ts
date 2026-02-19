@@ -15,7 +15,7 @@ export const Leadership: CollectionConfig<'leadership'> = {
     plural: 'Leadership',
   },
   admin: {
-    group: 'Content Collection',
+    // group: 'Content Collection',
     description: 'Profiles of key staff or board members, including bios and headshots.',
     defaultColumns: ['title', 'jobTitle', 'slug', 'updatedAt'],
     livePreview: {

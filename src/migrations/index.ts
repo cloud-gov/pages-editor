@@ -50,6 +50,7 @@ import * as migration_20260204_155259_remove_custom_col_link_table from './20260
 import * as migration_20260210_160146_add_search_analytics_page from './20260210_160146_add_search_analytics_page';
 import * as migration_20260210_201435_remove_custom_collection_type from './20260210_201435_remove_custom_collection_type';
 import * as migration_20260210_223943_add_collection_types_and_entities from './20260210_223943_add_collection_types_and_entities';
+import * as migration_20260218_174148_update_table_hyperlinks from './20260218_174148_update_table_hyperlinks';
 
 export const migrations = [
   {
@@ -310,6 +311,11 @@ export const migrations = [
   {
     up: migration_20260210_223943_add_collection_types_and_entities.up,
     down: migration_20260210_223943_add_collection_types_and_entities.down,
-    name: '20260210_223943_add_collection_types_and_entities'
+    name: '20260210_223943_add_collection_types_and_entities',
+  },
+  {
+    up: migration_20260218_174148_update_table_hyperlinks.up,
+    down: migration_20260218_174148_update_table_hyperlinks.down,
+    name: '20260218_174148_update_table_hyperlinks'
   },
 ];

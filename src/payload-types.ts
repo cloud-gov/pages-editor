@@ -1030,60 +1030,39 @@ export interface SideNavigation {
   items?:
     | (
         | {
-            label: string;
-            page: number | Page;
-            /**
-             * Lower numbers appear first
-             */
-            order?: number | null;
-            /**
-             * Add sub-navigation items
-             */
-            subitems?:
-              | (
-                  | {
-                      label: string;
-                      page: number | Page;
-                      order?: number | null;
-                      id?: string | null;
-                      blockName?: string | null;
-                      blockType: 'pageLink';
-                    }
-                  | {
-                      label: string;
-                      url: string;
-                      order?: number | null;
-                      id?: string | null;
-                      blockName?: string | null;
-                      blockType: 'externalLink';
-                    }
-                )[]
-              | null;
+            label?: string | null;
+            url?: string | null;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'pageLink';
+            blockType: 'link';
           }
         | {
-            label: string;
-            url: string;
-            /**
-             * Lower numbers appear first
-             */
-            order?: number | null;
+            label?: string | null;
+            url?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'externalLink';
           }
         | {
-            label: string;
-            page: 'posts' | 'events' | 'news' | 'reports' | 'resources' | 'leadership';
-            /**
-             * Lower numbers appear first
-             */
-            order?: number | null;
+            label?: string | null;
+            page?: (number | null) | Page;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'collectionLink';
+            blockType: 'pageLink';
+          }
+        | {
+            label?: string | null;
+            collectionType?: (number | null) | CollectionType;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionTypeLink';
+          }
+        | {
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionEntryLink';
           }
       )[]
     | null;
@@ -1137,48 +1116,78 @@ export interface MenuSiteCollection {
   items?:
     | (
         | {
-            page: number | Page;
-            label: string;
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'link';
+          }
+        | {
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+        | {
+            label?: string | null;
+            page?: (number | null) | Page;
             id?: string | null;
             blockName?: string | null;
             blockType: 'pageLink';
           }
         | {
-            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
-            label: string;
+            label?: string | null;
+            collectionType?: (number | null) | CollectionType;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'collectionLink';
+            blockType: 'collectionTypeLink';
           }
         | {
-            label: string;
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'customCollectionLink';
+            blockType: 'collectionEntryLink';
           }
         | {
-            label: string;
-            subitems?:
+            label?: string | null;
+            links?:
               | (
                   | {
-                      page: number | Page;
-                      label: string;
+                      label?: string | null;
+                      url?: string | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'link';
+                    }
+                  | {
+                      label?: string | null;
+                      url?: string | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'externalLink';
+                    }
+                  | {
+                      label?: string | null;
+                      page?: (number | null) | Page;
                       id?: string | null;
                       blockName?: string | null;
                       blockType: 'pageLink';
                     }
                   | {
-                      page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
-                      label: string;
+                      label?: string | null;
+                      collectionType?: (number | null) | CollectionType;
                       id?: string | null;
                       blockName?: string | null;
-                      blockType: 'collectionLink';
+                      blockType: 'collectionTypeLink';
                     }
                   | {
-                      label: string;
+                      label?: string | null;
+                      collectionEntry?: (number | null) | CollectionEntry;
                       id?: string | null;
                       blockName?: string | null;
-                      blockType: 'customCollectionLink';
+                      blockType: 'collectionEntryLink';
                     }
                 )[]
               | null;
@@ -1441,31 +1450,39 @@ export interface FooterSiteCollection {
   link?:
     | (
         | {
-            name: string;
-            page: number | Page;
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'link';
+          }
+        | {
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+        | {
+            label?: string | null;
+            page?: (number | null) | Page;
             id?: string | null;
             blockName?: string | null;
             blockType: 'pageLink';
           }
         | {
-            name: string;
-            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+            label?: string | null;
+            collectionType?: (number | null) | CollectionType;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'collectionLink';
+            blockType: 'collectionTypeLink';
           }
         | {
-            name: string;
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'customCollectionLink';
-          }
-        | {
-            name: string;
-            url: string;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'externalLink';
+            blockType: 'collectionEntryLink';
           }
       )[]
     | null;
@@ -1692,60 +1709,84 @@ export interface PreFooterSiteCollection {
   linkGroup?:
     | {
         groupName: string;
-        link: (
-          | {
-              name: string;
-              page: number | Page;
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'pageLink';
-            }
-          | {
-              name: string;
-              page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'collectionLink';
-            }
-          | {
-              name: string;
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'customCollectionLink';
-            }
-          | {
-              name: string;
-              url: string;
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'externalLink';
-            }
-        )[];
+        link?:
+          | (
+              | {
+                  label?: string | null;
+                  url?: string | null;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'link';
+                }
+              | {
+                  label?: string | null;
+                  url?: string | null;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'externalLink';
+                }
+              | {
+                  label?: string | null;
+                  page?: (number | null) | Page;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'pageLink';
+                }
+              | {
+                  label?: string | null;
+                  collectionType?: (number | null) | CollectionType;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'collectionTypeLink';
+                }
+              | {
+                  label?: string | null;
+                  collectionEntry?: (number | null) | CollectionEntry;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'collectionEntryLink';
+                }
+            )[]
+          | null;
         id?: string | null;
       }[]
     | null;
   slimLink?:
     | (
         | {
-            name: string;
-            page: number | Page;
+            label?: string | null;
+            url?: string | null;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'slimPageLink';
+            blockType: 'link';
           }
         | {
-            name: string;
-            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+            label?: string | null;
+            url?: string | null;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'slimCollectionLink';
+            blockType: 'externalLink';
           }
         | {
-            name: string;
-            url: string;
+            label?: string | null;
+            page?: (number | null) | Page;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'slimExternalLink';
+            blockType: 'pageLink';
+          }
+        | {
+            label?: string | null;
+            collectionType?: (number | null) | CollectionType;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionTypeLink';
+          }
+        | {
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionEntryLink';
           }
       )[]
     | null;
@@ -2723,34 +2764,11 @@ export interface SideNavigationSelect<T extends boolean = true> {
   items?:
     | T
     | {
-        pageLink?:
+        link?:
           | T
           | {
               label?: T;
-              page?: T;
-              order?: T;
-              subitems?:
-                | T
-                | {
-                    pageLink?:
-                      | T
-                      | {
-                          label?: T;
-                          page?: T;
-                          order?: T;
-                          id?: T;
-                          blockName?: T;
-                        };
-                    externalLink?:
-                      | T
-                      | {
-                          label?: T;
-                          url?: T;
-                          order?: T;
-                          id?: T;
-                          blockName?: T;
-                        };
-                  };
+              url?: T;
               id?: T;
               blockName?: T;
             };
@@ -2759,16 +2777,30 @@ export interface SideNavigationSelect<T extends boolean = true> {
           | {
               label?: T;
               url?: T;
-              order?: T;
               id?: T;
               blockName?: T;
             };
-        collectionLink?:
+        pageLink?:
           | T
           | {
               label?: T;
               page?: T;
-              order?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionTypeLink?:
+          | T
+          | {
+              label?: T;
+              collectionType?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionEntryLink?:
+          | T
+          | {
+              label?: T;
+              collectionEntry?: T;
               id?: T;
               blockName?: T;
             };
@@ -2788,26 +2820,43 @@ export interface MenuSiteCollectionSelect<T extends boolean = true> {
   items?:
     | T
     | {
+        link?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+              blockName?: T;
+            };
         pageLink?:
           | T
           | {
-              page?: T;
               label?: T;
+              page?: T;
               id?: T;
               blockName?: T;
             };
-        collectionLink?:
+        collectionTypeLink?:
           | T
           | {
-              page?: T;
               label?: T;
+              collectionType?: T;
               id?: T;
               blockName?: T;
             };
-        customCollectionLink?:
+        collectionEntryLink?:
           | T
           | {
               label?: T;
+              collectionEntry?: T;
               id?: T;
               blockName?: T;
             };
@@ -2815,29 +2864,46 @@ export interface MenuSiteCollectionSelect<T extends boolean = true> {
           | T
           | {
               label?: T;
-              subitems?:
+              links?:
                 | T
                 | {
+                    link?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    externalLink?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
                     pageLink?:
                       | T
                       | {
-                          page?: T;
                           label?: T;
+                          page?: T;
                           id?: T;
                           blockName?: T;
                         };
-                    collectionLink?:
+                    collectionTypeLink?:
                       | T
                       | {
-                          page?: T;
                           label?: T;
+                          collectionType?: T;
                           id?: T;
                           blockName?: T;
                         };
-                    customCollectionLink?:
+                    collectionEntryLink?:
                       | T
                       | {
                           label?: T;
+                          collectionEntry?: T;
                           id?: T;
                           blockName?: T;
                         };
@@ -2950,34 +3016,43 @@ export interface FooterSiteCollectionSelect<T extends boolean = true> {
   link?:
     | T
     | {
-        pageLink?:
+        link?:
           | T
           | {
-              name?: T;
-              page?: T;
-              id?: T;
-              blockName?: T;
-            };
-        collectionLink?:
-          | T
-          | {
-              name?: T;
-              page?: T;
-              id?: T;
-              blockName?: T;
-            };
-        customCollectionLink?:
-          | T
-          | {
-              name?: T;
+              label?: T;
+              url?: T;
               id?: T;
               blockName?: T;
             };
         externalLink?:
           | T
           | {
-              name?: T;
+              label?: T;
               url?: T;
+              id?: T;
+              blockName?: T;
+            };
+        pageLink?:
+          | T
+          | {
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionTypeLink?:
+          | T
+          | {
+              label?: T;
+              collectionType?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionEntryLink?:
+          | T
+          | {
+              label?: T;
+              collectionEntry?: T;
               id?: T;
               blockName?: T;
             };
@@ -3006,34 +3081,43 @@ export interface PreFooterSiteCollectionSelect<T extends boolean = true> {
         link?:
           | T
           | {
-              pageLink?:
+              link?:
                 | T
                 | {
-                    name?: T;
-                    page?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
-              collectionLink?:
-                | T
-                | {
-                    name?: T;
-                    page?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
-              customCollectionLink?:
-                | T
-                | {
-                    name?: T;
+                    label?: T;
+                    url?: T;
                     id?: T;
                     blockName?: T;
                   };
               externalLink?:
                 | T
                 | {
-                    name?: T;
+                    label?: T;
                     url?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              pageLink?:
+                | T
+                | {
+                    label?: T;
+                    page?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              collectionTypeLink?:
+                | T
+                | {
+                    label?: T;
+                    collectionType?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              collectionEntryLink?:
+                | T
+                | {
+                    label?: T;
+                    collectionEntry?: T;
                     id?: T;
                     blockName?: T;
                   };
@@ -3043,27 +3127,43 @@ export interface PreFooterSiteCollectionSelect<T extends boolean = true> {
   slimLink?:
     | T
     | {
-        slimPageLink?:
+        link?:
           | T
           | {
-              name?: T;
-              page?: T;
-              id?: T;
-              blockName?: T;
-            };
-        slimCollectionLink?:
-          | T
-          | {
-              name?: T;
-              page?: T;
-              id?: T;
-              blockName?: T;
-            };
-        slimExternalLink?:
-          | T
-          | {
-              name?: T;
+              label?: T;
               url?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+              blockName?: T;
+            };
+        pageLink?:
+          | T
+          | {
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionTypeLink?:
+          | T
+          | {
+              label?: T;
+              collectionType?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionEntryLink?:
+          | T
+          | {
+              label?: T;
+              collectionEntry?: T;
               id?: T;
               blockName?: T;
             };
@@ -3531,48 +3631,78 @@ export interface Menu {
   items?:
     | (
         | {
-            page: number | Page;
-            label: string;
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'link';
+          }
+        | {
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+        | {
+            label?: string | null;
+            page?: (number | null) | Page;
             id?: string | null;
             blockName?: string | null;
             blockType: 'pageLink';
           }
         | {
-            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
-            label: string;
+            label?: string | null;
+            collectionType?: (number | null) | CollectionType;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'collectionLink';
+            blockType: 'collectionTypeLink';
           }
         | {
-            label: string;
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'customCollectionLink';
+            blockType: 'collectionEntryLink';
           }
         | {
-            label: string;
-            subitems?:
+            label?: string | null;
+            links?:
               | (
                   | {
-                      page: number | Page;
-                      label: string;
+                      label?: string | null;
+                      url?: string | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'link';
+                    }
+                  | {
+                      label?: string | null;
+                      url?: string | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'externalLink';
+                    }
+                  | {
+                      label?: string | null;
+                      page?: (number | null) | Page;
                       id?: string | null;
                       blockName?: string | null;
                       blockType: 'pageLink';
                     }
                   | {
-                      page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
-                      label: string;
+                      label?: string | null;
+                      collectionType?: (number | null) | CollectionType;
                       id?: string | null;
                       blockName?: string | null;
-                      blockType: 'collectionLink';
+                      blockType: 'collectionTypeLink';
                     }
                   | {
-                      label: string;
+                      label?: string | null;
+                      collectionEntry?: (number | null) | CollectionEntry;
                       id?: string | null;
                       blockName?: string | null;
-                      blockType: 'customCollectionLink';
+                      blockType: 'collectionEntryLink';
                     }
                 )[]
               | null;
@@ -3699,31 +3829,39 @@ export interface Footer {
   link?:
     | (
         | {
-            name: string;
-            page: number | Page;
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'link';
+          }
+        | {
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+        | {
+            label?: string | null;
+            page?: (number | null) | Page;
             id?: string | null;
             blockName?: string | null;
             blockType: 'pageLink';
           }
         | {
-            name: string;
-            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+            label?: string | null;
+            collectionType?: (number | null) | CollectionType;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'collectionLink';
+            blockType: 'collectionTypeLink';
           }
         | {
-            name: string;
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'customCollectionLink';
-          }
-        | {
-            name: string;
-            url: string;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'externalLink';
+            blockType: 'collectionEntryLink';
           }
       )[]
     | null;
@@ -3949,60 +4087,84 @@ export interface PreFooter {
   linkGroup?:
     | {
         groupName: string;
-        link: (
-          | {
-              name: string;
-              page: number | Page;
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'pageLink';
-            }
-          | {
-              name: string;
-              page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'collectionLink';
-            }
-          | {
-              name: string;
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'customCollectionLink';
-            }
-          | {
-              name: string;
-              url: string;
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'externalLink';
-            }
-        )[];
+        link?:
+          | (
+              | {
+                  label?: string | null;
+                  url?: string | null;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'link';
+                }
+              | {
+                  label?: string | null;
+                  url?: string | null;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'externalLink';
+                }
+              | {
+                  label?: string | null;
+                  page?: (number | null) | Page;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'pageLink';
+                }
+              | {
+                  label?: string | null;
+                  collectionType?: (number | null) | CollectionType;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'collectionTypeLink';
+                }
+              | {
+                  label?: string | null;
+                  collectionEntry?: (number | null) | CollectionEntry;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'collectionEntryLink';
+                }
+            )[]
+          | null;
         id?: string | null;
       }[]
     | null;
   slimLink?:
     | (
         | {
-            name: string;
-            page: number | Page;
+            label?: string | null;
+            url?: string | null;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'slimPageLink';
+            blockType: 'link';
           }
         | {
-            name: string;
-            page: 'events' | 'leadership' | 'news' | 'posts' | 'reports' | 'resources';
+            label?: string | null;
+            url?: string | null;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'slimCollectionLink';
+            blockType: 'externalLink';
           }
         | {
-            name: string;
-            url: string;
+            label?: string | null;
+            page?: (number | null) | Page;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'slimExternalLink';
+            blockType: 'pageLink';
+          }
+        | {
+            label?: string | null;
+            collectionType?: (number | null) | CollectionType;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionTypeLink';
+          }
+        | {
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionEntryLink';
           }
       )[]
     | null;
@@ -4127,26 +4289,43 @@ export interface MenuSelect<T extends boolean = true> {
   items?:
     | T
     | {
+        link?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+              blockName?: T;
+            };
         pageLink?:
           | T
           | {
-              page?: T;
               label?: T;
+              page?: T;
               id?: T;
               blockName?: T;
             };
-        collectionLink?:
+        collectionTypeLink?:
           | T
           | {
-              page?: T;
               label?: T;
+              collectionType?: T;
               id?: T;
               blockName?: T;
             };
-        customCollectionLink?:
+        collectionEntryLink?:
           | T
           | {
               label?: T;
+              collectionEntry?: T;
               id?: T;
               blockName?: T;
             };
@@ -4154,29 +4333,46 @@ export interface MenuSelect<T extends boolean = true> {
           | T
           | {
               label?: T;
-              subitems?:
+              links?:
                 | T
                 | {
+                    link?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    externalLink?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
                     pageLink?:
                       | T
                       | {
-                          page?: T;
                           label?: T;
+                          page?: T;
                           id?: T;
                           blockName?: T;
                         };
-                    collectionLink?:
+                    collectionTypeLink?:
                       | T
                       | {
-                          page?: T;
                           label?: T;
+                          collectionType?: T;
                           id?: T;
                           blockName?: T;
                         };
-                    customCollectionLink?:
+                    collectionEntryLink?:
                       | T
                       | {
                           label?: T;
+                          collectionEntry?: T;
                           id?: T;
                           blockName?: T;
                         };
@@ -4271,34 +4467,43 @@ export interface FooterSelect<T extends boolean = true> {
   link?:
     | T
     | {
-        pageLink?:
+        link?:
           | T
           | {
-              name?: T;
-              page?: T;
-              id?: T;
-              blockName?: T;
-            };
-        collectionLink?:
-          | T
-          | {
-              name?: T;
-              page?: T;
-              id?: T;
-              blockName?: T;
-            };
-        customCollectionLink?:
-          | T
-          | {
-              name?: T;
+              label?: T;
+              url?: T;
               id?: T;
               blockName?: T;
             };
         externalLink?:
           | T
           | {
-              name?: T;
+              label?: T;
               url?: T;
+              id?: T;
+              blockName?: T;
+            };
+        pageLink?:
+          | T
+          | {
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionTypeLink?:
+          | T
+          | {
+              label?: T;
+              collectionType?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionEntryLink?:
+          | T
+          | {
+              label?: T;
+              collectionEntry?: T;
               id?: T;
               blockName?: T;
             };
@@ -4327,34 +4532,43 @@ export interface PreFooterSelect<T extends boolean = true> {
         link?:
           | T
           | {
-              pageLink?:
+              link?:
                 | T
                 | {
-                    name?: T;
-                    page?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
-              collectionLink?:
-                | T
-                | {
-                    name?: T;
-                    page?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
-              customCollectionLink?:
-                | T
-                | {
-                    name?: T;
+                    label?: T;
+                    url?: T;
                     id?: T;
                     blockName?: T;
                   };
               externalLink?:
                 | T
                 | {
-                    name?: T;
+                    label?: T;
                     url?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              pageLink?:
+                | T
+                | {
+                    label?: T;
+                    page?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              collectionTypeLink?:
+                | T
+                | {
+                    label?: T;
+                    collectionType?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              collectionEntryLink?:
+                | T
+                | {
+                    label?: T;
+                    collectionEntry?: T;
                     id?: T;
                     blockName?: T;
                   };
@@ -4364,27 +4578,43 @@ export interface PreFooterSelect<T extends boolean = true> {
   slimLink?:
     | T
     | {
-        slimPageLink?:
+        link?:
           | T
           | {
-              name?: T;
-              page?: T;
-              id?: T;
-              blockName?: T;
-            };
-        slimCollectionLink?:
-          | T
-          | {
-              name?: T;
-              page?: T;
-              id?: T;
-              blockName?: T;
-            };
-        slimExternalLink?:
-          | T
-          | {
-              name?: T;
+              label?: T;
               url?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+              blockName?: T;
+            };
+        pageLink?:
+          | T
+          | {
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionTypeLink?:
+          | T
+          | {
+              label?: T;
+              collectionType?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionEntryLink?:
+          | T
+          | {
+              label?: T;
+              collectionEntry?: T;
               id?: T;
               blockName?: T;
             };

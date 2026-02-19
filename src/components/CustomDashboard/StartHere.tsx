@@ -120,8 +120,8 @@ const StartHere: React.FC<StartHereProps> = ({ sites, selectedSiteId, role }) =>
           </h2>
         </div>
         <p>
-          Here is some helpful text that will explain what to do first! And it's dismissable! and
-          hopefully updates once you've done these things!
+          Here is some helpful text that will explain what to do first! And it&apos;s dismissable! and
+          hopefully updates once you&apos;ve done these things!
         </p>
       </div>
       <div className="usa-summary-box__body">

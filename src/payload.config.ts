@@ -80,44 +80,6 @@ const config = {
         userRolesAndPermissions: UserRolesAndPermissionsView,
       },
     },
-    groups: [
-      {
-        label: 'Your Site Content Collections',
-        admin: {
-          description: 'The collections and content entries that are part of your site. ',
-        },
-      },
-      {
-        label: 'Single Pages',
-        admin: {
-          description: 'Standalone pages and policies',
-        },
-      },
-      {
-        label: 'Global Assets',
-        admin: {
-          description: 'Media and tags',
-        },
-      },
-      {
-        label: 'Analytics',
-        admin: {
-          description: 'Analytics and reporting',
-        },
-      },
-      {
-        label: 'User Management',
-        admin: {
-          description: 'Team members and permissions',
-        },
-      },
-      {
-        label: 'Site Configuration',
-        admin: {
-          description: 'Site settings and configuration',
-        },
-      },
-    ],
     user: Users.slug,
     livePreview: {
       breakpoints: [
