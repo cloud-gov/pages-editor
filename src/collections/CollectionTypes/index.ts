@@ -14,7 +14,7 @@ export const CollectionTypes: CollectionConfig = {
     plural: 'Collection Types',
   },
   admin: {
-    group: 'Your Site Content Collections',
+    // group: 'Your Site Content Collections',
     description: 'Create and manage content collection types. Each collection type can have its own name and URL slug.',
     defaultColumns: ['title', 'slug', 'site', 'updatedAt'],
     useAsTitle: 'title',

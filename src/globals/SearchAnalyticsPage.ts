@@ -11,7 +11,7 @@ export const SearchAnalyticsPage: GlobalConfig = {
     readVersions: getAdminOrSiteUserGlobals(),
   },
   admin: {
-    group: 'Site Configuration',
+    // group: 'Site Configuration',
     description: 'Configure site search settings and digital analytics integrations.',
     livePreview: {
       url: getGlobalPreviewUrl,

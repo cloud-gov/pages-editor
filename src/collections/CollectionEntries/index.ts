@@ -14,10 +14,11 @@ import { validateTextRequired } from '@/utilities/validators/text'
 export const CollectionEntries: CollectionConfig = {
   slug: 'collection-entries',
   labels: {
-    singular: 'Collection Type Entry',
-    plural: 'Collection Type Entries',
+    singular: 'Collection Entry',
+    plural: 'Collection Entries',
   },
   admin: {
+    // group: 'Your Site Content Collections',
     description:
       'Add content page entries to your collections types. All fields are available for maximum flexibility.',
     defaultColumns: ['title', 'collectionConfig', 'slug', 'updatedAt', 'updatedBy', '_status'],

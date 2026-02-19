@@ -2,9 +2,7 @@
 import { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
-import { validateTextRequired } from '@/utilities/validators/text'
-import { validateSelectSingle } from '@/utilities/validators/select'
-import { makeValidateRelationshipSingle, validatePage } from '@/utilities/validators/relationship'
+import { commonLinkBlocks, dropdownBlock } from '@/fields/hyperlinks'
 
 export const Menu: GlobalConfig = {
   slug: 'menu',
@@ -15,7 +13,7 @@ export const Menu: GlobalConfig = {
     readVersions: getAdminOrSiteUserGlobals(),
   },
   admin: {
-    group: 'Site Configuration',
+    // group: 'Site Configuration',
     description: 'Build and organize primary site navigation for pages and content sections.',
     livePreview: {
       url: getGlobalPreviewUrl,
@@ -32,174 +30,7 @@ export const Menu: GlobalConfig = {
       name: 'items',
       type: 'blocks',
       label: 'Navigation Links',
-      blocks: [
-        {
-          slug: 'pageLink',
-          labels: {
-            singular: 'Page Link',
-            plural: 'Page Links',
-          },
-          fields: [
-            {
-              name: 'page',
-              label: 'Select the single page the menu link will link to',
-              type: 'relationship',
-              relationTo: 'pages',
-              required: true,
-              validate: validatePage,
-            },
-            {
-              name: 'label',
-              label: 'The name used on your menu link',
-              type: 'text',
-              required: true,
-              validate: validateTextRequired,
-            },
-          ],
-        },
-        {
-          slug: 'collectionLink',
-          labels: {
-            singular: 'Collection Link',
-            plural: 'Collection Links',
-          },
-          fields: [
-            {
-              name: 'page',
-              label: 'Select the content collection the menu link will link to',
-              type: 'select',
-              options: [
-                { label: 'Events', value: 'events' },
-                { label: 'Leadership', value: 'leadership' },
-                { label: 'News', value: 'news' },
-                { label: 'Blog Posts', value: 'posts' },
-                { label: 'Reports', value: 'reports' },
-                { label: 'Resources', value: 'resources' },
-              ],
-              hasMany: false,
-              required: true,
-              validate: validateSelectSingle,
-            },
-            {
-              name: 'label',
-              label: 'The name used on your menu link',
-              type: 'text',
-              required: true,
-              validate: validateTextRequired,
-            },
-          ],
-        },
-        {
-          slug: 'customCollectionLink',
-          labels: {
-            singular: 'Custom Collection Link',
-            plural: 'Custom Collection Links',
-          },
-          fields: [
-            {
-              name: 'label',
-              label: 'The name used on your menu link',
-              type: 'text',
-              required: true,
-              validate: validateTextRequired,
-            },
-          ],
-        },
-        {
-          slug: 'dropdown',
-          labels: {
-            singular: 'Dropdown',
-            plural: 'Dropdowns',
-          },
-          fields: [
-            {
-              name: 'label',
-              label: 'The name used on your dropdown link label',
-              type: 'text',
-              required: true,
-            },
-            {
-              name: 'subitems',
-              type: 'blocks',
-              label: 'Dropdown Navigation Links',
-              blocks: [
-                {
-                  slug: 'pageLink',
-                  labels: {
-                    singular: 'Page Link',
-                    plural: 'Page Links',
-                  },
-                  fields: [
-                    {
-                      name: 'page',
-                      label: 'Select the single page the menu link will link to',
-                      type: 'relationship',
-                      relationTo: 'pages',
-                      required: true,
-                      validate: validatePage,
-                    },
-                    {
-                      name: 'label',
-                      label: 'The name used on your menu link',
-                      type: 'text',
-                      required: true,
-                      validate: validateTextRequired,
-                    },
-                  ],
-                },
-                {
-                  slug: 'collectionLink',
-                  labels: {
-                    singular: 'Collection Link',
-                    plural: 'Collection Links',
-                  },
-                  fields: [
-                    {
-                      name: 'page',
-                      label: 'Select the content collection the menu link will link to',
-                      type: 'select',
-                      options: [
-                        { label: 'Events', value: 'events' },
-                        { label: 'Leadership', value: 'leadership' },
-                        { label: 'News', value: 'news' },
-                        { label: 'Blog Posts', value: 'posts' },
-                        { label: 'Reports', value: 'reports' },
-                        { label: 'Resources', value: 'resources' },
-                      ],
-                      hasMany: false,
-                      required: true,
-                      validate: validateSelectSingle,
-                    },
-                    {
-                      name: 'label',
-                      label: 'The name used on your menu link',
-                      type: 'text',
-                      required: true,
-                      validate: validateTextRequired,
-                    },
-                  ],
-                },
-                {
-                  slug: 'customCollectionLink',
-                  labels: {
-                    singular: 'Custom Collection Link',
-                    plural: 'Custom Collection Links',
-                  },
-                  fields: [
-                    {
-                      name: 'label',
-                      label: 'The name used on your menu link',
-                      type: 'text',
-                      required: true,
-                      validate: validateTextRequired,
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      blocks: [...commonLinkBlocks, dropdownBlock],
     },
     {
       name: 'reviewReady',

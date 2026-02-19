@@ -12,7 +12,7 @@ export const Tags: CollectionConfig = {
     update: getAdminOrSiteUser('reports'),
   },
   admin: {
-    group: 'Global Assets',
+    // group: 'Global Assets',
     description: 'Tags used to organize and filter content across the site.',
     useAsTitle: 'title',
     hidden: false,

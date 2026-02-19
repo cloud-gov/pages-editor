@@ -12,7 +12,7 @@ const dirname = path.dirname(filename)
 
 export const Media: CollectionConfig = {
   admin: {
-    group: 'Global Assets',
+    // group: 'Global Assets',
     description: 'Site-wide images, videos, and files used across pages and content.',
     hidden: false,
     defaultColumns: ['filename', '_status', 'reviewReady'],

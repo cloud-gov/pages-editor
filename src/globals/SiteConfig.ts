@@ -12,7 +12,7 @@ export const SiteConfig: GlobalConfig = {
     readVersions: getAdminOrSiteUserGlobals(),
   },
   admin: {
-    group: 'Site Configuration',
+    // group: 'Site Configuration',
     description: 'Set global branding details like site name, logo, and typography.',
     livePreview: {
       url: getGlobalPreviewUrl,

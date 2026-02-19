@@ -2,9 +2,7 @@ import { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { validateTextRequired } from '@/utilities/validators/text'
-import { makeValidateBlocksMin } from '@/utilities/validators/blocks'
-import { validatePage } from '@/utilities/validators/relationship'
-import { validateSelectSingle } from '@/utilities/validators/select'
+import { commonLinkBlocks } from '@/fields/hyperlinks'
 
 function bigFooterCondition(data): true | false {
   return data?.type === 'big' ? true : false
@@ -27,7 +25,7 @@ export const PreFooter: GlobalConfig = {
     readVersions: getAdminOrSiteUserGlobals(),
   },
   admin: {
-    group: 'Site Configuration',
+    // group: 'Site Configuration',
     description: 'Build and organize site pre-footer content and links.',
     livePreview: {
       url: getGlobalPreviewUrl,
@@ -106,120 +104,7 @@ export const PreFooter: GlobalConfig = {
                 singular: 'Link',
                 plural: 'Links',
               },
-              required: true,
-              validate: makeValidateBlocksMin(1),
-              blocks: [
-                {
-                  slug: 'pageLink',
-                  labels: {
-                    singular: 'Page Link',
-                    plural: 'Page Links',
-                  },
-                  admin: {
-                    disableBlockName: true,
-                  },
-                  fields: [
-                    {
-                      name: 'name',
-                      label: 'Name',
-                      type: 'text',
-                      required: true,
-                      validate: validateTextRequired,
-                    },
-                    {
-                      name: 'page',
-                      label: 'Page',
-                      type: 'relationship',
-                      relationTo: 'pages',
-                      required: true,
-                      validate: validatePage,
-                      admin: {
-                        allowCreate: false,
-                      },
-                    },
-                  ],
-                },
-                {
-                  slug: 'collectionLink',
-                  labels: {
-                    singular: 'Collection Link',
-                    plural: 'Collection Links',
-                  },
-                  admin: {
-                    disableBlockName: true,
-                  },
-                  fields: [
-                    {
-                      name: 'name',
-                      label: 'Name',
-                      type: 'text',
-                      required: true,
-                      validate: validateTextRequired,
-                    },
-                    {
-                      name: 'page',
-                      label: 'Content collection',
-                      type: 'select',
-                      options: [
-                        { label: 'Events', value: 'events' },
-                        { label: 'Leadership', value: 'leadership' },
-                        { label: 'News', value: 'news' },
-                        { label: 'Blog Posts', value: 'posts' },
-                        { label: 'Reports', value: 'reports' },
-                        { label: 'Resources', value: 'resources' },
-                      ],
-                      hasMany: false,
-                      required: true,
-                      validate: validateSelectSingle,
-                    },
-                  ],
-                },
-                {
-                  slug: 'customCollectionLink',
-                  labels: {
-                    singular: 'Custom Collection Link',
-                    plural: 'Custom Collection Links',
-                  },
-                  admin: {
-                    disableBlockName: true,
-                  },
-                  fields: [
-                    {
-                      name: 'name',
-                      label: 'Name',
-                      type: 'text',
-                      required: true,
-                      validate: validateTextRequired,
-                    },
-                  ],
-                },
-                {
-                  slug: 'externalLink',
-                  labels: {
-                    singular: 'External Link',
-                    plural: 'External Links',
-                  },
-                  admin: {
-                    disableBlockName: true,
-                  },
-                  fields: [
-                    {
-                      name: 'name',
-                      label: 'Name',
-                      type: 'text',
-                      required: true,
-                      validate: validateTextRequired,
-                    },
-                    {
-                      name: 'url',
-                      label: 'Url',
-                      type: 'text',
-                      required: true,
-                      validate: validateTextRequired,
-                    },
-                  ],
-                },
-              ],
+              blocks: commonLinkBlocks,
             },
           ],
         },
@@ -243,100 +128,7 @@ export const PreFooter: GlobalConfig = {
             plural: 'Links',
           },
           required: false,
-          blocks: [
-            {
-              slug: 'slimPageLink',
-              labels: {
-                singular: 'Page Link',
-                plural: 'Page Links',
-              },
-              admin: {
-                disableBlockName: true,
-              },
-              fields: [
-                {
-                  name: 'name',
-                  label: 'Name',
-                  type: 'text',
-                  required: true,
-                  validate: validateTextRequired,
-                },
-                {
-                  name: 'page',
-                  label: 'Page',
-                  type: 'relationship',
-                  relationTo: 'pages',
-                  required: true,
-                  validate: validatePage,
-                  admin: {
-                    allowCreate: false,
-                  },
-                },
-              ],
-            },
-            {
-              slug: 'slimCollectionLink',
-              dbName: 'pre_footer_slim_collection_link',
-              labels: {
-                singular: 'Collection Link',
-                plural: 'Collection Links',
-              },
-              admin: {
-                disableBlockName: true,
-              },
-              fields: [
-                {
-                  name: 'name',
-                  label: 'Name',
-                  type: 'text',
-                  required: true,
-                  validate: validateTextRequired,
-                },
-                {
-                  name: 'page',
-                  label: 'Content collection',
-                  type: 'select',
-                  options: [
-                    { label: 'Events', value: 'events' },
-                    { label: 'Leadership', value: 'leadership' },
-                    { label: 'News', value: 'news' },
-                    { label: 'Blog Posts', value: 'posts' },
-                    { label: 'Reports', value: 'reports' },
-                    { label: 'Resources', value: 'resources' },
-                  ],
-                  hasMany: false,
-                  required: true,
-                  validate: validateSelectSingle,
-                },
-              ],
-            },
-            {
-              slug: 'slimExternalLink',
-              labels: {
-                singular: 'External Link',
-                plural: 'External Links',
-              },
-              admin: {
-                disableBlockName: true,
-              },
-              fields: [
-                {
-                  name: 'name',
-                  label: 'Name',
-                  type: 'text',
-                  required: true,
-                  validate: validatePage,
-                },
-                {
-                  name: 'url',
-                  label: 'Url',
-                  type: 'text',
-                  required: true,
-                  validate: validatePage,
-                },
-              ],
-            },
-          ],
+          blocks: commonLinkBlocks,
         },
       ],
     },

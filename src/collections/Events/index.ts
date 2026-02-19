@@ -14,7 +14,7 @@ import { relatedItems } from '@/fields/relatedItems'
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
   admin: {
-    group: 'Content Collection',
+    // group: 'Content Collection',
     description:
       'Event information including dates, locations, and descriptions.',
     defaultColumns: ['title', 'slug', 'startDate', 'endDate', '_status'],

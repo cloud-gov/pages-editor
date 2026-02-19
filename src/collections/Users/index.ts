@@ -20,7 +20,7 @@ const capitalize = (str: string) => {
 export const Users: CollectionConfig = {
   slug: 'users',
   admin: {
-    group: 'User Management',
+    // group: 'User Management',
     components: {
       Description: 'src/components/UserCollectionDescription',
     },

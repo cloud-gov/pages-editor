@@ -11,7 +11,7 @@ import { getAdminCollectionPreview, getPagePreviewUrl } from '@/utilities/previe
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   admin: {
-    group: 'Single Pages',
+    // group: 'Single Pages',
     description: "Individual pages like About or Contact that aren’t part of a content collection.",
     defaultColumns: ['title', 'slug', 'reviewReady', 'updatedAt'],
     livePreview: {

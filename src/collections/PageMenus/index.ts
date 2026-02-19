@@ -18,7 +18,7 @@ export const SideNavigation: CollectionConfig = {
     update: getAdminOrSiteUser('side-navigation'),
   },
   admin: {
-    group: 'Site Configuration',
+    // group: 'Site Configuration',
     description: 'Create and manage side navigation menus for single pages.',
     useAsTitle: 'name',
     defaultColumns: ['name', 'title', 'enabled', 'updatedAt'],

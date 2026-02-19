@@ -14,7 +14,7 @@ import { relatedItems } from '@/fields/relatedItems'
 export const News: CollectionConfig<'news'> = {
   slug: 'news',
   admin: {
-    group: 'Content Collection',
+    // group: 'Content Collection',
     description: 'Announcements, updates, or press releases related to the organization.',
     defaultColumns: ['title', 'slug', 'updatedAt', 'updatedBy', '_status'],
     livePreview: {

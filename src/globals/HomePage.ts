@@ -13,7 +13,7 @@ export const HomePage: GlobalConfig = {
     readVersions: getAdminOrSiteUserGlobals(),
   },
   admin: {
-    group: 'Single Pages',
+    // group: 'Single Pages',
     description: 'A customizable homepage composed of flexible content blocks.',
     livePreview: {
       url: getGlobalPreviewUrl,
