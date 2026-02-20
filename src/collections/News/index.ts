@@ -52,12 +52,6 @@ export const News: CollectionConfig<'news'> = {
     siteField,
     ...slugField(),
     {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
-    {
       name: 'publishedAt',
       type: 'date',
       admin: {
@@ -99,6 +93,12 @@ export const News: CollectionConfig<'news'> = {
       },
     },
     relatedItems('news'),
+    {
+      name: 'reviewReady',
+      label: 'Ready for Review',
+      type: 'checkbox',
+      defaultValue: false,
+    },
   ],
   hooks: {
     afterChange: [publish],

@@ -163,12 +163,6 @@ export const Events: CollectionConfig<'events'> = {
       ],
     },
     {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
-    {
       name: 'showInPageNav',
       label: 'Show In-Page Navigation',
       type: 'checkbox',
@@ -179,7 +173,12 @@ export const Events: CollectionConfig<'events'> = {
       },
     },
     relatedItems('events'),
-
+    {
+      name: 'reviewReady',
+      label: 'Ready for Review',
+      type: 'checkbox',
+      defaultValue: false,
+    },
   ],
   hooks: {
     afterChange: [publish],

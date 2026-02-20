@@ -90,12 +90,6 @@ export const Reports: CollectionConfig = {
       editor,
     },
     {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
-    {
       name: 'updatedBy',
       type: 'relationship',
       relationTo: 'users',
@@ -137,6 +131,12 @@ export const Reports: CollectionConfig = {
       },
     },
     relatedItems('reports'),
+    {
+      name: 'reviewReady',
+      label: 'Ready for Review',
+      type: 'checkbox',
+      defaultValue: false,
+    },
   ],
   hooks: {
     afterChange: [publish],

@@ -101,12 +101,6 @@ export const Resources: CollectionConfig = {
       editor,
     },
     {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
-    {
       name: 'publishedAt',
       type: 'date',
       admin: {
@@ -137,6 +131,12 @@ export const Resources: CollectionConfig = {
       },
     },
     relatedItems('resources'),
+    {
+      name: 'reviewReady',
+      label: 'Ready for Review',
+      type: 'checkbox',
+      defaultValue: false,
+    },
   ],
   hooks: {
     afterChange: [publish],

@@ -129,12 +129,6 @@ export const CustomCollectionPages: CollectionConfig = {
       }
     },
     {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
-    {
       name: 'publishedAt',
       type: 'date',
       admin: {
@@ -165,6 +159,12 @@ export const CustomCollectionPages: CollectionConfig = {
       },
     },
     relatedItems('custom-collection-pages'),
+    {
+      name: 'reviewReady',
+      label: 'Ready for Review',
+      type: 'checkbox',
+      defaultValue: false,
+    },
   ],
   hooks: {
     afterChange: [publish],
