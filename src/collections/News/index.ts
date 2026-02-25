@@ -98,7 +98,7 @@ export const News: CollectionConfig<'news'> = {
         description: 'Display the in-page navigation sidebar on this news item',
       },
     },
-    relatedItems('news'),
+    relatedItems,
   ],
   hooks: {
     afterChange: [publish],

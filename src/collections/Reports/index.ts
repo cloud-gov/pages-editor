@@ -136,7 +136,7 @@ export const Reports: CollectionConfig = {
         description: 'Display the in-page navigation sidebar on this report',
       },
     },
-    relatedItems('reports'),
+    relatedItems,
   ],
   hooks: {
     afterChange: [publish],

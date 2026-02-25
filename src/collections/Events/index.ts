@@ -178,8 +178,7 @@ export const Events: CollectionConfig<'events'> = {
         description: 'Display the in-page navigation sidebar on this event',
       },
     },
-    relatedItems('events'),
-
+    relatedItems,
   ],
   hooks: {
     afterChange: [publish],

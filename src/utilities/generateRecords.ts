@@ -1,10 +1,10 @@
-import { Page } from '@/payload-types'
+import { Page, Policy } from '@/payload-types'
 import { Payload } from 'payload'
 import policies from './datasets/policies'
 
 export const generatePolicies =
   (payload: Payload, tid: string | number | Promise<string | number>) =>
-  async (siteId: number): Promise<Page[]> => {
+  async (siteId: number): Promise<Policy[]> => {
     const sitePolicies = policies(siteId)
 
     return Promise.all(

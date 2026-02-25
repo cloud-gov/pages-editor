@@ -135,7 +135,7 @@ export const Posts: CollectionConfig<'posts'> = {
         description: 'Display the in-page navigation sidebar on this post',
       },
     },
-    relatedItems('posts'),
+    relatedItems,
     ...slugField(),
     ...customFields,
   ],

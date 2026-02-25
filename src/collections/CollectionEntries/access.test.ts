@@ -156,66 +156,6 @@ describe('CollectionEntries access', () => {
       })
     })
 
-    test('update showInPageNav field', async ({ tid, testUser, sites }) => {
-      // Create collection type and page
-      const collectionType = await create(
-        payload,
-        tid,
-        {
-          collection: 'collection-types',
-          data: {
-            title: `${sites[0].name} Collection`,
-            site: sites[0],
-          },
-        },
-        testUser,
-      )
-
-      const page = await create(
-        payload,
-        tid,
-        {
-          collection: 'collection-entries',
-          data: {
-            title: `${collectionType.title} - Page`,
-            collectionType: collectionType.id,
-            site: sites[0],
-          },
-        },
-        testUser,
-      )
-
-      const updatedPage = await update(
-        payload,
-        tid,
-        {
-          collection: 'collection-entries',
-          id: page.id,
-          data: {
-            showInPageNav: false,
-          } as any,
-        },
-        testUser,
-      )
-
-      expect((updatedPage as any).showInPageNav).toBe(false)
-
-      const updatedPage2 = await update(
-        payload,
-        tid,
-        {
-          collection: 'collection-entries',
-          id: page.id,
-          data: {
-            showInPageNav: true,
-          } as any,
-        },
-        testUser,
-      )
-
-      expect((updatedPage2 as any).showInPageNav).toBe(true)
-    })
-
     test('delete any CollectionEntries', async ({ tid, testUser, sites }) => {
       // Create custom collections and pages
       const customCollections = await Promise.all(
@@ -507,57 +447,6 @@ describe('CollectionEntries access', () => {
       updatedPages.forEach((page) => {
         expect(page.title).toContain('Edited')
       })
-    })
-
-    test('update showInPageNav field on their CollectionEntries', async ({
-      tid,
-      testUser,
-      sites,
-    }) => {
-      const siteId = testUser.selectedSiteId
-
-      // Create collection type for their site
-      const collectionType = await create(
-        payload,
-        tid,
-        {
-          collection: 'collection-types',
-          data: {
-            title: `Collection - ${siteId}`,
-            site: siteId,
-          },
-        },
-        testUser,
-      )
-
-      const page = await create(
-        payload,
-        tid,
-        {
-          collection: 'collection-entries',
-          data: {
-            title: `Page - ${siteId}`,
-            collectionType: collectionType.id,
-            site: siteId,
-          },
-        },
-        testUser,
-      )
-
-      const updatedPage = await update(
-        payload,
-        tid,
-        {
-          collection: 'collection-entries',
-          id: page.id,
-          data: {
-            showInPageNav: false,
-          } as any,
-        },
-        testUser,
-      )
-
-      expect((updatedPage as any).showInPageNav).toBe(false)
     })
 
     test('not update not-their CollectionEntries', async ({ tid, testUser, sites }) => {

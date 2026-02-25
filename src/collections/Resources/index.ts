@@ -136,7 +136,7 @@ export const Resources: CollectionConfig = {
         description: 'Display the in-page navigation sidebar on this resource',
       },
     },
-    relatedItems('resources'),
+    relatedItems,
   ],
   hooks: {
     afterChange: [publish],

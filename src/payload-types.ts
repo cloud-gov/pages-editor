@@ -282,6 +282,9 @@ export interface Post {
    * This featured image will be used as a thumbnail and cover image
    */
   image?: (number | null) | Media;
+  /**
+   * Select one or more tags to associate with this content
+   */
   tags?: (number | Tag)[] | null;
   site: number | Site;
   content?: {
@@ -319,25 +322,22 @@ export interface Post {
   relatedItems?:
     | (
         | {
-            /**
-             * Select a related posts item
-             */
-            item: number | Post;
-            /**
-             * Optional custom description for this related item
-             */
-            description?: string | null;
+            label?: string | null;
+            page?: (number | null) | Page;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'internalItem';
+            blockType: 'pageLink';
           }
         | {
-            title: string;
-            url: string;
-            /**
-             * Brief description of the external resource
-             */
-            description?: string | null;
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionEntryLink';
+          }
+        | {
+            label?: string | null;
+            url?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'externalLink';
@@ -391,471 +391,37 @@ export interface Tag {
   createdAt: string;
 }
 /**
- * Event information including dates, locations, and descriptions.
+ * Individual pages like About or Contact that aren’t part of a content collection.
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events".
+ * via the `definition` "pages".
  */
-export interface Event {
+export interface Page {
   id: number;
-  /**
-   * Details for upcoming or past events, including dates, locations, and descriptions.
-   */
-  title: string;
-  location?: string | null;
-  registrationUrl?: string | null;
-  /**
-   * A description to be used as a summary
-   */
-  description?: string | null;
-  /**
-   * This featured image will be used as a thumbnail and cover image
-   */
-  image?: (number | null) | Media;
   site: number | Site;
   slug?: string | null;
   slugLock?: boolean | null;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  attachments?:
-    | {
-        file?: (number | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
-  pointOfContact?: string | null;
-  pointOfContactEmail?: string | null;
-  pointOfContactPhone?: string | null;
+  /**
+   * Select one or more tags to associate with this content
+   */
   tags?: (number | Tag)[] | null;
   publishedAt?: string | null;
-  startDate: string;
-  endDate?: string | null;
-  format: 'inperson' | 'virtual';
-  eventType: 'onetime' | 'series';
-  reviewReady?: boolean | null;
-  /**
-   * Display the in-page navigation sidebar on this event
-   */
-  showInPageNav?: boolean | null;
-  /**
-   * Add related items to display at the bottom of this page. Can include internal items or external links.
-   */
-  relatedItems?:
-    | (
-        | {
-            /**
-             * Select a related events item
-             */
-            item: number | Event;
-            /**
-             * Optional custom description for this related item
-             */
-            description?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'internalItem';
-          }
-        | {
-            title: string;
-            url: string;
-            /**
-             * Brief description of the external resource
-             */
-            description?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'externalLink';
-          }
-      )[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Announcements, updates, or press releases related to the organization.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "news".
- */
-export interface News {
-  id: number;
-  title: string;
-  /**
-   * A description to be used as a summary
-   */
-  description?: string | null;
-  /**
-   * This featured image will be used as a thumbnail and cover image
-   */
-  image?: (number | null) | Media;
-  tags?: (number | Tag)[] | null;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  site: number | Site;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  reviewReady?: boolean | null;
-  publishedAt?: string | null;
-  updatedBy?: (number | null) | User;
-  /**
-   * Display the in-page navigation sidebar on this news item
-   */
-  showInPageNav?: boolean | null;
-  /**
-   * Add related items to display at the bottom of this page. Can include internal items or external links.
-   */
-  relatedItems?:
-    | (
-        | {
-            /**
-             * Select a related news item
-             */
-            item: number | News;
-            /**
-             * Optional custom description for this related item
-             */
-            description?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'internalItem';
-          }
-        | {
-            title: string;
-            url: string;
-            /**
-             * Brief description of the external resource
-             */
-            description?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'externalLink';
-          }
-      )[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Downloadable or reference materials like guides and reports.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "reports".
- */
-export interface Report {
-  id: number;
-  title: string;
-  excerpt?: string | null;
-  image?: (number | null) | Media;
-  reportFiles?:
-    | {
-        file?: (number | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  reportDate?: string | null;
-  tags?: (number | Tag)[] | null;
-  site: number | Site;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  reviewReady?: boolean | null;
-  updatedBy?: (number | null) | User;
-  publishedAt?: string | null;
-  /**
-   * Display the in-page navigation sidebar on this report
-   */
-  showInPageNav?: boolean | null;
-  /**
-   * Add related items to display at the bottom of this page. Can include internal items or external links.
-   */
-  relatedItems?:
-    | (
-        | {
-            /**
-             * Select a related reports item
-             */
-            item: number | Report;
-            /**
-             * Optional custom description for this related item
-             */
-            description?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'internalItem';
-          }
-        | {
-            title: string;
-            url: string;
-            /**
-             * Brief description of the external resource
-             */
-            description?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'externalLink';
-          }
-      )[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Downloadable or reference materials like guides or reports.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "resources".
- */
-export interface Resource {
-  id: number;
-  title: string;
-  excerpt?: string | null;
-  image?: (number | null) | Media;
-  reportFiles?:
-    | {
-        file?: (number | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  resourceDate?: string | null;
-  updatedBy?: (number | null) | User;
-  tags?: (number | Tag)[] | null;
-  site: number | Site;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  reviewReady?: boolean | null;
-  publishedAt?: string | null;
-  /**
-   * Display the in-page navigation sidebar on this resource
-   */
-  showInPageNav?: boolean | null;
-  /**
-   * Add related items to display at the bottom of this page. Can include internal items or external links.
-   */
-  relatedItems?:
-    | (
-        | {
-            /**
-             * Select a related resources item
-             */
-            item: number | Resource;
-            /**
-             * Optional custom description for this related item
-             */
-            description?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'internalItem';
-          }
-        | {
-            title: string;
-            url: string;
-            /**
-             * Brief description of the external resource
-             */
-            description?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'externalLink';
-          }
-      )[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Profiles of key staff or board members, including bios and headshots.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "leadership".
- */
-export interface Leadership {
-  id: number;
-  title: string;
-  jobTitle: string;
-  /**
-   * A description to be used as a summary
-   */
-  description?: string | null;
-  /**
-   * This featured image will be used as a thumbnail and cover image
-   */
-  image?: (number | null) | Media;
-  /**
-   * Alternative text for the image for accessibility
-   */
-  imageAlt: string;
-  /**
-   * Detailed biography or description of the leadership member
-   */
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  site: number | Site;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Create and manage content collection types. Each collection type can have its own name and URL slug.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "collection-types".
- */
-export interface CollectionType {
-  id: number;
-  /**
-   * The display name for this collection type (e.g., "Articles", "Resources", "Blog Posts")
-   */
-  title: string;
-  /**
-   * The URL slug for this collection type (e.g., "articles", "resources"). This will be used in the website URL.
-   */
-  slug?: string | null;
-  slugLock?: boolean | null;
-  /**
-   * The collection type's description or summary
-   */
-  description?: string | null;
-  /**
-   * This image will be used as the thumbnail
-   */
-  image?: (number | null) | Media;
-  updatedBy?: (number | null) | User;
-  site: number | Site;
-  reviewReady?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Add content page entries to your collections types. All fields are available for maximum flexibility.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "collection-entries".
- */
-export interface CollectionEntry {
-  id: number;
-  /**
-   * Select which collection type this page belongs to
-   */
-  collectionType: number | CollectionType;
-  title: string;
-  /**
-   * Content entry's description or summary
-   */
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * This image will be used as the thumbnail
-   */
-  image?: (number | null) | Media;
-  /**
-   * Add downloadable files or attachments
-   */
-  files?:
-    | {
-        file: number | Media;
-        /**
-         * Optional label for the file (e.g., "Download PDF")
-         */
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
   /**
    * Optional date associated with this content
    */
   contentDate?: string | null;
-  tags?: (number | Tag)[] | null;
-  site: number | Site;
+  /**
+   * The title of the entry
+   */
+  title: string;
+  /**
+   * A description to be used as a summary
+   */
+  description?: string | null;
+  /**
+   * This featured image will be used as a thumbnail and cover image
+   */
+  image?: (number | null) | Media;
   content?:
     | (
         | {
@@ -924,10 +490,284 @@ export interface CollectionEntry {
           }
       )[]
     | null;
+  /**
+   * Add related items to display at the bottom of this page. Can include internal items or external links.
+   */
+  relatedItems?:
+    | (
+        | {
+            label?: string | null;
+            page?: (number | null) | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageLink';
+          }
+        | {
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionEntryLink';
+          }
+        | {
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+      )[]
+    | null;
   updatedBy?: (number | null) | User;
+  reviewReady?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Add content page entries to your collections types. All fields are available for maximum flexibility.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collection-entries".
+ */
+export interface CollectionEntry {
+  id: number;
+  site: number | Site;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  /**
+   * Select one or more tags to associate with this content
+   */
+  tags?: (number | Tag)[] | null;
   publishedAt?: string | null;
   /**
-   * Display the in-page navigation sidebar on this content
+   * Optional date associated with this content
+   */
+  contentDate?: string | null;
+  /**
+   * Select which collection type this page belongs to
+   */
+  collectionType: number | CollectionType;
+  /**
+   * The title of the entry
+   */
+  title: string;
+  /**
+   * A description to be used as a summary
+   */
+  description?: string | null;
+  /**
+   * This featured image will be used as a thumbnail and cover image
+   */
+  image?: (number | null) | Media;
+  /**
+   * Add downloadable files or attachments
+   */
+  files?:
+    | {
+        file: number | Media;
+        /**
+         * Optional label for the file (e.g., "Download PDF")
+         */
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  content?:
+    | (
+        | {
+            /**
+             * Main content body
+             */
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'richText';
+          }
+        | {
+            title?: string | null;
+            description?: string | null;
+            cards?:
+              | {
+                  title: string;
+                  description?: string | null;
+                  image?: (number | null) | Media;
+                  link?: {
+                    url?: string | null;
+                    text?: string | null;
+                  };
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cardGrid';
+          }
+        | {
+            title?: string | null;
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            bgImage?: (number | null) | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textBlock';
+          }
+      )[]
+    | null;
+  /**
+   * Add related items to display at the bottom of this page. Can include internal items or external links.
+   */
+  relatedItems?:
+    | (
+        | {
+            label?: string | null;
+            page?: (number | null) | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageLink';
+          }
+        | {
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionEntryLink';
+          }
+        | {
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+      )[]
+    | null;
+  updatedBy?: (number | null) | User;
+  reviewReady?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Create and manage content collection types. Each collection type can have its own name and URL slug.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collection-types".
+ */
+export interface CollectionType {
+  id: number;
+  /**
+   * The display name for this collection type (e.g., "Articles", "Resources", "Blog Posts")
+   */
+  title: string;
+  /**
+   * The URL slug for this collection type (e.g., "articles", "resources"). This will be used in the website URL.
+   */
+  slug?: string | null;
+  slugLock?: boolean | null;
+  /**
+   * The collection type's description or summary
+   */
+  description?: string | null;
+  /**
+   * This image will be used as the thumbnail
+   */
+  image?: (number | null) | Media;
+  updatedBy?: (number | null) | User;
+  site: number | Site;
+  reviewReady?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Event information including dates, locations, and descriptions.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  /**
+   * Details for upcoming or past events, including dates, locations, and descriptions.
+   */
+  title: string;
+  location?: string | null;
+  registrationUrl?: string | null;
+  /**
+   * A description to be used as a summary
+   */
+  description?: string | null;
+  /**
+   * This featured image will be used as a thumbnail and cover image
+   */
+  image?: (number | null) | Media;
+  site: number | Site;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  attachments?:
+    | {
+        file?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  pointOfContact?: string | null;
+  pointOfContactEmail?: string | null;
+  pointOfContactPhone?: string | null;
+  /**
+   * Select one or more tags to associate with this content
+   */
+  tags?: (number | Tag)[] | null;
+  publishedAt?: string | null;
+  startDate: string;
+  endDate?: string | null;
+  format: 'inperson' | 'virtual';
+  eventType: 'onetime' | 'series';
+  reviewReady?: boolean | null;
+  /**
+   * Display the in-page navigation sidebar on this event
    */
   showInPageNav?: boolean | null;
   /**
@@ -936,48 +776,53 @@ export interface CollectionEntry {
   relatedItems?:
     | (
         | {
-            /**
-             * Select a related collection-entries item
-             */
-            item: number | CollectionEntry;
-            /**
-             * Optional custom description for this related item
-             */
-            description?: string | null;
+            label?: string | null;
+            page?: (number | null) | Page;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'internalItem';
+            blockType: 'pageLink';
           }
         | {
-            title: string;
-            url: string;
-            /**
-             * Brief description of the external resource
-             */
-            description?: string | null;
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionEntryLink';
+          }
+        | {
+            label?: string | null;
+            url?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'externalLink';
           }
       )[]
     | null;
-  reviewReady?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Individual pages like About or Contact that aren’t part of a content collection.
+ * Announcements, updates, or press releases related to the organization.
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
+ * via the `definition` "news".
  */
-export interface Page {
+export interface News {
   id: number;
   title: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
+  /**
+   * A description to be used as a summary
+   */
+  description?: string | null;
+  /**
+   * This featured image will be used as a thumbnail and cover image
+   */
   image?: (number | null) | Media;
+  /**
+   * Select one or more tags to associate with this content
+   */
+  tags?: (number | Tag)[] | null;
   content?: {
     root: {
       type: string;
@@ -994,12 +839,280 @@ export interface Page {
     [k: string]: unknown;
   } | null;
   site: number | Site;
-  /**
-   * Select a side navigation menu to display in the sidebar for this page
-   */
-  sideNavigation?: (number | null) | SideNavigation;
+  slug?: string | null;
+  slugLock?: boolean | null;
   reviewReady?: boolean | null;
   publishedAt?: string | null;
+  updatedBy?: (number | null) | User;
+  /**
+   * Display the in-page navigation sidebar on this news item
+   */
+  showInPageNav?: boolean | null;
+  /**
+   * Add related items to display at the bottom of this page. Can include internal items or external links.
+   */
+  relatedItems?:
+    | (
+        | {
+            label?: string | null;
+            page?: (number | null) | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageLink';
+          }
+        | {
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionEntryLink';
+          }
+        | {
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Downloadable or reference materials like guides and reports.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reports".
+ */
+export interface Report {
+  id: number;
+  title: string;
+  excerpt?: string | null;
+  image?: (number | null) | Media;
+  reportFiles?:
+    | {
+        file?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  reportDate?: string | null;
+  /**
+   * Select one or more tags to associate with this content
+   */
+  tags?: (number | Tag)[] | null;
+  site: number | Site;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  reviewReady?: boolean | null;
+  updatedBy?: (number | null) | User;
+  publishedAt?: string | null;
+  /**
+   * Display the in-page navigation sidebar on this report
+   */
+  showInPageNav?: boolean | null;
+  /**
+   * Add related items to display at the bottom of this page. Can include internal items or external links.
+   */
+  relatedItems?:
+    | (
+        | {
+            label?: string | null;
+            page?: (number | null) | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageLink';
+          }
+        | {
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionEntryLink';
+          }
+        | {
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Downloadable or reference materials like guides or reports.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources".
+ */
+export interface Resource {
+  id: number;
+  title: string;
+  excerpt?: string | null;
+  image?: (number | null) | Media;
+  reportFiles?:
+    | {
+        file?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  resourceDate?: string | null;
+  updatedBy?: (number | null) | User;
+  /**
+   * Select one or more tags to associate with this content
+   */
+  tags?: (number | Tag)[] | null;
+  site: number | Site;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  reviewReady?: boolean | null;
+  publishedAt?: string | null;
+  /**
+   * Display the in-page navigation sidebar on this resource
+   */
+  showInPageNav?: boolean | null;
+  /**
+   * Add related items to display at the bottom of this page. Can include internal items or external links.
+   */
+  relatedItems?:
+    | (
+        | {
+            label?: string | null;
+            page?: (number | null) | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageLink';
+          }
+        | {
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionEntryLink';
+          }
+        | {
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Profiles of key staff or board members, including bios and headshots.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leadership".
+ */
+export interface Leadership {
+  id: number;
+  title: string;
+  jobTitle: string;
+  /**
+   * A description to be used as a summary
+   */
+  description?: string | null;
+  /**
+   * This featured image will be used as a thumbnail and cover image
+   */
+  image?: (number | null) | Media;
+  /**
+   * Alternative text for the image for accessibility
+   */
+  imageAlt: string;
+  /**
+   * Detailed biography or description of the leadership member
+   */
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  site: number | Site;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Legal or informational pages such as privacy, terms of use, and accessibility.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "policies".
+ */
+export interface Policy {
+  id: number;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  site: number | Site;
+  reviewReady?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1069,38 +1182,6 @@ export interface SideNavigation {
   reviewReady?: boolean | null;
   publishedAt?: string | null;
   site: number | Site;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Legal or informational pages such as privacy, terms of use, and accessibility.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "policies".
- */
-export interface Policy {
-  id: number;
-  title: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  site: number | Site;
-  reviewReady?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -2323,20 +2404,27 @@ export interface PostsSelect<T extends boolean = true> {
   relatedItems?:
     | T
     | {
-        internalItem?:
+        pageLink?:
           | T
           | {
-              item?: T;
-              description?: T;
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionEntryLink?:
+          | T
+          | {
+              label?: T;
+              collectionEntry?: T;
               id?: T;
               blockName?: T;
             };
         externalLink?:
           | T
           | {
-              title?: T;
+              label?: T;
               url?: T;
-              description?: T;
               id?: T;
               blockName?: T;
             };
@@ -2382,20 +2470,27 @@ export interface EventsSelect<T extends boolean = true> {
   relatedItems?:
     | T
     | {
-        internalItem?:
+        pageLink?:
           | T
           | {
-              item?: T;
-              description?: T;
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionEntryLink?:
+          | T
+          | {
+              label?: T;
+              collectionEntry?: T;
               id?: T;
               blockName?: T;
             };
         externalLink?:
           | T
           | {
-              title?: T;
+              label?: T;
               url?: T;
-              description?: T;
               id?: T;
               blockName?: T;
             };
@@ -2424,20 +2519,27 @@ export interface NewsSelect<T extends boolean = true> {
   relatedItems?:
     | T
     | {
-        internalItem?:
+        pageLink?:
           | T
           | {
-              item?: T;
-              description?: T;
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionEntryLink?:
+          | T
+          | {
+              label?: T;
+              collectionEntry?: T;
               id?: T;
               blockName?: T;
             };
         externalLink?:
           | T
           | {
-              title?: T;
+              label?: T;
               url?: T;
-              description?: T;
               id?: T;
               blockName?: T;
             };
@@ -2473,20 +2575,27 @@ export interface ReportsSelect<T extends boolean = true> {
   relatedItems?:
     | T
     | {
-        internalItem?:
+        pageLink?:
           | T
           | {
-              item?: T;
-              description?: T;
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionEntryLink?:
+          | T
+          | {
+              label?: T;
+              collectionEntry?: T;
               id?: T;
               blockName?: T;
             };
         externalLink?:
           | T
           | {
-              title?: T;
+              label?: T;
               url?: T;
-              description?: T;
               id?: T;
               blockName?: T;
             };
@@ -2522,20 +2631,27 @@ export interface ResourcesSelect<T extends boolean = true> {
   relatedItems?:
     | T
     | {
-        internalItem?:
+        pageLink?:
           | T
           | {
-              item?: T;
-              description?: T;
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionEntryLink?:
+          | T
+          | {
+              label?: T;
+              collectionEntry?: T;
               id?: T;
               blockName?: T;
             };
         externalLink?:
           | T
           | {
-              title?: T;
+              label?: T;
               url?: T;
-              description?: T;
               id?: T;
               blockName?: T;
             };
@@ -2584,6 +2700,12 @@ export interface CollectionTypesSelect<T extends boolean = true> {
  * via the `definition` "collection-entries_select".
  */
 export interface CollectionEntriesSelect<T extends boolean = true> {
+  site?: T;
+  slug?: T;
+  slugLock?: T;
+  tags?: T;
+  publishedAt?: T;
+  contentDate?: T;
   collectionType?: T;
   title?: T;
   description?: T;
@@ -2595,11 +2717,6 @@ export interface CollectionEntriesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
-  slug?: T;
-  slugLock?: T;
-  contentDate?: T;
-  tags?: T;
-  site?: T;
   content?:
     | T
     | {
@@ -2642,30 +2759,35 @@ export interface CollectionEntriesSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
-  updatedBy?: T;
-  publishedAt?: T;
-  showInPageNav?: T;
   relatedItems?:
     | T
     | {
-        internalItem?:
+        pageLink?:
           | T
           | {
-              item?: T;
-              description?: T;
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionEntryLink?:
+          | T
+          | {
+              label?: T;
+              collectionEntry?: T;
               id?: T;
               blockName?: T;
             };
         externalLink?:
           | T
           | {
-              title?: T;
+              label?: T;
               url?: T;
-              description?: T;
               id?: T;
               blockName?: T;
             };
       };
+  updatedBy?: T;
   reviewReady?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2676,15 +2798,87 @@ export interface CollectionEntriesSelect<T extends boolean = true> {
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
-  title?: T;
+  site?: T;
   slug?: T;
   slugLock?: T;
-  image?: T;
-  content?: T;
-  site?: T;
-  sideNavigation?: T;
-  reviewReady?: T;
+  tags?: T;
   publishedAt?: T;
+  contentDate?: T;
+  title?: T;
+  description?: T;
+  image?: T;
+  content?:
+    | T
+    | {
+        richText?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        cardGrid?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              cards?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    image?: T;
+                    link?:
+                      | T
+                      | {
+                          url?: T;
+                          text?: T;
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        textBlock?:
+          | T
+          | {
+              title?: T;
+              content?: T;
+              bgImage?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  relatedItems?:
+    | T
+    | {
+        pageLink?:
+          | T
+          | {
+              label?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+        collectionEntryLink?:
+          | T
+          | {
+              label?: T;
+              collectionEntry?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedBy?: T;
+  reviewReady?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

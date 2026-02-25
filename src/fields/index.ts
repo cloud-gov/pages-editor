@@ -1,43 +1,27 @@
-import type { DateField, SelectField, TextField, UploadField } from 'payload'
+import type {
+  ArrayField,
+  CheckboxField,
+  DateField,
+  SelectField,
+  TextField,
+  UploadField,
+} from 'payload'
 
-export const publishedAtField: DateField = {
-  name: 'publishedAt',
+export { relatedItems } from './relatedItems'
+export * from './content'
+export * from './relationships'
+export * from './slug'
+
+export const contentDateField: DateField = {
+  name: 'contentDate',
+  label: 'Content Date',
   type: 'date',
   admin: {
     position: 'sidebar',
+    description: 'Optional date associated with this content',
     date: {
       pickerAppearance: 'dayAndTime',
     },
-  },
-  hooks: {
-    beforeChange: [
-      ({ siblingData, value }) => {
-        if (siblingData._status === 'published' && !value) {
-          return new Date()
-        }
-        return value
-      },
-    ],
-  },
-}
-
-export const descriptionField: TextField = {
-  name: 'description',
-  label: 'Description',
-  maxLength: 300,
-  type: 'text',
-  admin: {
-    description: 'A description to be used as a summary',
-  },
-}
-
-export const imageField: UploadField = {
-  name: 'image',
-  label: 'Featured image',
-  type: 'upload',
-  relationTo: 'media',
-  admin: {
-    description: 'This featured image will be used as a thumbnail and cover image',
   },
 }
 
@@ -49,7 +33,7 @@ export const colorOptions = ({
 }: {
   name: string
   label: string
-  defaultValue?: string,
+  defaultValue?: string
   useDefaultValue?: boolean
 }): SelectField => {
   return {
@@ -250,4 +234,82 @@ export const colorOptions = ({
   }
 }
 
-export { relatedItems } from './relatedItems'
+export const descriptionField: TextField = {
+  name: 'description',
+  label: 'Description',
+  type: 'text',
+  admin: {
+    description: 'A description to be used as a summary',
+  },
+}
+
+export const filesField: ArrayField = {
+  name: 'files',
+  label: 'Files',
+  type: 'array',
+  admin: {
+    description: 'Add downloadable files or attachments',
+  },
+  fields: [
+    {
+      name: 'file',
+      type: 'upload',
+      relationTo: 'media',
+      required: true,
+    },
+    {
+      name: 'label',
+      type: 'text',
+      admin: {
+        description: 'Optional label for the file (e.g., "Download PDF")',
+      },
+    },
+  ],
+}
+
+export const imageField: UploadField = {
+  name: 'image',
+  label: 'Featured image',
+  type: 'upload',
+  relationTo: 'media',
+  admin: {
+    description: 'This featured image will be used as a thumbnail and cover image',
+  },
+}
+
+export const publishedAtField: DateField = {
+  name: 'publishedAt',
+  type: 'date',
+  admin: {
+    position: 'sidebar',
+    date: {
+      pickerAppearance: 'dayAndTime',
+    },
+  },
+  hooks: {
+    beforeChange: [
+      ({ siblingData, value }) => {
+        if (siblingData._status === 'published' && !value) {
+          return new Date()
+        }
+        return value
+      },
+    ],
+  },
+}
+
+export const readyForReviewField: CheckboxField = {
+  name: 'reviewReady',
+  label: 'Ready for Review',
+  type: 'checkbox',
+  defaultValue: false,
+}
+
+export const titleField: TextField = {
+  name: 'title',
+  type: 'text',
+  required: true,
+  admin: {
+    description: 'The title of the entry',
+  },
+}

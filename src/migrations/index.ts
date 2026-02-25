@@ -51,6 +51,8 @@ import * as migration_20260210_160146_add_search_analytics_page from './20260210
 import * as migration_20260210_201435_remove_custom_collection_type from './20260210_201435_remove_custom_collection_type';
 import * as migration_20260210_223943_add_collection_types_and_entities from './20260210_223943_add_collection_types_and_entities';
 import * as migration_20260218_174148_update_table_hyperlinks from './20260218_174148_update_table_hyperlinks';
+import * as migration_20260225_201403_improve_related_items_field from './20260225_201403_improve_related_items_field';
+import * as migration_20260225_210621_standardize_pages_collection_data_model from './20260225_210621_standardize_pages_collection_data_model';
 
 export const migrations = [
   {
@@ -316,6 +318,16 @@ export const migrations = [
   {
     up: migration_20260218_174148_update_table_hyperlinks.up,
     down: migration_20260218_174148_update_table_hyperlinks.down,
-    name: '20260218_174148_update_table_hyperlinks'
+    name: '20260218_174148_update_table_hyperlinks',
+  },
+  {
+    up: migration_20260225_201403_improve_related_items_field.up,
+    down: migration_20260225_201403_improve_related_items_field.down,
+    name: '20260225_201403_improve_related_items_field',
+  },
+  {
+    up: migration_20260225_210621_standardize_pages_collection_data_model.up,
+    down: migration_20260225_210621_standardize_pages_collection_data_model.down,
+    name: '20260225_210621_standardize_pages_collection_data_model'
   },
 ];

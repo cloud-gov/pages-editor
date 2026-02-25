@@ -1,10 +1,22 @@
 import type { CollectionConfig } from 'payload'
-import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
-import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
-import { siteField, sideNavigationField } from '@/fields/relationships'
+import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
+import {
+  contentField,
+  contentDateField,
+  descriptionField,
+  imageField,
+  publishedAtField,
+  readyForReviewField,
+  relatedItems,
+  siteField,
+  slugField,
+  tagsField,
+  titleField,
+  updatedByField,
+} from '@/fields'
 import { completeReview } from '@/hooks/completeReview'
 import { getAdminCollectionPreview, getPagePreviewUrl } from '@/utilities/previews'
 
@@ -12,7 +24,7 @@ export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   admin: {
     group: 'Single Pages',
-    description: "Individual pages like About or Contact that aren’t part of a content collection.",
+    description: 'Individual pages like About or Contact that aren’t part of a content collection.',
     defaultColumns: ['title', 'slug', 'reviewReady', 'updatedAt'],
     livePreview: {
       url: getPagePreviewUrl,
@@ -33,54 +45,27 @@ export const Pages: CollectionConfig<'pages'> = {
   },
   defaultSort: '-reviewReady',
   fields: [
-    {
-      name: 'title',
-      type: 'text',
-      required: true,
-    },
-    ...slugField(),
-    {
-      name: 'image',
-      type: 'upload',
-      relationTo: 'media',
-    },
-    {
-      name: 'content',
-      type: 'richText',
-      editor,
-    },
+    // Unseen by users, but used to link entry to its collection type and for filtering in the admin
     siteField,
-    sideNavigationField,
-    {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
-    {
-      name: 'publishedAt',
-      type: 'date',
-      admin: {
-        position: 'sidebar',
-        date: {
-          pickerAppearance: 'dayAndTime',
-        },
-      },
-      hooks: {
-        beforeChange: [
-          ({ siblingData, value }) => {
-            if (siblingData._status === 'published' && !value) {
-              return new Date()
-            }
-            return value
-          },
-        ],
-      },
-    },
+
+    // Sidebar fields
+    ...slugField(),
+    tagsField,
+    publishedAtField,
+    contentDateField,
+
+    // Main container fields
+    titleField,
+    descriptionField,
+    imageField,
+    contentField,
+    relatedItems,
+    updatedByField,
+    readyForReviewField,
   ],
   hooks: {
     afterChange: [publish],
-    beforeChange: [addSite, completeReview],
+    beforeChange: [addSite, completeReview, populateUpdatedBy],
   },
   versions: {
     drafts: {

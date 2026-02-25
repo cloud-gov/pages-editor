@@ -26,6 +26,10 @@ export const tagsField: RelationshipField = {
   hasMany: true,
   required: false,
   label: 'Tags',
+  admin: {
+    description: 'Select one or more tags to associate with this content',
+    position: 'sidebar',
+  },
 }
 
 export const sideNavigationField: RelationshipField = {
@@ -68,7 +72,6 @@ export const pageField: RelationshipField = {
   label: 'Page',
   required: true,
 }
-
 
 export const updatedByField: RelationshipField = {
   name: 'updatedBy',
