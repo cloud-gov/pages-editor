@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
-import { categoriesField, siteField } from '@/fields/relationships'
+import { tagsField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
@@ -17,7 +17,7 @@ export const Resources: CollectionConfig = {
     plural: 'Resources',
   },
   admin: {
-    group: 'Content Collection',
+    // group: 'Content Collection',
     description: 'Downloadable or reference materials like guides or reports.',
     defaultColumns: ['title', 'slug', 'updatedAt', 'updatedBy', '_status'],
     meta: {
@@ -93,7 +93,7 @@ export const Resources: CollectionConfig = {
         },
       }
     },
-    categoriesField,
+    tagsField,
     siteField,
     {
       name: 'content',
@@ -136,7 +136,7 @@ export const Resources: CollectionConfig = {
         description: 'Display the in-page navigation sidebar on this resource',
       },
     },
-    relatedItems('resources'),
+    relatedItems,
   ],
   hooks: {
     afterChange: [publish],

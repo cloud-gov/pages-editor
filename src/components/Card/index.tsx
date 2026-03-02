@@ -15,11 +15,10 @@ export const Card: React.FC<{
   className?: string
   doc?: CardPostData
   relationTo?: 'posts'
-  showCategories?: boolean
   title?: string
 }> = (props) => {
   const { card, link } = useClickableCard({})
-  const { className, doc, relationTo, showCategories, title: titleFromProps } = props
+  const { className, doc, relationTo, title: titleFromProps } = props
 
   const { slug, title } = doc || {}
 

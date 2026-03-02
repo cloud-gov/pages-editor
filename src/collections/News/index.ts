@@ -4,7 +4,7 @@ import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import { editor } from '@/utilities/editor'
 import { publish } from '@/hooks/publish'
-import { categoriesField, siteField } from '@/fields/relationships'
+import { tagsField, siteField } from '@/fields/relationships'
 import { descriptionField, imageField } from '@/fields'
 import { completeReview } from '@/hooks/completeReview'
 import { getAdminCollectionPreview, getCollectionPreviewUrl } from '@/utilities/previews'
@@ -14,7 +14,7 @@ import { relatedItems } from '@/fields/relatedItems'
 export const News: CollectionConfig<'news'> = {
   slug: 'news',
   admin: {
-    group: 'Content Collection',
+    // group: 'Content Collection',
     description: 'Announcements, updates, or press releases related to the organization.',
     defaultColumns: ['title', 'slug', 'updatedAt', 'updatedBy', '_status'],
     livePreview: {
@@ -43,7 +43,7 @@ export const News: CollectionConfig<'news'> = {
     },
     descriptionField,
     imageField,
-    categoriesField,
+    tagsField,
     {
       name: 'content',
       type: 'richText',
@@ -98,7 +98,7 @@ export const News: CollectionConfig<'news'> = {
         description: 'Display the in-page navigation sidebar on this news item',
       },
     },
-    relatedItems('news'),
+    relatedItems,
   ],
   hooks: {
     afterChange: [publish],

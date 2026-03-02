@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
-import { categoriesField, siteField } from '@/fields/relationships'
+import { tagsField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { descriptionField, imageField } from '@/fields'
 import { customFields } from './custom'
@@ -16,7 +16,7 @@ import { relatedItems } from '@/fields/relatedItems'
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
   admin: {
-    group: 'Content Collection',
+    // group: 'Content Collection',
     description: 'Articles, updates, or blog content used to share ideas, news, or stories.',
     defaultColumns: ['title', 'slug', 'updatedAt', 'updatedBy', '_status'],
     livePreview: {
@@ -47,7 +47,7 @@ export const Posts: CollectionConfig<'posts'> = {
     },
     descriptionField,
     imageField,
-    categoriesField,
+    tagsField,
     siteField,
     {
       name: 'content',
@@ -135,7 +135,7 @@ export const Posts: CollectionConfig<'posts'> = {
         description: 'Display the in-page navigation sidebar on this post',
       },
     },
-    relatedItems('posts'),
+    relatedItems,
     ...slugField(),
     ...customFields,
   ],

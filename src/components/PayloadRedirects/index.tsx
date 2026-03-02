@@ -16,7 +16,7 @@ export const PayloadRedirects: React.FC<Props> = async ({ disableNotFound, url }
 
   const redirects = await getCachedRedirects()()
 
-  const redirectItem = redirects.find((redirect) => redirect.from === slug)
+  const redirectItem: any = redirects.find((redirect: any) => redirect.from === slug)
 
   if (redirectItem) {
     if (redirectItem.to?.url) {

@@ -5,9 +5,7 @@ import { lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
 import { colorOptions, imageField } from '@/fields'
 import { validateRichTextRequired } from '@/utilities/validators/richText'
 import { validateTextRequired } from '@/utilities/validators/text'
-import { makeValidateRelationshipSingle, validatePage } from '@/utilities/validators/relationship'
-import { validateSelectSingle } from '@/utilities/validators/select'
-
+import { commonLinkBlocks } from '@/fields/hyperlinks'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
@@ -121,134 +119,7 @@ export const Footer: GlobalConfig = {
             plural: 'Links',
           },
           required: false,
-          blocks: [
-            {
-              slug: 'pageLink',
-              labels: {
-                singular: 'Page Link',
-                plural: 'Page Links',
-              },
-              admin: {
-                disableBlockName: true,
-              },
-              fields: [
-                {
-                  name: 'name',
-                  label: 'Name',
-                  type: 'text',
-                  required: true,
-                  validate: validateTextRequired,
-                },
-                {
-                  name: 'page',
-                  label: 'Page',
-                  type: 'relationship',
-                  relationTo: 'pages',
-                  required: true,
-                  validate: validatePage,
-                  admin: {
-                    allowCreate: false,
-                  },
-                },
-              ],
-            },
-            {
-              slug: 'collectionLink',
-              labels: {
-                singular: 'Collection Link',
-                plural: 'Collection Links',
-              },
-              admin: {
-                disableBlockName: true,
-              },
-              fields: [
-                {
-                  name: 'name',
-                  label: 'Name',
-                  type: 'text',
-                  required: true,
-                  validate: validateTextRequired,
-                },
-                {
-                  name: 'page',
-                  label: 'Content collection',
-                  type: 'select',
-                  options: [
-                    { label: 'Events', value: 'events' },
-                    { label: 'Leadership', value: 'leadership' },
-                    { label: 'News', value: 'news' },
-                    { label: 'Blog Posts', value: 'posts' },
-                    { label: 'Reports', value: 'reports' },
-                    { label: 'Resources', value: 'resources' },
-                  ],
-                  hasMany: false,
-                  required: true,
-                  validate: validateSelectSingle,
-                },
-              ],
-            },
-            {
-              slug: 'customCollectionLink',
-              labels: {
-                singular: 'Custom Collection Link',
-                plural: 'Custom Collection Links',
-              },
-              admin: {
-                disableBlockName: true,
-              },
-              fields: [
-                {
-                  name: 'name',
-                  label: 'Name',
-                  type: 'text',
-                  required: true,
-                  validate: validateTextRequired,
-                },
-                {
-                  name: 'customCollection',
-                  label: 'Custom collection',
-                  type: 'relationship',
-                  relationTo: 'custom-collections',
-                  required: true,
-                  validate: makeValidateRelationshipSingle({
-                    relationTo: 'custom-collections',
-                    requirePublished: false, // set to true if you want only published custom-collections to be selectable on publish
-                    messages: {
-                      required: 'Please select a custom collection.',
-                      notFound: 'Selected custom collection could not be found.',
-                      notPublished: 'Selected custom collection is not published.',
-                    },
-                  }),
-                },
-              ],
-            },
-            {
-              slug: 'externalLink',
-              labels: {
-                singular: 'External Link',
-                plural: 'External Links',
-              },
-              admin: {
-                disableBlockName: true,
-              },
-              fields: [
-                {
-                  name: 'name',
-                  label: 'Name',
-                  type: 'text',
-                  required: true,
-                  validate: validateTextRequired,
-                },
-                {
-                  name: 'url',
-                  label: 'Url',
-                  type: 'text',
-                  required: true,
-                  validate: validateTextRequired,
-                },
-              ],
-            },
-          ],
+          blocks: commonLinkBlocks,
         },
       ],
     },

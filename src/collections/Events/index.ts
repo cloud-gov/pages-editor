@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { categoriesField, siteField } from '@/fields/relationships'
+import { tagsField, siteField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
@@ -14,7 +14,7 @@ import { relatedItems } from '@/fields/relatedItems'
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
   admin: {
-    group: 'Content Collection',
+    // group: 'Content Collection',
     description:
       'Event information including dates, locations, and descriptions.',
     defaultColumns: ['title', 'slug', 'startDate', 'endDate', '_status'],
@@ -92,7 +92,7 @@ export const Events: CollectionConfig<'events'> = {
       label: 'Contact Phone',
       type: 'text',
     },
-    categoriesField,
+    tagsField,
     {
       name: 'publishedAt',
       type: 'date',
@@ -178,8 +178,7 @@ export const Events: CollectionConfig<'events'> = {
         description: 'Display the in-page navigation sidebar on this event',
       },
     },
-    relatedItems('events'),
-
+    relatedItems,
   ],
   hooks: {
     afterChange: [publish],

@@ -4,11 +4,11 @@ import { test } from '@test/utils/test'
 import { siteIdHelper } from '@/utilities/idHelper'
 import { isAccessError, notFoundError } from '@test/utils/errors'
 
-describe('CustomCollectionPages access', () => {
+describe('CollectionEntries access', () => {
   describe('admins can...', async () => {
     test.scoped({ defaultUserAdmin: true })
 
-    test('read all CustomCollectionPages', async ({ tid, testUser, sites }) => {
+    test('read all CollectionEntries', async ({ tid, testUser, sites }) => {
       // Create custom collections for each site
       const customCollections = await Promise.all(
         sites.map(async (site) => {
@@ -16,7 +16,7 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collections',
+              collection: 'collection-types',
               data: {
                 title: `${site.name} Collection`,
                 site,
@@ -27,17 +27,17 @@ describe('CustomCollectionPages access', () => {
         }),
       )
 
-      // Create custom collection pages for each custom collection
+      // Create collection entires for each collection type
       const customCollectionPages = await Promise.all(
         customCollections.map(async (collection) => {
           return create(
             payload,
             tid,
             {
-              collection: 'custom-collection-pages',
+              collection: 'collection-entries',
               data: {
                 title: `${collection.title} - Page`,
-                collectionConfig: collection.id,
+                collectionType: collection.id,
                 site: collection.site,
               },
             },
@@ -50,14 +50,14 @@ describe('CustomCollectionPages access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collection-pages',
+          collection: 'collection-entries',
         },
         testUser,
       )
       expect(foundPages.docs).toHaveLength(customCollectionPages.length)
     })
 
-    test('write a CustomCollectionPages to any site', async ({ tid, testUser, sites }) => {
+    test('write a CollectionEntries to any site', async ({ tid, testUser, sites }) => {
       // Create custom collections for each site
       const customCollections = await Promise.all(
         sites.map(async (site) => {
@@ -65,7 +65,7 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collections',
+              collection: 'collection-types',
               data: {
                 title: `${site.name} Collection`,
                 site,
@@ -82,10 +82,10 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collection-pages',
+              collection: 'collection-entries',
               data: {
                 title: `${collection.title} - Title`,
-                collectionConfig: collection.id,
+                collectionType: collection.id,
                 site: collection.site,
               },
             },
@@ -97,7 +97,7 @@ describe('CustomCollectionPages access', () => {
       expect(newPages).toHaveLength(customCollections.length)
     })
 
-    test('update any CustomCollectionPages', async ({ tid, testUser, sites }) => {
+    test('update any CollectionEntries', async ({ tid, testUser, sites }) => {
       // Create custom collections and pages
       const customCollections = await Promise.all(
         sites.map(async (site) => {
@@ -105,7 +105,7 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collections',
+              collection: 'collection-types',
               data: {
                 title: `${site.name} Collection`,
                 site,
@@ -122,10 +122,10 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collection-pages',
+              collection: 'collection-entries',
               data: {
                 title: `${collection.title} - Page`,
-                collectionConfig: collection.id,
+                collectionType: collection.id,
                 site: collection.site,
               },
             },
@@ -140,7 +140,7 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collection-pages',
+              collection: 'collection-entries',
               id: page.id,
               data: {
                 title: `${page.title} (Edited)`,
@@ -156,67 +156,7 @@ describe('CustomCollectionPages access', () => {
       })
     })
 
-    test('update showInPageNav field', async ({ tid, testUser, sites }) => {
-      // Create custom collection and page
-      const customCollection = await create(
-        payload,
-        tid,
-        {
-          collection: 'custom-collections',
-          data: {
-            title: `${sites[0].name} Collection`,
-            site: sites[0],
-          },
-        },
-        testUser,
-      )
-
-      const page = await create(
-        payload,
-        tid,
-        {
-          collection: 'custom-collection-pages',
-          data: {
-            title: `${customCollection.title} - Page`,
-            collectionConfig: customCollection.id,
-            site: sites[0],
-          },
-        },
-        testUser,
-      )
-
-      const updatedPage = await update(
-        payload,
-        tid,
-        {
-          collection: 'custom-collection-pages',
-          id: page.id,
-          data: {
-            showInPageNav: false,
-          } as any,
-        },
-        testUser,
-      )
-
-      expect((updatedPage as any).showInPageNav).toBe(false)
-
-      const updatedPage2 = await update(
-        payload,
-        tid,
-        {
-          collection: 'custom-collection-pages',
-          id: page.id,
-          data: {
-            showInPageNav: true,
-          } as any,
-        },
-        testUser,
-      )
-
-      expect((updatedPage2 as any).showInPageNav).toBe(true)
-    })
-
-    test('delete any CustomCollectionPages', async ({ tid, testUser, sites }) => {
+    test('delete any CollectionEntries', async ({ tid, testUser, sites }) => {
       // Create custom collections and pages
       const customCollections = await Promise.all(
         sites.map(async (site) => {
@@ -224,7 +164,7 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collections',
+              collection: 'collection-types',
               data: {
                 title: `${site.name} Collection`,
                 site,
@@ -241,10 +181,10 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collection-pages',
+              collection: 'collection-entries',
               data: {
                 title: `${collection.title} - Page`,
-                collectionConfig: collection.id,
+                collectionType: collection.id,
                 site: collection.site,
               },
             },
@@ -259,7 +199,7 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collection-pages',
+              collection: 'collection-entries',
               id: page.id,
             },
             testUser,
@@ -268,7 +208,7 @@ describe('CustomCollectionPages access', () => {
       )
 
       const foundPages = await find(payload, tid, {
-        collection: 'custom-collection-pages',
+        collection: 'collection-entries',
       })
       expect(foundPages.docs.length).toBe(0)
     })
@@ -278,14 +218,14 @@ describe('CustomCollectionPages access', () => {
     // TODO: this is a bug in https://github.com/vitest-dev/vitest/pull/7233
     test.scoped({ defaultUserAdmin: false })
 
-    test('read their CustomCollectionPages', async ({ tid, testUser, sites }) => {
+    test('read their CollectionEntries', async ({ tid, testUser, sites }) => {
       const siteId = testUser.selectedSiteId
 
       // Create custom collections for all sites (without user to bypass access for non-user sites)
       const customCollections = await Promise.all(
         sites.map(async (site) => {
           return create(payload, tid, {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site,
@@ -294,14 +234,14 @@ describe('CustomCollectionPages access', () => {
         }),
       )
 
-      // Create custom collection pages for each custom collection (without user to bypass access for non-user sites)
+      // Create collection entires for each collection type (without user to bypass access for non-user sites)
       const customCollectionPages = await Promise.all(
         customCollections.map(async (collection) => {
           return create(payload, tid, {
-            collection: 'custom-collection-pages',
+            collection: 'collection-entries',
             data: {
               title: `${collection.title} - Page`,
-              collectionConfig: collection.id,
+              collectionType: collection.id,
               site: collection.site,
             },
           })
@@ -312,7 +252,7 @@ describe('CustomCollectionPages access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collection-pages',
+          collection: 'collection-entries',
         },
         testUser,
       )
@@ -327,14 +267,14 @@ describe('CustomCollectionPages access', () => {
       })
     })
 
-    test('not read not-their CustomCollectionPages', async ({ tid, testUser, sites }) => {
+    test('not read not-their CollectionEntries', async ({ tid, testUser, sites }) => {
       const siteId = testUser.selectedSiteId
 
       // Create custom collections for all sites (without user to bypass access for non-user sites)
       const customCollections = await Promise.all(
         sites.map(async (site) => {
           return create(payload, tid, {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site,
@@ -343,14 +283,14 @@ describe('CustomCollectionPages access', () => {
         }),
       )
 
-      // Create custom collection pages for each custom collection (without user to bypass access for non-user sites)
+      // Create collection entires for each collection type (without user to bypass access for non-user sites)
       const customCollectionPages = await Promise.all(
         customCollections.map(async (collection) => {
           return create(payload, tid, {
-            collection: 'custom-collection-pages',
+            collection: 'collection-entries',
             data: {
               title: `${collection.title} - Page`,
-              collectionConfig: collection.id,
+              collectionType: collection.id,
               site: collection.site,
             },
           })
@@ -368,7 +308,7 @@ describe('CustomCollectionPages access', () => {
               payload,
               tid,
               {
-                collection: 'custom-collection-pages',
+                collection: 'collection-entries',
                 id: page.id,
               },
               testUser,
@@ -378,15 +318,15 @@ describe('CustomCollectionPages access', () => {
       )
     })
 
-    test('write a CustomCollectionPages to their site', async ({ tid, testUser, sites }) => {
+    test('write a CollectionEntries to their site', async ({ tid, testUser, sites }) => {
       const siteId = testUser.selectedSiteId
 
-      // Create custom collection for their site
-      const customCollection = await create(
+      // Create collection type for their site
+      const collectionType = await create(
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           data: {
             title: `Collection - ${siteId}`,
             site: siteId,
@@ -399,10 +339,10 @@ describe('CustomCollectionPages access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collection-pages',
+          collection: 'collection-entries',
           data: {
             title: `Page Title - ${siteId}`,
-            collectionConfig: customCollection.id,
+            collectionType: collectionType.id,
             site: siteId,
           },
         },
@@ -412,7 +352,7 @@ describe('CustomCollectionPages access', () => {
       expect(newPage).toBeTruthy()
     })
 
-    test('not write a CustomCollectionPages to not-their site', async ({
+    test('not write a CollectionEntries to not-their site', async ({
       tid,
       testUser,
       sites,
@@ -423,9 +363,9 @@ describe('CustomCollectionPages access', () => {
 
       await Promise.all(
         notTheirSites.map(async (site) => {
-          // Create custom collection for not-their site (without user to bypass access)
-          const customCollection = await create(payload, tid, {
-            collection: 'custom-collections',
+          // Create collection type for not-their site (without user to bypass access)
+          const collectionType = await create(payload, tid, {
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site: site.id,
@@ -437,10 +377,10 @@ describe('CustomCollectionPages access', () => {
               payload,
               tid,
               {
-                collection: 'custom-collection-pages',
+                collection: 'collection-entries',
                 data: {
                   title: `${site.name} - Title`,
-                  collectionConfig: customCollection.id,
+                  collectionType: collectionType.id,
                   site: site.id,
                 },
               },
@@ -451,15 +391,15 @@ describe('CustomCollectionPages access', () => {
       )
     })
 
-    test('update their CustomCollectionPages', async ({ tid, testUser, sites }) => {
+    test('update their CollectionEntries', async ({ tid, testUser, sites }) => {
       const siteId = testUser.selectedSiteId
 
-      // Create custom collection for their site
-      const customCollection = await create(
+      // Create collection type for their site
+      const collectionType = await create(
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           data: {
             title: `Collection - ${siteId}`,
             site: siteId,
@@ -475,10 +415,10 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collection-pages',
+              collection: 'collection-entries',
               data: {
                 title: `Page ${num} - ${siteId}`,
-                collectionConfig: customCollection.id,
+                collectionType: collectionType.id,
                 site: siteId,
               },
             },
@@ -493,7 +433,7 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collection-pages',
+              collection: 'collection-entries',
               id: page.id,
               data: {
                 title: `${page.title} (Edited)`,
@@ -509,65 +449,14 @@ describe('CustomCollectionPages access', () => {
       })
     })
 
-    test('update showInPageNav field on their CustomCollectionPages', async ({
-      tid,
-      testUser,
-      sites,
-    }) => {
-      const siteId = testUser.selectedSiteId
-
-      // Create custom collection for their site
-      const customCollection = await create(
-        payload,
-        tid,
-        {
-          collection: 'custom-collections',
-          data: {
-            title: `Collection - ${siteId}`,
-            site: siteId,
-          },
-        },
-        testUser,
-      )
-
-      const page = await create(
-        payload,
-        tid,
-        {
-          collection: 'custom-collection-pages',
-          data: {
-            title: `Page - ${siteId}`,
-            collectionConfig: customCollection.id,
-            site: siteId,
-          },
-        },
-        testUser,
-      )
-
-      const updatedPage = await update(
-        payload,
-        tid,
-        {
-          collection: 'custom-collection-pages',
-          id: page.id,
-          data: {
-            showInPageNav: false,
-          } as any,
-        },
-        testUser,
-      )
-
-      expect((updatedPage as any).showInPageNav).toBe(false)
-    })
-
-    test('not update not-their CustomCollectionPages', async ({ tid, testUser, sites }) => {
+    test('not update not-their CollectionEntries', async ({ tid, testUser, sites }) => {
       const siteId = testUser.selectedSiteId
 
       // Create custom collections for all sites (without user to bypass access for non-user sites)
       const customCollections = await Promise.all(
         sites.map(async (site) => {
           return create(payload, tid, {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site,
@@ -576,14 +465,14 @@ describe('CustomCollectionPages access', () => {
         }),
       )
 
-      // Create custom collection pages for each custom collection (without user to bypass access for non-user sites)
+      // Create collection entires for each collection type (without user to bypass access for non-user sites)
       const customCollectionPages = await Promise.all(
         customCollections.map(async (collection) => {
           return create(payload, tid, {
-            collection: 'custom-collection-pages',
+            collection: 'collection-entries',
             data: {
               title: `${collection.title} - Page`,
-              collectionConfig: collection.id,
+              collectionType: collection.id,
               site: collection.site,
             },
           })
@@ -601,7 +490,7 @@ describe('CustomCollectionPages access', () => {
               payload,
               tid,
               {
-                collection: 'custom-collection-pages',
+                collection: 'collection-entries',
                 id: page.id,
                 data: {
                   title: `${page.title} (Edited)`,
@@ -614,15 +503,15 @@ describe('CustomCollectionPages access', () => {
       )
     })
 
-    test('delete their CustomCollectionPages', async ({ tid, testUser, sites }) => {
+    test('delete their CollectionEntries', async ({ tid, testUser, sites }) => {
       const siteId = testUser.selectedSiteId
 
-      // Create custom collection for their site
-      const customCollection = await create(
+      // Create collection type for their site
+      const collectionType = await create(
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           data: {
             title: `Collection - ${siteId}`,
             site: siteId,
@@ -638,10 +527,10 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collection-pages',
+              collection: 'collection-entries',
               data: {
                 title: `Page ${num} - ${siteId}`,
-                collectionConfig: customCollection.id,
+                collectionType: collectionType.id,
                 site: siteId,
               },
             },
@@ -656,7 +545,7 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collection-pages',
+              collection: 'collection-entries',
               id: page.id,
             },
             testUser,
@@ -665,19 +554,19 @@ describe('CustomCollectionPages access', () => {
       )
 
       const foundPages = await find(payload, tid, {
-        collection: 'custom-collection-pages',
+        collection: 'collection-entries',
       })
       expect(foundPages.docs.length).toBe(0)
     })
 
-    test('not delete not-their CustomCollectionPages', async ({ tid, testUser, sites }) => {
+    test('not delete not-their CollectionEntries', async ({ tid, testUser, sites }) => {
       const siteId = testUser.selectedSiteId
 
       // Create custom collections for all sites (without user to bypass access for non-user sites)
       const customCollections = await Promise.all(
         sites.map(async (site) => {
           return create(payload, tid, {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site,
@@ -686,14 +575,14 @@ describe('CustomCollectionPages access', () => {
         }),
       )
 
-      // Create custom collection pages for each custom collection (without user to bypass access for non-user sites)
+      // Create collection entires for each collection type (without user to bypass access for non-user sites)
       const customCollectionPages = await Promise.all(
         customCollections.map(async (collection) => {
           return create(payload, tid, {
-            collection: 'custom-collection-pages',
+            collection: 'collection-entries',
             data: {
               title: `${collection.title} - Page`,
-              collectionConfig: collection.id,
+              collectionType: collection.id,
               site: collection.site,
             },
           })
@@ -711,7 +600,7 @@ describe('CustomCollectionPages access', () => {
               payload,
               tid,
               {
-                collection: 'custom-collection-pages',
+                collection: 'collection-entries',
                 id: page.id,
               },
               testUser,
@@ -735,7 +624,7 @@ describe('CustomCollectionPages access', () => {
       })
     }
 
-    test('read all their CustomCollectionPages, upon site selection', async ({
+    test('read all their CollectionEntries, upon site selection', async ({
       tid,
       testUser,
       sites,
@@ -747,7 +636,7 @@ describe('CustomCollectionPages access', () => {
       const customCollections = await Promise.all(
         sites.map(async (site) => {
           return create(payload, tid, {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site,
@@ -756,14 +645,14 @@ describe('CustomCollectionPages access', () => {
         }),
       )
 
-      // Create custom collection pages for each custom collection (without user to bypass access for non-user sites)
+      // Create collection entires for each collection type (without user to bypass access for non-user sites)
       const customCollectionPages = await Promise.all(
         customCollections.map(async (collection) => {
           return create(payload, tid, {
-            collection: 'custom-collection-pages',
+            collection: 'collection-entries',
             data: {
               title: `${collection.title} - Page`,
-              collectionConfig: collection.id,
+              collectionType: collection.id,
               site: collection.site,
             },
           })
@@ -774,7 +663,7 @@ describe('CustomCollectionPages access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collection-pages',
+          collection: 'collection-entries',
         },
         testUser,
       )
@@ -794,7 +683,7 @@ describe('CustomCollectionPages access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collection-pages',
+          collection: 'collection-entries',
         },
         testUser,
       )
@@ -807,7 +696,7 @@ describe('CustomCollectionPages access', () => {
       })
     })
 
-    test('create a CustomCollectionPages for all their sites, upon site selection', async ({
+    test('create a CollectionEntries for all their sites, upon site selection', async ({
       tid,
       testUser,
       sites,
@@ -815,12 +704,12 @@ describe('CustomCollectionPages access', () => {
       testUser = await addSiteToUser(testUser, tid, { site: sites[1], role: 'manager' })
       const siteId = testUser.selectedSiteId
 
-      // Create custom collection for first site
+      // Create collection type for first site
       const customCollection1 = await create(
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           data: {
             title: `Collection - ${siteId}`,
             site: siteId,
@@ -833,10 +722,10 @@ describe('CustomCollectionPages access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collection-pages',
+          collection: 'collection-entries',
           data: {
             title: `Page Title - ${siteId}`,
-            collectionConfig: customCollection1.id,
+            collectionType: customCollection1.id,
             site: siteId,
           },
         },
@@ -850,12 +739,12 @@ describe('CustomCollectionPages access', () => {
       testUser = await setUserSite(payload, tid, testUser, sites[1].id)
       const newSiteId = testUser.selectedSiteId
 
-      // Create custom collection for second site
+      // Create collection type for second site
       const customCollection2 = await create(
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           data: {
             title: `Collection - ${newSiteId}`,
             site: newSiteId,
@@ -868,10 +757,10 @@ describe('CustomCollectionPages access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collection-pages',
+          collection: 'collection-entries',
           data: {
             title: `Page Title - ${newSiteId}`,
-            collectionConfig: customCollection2.id,
+            collectionType: customCollection2.id,
             site: newSiteId,
           },
         },
@@ -881,7 +770,7 @@ describe('CustomCollectionPages access', () => {
       expect(siteIdHelper(newPage.site)).toBe(newSiteId)
     })
 
-    test('delete a CustomCollectionPages for all their sites, upon site selection', async ({
+    test('delete a CollectionEntries for all their sites, upon site selection', async ({
       tid,
       testUser,
       sites,
@@ -889,12 +778,12 @@ describe('CustomCollectionPages access', () => {
       testUser = await addSiteToUser(testUser, tid, { site: sites[1], role: 'manager' })
       const siteId = testUser.selectedSiteId
 
-      // Create custom collection for first site
+      // Create collection type for first site
       const customCollection1 = await create(
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           data: {
             title: `Collection - ${siteId}`,
             site: siteId,
@@ -910,10 +799,10 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collection-pages',
+              collection: 'collection-entries',
               data: {
                 title: `Page ${num} - ${siteId}`,
-                collectionConfig: customCollection1.id,
+                collectionType: customCollection1.id,
                 site: siteId,
               },
             },
@@ -928,7 +817,7 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collection-pages',
+              collection: 'collection-entries',
               id: page.id,
             },
             testUser,
@@ -937,7 +826,7 @@ describe('CustomCollectionPages access', () => {
       )
 
       let foundPages = await find(payload, tid, {
-        collection: 'custom-collection-pages',
+        collection: 'collection-entries',
       })
       expect(foundPages.docs.length).toBe(0)
 
@@ -945,12 +834,12 @@ describe('CustomCollectionPages access', () => {
       testUser = await setUserSite(payload, tid, testUser, sites[1].id)
       const newSiteId = testUser.selectedSiteId
 
-      // Create custom collection for second site
+      // Create collection type for second site
       const customCollection2 = await create(
         payload,
         tid,
         {
-          collection: 'custom-collections',
+          collection: 'collection-types',
           data: {
             title: `Collection - ${newSiteId}`,
             site: newSiteId,
@@ -966,10 +855,10 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collection-pages',
+              collection: 'collection-entries',
               data: {
                 title: `Page ${num} - ${newSiteId}`,
-                collectionConfig: customCollection2.id,
+                collectionType: customCollection2.id,
                 site: newSiteId,
               },
             },
@@ -984,7 +873,7 @@ describe('CustomCollectionPages access', () => {
             payload,
             tid,
             {
-              collection: 'custom-collection-pages',
+              collection: 'collection-entries',
               id: page.id,
             },
             testUser,
@@ -993,7 +882,7 @@ describe('CustomCollectionPages access', () => {
       )
 
       foundPages = await find(payload, tid, {
-        collection: 'custom-collection-pages',
+        collection: 'collection-entries',
       })
       expect(foundPages.docs.length).toBe(0)
     })
@@ -1002,14 +891,14 @@ describe('CustomCollectionPages access', () => {
   describe('bots can...', async () => {
     test.scoped({ defaultUserAdmin: false, defaultUserRole: 'bot' })
 
-    test('read their CustomCollectionPages', async ({ tid, testUser, sites }) => {
+    test('read their CollectionEntries', async ({ tid, testUser, sites }) => {
       const siteId = testUser.selectedSiteId
 
       // Create custom collections for all sites (without user to bypass access)
       const customCollections = await Promise.all(
         sites.map(async (site) => {
           return create(payload, tid, {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site,
@@ -1018,14 +907,14 @@ describe('CustomCollectionPages access', () => {
         }),
       )
 
-      // Create custom collection pages for each custom collection (without user to bypass access)
+      // Create collection entires for each collection type (without user to bypass access)
       const customCollectionPages = await Promise.all(
         customCollections.map(async (collection) => {
           return create(payload, tid, {
-            collection: 'custom-collection-pages',
+            collection: 'collection-entries',
             data: {
               title: `${collection.title} - Page`,
-              collectionConfig: collection.id,
+              collectionType: collection.id,
               site: collection.site,
             },
           })
@@ -1036,7 +925,7 @@ describe('CustomCollectionPages access', () => {
         payload,
         tid,
         {
-          collection: 'custom-collection-pages',
+          collection: 'collection-entries',
         },
         testUser,
       )
@@ -1051,14 +940,14 @@ describe('CustomCollectionPages access', () => {
       })
     })
 
-    test('not read not-their CustomCollectionPages', async ({ tid, testUser, sites }) => {
+    test('not read not-their CollectionEntries', async ({ tid, testUser, sites }) => {
       const siteId = testUser.selectedSiteId
 
       // Create custom collections for all sites (without user to bypass access)
       const customCollections = await Promise.all(
         sites.map(async (site) => {
           return create(payload, tid, {
-            collection: 'custom-collections',
+            collection: 'collection-types',
             data: {
               title: `${site.name} Collection`,
               site,
@@ -1067,14 +956,14 @@ describe('CustomCollectionPages access', () => {
         }),
       )
 
-      // Create custom collection pages for each custom collection (without user to bypass access)
+      // Create collection entires for each collection type (without user to bypass access)
       const customCollectionPages = await Promise.all(
         customCollections.map(async (collection) => {
           return create(payload, tid, {
-            collection: 'custom-collection-pages',
+            collection: 'collection-entries',
             data: {
               title: `${collection.title} - Page`,
-              collectionConfig: collection.id,
+              collectionType: collection.id,
               site: collection.site,
             },
           })
@@ -1092,7 +981,7 @@ describe('CustomCollectionPages access', () => {
               payload,
               tid,
               {
-                collection: 'custom-collection-pages',
+                collection: 'collection-entries',
                 id: page.id,
               },
               testUser,
@@ -1102,10 +991,10 @@ describe('CustomCollectionPages access', () => {
       )
     })
 
-    test('not write a CustomCollectionPages', async ({ tid, testUser, sites }) => {
-      // Create custom collection for first site (without user to bypass access)
-      const customCollection = await create(payload, tid, {
-        collection: 'custom-collections',
+    test('not write a CollectionEntries', async ({ tid, testUser, sites }) => {
+      // Create collection type for first site (without user to bypass access)
+      const collectionType = await create(payload, tid, {
+        collection: 'collection-types',
         data: {
           title: `${sites[0].name} Collection`,
           site: sites[0],
@@ -1117,10 +1006,10 @@ describe('CustomCollectionPages access', () => {
           payload,
           tid,
           {
-            collection: 'custom-collection-pages',
+            collection: 'collection-entries',
             data: {
               title: `${sites[0].name} - Title`,
-              collectionConfig: customCollection.id,
+              collectionType: collectionType.id,
               site: sites[0],
             },
           },
@@ -1129,10 +1018,10 @@ describe('CustomCollectionPages access', () => {
       )
     })
 
-    test('not update CustomCollectionPages', async ({ tid, testUser, sites }) => {
-      // Create custom collection for first site (without user to bypass access)
-      const customCollection = await create(payload, tid, {
-        collection: 'custom-collections',
+    test('not update CollectionEntries', async ({ tid, testUser, sites }) => {
+      // Create collection type for first site (without user to bypass access)
+      const collectionType = await create(payload, tid, {
+        collection: 'collection-types',
         data: {
           title: `${sites[0].name} Collection`,
           site: sites[0],
@@ -1141,10 +1030,10 @@ describe('CustomCollectionPages access', () => {
 
       // Create page without user (using overrideAccess)
       const page = await create(payload, tid, {
-        collection: 'custom-collection-pages',
+        collection: 'collection-entries',
         data: {
           title: `${sites[0].name} - Page`,
-          collectionConfig: customCollection.id,
+          collectionType: collectionType.id,
           site: sites[0],
         },
       })
@@ -1154,7 +1043,7 @@ describe('CustomCollectionPages access', () => {
           payload,
           tid,
           {
-            collection: 'custom-collection-pages',
+            collection: 'collection-entries',
             id: page.id,
             data: {
               title: `${page.title} (Edited)`,
@@ -1165,10 +1054,10 @@ describe('CustomCollectionPages access', () => {
       )
     })
 
-    test('not delete CustomCollectionPages', async ({ tid, testUser, sites }) => {
-      // Create custom collection for first site (without user to bypass access)
-      const customCollection = await create(payload, tid, {
-        collection: 'custom-collections',
+    test('not delete CollectionEntries', async ({ tid, testUser, sites }) => {
+      // Create collection type for first site (without user to bypass access)
+      const collectionType = await create(payload, tid, {
+        collection: 'collection-types',
         data: {
           title: `${sites[0].name} Collection`,
           site: sites[0],
@@ -1177,10 +1066,10 @@ describe('CustomCollectionPages access', () => {
 
       // Create page without user (using overrideAccess)
       const page = await create(payload, tid, {
-        collection: 'custom-collection-pages',
+        collection: 'collection-entries',
         data: {
           title: `${sites[0].name} - Page`,
-          collectionConfig: customCollection.id,
+          collectionType: collectionType.id,
           site: sites[0],
         },
       })
@@ -1190,7 +1079,7 @@ describe('CustomCollectionPages access', () => {
           payload,
           tid,
           {
-            collection: 'custom-collection-pages',
+            collection: 'collection-entries',
             id: page.id,
           },
           testUser,

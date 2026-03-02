@@ -32,7 +32,7 @@ export const getCollectionPreviewUrl = (
 export const getCustomCollectionLivePreview = async ({ data, req }): Promise<string | null> => {
   try {
     const record = await req.payload.findByID({
-      collection: 'custom-collection-pages',
+      collection: 'collection-entries',
       id: data.id,
     })
 
