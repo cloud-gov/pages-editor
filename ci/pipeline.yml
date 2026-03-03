@@ -29,6 +29,8 @@ jobs:
         instance_vars:
           deploy-env: ((deploy-env))
 
+  #! Temp until we deploy prod app
+  #@ if/end env != 'production':
   - name: test-db
     plan:
       - get: src
@@ -71,6 +73,8 @@ jobs:
         -  #@ pr_hook("success", "test-pages-editor")
 
 
+  #! Temp until we deploy prod app
+  #@ if/end env != 'production':
   - name: deploy-pages-editor
     plan:
       - get: src
@@ -146,6 +150,8 @@ jobs:
         #@ if/end env == 'dev':
         -  #@ pr_hook("success", "deploy-pages-editor")
 
+  #! Temp until we deploy prod app
+  #@ if/end env != 'production':
   - name: create-user-provided-service-pages-bucket-manager
     plan:
       - get: weekly-tuesdays-at-7am
@@ -175,6 +181,34 @@ jobs:
       in_parallel:
         -  #@ slack_hook("success", "create-user-provided-service-pages-bucket-manager")
 
+  #@ if/end env == 'staging':
+  - name: update-release-branch
+    plan:
+      - get: src
+        passed:
+          - deploy-pages-editor
+        trigger: true
+      - get: general-task
+      - get: pipeline-tasks
+      - task: update-release-branch
+        image: general-task
+        file: pipeline-tasks/tasks/update-release-branch.yml
+
+  #@ if/end env == 'production':
+  - name: release
+    plan:
+      - get: src
+        params: { depth: 1 }
+        trigger: true
+        passed: [set-pipeline]
+      -  #@ template.replace(data.values.release_steps)
+      - put: slack-cg-pages
+        params:
+          text_file: src/slackrelease.md
+          channel: ((slack-channel))
+          username: ((slack-username))
+          icon_url: ((slack-icon-url))
+
 #!  RESOURCES
 
 resources:
@@ -184,7 +218,7 @@ resources:
     check_every: 1m
     source:
       repository: ((pages-editor-repository-path))
-      access_token: ((pages-operations-ci-github-token))
+      access_token: ((gh-access-token))
       base_branch: main
       disable_forks: true
       ignore_drafts: false
@@ -199,7 +233,7 @@ resources:
       commit_verification_keys: ((cloud-gov-pages-gpg-keys))
       private_key: ((pages-gpg-operations-github-sshkey.private_key))
 
-  #@ if/end env == 'production':
+  #@ if env == 'production':
   - name: src
     type: git
     icon: github
@@ -210,7 +244,21 @@ resources:
       tag_filter: 0.*.*
       fetch_tags: true
 
+  - name: pages-release
+    type: github-release
+    source:
+      owner: cloud-gov
+      repository: pages-editor
+      access_token: ((gh-access-token))
 
+  - name: slack-cg-pages
+    type: slack-notification
+    source:
+      url: ((slack-webhook-url-cg-pages))
+  #@ end
+
+  #! Temp until we deploy prod app
+  #@ if env != 'production':
   - name: weekly-tuesdays-at-7am
     type: time
     source:
@@ -221,11 +269,14 @@ resources:
       days: [Tuesday]
       initial_version: true
 
+
   - name: node22
+  - name: postgres
   - name: slack
+  #@ end
+
   - name: general-task
   - name: pipeline-tasks
-  - name: postgres
 
 #!  RESOURCE TYPES
 
@@ -236,3 +287,5 @@ resource_types:
   - name: time
   #@ if/end env == 'dev':
   - name: pull-request
+  #@ if/end env == 'production':
+  - name: github-release
