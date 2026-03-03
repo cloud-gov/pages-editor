@@ -1,6 +1,6 @@
 {
   "name": "pages-editor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A customized Payload CMS editor for creating and managing federal websites",
   "license": "MIT",
   "type": "module",
