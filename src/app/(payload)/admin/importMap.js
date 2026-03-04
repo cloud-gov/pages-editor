@@ -39,6 +39,7 @@ import { default as default_2e6cf1b1b850543a1bd5771a5b86ee4d } from '@/component
 import { default as default_32d7f490396abda7b466903585904485 } from '@/components/RemoveUser'
 import { default as default_7ce813284ffa92867fd9fdc508e13505 } from 'src/components/UserCollectionDescription'
 import { default as default_fedc587b86d65a6c9503093fbd9e9e2f } from '@/components/CustomPublishButton'
+import { default as default_3bc18fd30d5ade65e6019de9d11f9d55 } from '@/components/CustomDashboard/Nav'
 import { Icon as Icon_9c1a3ff8a9adb7b1e4b7a5cd42725bdb } from '../../../graphics/Icon/index.tsx'
 import { Logo as Logo_217937c36742cdefe571d11857c968fa } from '../../../graphics/Logo/index.tsx'
 import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/components/BeforeLogin'
@@ -89,6 +90,7 @@ export const importMap = {
   "@/components/RemoveUser#default": default_32d7f490396abda7b466903585904485,
   "src/components/UserCollectionDescription#default": default_7ce813284ffa92867fd9fdc508e13505,
   "@/components/CustomPublishButton#default": default_fedc587b86d65a6c9503093fbd9e9e2f,
+  "@/components/CustomDashboard/Nav#default": default_3bc18fd30d5ade65e6019de9d11f9d55,
   "/graphics/Icon/index.tsx#Icon": Icon_9c1a3ff8a9adb7b1e4b7a5cd42725bdb,
   "/graphics/Logo/index.tsx#Logo": Logo_217937c36742cdefe571d11857c968fa,
   "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
