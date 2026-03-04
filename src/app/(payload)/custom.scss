@@ -36,6 +36,7 @@
   --color-primary-light: #73b3e7;
   --color-primary-lightest: #e6f2ff;
   --color-base-darker: #1b1b1b;
+  --color-gray-10: #f9f9f9;
   --color-gray-20: #f0f0f0;
   --color-gray-60: #757575;
   --color-gray-90: #1b1b1b;
@@ -304,7 +305,7 @@ button {
 }
 
 .usa-card__container {
-  background-color: #f0f0f0;
+  background-color: var(--color-gray-10);
   min-height: 150px;
   border-radius: var(--radius-base);
   margin: 0;
@@ -319,7 +320,7 @@ button {
 
   .usa-card__heading {
     font-family: var(--font-body);
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-xl);
     font-weight: 600;
   }
 
@@ -559,7 +560,7 @@ button {
 
 .start-here-card__icon {
   flex-shrink: 0;
-  color: #1f2937;
+  color: var(--color-base-darker);
 }
 
 .start-here-card__icon svg {
@@ -579,7 +580,7 @@ button {
   margin: 0 0 0.5rem 0;
   font-size: 1.5rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-base-darker);
   line-height: 1.2;
 }
 
@@ -602,13 +603,28 @@ button {
   transition: background-color 0.2s ease;
   white-space: nowrap;
   align-self: flex-end;
+  text-decoration: none;
 }
 
 .start-here-card__button:hover {
-  background-color: #1f2937;
+  background-color: var(--color-base-darker);
 }
 
-.start-here-card__button:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
+.link-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #374151;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+  align-self: flex-end;
+  text-decoration: none;
+}
+
+.link-button:hover {
+  background-color: var(--color-base-darker);
 }
