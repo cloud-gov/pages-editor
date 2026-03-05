@@ -1,3 +1,9 @@
+## 0.2.1 (2026-03-05)
+
+### Maintenance
+
+- update user collection to mask bot users
+
 ## 0.2.0 (2026-03-03)
 
 ### Added
