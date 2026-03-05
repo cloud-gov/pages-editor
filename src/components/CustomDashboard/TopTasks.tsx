@@ -2,14 +2,17 @@
 
 import React, { useEffect, useState } from 'react'
 import { Site } from '@/payload-types'
-interface StartHereCardProps {
+import Link from 'next/link'
+
+interface TopTasksCardProps {
   title: string
   description?: string
   href: string
   linkLabel: string
   type: 'collection' | 'user' | 'document'
 }
-const StartHereCards: React.FC<StartHereCardProps> = ({
+
+const TopTasksCards: React.FC<TopTasksCardProps> = ({
   type,
   title,
   description,
@@ -69,36 +72,35 @@ const StartHereCards: React.FC<StartHereCardProps> = ({
           <h2 className="start-here-card__title">{title}</h2>
           <p className="start-here-card__description">{description}</p>
         </div>
-        <a href={href} className="start-here-card__button">
+        <Link href={href} className="start-here-card__button">
           {linkLabel}
-        </a>
+        </Link>
       </div>
     </div>
   )
 }
-interface StartHereProps {
+
+interface TopTasksProps {
   sites: Site[]
-  selectedSiteId?: string
+  selectedSiteId?: string | null
   role?: string | undefined | null
 }
 
-const StartHere: React.FC<StartHereProps> = ({ sites, selectedSiteId, role }) => {
+const TopTasks: React.FC<TopTasksProps> = ({ role }) => {
   // this is duplicated state but it helps refresh this component when needed
   const [shouldDisplay, setShouldDisplay] = useState(false)
 
   // Check localStorage on component mount
   useEffect(() => {
-    const displayStartHere = localStorage.getItem('displayStartHere')
+    const displayTopTasks = localStorage.getItem('displayTopTasks')
     // If not set in localStorage, default to true (show the component)
-    setShouldDisplay(displayStartHere !== 'false')
+    setShouldDisplay(displayTopTasks === null ? true : displayTopTasks === 'true' ? true : false)
   }, [])
 
-  const handleClose = () => {
-    localStorage.setItem('displayStartHere', 'false')
-    setShouldDisplay(false)
+  const toggleGettingStarted = () => {
+    localStorage.setItem('displayTopTasks', `${!shouldDisplay}`)
+    setShouldDisplay(!shouldDisplay)
   }
-
-  if (!shouldDisplay) return null
 
   return (
     <div className="usa-summary-box" role="region" aria-labelledby="site-selection">
@@ -107,60 +109,62 @@ const StartHere: React.FC<StartHereProps> = ({ sites, selectedSiteId, role }) =>
           <button
             type="button"
             className="usa-button usa-button--unstyled text-no-underline"
-            aria-label="Close this window"
+            aria-label="Expand or hide the getting started section"
             data-close-modal
-            onClick={handleClose}
+            onClick={toggleGettingStarted}
           >
-            ✗
+            {shouldDisplay ? 'Hide' : 'Expand'}
           </button>
         </div>
         <div className="display-flex flex-start">
           <h2 className="usa-summary-box__heading" id="site-selection">
-            Start Here
+            Top Tasks
           </h2>
         </div>
         <p>
-          Here is some helpful text that will explain what to do first! And it&apos;s dismissable! and
-          hopefully updates once you&apos;ve done these things!
+          Here is some helpful text that will explain what to do first! And it&apos;s dismissable!
         </p>
       </div>
-      <div className="usa-summary-box__body">
-        <div className="margin-y-4">
-          <div className="grid-row grid-gap-2">
-            {role === 'manager' && (
+
+      {shouldDisplay && (
+        <div className="usa-summary-box__body">
+          <div className="margin-y-4">
+            <div className="grid-row grid-gap-2">
+              {role === 'manager' && (
+                <div className="grid-col-12 tablet:grid-col-6 desktop:grid-col-4">
+                  <TopTasksCards
+                    title="Invite your team"
+                    description="Add your team members to collaborate on this site. You can assign different roles and permissions to control access."
+                    href="/admin/collections/users/create"
+                    linkLabel="Invite a user"
+                    type="user"
+                  />
+                </div>
+              )}
               <div className="grid-col-12 tablet:grid-col-6 desktop:grid-col-4">
-                <StartHereCards
-                  title="Invite your team"
-                  description="Add your team members to collaborate on this site. You can assign different roles and permissions to control access."
-                  href="/admin/collections/users"
-                  linkLabel="Invite a user"
-                  type="user"
+                <TopTasksCards
+                  title="Define your first collection"
+                  description="Collection types are templates for content. Create one to get started adding content!"
+                  href="/admin/collections/collection-types/create"
+                  linkLabel="Create a collection"
+                  type="collection"
                 />
               </div>
-            )}
-            <div className="grid-col-12 tablet:grid-col-6 desktop:grid-col-4">
-              <StartHereCards
-                title="Define your first collection"
-                description="Collection types are templates for content. Create one to get started adding content!"
-                href="/admin/collections/collection-types"
-                linkLabel="Create a collection"
-                type="collection"
-              />
-            </div>
-            <div className="grid-col-12 tablet:grid-col-6 desktop:grid-col-4">
-              <StartHereCards
-                title="Draft some starter content"
-                description="Create some initial content for your site to get started."
-                href="/admin/collections/collection-entries"
-                linkLabel="Start drafting content"
-                type="document"
-              />
+              <div className="grid-col-12 tablet:grid-col-6 desktop:grid-col-4">
+                <TopTasksCards
+                  title="Draft some starter content"
+                  description="Create some initial content for your site to get started."
+                  href="/admin/collections/collection-entries/create"
+                  linkLabel="Start drafting content"
+                  type="document"
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
 
-export default StartHere
+export default TopTasks

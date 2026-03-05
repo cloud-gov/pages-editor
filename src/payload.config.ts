@@ -73,6 +73,7 @@ const config = {
         Logo: '/graphics/Logo/index.tsx#Logo',
         Icon: '/graphics/Icon/index.tsx#Icon',
       },
+      Nav: '@/components/CustomDashboard/Nav',
       views: {
         dashboard: {
           Component: '@/components/CustomDashboard',
