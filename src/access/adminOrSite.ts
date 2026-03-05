@@ -87,6 +87,18 @@ export function getAdminOrSiteUser(
       },
     }
 
+    // exclude bot users for non-admins (read/update/create). admins bypase above.
+    if (slug === 'users') {
+      query.and = [
+        ...(query.and || []),
+        {
+          'sites.role': {
+            not_equals: 'bot',
+          }
+        }
+      ]
+    }
+
     return query
   }
   return adminOrSiteUser

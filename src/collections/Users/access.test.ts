@@ -1,12 +1,16 @@
 import { expect, describe } from 'vitest'
 import { create, find, findByID, update, del, setUserSite } from '@test/utils/localHelpers';
 import { test } from '@test/utils/test';
-import { siteIdHelper } from '@/utilities/idHelper';
+import { siteIdHelper, getUserSiteIds } from '@/utilities/idHelper';
 import { isAccessError, notFoundError } from '@test/utils/errors';
-import { getUserSiteIds } from '@/utilities/idHelper';
 import { v4 as uuid } from 'uuid';
 
 describe('Users access',  () => {
+    const hasBotRoleForSite = (user, siteId: number) => {
+        const siteEntry = (user.sites ?? []).find(s => siteIdHelper(s.site) === siteId);
+        return siteEntry?.role === 'bot';
+    }
+    
     describe('admins can...', async () => {
         test.scoped({ defaultUserAdmin: true })
 
@@ -81,13 +85,15 @@ describe('Users access',  () => {
                 collection: 'users'
             }, testUser)
 
-            const expectedUsers = users.filter(user => {
-                return getUserSiteIds(user).includes(siteId)
-            })
-            // filtered users and the test user
+            const expectedUsers = users
+                .filter(user => getUserSiteIds(user).includes(siteId))
+                .filter(user => !hasBotRoleForSite(user, siteId))
             expect(foundUsers.docs).toHaveLength(expectedUsers.length + 1)
             foundUsers.docs.forEach(user => {
                 expect(getUserSiteIds(user)).toContain(siteId)
+
+                const siteEntry = (user.sites ?? []).find(s => siteIdHelper(s.site) === siteId)
+                if (siteEntry) expect(siteEntry.role).not.toBe('bot')
             })
         })
 
@@ -105,6 +111,42 @@ describe('Users access',  () => {
                 }, testUser))
             }))
         })
+
+        test('not read bot users', async ({ tid, testUser }) => {
+            const siteId = testUser.selectedSiteId;
+
+            // create a bot user on the manager's current site
+            const botUser = await create(payload, tid, {
+                collection: 'users',
+                data: {
+                email: `bot-${siteId}@agency.gov`,
+                sites: [
+                    {
+                    site: siteId,
+                    role: 'bot',
+                    },
+                ],
+                selectedSiteId: siteId,
+                sub: uuid(),
+                },
+            }, testUser /* manager perms from test.scoped */);
+
+            // list users as the site manager
+            const result = await find(payload, tid, { collection: 'users' }, testUser);
+
+            // assert the specific bot user should not be included
+            const returnedIds = result.docs.map(u => u.id);
+            expect(returnedIds).not.toContain(botUser.id);
+
+            // assert none of the returned users have role=bot for this site
+            result.docs.forEach(u => {
+                const relevant = (u.sites ?? []).find(s => siteIdHelper(s.site) === siteId);
+                // If user is on this site, the role must not be 'bot'
+                if (relevant) {
+                expect(relevant.role).not.toBe('bot');
+                }
+            });
+        });
 
         test('create a User for their site', async ({ tid, testUser }) => {
             const siteId = testUser.selectedSiteId
@@ -128,9 +170,7 @@ describe('Users access',  () => {
         test('not create a User for not-their site', async ({ tid, testUser, sites }) => {
             const siteId = testUser.selectedSiteId
 
-            const notTheirSites = sites.filter(site => {
-                site.id !== siteId
-            })
+            const notTheirSites = sites.filter(site => site.id !== siteId)
 
             await Promise.all(notTheirSites.map(async site => {
                 return isAccessError(create(payload, tid, {
@@ -151,9 +191,22 @@ describe('Users access',  () => {
         test('update their Users', async ({ tid, testUser, users }) => {
             const siteId = testUser.selectedSiteId
 
-            const theirUsers = users.filter(user => {
-                return getUserSiteIds(user).includes(siteId)
-            })
+            let theirUsers = users
+                .filter(user => getUserSiteIds(user).includes(siteId))
+                .filter(user => !hasBotRoleForSite(user, siteId))
+
+            if (theirUsers.length === 0) {
+                const bootstrap = await create(payload, tid, {
+                    collection: 'users',
+                    data: {
+                        email: `bootstrap-update@agency${siteId}.gov`,
+                        sites: [{ site: siteId, role: 'user'}],
+                        selectedSiteId: siteId,
+                        sub: uuid(),
+                    }
+                }, testUser)
+                theirUsers = [bootstrap]
+            }
 
             const newUsers = await Promise.all(theirUsers.map(async user => {
                 return update(payload, tid, {
@@ -163,7 +216,7 @@ describe('Users access',  () => {
                         sites: [{
                             site: siteId,
                             role: 'manager'
-                        }],
+                        }]
                     }
                 }, testUser)
             }))
@@ -178,9 +231,22 @@ describe('Users access',  () => {
         test('only update their Users role or sites', async ({ tid, testUser, users }) => {
             const siteId = testUser.selectedSiteId
 
-            const theirUsers = users.filter(user => {
-                return getUserSiteIds(user).includes(siteId)
-            })
+            let theirUsers = users
+                .filter(user => getUserSiteIds(user).includes(siteId))
+                .filter(user => !hasBotRoleForSite(user, siteId))
+
+            if (theirUsers.length === 0) {
+                const bootstrap = await create(payload, tid, {
+                    collection: 'users',
+                    data: {
+                        email: `bootstrap-update@agency${siteId}.gov`,
+                        sites: [{ site: siteId, role: 'user'}],
+                        selectedSiteId: siteId,
+                        sub: uuid(),
+                    }
+                }, testUser)
+                theirUsers = [bootstrap]
+            }
 
             const newUsers = await Promise.all(theirUsers.map(async user => {
                 return update(payload, tid, {
@@ -284,27 +350,29 @@ describe('Users access',  () => {
                 collection: 'users'
             }, testUser)
 
-            let expectedUsers = users.filter(user => {
-                return getUserSiteIds(user).includes(siteId)
-            })
-            // filtered users and the test user
+            let expectedUsers = users
+                .filter(user => getUserSiteIds(user).includes(siteId))
+                .filter(user => !hasBotRoleForSite(user, siteId))
             expect(foundUsers.docs).toHaveLength(expectedUsers.length + 1)
             foundUsers.docs.forEach(user => {
                 expect(getUserSiteIds(user)).toContain(siteId)
+
+                const siteEntry = (user.sites ?? []).find(s => siteIdHelper(s.site) === siteId)
+                if (siteEntry) expect(siteEntry.role).not.toBe('bot')
             })
 
             // switch site
             testUser = await setUserSite(payload, tid, testUser, sites[1].id)
             const newSiteId = testUser.selectedSiteId
 
+            expectedUsers = users
+                .filter(user => getUserSiteIds(user).includes(newSiteId))
+                .filter(user => !hasBotRoleForSite(user, newSiteId))
+
             foundUsers = await find(payload, tid, {
                 collection: 'users'
             }, testUser)
 
-            expectedUsers = users.filter(user => {
-                return getUserSiteIds(user).includes(newSiteId)
-            })
-            // filtered users and the test user
             expect(foundUsers.docs).toHaveLength(expectedUsers.length + 1)
             foundUsers.docs.forEach(user => {
                 expect(getUserSiteIds(user)).toContain(newSiteId)
@@ -356,9 +424,9 @@ describe('Users access',  () => {
 
             const siteId = testUser.selectedSiteId
 
-            let theirUsers = users.filter(user => {
-                return getUserSiteIds(user).includes(siteId)
-            })
+            let theirUsers = users
+                .filter(user => getUserSiteIds(user).includes(siteId))
+                .filter(user => !hasBotRoleForSite(user, siteId))
 
             let newUsers = await Promise.all(theirUsers.map(async user => {
                 return update(payload, tid, {
@@ -384,9 +452,9 @@ describe('Users access',  () => {
 
             const newSiteId = testUser.selectedSiteId
 
-            theirUsers = users.filter(user => {
-                return getUserSiteIds(user).includes(newSiteId)
-            })
+            theirUsers = users
+                .filter(user => getUserSiteIds(user).includes(newSiteId))
+                .filter(user => !hasBotRoleForSite(user, newSiteId))
 
             newUsers = await Promise.all(theirUsers.map(async user => {
                 return update(payload, tid, {
@@ -419,13 +487,15 @@ describe('Users access',  () => {
                 collection: 'users'
             }, testUser)
 
-            const expectedUsers = users.filter(user => {
-                return getUserSiteIds(user).includes(siteId)
-            })
-            // filtered users and the test user
+            const expectedUsers = users
+                .filter(user => getUserSiteIds(user).includes(siteId))
+                .filter(user => !hasBotRoleForSite(user, siteId))
             expect(foundUsers.docs).toHaveLength(expectedUsers.length + 1)
             foundUsers.docs.forEach(user => {
                 expect(getUserSiteIds(user)).toContain(siteId)
+
+                const siteEntry = (user.sites ?? []).find(s => siteIdHelper(s.site) === siteId)
+                if (siteEntry) expect(siteEntry.role).not.toBe('bot')
             })
         })
 
@@ -443,6 +513,37 @@ describe('Users access',  () => {
                 }, testUser))
             }))
         })
+
+        test('not read bot users', async ({ tid, testUser }) => {
+            // create a bot user on this user's current site (done with admin context)
+            const siteId = testUser.selectedSiteId;
+
+            const adminUser = { isAdmin: true };
+            const botUser = await create(payload, tid, {
+                collection: 'users',
+                data: {
+                email: `bot-${siteId}@agency.gov`,
+                sites: [
+                    { site: siteId, role: 'bot' },
+                ],
+                selectedSiteId: siteId,
+                sub: uuid(),
+                },
+            }, adminUser);
+
+            // list users as the regular site user
+            const result = await find(payload, tid, { collection: 'users' }, testUser);
+
+            const returnedIds = result.docs.map(u => u.id);
+            expect(returnedIds).not.toContain(botUser.id);
+
+            result.docs.forEach(u => {
+                const relevant = (u.sites ?? []).find(s => siteIdHelper(s.site) === siteId);
+                if (relevant) {
+                expect(relevant.role).not.toBe('bot');
+                }
+            });
+        });
 
         test('not create a User', async ({ tid, testUser, sites }) => {
             await Promise.all(sites.map(async site => {
