@@ -1,21 +1,17 @@
 'use client'
-import React, { use, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Select } from '@payloadcms/ui'
 import { Site, SiteConfig } from '@/payload-types'
-import { useRouter } from 'next/navigation'
-
-const baseClass = 'site-select'
 
 interface SiteSelectProps {
   sites: Site[]
-  selectedSiteId?: string
+  selectedSiteId?: string | null
 }
 
 const SiteSelect: React.FC<SiteSelectProps> = ({ sites, selectedSiteId }) => {
   // this is duplicated state but it helps refresh this component when needed
   const [localSiteId, setLocalSiteId] = useState(selectedSiteId)
   const [currentSiteIdentity, setCurrentSiteIdentity] = useState<SiteConfig | null>(null)
-  const router = useRouter()
 
   useEffect(() => {
     async function fetchSiteIdentity(id: string) {
@@ -81,18 +77,22 @@ const SiteSelect: React.FC<SiteSelectProps> = ({ sites, selectedSiteId }) => {
   const currentSiteOption = { value: match.id, label: match.name }
 
   return (
-    <div className={baseClass}>
-      <div className="usa-summary-box" role="region" aria-labelledby="site-selection">
-        <div className="usa-summary-box__body">
-          <h2 className="usa-summary-box__heading" id="site-selection">
-            Welcome to your dashboard!
-          </h2>
-          <p>Signed in to {currentSiteIdentity?.agencyName}</p>
-          {siteOptions.length > 1 && (
-            <div className="usa-summary-box__text margin-top-1">
-              <label htmlFor="site-select" className="usa-label">
-                Select Site:
-              </label>
+    <div className="grid-row grid-gap display-flex flex-align-center">
+      <div className="grid-col-12 tablet:grid-col-4">
+        <h2 id="site-selection">
+          <p>
+            <span className="text-normal">Site:</span> {currentSiteIdentity?.agencyName}
+          </p>
+        </h2>
+      </div>
+
+      {siteOptions.length > 1 && (
+        <div className="usa-form-group grid-col-12 tablet:grid-col-6 tablet:grid-offset-2 desktop:grid-col-4 desktop:grid-offset-4">
+          <div className="grid-row grid-gap display-flex flex-align-center">
+            <div className="grid-col-auto">
+              <label htmlFor="site-select">Select Site:</label>
+            </div>
+            <div className="grid-col-fill">
               <Select
                 id="site-select"
                 options={siteOptions}
@@ -100,9 +100,9 @@ const SiteSelect: React.FC<SiteSelectProps> = ({ sites, selectedSiteId }) => {
                 onChange={onChange}
               />
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
