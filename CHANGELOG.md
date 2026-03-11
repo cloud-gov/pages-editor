@@ -1,3 +1,14 @@
+## 0.3.0 (2026-03-11)
+
+### Added
+
+- Refactor admin dashboard #266
+
+### Maintenance
+
+- Deprecate unused collections for initial data model
+- update user collection to mask bot users
+
 ## 0.2.0 (2026-03-03)
 
 ### Added
