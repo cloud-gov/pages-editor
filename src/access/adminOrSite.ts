@@ -1,5 +1,5 @@
 import type { Access, FieldAccess, CollectionSlug, Where } from 'payload'
-import type { Post, User, Site, Event, Media, News, Page, SiteConfig } from '@/payload-types'
+import type { User, Site, Media, Page, SiteConfig } from '@/payload-types'
 import { getUserSiteIds, siteIdHelper } from '@/utilities/idHelper'
 // import { isRoleForSelectedSite } from '@/utilities/access'
 
@@ -34,7 +34,7 @@ export function getAdminOrSiteUser(
   slug: CollectionSlug,
   requiredRole: Role[] = ['manager', 'user'],
 ) {
-  const adminOrSiteUser: Access<Post | User | Site | Event | News | Page> = async ({
+  const adminOrSiteUser: Access<User | Site | Page> = async ({
     req,
     data,
   }) => {

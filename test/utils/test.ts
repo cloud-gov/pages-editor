@@ -4,7 +4,7 @@ import type { LocalTestContext } from './context.types'
 import { create, find } from './localHelpers'
 import type { CollectionSlug } from 'payload'
 
-const alertCollectionName: CollectionSlug = 'alerts' as CollectionSlug;
+const alertCollectionName: CollectionSlug = 'alerts' as CollectionSlug
 const footerCollectionName: CollectionSlug = 'footer-site-collection' as CollectionSlug
 
 export const test = vitest.extend<LocalTestContext>({
@@ -34,20 +34,6 @@ export const test = vitest.extend<LocalTestContext>({
     },
     { auto: true },
   ],
-  posts: async ({ payload, tid, sites }, use) => {
-    const posts = await Promise.all(
-      sites.map(async (site) => {
-        return create(payload, tid, {
-          collection: 'posts',
-          data: {
-            title: `${site.name} Title`,
-            site,
-          },
-        })
-      }),
-    )
-    await use(posts)
-  },
   tags: async ({ payload, tid, sites }, use) => {
     const tags = await Promise.all(
       sites.map(async (site) => {
@@ -62,49 +48,6 @@ export const test = vitest.extend<LocalTestContext>({
     )
     await use(tags)
   },
-  events: async ({ payload, tid, sites }, use) => {
-    const events = await Promise.all(
-      sites.map(async (site) => {
-        return create(payload, tid, {
-          collection: 'events',
-          data: {
-            title: `${site.name} Title`,
-            site,
-            startDate: new Date().toISOString(),
-            format: 'inperson',
-            eventType: 'onetime',
-            content: {
-              root: {
-                type: 'root',
-                children: [],
-                direction: 'ltr',
-                format: 'left',
-                indent: 0,
-                version: 1,
-              },
-            },
-          },
-        })
-      }),
-    )
-    await use(events)
-  },
-  leadership: async ({ payload, tid, sites }, use) => {
-    const leadership = await Promise.all(
-      sites.map(async (site) => {
-        return create(payload, tid, {
-          collection: 'leadership',
-          data: {
-            title: `${site.name} Title`,
-            jobTitle: 'Testor',
-            imageAlt: 'Test image alt',
-            site,
-          },
-        })
-      }),
-    )
-    await use(leadership)
-  },
   // media: async ({ payload, tid, sites }, use) => {
   //   const media = await Promise.all(
   //     sites.map(async (site) => {
@@ -118,20 +61,6 @@ export const test = vitest.extend<LocalTestContext>({
   //   )
   //   await use(media).catch(e => console.error(e))
   // },
-  news: async ({ payload, tid, sites }, use) => {
-    const news = await Promise.all(
-      sites.map(async (site) => {
-        return create(payload, tid, {
-          collection: 'news',
-          data: {
-            title: `${site.name} Title`,
-            site,
-          },
-        })
-      }),
-    )
-    await use(news)
-  },
   sideNavigations: async ({ payload, tid, sites }, use) => {
     const sideNavigations = await Promise.all(
       sites.map(async (site) => {
@@ -146,34 +75,6 @@ export const test = vitest.extend<LocalTestContext>({
       }),
     )
     await use(sideNavigations)
-  },
-  reports: async ({ payload, tid, sites }, use) => {
-    const reports = await Promise.all(
-      sites.map(async (site) => {
-        return create(payload, tid, {
-          collection: 'reports',
-          data: {
-            title: `${site.name} Title`,
-            site,
-          },
-        })
-      }),
-    )
-    await use(reports)
-  },
-  resources: async ({ payload, tid, sites }, use) => {
-    const resources = await Promise.all(
-      sites.map(async (site) => {
-        return create(payload, tid, {
-          collection: 'resources',
-          data: {
-            title: `${site.name} Title`,
-            site,
-          },
-        })
-      }),
-    )
-    await use(resources)
   },
   pages: async ({ payload, tid, sites }, use) => {
     const pages = await Promise.all(
@@ -192,24 +93,6 @@ export const test = vitest.extend<LocalTestContext>({
     )
 
     await use(pages.flat())
-  },
-  policies: async ({ payload, tid, sites }, use) => {
-    const policies = await Promise.all(
-      sites.map(async (site) => {
-        const query = await find(payload, tid, {
-          collection: 'policies',
-          where: {
-            site: {
-              equals: site.id,
-            },
-          },
-        })
-
-        return query.docs
-      }),
-    )
-
-    await use(policies.flat())
   },
   users: async ({ payload, tid, sites }, use) => {
     // site creation creates bot users & managers, find them and include them
@@ -254,35 +137,35 @@ export const test = vitest.extend<LocalTestContext>({
             alignment: 'center',
             site,
             content: {
-              "root": {
-                "type": "root",
-                "format": "",
-                "indent": 0,
-                "version": 1,
-                "children": [
+              root: {
+                type: 'root',
+                format: '',
+                indent: 0,
+                version: 1,
+                children: [
                   {
-                    "type": "paragraph",
-                    "format": "",
-                    "indent": 0,
-                    "version": 1,
-                    "children": [
+                    type: 'paragraph',
+                    format: '',
+                    indent: 0,
+                    version: 1,
+                    children: [
                       {
-                        "mode": "normal",
-                        "text": "Alert Text",
-                        "type": "text",
-                        "style": "",
-                        "detail": 0,
-                        "format": 0,
-                        "version": 1
-                      }
+                        mode: 'normal',
+                        text: 'Alert Text',
+                        type: 'text',
+                        style: '',
+                        detail: 0,
+                        format: 0,
+                        version: 1,
+                      },
                     ],
-                    "direction": "ltr",
-                    "textStyle": "",
-                    "textFormat": 0
-                  }
+                    direction: 'ltr',
+                    textStyle: '',
+                    textFormat: 0,
+                  },
                 ],
-                "direction": "ltr"
-              }
+                direction: 'ltr',
+              },
             },
           },
         })
@@ -299,35 +182,35 @@ export const test = vitest.extend<LocalTestContext>({
             domain: `${site.name} Domain`,
             site,
             content: {
-              "root": {
-                "type": "root",
-                "format": "",
-                "indent": 0,
-                "version": 1,
-                "children": [
+              root: {
+                type: 'root',
+                format: '',
+                indent: 0,
+                version: 1,
+                children: [
                   {
-                    "type": "paragraph",
-                    "format": "",
-                    "indent": 0,
-                    "version": 1,
-                    "children": [
+                    type: 'paragraph',
+                    format: '',
+                    indent: 0,
+                    version: 1,
+                    children: [
                       {
-                        "mode": "normal",
-                        "text": "Alert Text",
-                        "type": "text",
-                        "style": "",
-                        "detail": 0,
-                        "format": 0,
-                        "version": 1
-                      }
+                        mode: 'normal',
+                        text: 'Alert Text',
+                        type: 'text',
+                        style: '',
+                        detail: 0,
+                        format: 0,
+                        version: 1,
+                      },
                     ],
-                    "direction": "ltr",
-                    "textStyle": "",
-                    "textFormat": 0
-                  }
+                    direction: 'ltr',
+                    textStyle: '',
+                    textFormat: 0,
+                  },
                 ],
-                "direction": "ltr"
-              }
+                direction: 'ltr',
+              },
             },
           },
         })

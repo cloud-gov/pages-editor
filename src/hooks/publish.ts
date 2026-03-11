@@ -1,9 +1,9 @@
 import type { CollectionAfterChangeHook } from 'payload'
-import type { Post, Event, News, Policy, Page } from '@/payload-types'
+import type { CollectionEntry, CollectionType, Page } from '@/payload-types'
 import { encryptObjectValues } from '@/utilities/encryptor'
 import { siteIdHelper } from '@/utilities/idHelper'
 
-export const publish: CollectionAfterChangeHook<Post | Event | News | Policy | Page> = async ({
+export const publish: CollectionAfterChangeHook<CollectionEntry | CollectionType | Page> = async ({
   doc,
   req,
   operation,

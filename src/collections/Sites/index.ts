@@ -5,7 +5,6 @@ import {
   beforeDeleteHook,
   createManager,
   createSiteBot,
-  createSiteSinglePolicies,
   createSiteSinglePages,
   deleteSiteBot,
   formatSiteSlug,
@@ -83,13 +82,7 @@ export const Sites: CollectionConfig = {
   ],
   hooks: {
     beforeValidate: [formatSiteSlug],
-    afterChange: [
-      createManager,
-      createSiteBot,
-      createSiteSinglePolicies,
-      createSiteSinglePages,
-      saveInfoToS3,
-    ],
+    afterChange: [createManager, createSiteBot, createSiteSinglePages, saveInfoToS3],
     beforeDelete: [beforeDeleteHook],
     afterDelete: [deleteSiteBot],
   },

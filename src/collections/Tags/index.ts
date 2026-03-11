@@ -6,10 +6,10 @@ import { slugField } from '@/fields/slug'
 export const Tags: CollectionConfig = {
   slug: 'tags',
   access: {
-    create: getAdminOrSiteUser('reports'),
-    delete: getAdminOrSiteUser('reports'),
-    read: getAdminOrSiteUser('reports', ['manager', 'user', 'bot']),
-    update: getAdminOrSiteUser('reports'),
+    create: getAdminOrSiteUser('tags'),
+    delete: getAdminOrSiteUser('tags'),
+    read: getAdminOrSiteUser('tags', ['manager', 'user', 'bot']),
+    update: getAdminOrSiteUser('tags'),
   },
   admin: {
     group: 'Global Assets',
