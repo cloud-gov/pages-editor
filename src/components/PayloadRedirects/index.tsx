@@ -1,5 +1,4 @@
 import type React from 'react'
-import type { Post } from '@/payload-types'
 
 import { getCachedDocument } from '@/utilities/getDocument'
 import { getCachedRedirects } from '@/utilities/getRedirects'
@@ -29,7 +28,8 @@ export const PayloadRedirects: React.FC<Props> = async ({ disableNotFound, url }
       const collection = redirectItem.to?.reference?.relationTo
       const id = redirectItem.to?.reference?.value
 
-      const document = (await getCachedDocument(collection, id)()) as Post
+      const document = await getCachedDocument(collection, id)()
+      // @ts-ignore
       redirectUrl = `/${redirectItem.to?.reference?.relationTo}/${document?.slug}`
     } else {
       redirectUrl = `/${redirectItem.to?.reference?.relationTo}/${

@@ -53,6 +53,7 @@ import * as migration_20260210_223943_add_collection_types_and_entities from './
 import * as migration_20260218_174148_update_table_hyperlinks from './20260218_174148_update_table_hyperlinks';
 import * as migration_20260225_201403_improve_related_items_field from './20260225_201403_improve_related_items_field';
 import * as migration_20260225_210621_standardize_pages_collection_data_model from './20260225_210621_standardize_pages_collection_data_model';
+import * as migration_20260310_225243_deprecatge_unused_collections from './20260310_225243_deprecatge_unused_collections';
 
 export const migrations = [
   {
@@ -328,6 +329,11 @@ export const migrations = [
   {
     up: migration_20260225_210621_standardize_pages_collection_data_model.up,
     down: migration_20260225_210621_standardize_pages_collection_data_model.down,
-    name: '20260225_210621_standardize_pages_collection_data_model'
+    name: '20260225_210621_standardize_pages_collection_data_model',
+  },
+  {
+    up: migration_20260310_225243_deprecatge_unused_collections.up,
+    down: migration_20260310_225243_deprecatge_unused_collections.down,
+    name: '20260310_225243_deprecatge_unused_collections'
   },
 ];

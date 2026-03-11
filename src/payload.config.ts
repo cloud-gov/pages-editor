@@ -7,16 +7,9 @@ import { AdminViewConfig, buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Tags } from './collections/Tags'
-import { Events } from './collections/Events'
-import { Leadership } from './collections/Leadership'
 import { Media } from './collections/Media'
-import { News } from './collections/News'
-import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
-import { Reports } from './collections/Reports'
-import { Resources } from './collections/Resources'
 import { Pages } from './collections/Pages'
-import { Policies } from './collections/Policies'
 import { Sites } from './collections/Sites'
 import { SideNavigation } from './collections/SideNavigation'
 import { Menu as MenuConfig } from './globals/Menu'
@@ -127,17 +120,10 @@ const config = {
   collections: [
     // Collections group
     Alerts,
-    Posts,
-    Events,
-    News,
-    Reports,
-    Resources,
-    Leadership,
     CollectionTypes,
     CollectionEntries,
     // Standalone Pages group
     Pages,
-    Policies,
     // Global Assets group
     Media,
     Tags,

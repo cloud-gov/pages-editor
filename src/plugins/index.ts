@@ -8,15 +8,13 @@ import { Plugin } from 'payload'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
-
-import { Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
-const generateTitle: GenerateTitle<Post> = ({ doc }) => {
+const generateTitle: GenerateTitle = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
 }
 
-const generateURL: GenerateURL<Post> = ({ doc }) => {
+const generateURL: GenerateURL = ({ doc }) => {
   const url = getServerSideURL()
 
   return doc?.slug ? `${url}/${doc.slug}` : url
@@ -84,5 +82,5 @@ export const plugins: Plugin[] = [
     },
   }),
   payloadCloudPlugin(),
-  uaaOauth
+  uaaOauth,
 ]

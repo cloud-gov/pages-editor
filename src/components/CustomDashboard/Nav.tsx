@@ -13,7 +13,7 @@ const Nav: React.FC = async (props: { payload: BasePayload }) => {
   return (
     <aside className="nav nav--nav-open nav--nav-animate nav--nav-hydrated">
       <div className="nav__scroll" style={{ overscrollBehavior: 'auto' }}>
-        <Link className="link-button margin-y-2" href="/admin/collections/collection-types/create">
+        <Link className="link-button margin-bottom-2" href="/admin/collections/collection-types/create">
           &oplus; Create Collection Type
         </Link>
         <NavGroup label="&#128193; Content Collections">

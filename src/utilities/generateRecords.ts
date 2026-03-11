@@ -1,22 +1,5 @@
-import { Page, Policy } from '@/payload-types'
+import { Page } from '@/payload-types'
 import { Payload } from 'payload'
-import policies from './datasets/policies'
-
-export const generatePolicies =
-  (payload: Payload, tid: string | number | Promise<string | number>) =>
-  async (siteId: number): Promise<Policy[]> => {
-    const sitePolicies = policies(siteId)
-
-    return Promise.all(
-      sitePolicies.map((data) =>
-        payload.create({
-          collection: 'policies',
-          req: { transactionID: tid },
-          data,
-        }),
-      ),
-    )
-  }
 
 export const singlePageNames = ['Contact', 'About', 'History', 'Careers']
 

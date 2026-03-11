@@ -1,17 +1,10 @@
 import {
   Tag,
   Site,
-  Leadership,
-  Post,
-  Report,
-  Resource,
   User,
-  Event,
   Media,
-  News,
   Page,
   SideNavigation,
-  Policy,
   Alert,
   FooterSiteCollection,
 } from '@/payload-types'
@@ -25,16 +18,9 @@ export interface LocalTestContext {
   defaultUserAdmin: boolean
   testUser: User
   tags: Tag[]
-  events: Event[]
-  leadership: Leadership[]
   media?: Media[]
-  news: News[]
-  posts: Post[]
-  reports: Report[]
-  resources: Resource[]
   pages: Page[]
   sideNavigations: SideNavigation[]
-  policies: Policy[]
   sites: Site[]
   users: User[]
   alerts: Alert[]
