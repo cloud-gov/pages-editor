@@ -2,7 +2,7 @@ import type { CollectionConfig, CollectionSlug } from 'payload'
 import { siteField } from '@/fields/relationships'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
-import { publish } from '@/hooks/publish'
+import buildSite from '@/hooks/buildSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { completeReview } from '@/hooks/completeReview'
 import { publishedAtField } from '@/fields'
@@ -30,7 +30,7 @@ export const Alerts: CollectionConfig = {
     livePreview: {
       url: getGlobalPreviewUrl,
     },
-    preview: async({ req }) => {
+    preview: async ({ req }) => {
       return getGlobalPreviewUrl({ req })
     },
     useAsTitle: 'title',
@@ -138,7 +138,8 @@ export const Alerts: CollectionConfig = {
     publishedAtField,
   ],
   hooks: {
-    afterChange: [publish],
+    afterChange: [buildSite.afterChange],
+    afterDelete: [buildSite.afterDelete],
     beforeChange: [addSite, completeReview],
   },
   versions: {

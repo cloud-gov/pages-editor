@@ -1,7 +1,7 @@
 import type { GlobalConfig, CollectionConfig, Config, CollectionSlug } from 'payload'
 import { adminField } from '@/access/admin'
 import { SiteConfig } from '@/payload-types'
-import { publish } from '@/hooks/publish'
+import buildSite from '@/hooks/buildSite'
 import { completeReview } from '@/hooks/completeReview'
 
 export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, CollectionConfig] => {
@@ -23,23 +23,17 @@ export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, Collectio
       beforeChange: [
         async ({ req, data, originalDoc }) => {
           const siteId = req?.user?.selectedSiteId
-          if (!siteId || isNaN(Number(siteId))) return data;
+          if (!siteId || isNaN(Number(siteId))) return data
 
           // skip writes during autosave draft saves
-          const isAutosave = req.query.autosave === 'true';
+          const isAutosave = req.query.autosave === 'true'
           const wasPublished = originalDoc?._status === 'published'
-          if (isAutosave && wasPublished) return data;
+          if (isAutosave && wasPublished) return data
 
           // strip fields that should be owned by the DB or the collection itself
 
-          const {
-            id,
-            globalType,
-            createdAt,
-            updatedAt,
-            _status,
-            ...rest
-          } = (data as Record<string, unknown>) || {}
+          const { id, globalType, createdAt, updatedAt, _status, ...rest } =
+            (data as Record<string, unknown>) || {}
 
           const sanitized = { ...rest, site: siteId }
 
@@ -78,7 +72,7 @@ export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, Collectio
           // if reading a draft/autosave, return the Global doc (do not swap in collection)
           const isDraftOrAutosave = req.query?.draft === 'true' || req.query?.autosave === 'true'
 
-          if (isDraftOrAutosave || (doc?._status === 'draft')) {
+          if (isDraftOrAutosave || doc?._status === 'draft') {
             return doc ?? {} // show the actual Global draft version
           }
 
@@ -123,7 +117,8 @@ export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, Collectio
     },
     // hooks should be passed to the global, not the collection, since the global is the main interface.
     hooks: {
-      afterChange: [publish],
+      afterChange: [buildSite.afterChange],
+      afterDelete: [buildSite.afterDelete],
       beforeChange: [completeReview],
     },
     // custom site field is passed here to manage ownership of collections.
