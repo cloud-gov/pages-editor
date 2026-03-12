@@ -1,3 +1,9 @@
+## 0.3.1 (2026-03-12)
+
+### Maintenance
+
+- Remove security considerations action
+
 ## 0.3.0 (2026-03-11)
 
 ### Added
