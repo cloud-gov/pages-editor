@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
-import { colorOptions } from '@/fields'
+import { colorOptions, readyForReviewField } from '@/fields'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 
 export const SiteConfig: GlobalConfig = {
@@ -105,11 +105,6 @@ export const SiteConfig: GlobalConfig = {
       type: 'upload',
       relationTo: 'media',
     },
-    {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
+    readyForReviewField,
   ],
 }

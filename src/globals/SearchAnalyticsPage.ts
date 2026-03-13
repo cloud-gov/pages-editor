@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
+import { readyForReviewField } from '@/fields'
 
 export const SearchAnalyticsPage: GlobalConfig = {
   slug: 'search-analytics-page',
@@ -38,7 +39,7 @@ export const SearchAnalyticsPage: GlobalConfig = {
           label: 'Search.gov Site Handle',
           type: 'text',
         },
-      ]
+      ],
     },
     {
       name: 'Analytics',
@@ -54,13 +55,8 @@ export const SearchAnalyticsPage: GlobalConfig = {
           label: 'DAP Sub Agency Code',
           type: 'text',
         },
-      ]
+      ],
     },
-    {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
+    readyForReviewField,
   ],
 }
