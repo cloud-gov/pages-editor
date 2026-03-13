@@ -3,7 +3,7 @@ import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { siteField } from '@/fields/relationships'
 import { addSite } from '@/hooks/addSite'
 import { completeReview } from '@/hooks/completeReview'
-import { publish } from '@/hooks/publish'
+import buildSite from '@/hooks/buildSite'
 import { commonLinkBlocks } from '@/fields/hyperlinks'
 
 export const SideNavigation: CollectionConfig = {
@@ -90,7 +90,8 @@ export const SideNavigation: CollectionConfig = {
     siteField,
   ],
   hooks: {
-    afterChange: [publish],
+    afterChange: [buildSite.afterChange],
+    afterDelete: [buildSite.afterDelete],
     beforeChange: [addSite, completeReview],
   },
   versions: {

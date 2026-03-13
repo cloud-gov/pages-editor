@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
-import { publish } from '@/hooks/publish'
+import buildSite from '@/hooks/buildSite'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
 import {
   contentField,
@@ -64,7 +64,8 @@ export const Pages: CollectionConfig<'pages'> = {
     readyForReviewField,
   ],
   hooks: {
-    afterChange: [publish],
+    afterChange: [buildSite.afterChange],
+    afterDelete: [buildSite.afterDelete],
     beforeChange: [addSite, completeReview, populateUpdatedBy],
   },
   versions: {

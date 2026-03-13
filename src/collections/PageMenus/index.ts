@@ -3,7 +3,7 @@ import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { pageField, siteField } from '@/fields/relationships'
 import { addSite } from '@/hooks/addSite'
 import { completeReview } from '@/hooks/completeReview'
-import { publish } from '@/hooks/publish'
+import buildSite from '@/hooks/buildSite'
 
 export const SideNavigation: CollectionConfig = {
   slug: 'side-navigation',
@@ -243,7 +243,8 @@ export const SideNavigation: CollectionConfig = {
     siteField,
   ],
   hooks: {
-    afterChange: [publish],
+    afterChange: [buildSite.afterChange],
+    afterDelete: [buildSite.afterDelete],
     beforeChange: [addSite, completeReview],
   },
   versions: {
