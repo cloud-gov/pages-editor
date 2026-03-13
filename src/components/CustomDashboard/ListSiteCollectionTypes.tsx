@@ -44,7 +44,15 @@ export default function ListSiteCollectionTypes({
                 href={filteredUrl}
                 title={type.title}
                 description={type.description || 'No description available.'}
-                label={`View the ${type.title} collection`}
+                label={`View the ${type.title} items`}
+                action={
+                  <Link
+                    className="font-sans-3xs"
+                    href={`/admin/collections/collection-types/${type.id}`}
+                  >
+                    Edit
+                  </Link>
+                }
               />
             )
           })}
