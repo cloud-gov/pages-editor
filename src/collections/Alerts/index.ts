@@ -5,7 +5,7 @@ import { addSite } from '@/hooks/addSite'
 import buildSite from '@/hooks/buildSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { completeReview } from '@/hooks/completeReview'
-import { publishedAtField } from '@/fields'
+import { publishedAtField, readyForReviewField } from '@/fields'
 import { editor } from '@/utilities/editor'
 
 const alertsCollectionName: CollectionSlug = 'alerts' as CollectionSlug
@@ -128,14 +128,9 @@ export const Alerts: CollectionConfig = {
         },
       ],
     },
-    siteField,
-    {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
+    readyForReviewField,
     publishedAtField,
+    siteField,
   ],
   hooks: {
     afterChange: [buildSite.afterChange],

@@ -3,6 +3,7 @@ import { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { commonLinkBlocks, dropdownBlock } from '@/fields/hyperlinks'
+import { readyForReviewField } from '@/fields'
 
 export const Menu: GlobalConfig = {
   slug: 'menu',
@@ -32,11 +33,6 @@ export const Menu: GlobalConfig = {
       label: 'Navigation Links',
       blocks: [...commonLinkBlocks, dropdownBlock],
     },
-    {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
+    readyForReviewField,
   ],
 }

@@ -54,6 +54,7 @@ import * as migration_20260218_174148_update_table_hyperlinks from './20260218_1
 import * as migration_20260225_201403_improve_related_items_field from './20260225_201403_improve_related_items_field';
 import * as migration_20260225_210621_standardize_pages_collection_data_model from './20260225_210621_standardize_pages_collection_data_model';
 import * as migration_20260310_225243_deprecatge_unused_collections from './20260310_225243_deprecatge_unused_collections';
+import * as migration_20260313_212604_add_side_navigation_to_collection_entries_and_pages from './20260313_212604_add_side_navigation_to_collection_entries_and_pages';
 
 export const migrations = [
   {
@@ -334,6 +335,11 @@ export const migrations = [
   {
     up: migration_20260310_225243_deprecatge_unused_collections.up,
     down: migration_20260310_225243_deprecatge_unused_collections.down,
-    name: '20260310_225243_deprecatge_unused_collections'
+    name: '20260310_225243_deprecatge_unused_collections',
+  },
+  {
+    up: migration_20260313_212604_add_side_navigation_to_collection_entries_and_pages.up,
+    down: migration_20260313_212604_add_side_navigation_to_collection_entries_and_pages.down,
+    name: '20260313_212604_add_side_navigation_to_collection_entries_and_pages'
   },
 ];

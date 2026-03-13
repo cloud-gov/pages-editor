@@ -53,7 +53,9 @@ export const afterDelete: CollectionAfterDeleteHook = async ({ doc, req }) => {
   return doc
 }
 
-export default {
+const buildSite = {
   afterChange,
   afterDelete,
 }
+
+export default buildSite

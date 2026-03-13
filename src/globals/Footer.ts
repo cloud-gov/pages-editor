@@ -2,7 +2,7 @@ import { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
-import { colorOptions, imageField } from '@/fields'
+import { colorOptions, imageField, readyForReviewField } from '@/fields'
 import { validateRichTextRequired } from '@/utilities/validators/richText'
 import { validateTextRequired } from '@/utilities/validators/text'
 import { commonLinkBlocks } from '@/fields/hyperlinks'
@@ -155,11 +155,6 @@ export const Footer: GlobalConfig = {
         }),
       ],
     },
-    {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
+    readyForReviewField,
   ],
 }

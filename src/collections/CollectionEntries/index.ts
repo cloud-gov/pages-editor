@@ -14,6 +14,7 @@ import {
   publishedAtField,
   readyForReviewField,
   relatedItems,
+  sideNavigationField,
   siteField,
   slugField,
   tagsField,
@@ -60,6 +61,8 @@ export const CollectionEntries: CollectionConfig = {
     tagsField,
     publishedAtField,
     contentDateField,
+    sideNavigationField,
+
 
     // Main container fields
     collectionTypeField,
