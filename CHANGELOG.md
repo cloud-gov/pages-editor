@@ -1,3 +1,13 @@
+## 0.4.0 (2026-03-13)
+
+### Added
+
+- Add build site hook on record unpublish or delete
+
+### Maintenance
+
+- Remove security considerations action
+
 ## 0.3.0 (2026-03-11)
 
 ### Added
