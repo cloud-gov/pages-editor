@@ -122,6 +122,9 @@ services:
     build:
       dockerfile: Dockerfile-pages-site-gantry
       context: ./docker
+      args: &site_gantry_args
+        # Update this tag to test with a different version of the site gantry
+        SITE_GANTRY_TAG: '0.2.0'
     command: ['npm', 'run', 'dev']
     ports:
       - 4561:4321
@@ -150,6 +153,7 @@ services:
     build:
       dockerfile: Dockerfile-pages-site-gantry
       context: ./docker
+      args: *site_gantry_args
     command: ['npm', 'run', 'dev']
     ports:
       - 4562:4321

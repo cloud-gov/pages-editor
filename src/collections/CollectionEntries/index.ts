@@ -33,7 +33,7 @@ export const CollectionEntries: CollectionConfig = {
     group: 'Your Site Content Collections',
     description:
       'Add content page entries to your collections types. All fields are available for maximum flexibility.',
-    defaultColumns: ['title', 'collectionConfig', 'slug', 'updatedAt', 'updatedBy', '_status'],
+    defaultColumns: ['title', 'collectionType', 'slug', 'updatedAt', 'updatedBy', '_status'],
     useAsTitle: 'title',
     hideAPIURL: true,
     livePreview: {
