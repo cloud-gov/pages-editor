@@ -3,6 +3,7 @@ import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { validateTextRequired } from '@/utilities/validators/text'
 import { commonLinkBlocks } from '@/fields/hyperlinks'
+import { readyForReviewField } from '@/fields'
 
 function bigFooterCondition(data): true | false {
   return data?.type === 'big' ? true : false
@@ -337,12 +338,7 @@ export const PreFooter: GlobalConfig = {
         },
       ],
     },
-    {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
+    readyForReviewField,
   ],
   versions: {
     drafts: {

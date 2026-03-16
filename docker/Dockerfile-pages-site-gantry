@@ -6,10 +6,11 @@ RUN update-ca-certificates
 
 WORKDIR /app
 
-RUN wget https://github.com/cloud-gov/pages-site-gantry/archive/refs/heads/main.zip && \
-    unzip main.zip && \
-    mv pages-site-gantry-main/* . && \
-    rm -rf pages-site-gantry-main main.zip
+ARG SITE_GANTRY_TAG
+
+RUN wget -O main.zip https://github.com/cloud-gov/pages-site-gantry/archive/refs/tags/${SITE_GANTRY_TAG}.zip && \
+    unzip main.zip && mv pages-site-gantry-${SITE_GANTRY_TAG}/* . && \
+    rm -rf pages-site-gantry-${SITE_GANTRY_TAG} main.zip
 
 RUN npm ci
 

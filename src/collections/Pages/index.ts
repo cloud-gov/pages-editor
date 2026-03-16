@@ -16,6 +16,7 @@ import {
   tagsField,
   titleField,
   updatedByField,
+  sideNavigationField,
 } from '@/fields'
 import { completeReview } from '@/hooks/completeReview'
 import { getAdminCollectionPreview, getPagePreviewUrl } from '@/utilities/previews'
@@ -53,6 +54,7 @@ export const Pages: CollectionConfig<'pages'> = {
     tagsField,
     publishedAtField,
     contentDateField,
+    sideNavigationField,
 
     // Main container fields
     titleField,

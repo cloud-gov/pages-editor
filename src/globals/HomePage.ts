@@ -3,6 +3,7 @@ import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { editor } from '@/utilities/editor'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { validateTextRequired } from '@/utilities/validators/text'
+import { readyForReviewField } from '@/fields'
 
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
@@ -190,11 +191,6 @@ export const HomePage: GlobalConfig = {
         },
       ],
     },
-    {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
+    readyForReviewField,
   ],
 }

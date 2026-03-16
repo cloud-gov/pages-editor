@@ -197,9 +197,9 @@ export interface Alert {
   icon: boolean;
   alignment: 'left' | 'center';
   isActive: boolean;
-  site: number | Site;
   reviewReady?: boolean | null;
   publishedAt?: string | null;
+  site: number | Site;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -277,8 +277,8 @@ export interface CollectionType {
    */
   image?: (number | null) | Media;
   updatedBy?: (number | null) | User;
-  site: number | Site;
   reviewReady?: boolean | null;
+  site: number | Site;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -326,6 +326,10 @@ export interface CollectionEntry {
    * Optional date associated with this content
    */
   contentDate?: string | null;
+  /**
+   * Select a side navigation menu to display in the sidebar for this page
+   */
+  sideNavigation?: (number | null) | SideNavigation;
   /**
    * Select which collection type this page belongs to
    */
@@ -474,6 +478,75 @@ export interface Tag {
   createdAt: string;
 }
 /**
+ * Create and manage side navigation menus for single pages and collections.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "side-navigation".
+ */
+export interface SideNavigation {
+  id: number;
+  /**
+   * Internal name for this side navigation (e.g., "About Us Navigation")
+   */
+  name: string;
+  /**
+   * The title that appears above the side navigation
+   */
+  title?: string | null;
+  /**
+   * Turn this side navigation on/off
+   */
+  enabled?: boolean | null;
+  /**
+   * Add and organize navigation items for this side navigation
+   */
+  items?:
+    | (
+        | {
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'link';
+          }
+        | {
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+        | {
+            label?: string | null;
+            page?: (number | null) | Page;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pageLink';
+          }
+        | {
+            label?: string | null;
+            collectionType?: (number | null) | CollectionType;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionTypeLink';
+          }
+        | {
+            label?: string | null;
+            collectionEntry?: (number | null) | CollectionEntry;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'collectionEntryLink';
+          }
+      )[]
+    | null;
+  reviewReady?: boolean | null;
+  publishedAt?: string | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * Individual pages like About or Contact that aren’t part of a content collection.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -493,6 +566,10 @@ export interface Page {
    * Optional date associated with this content
    */
   contentDate?: string | null;
+  /**
+   * Select a side navigation menu to display in the sidebar for this page
+   */
+  sideNavigation?: (number | null) | SideNavigation;
   /**
    * The title of the entry
    */
@@ -603,75 +680,6 @@ export interface Page {
     | null;
   updatedBy?: (number | null) | User;
   reviewReady?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Create and manage side navigation menus for single pages and collections.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "side-navigation".
- */
-export interface SideNavigation {
-  id: number;
-  /**
-   * Internal name for this side navigation (e.g., "About Us Navigation")
-   */
-  name: string;
-  /**
-   * The title that appears above the side navigation
-   */
-  title?: string | null;
-  /**
-   * Turn this side navigation on/off
-   */
-  enabled?: boolean | null;
-  /**
-   * Add and organize navigation items for this side navigation
-   */
-  items?:
-    | (
-        | {
-            label?: string | null;
-            url?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'link';
-          }
-        | {
-            label?: string | null;
-            url?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'externalLink';
-          }
-        | {
-            label?: string | null;
-            page?: (number | null) | Page;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'pageLink';
-          }
-        | {
-            label?: string | null;
-            collectionType?: (number | null) | CollectionType;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'collectionTypeLink';
-          }
-        | {
-            label?: string | null;
-            collectionEntry?: (number | null) | CollectionEntry;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'collectionEntryLink';
-          }
-      )[]
-    | null;
-  reviewReady?: boolean | null;
-  publishedAt?: string | null;
-  site: number | Site;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1834,9 +1842,9 @@ export interface AlertsSelect<T extends boolean = true> {
   icon?: T;
   alignment?: T;
   isActive?: T;
-  site?: T;
   reviewReady?: T;
   publishedAt?: T;
+  site?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1852,8 +1860,8 @@ export interface CollectionTypesSelect<T extends boolean = true> {
   description?: T;
   image?: T;
   updatedBy?: T;
-  site?: T;
   reviewReady?: T;
+  site?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1869,6 +1877,7 @@ export interface CollectionEntriesSelect<T extends boolean = true> {
   tags?: T;
   publishedAt?: T;
   contentDate?: T;
+  sideNavigation?: T;
   collectionType?: T;
   title?: T;
   description?: T;
@@ -1967,6 +1976,7 @@ export interface PagesSelect<T extends boolean = true> {
   tags?: T;
   publishedAt?: T;
   contentDate?: T;
+  sideNavigation?: T;
   title?: T;
   description?: T;
   image?: T;

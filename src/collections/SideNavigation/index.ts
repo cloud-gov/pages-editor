@@ -5,6 +5,7 @@ import { addSite } from '@/hooks/addSite'
 import { completeReview } from '@/hooks/completeReview'
 import buildSite from '@/hooks/buildSite'
 import { commonLinkBlocks } from '@/fields/hyperlinks'
+import { publishedAtField, readyForReviewField } from '@/fields'
 
 export const SideNavigation: CollectionConfig = {
   slug: 'side-navigation',
@@ -61,32 +62,8 @@ export const SideNavigation: CollectionConfig = {
       },
       blocks: commonLinkBlocks,
     },
-    {
-      name: 'reviewReady',
-      label: 'Ready for Review',
-      type: 'checkbox',
-      defaultValue: false,
-    },
-    {
-      name: 'publishedAt',
-      type: 'date',
-      admin: {
-        position: 'sidebar',
-        date: {
-          pickerAppearance: 'dayAndTime',
-        },
-      },
-      hooks: {
-        beforeChange: [
-          ({ siblingData, value }) => {
-            if (siblingData._status === 'published' && !value) {
-              return new Date()
-            }
-            return value
-          },
-        ],
-      },
-    },
+    readyForReviewField,
+    publishedAtField,
     siteField,
   ],
   hooks: {

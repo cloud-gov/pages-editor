@@ -37,7 +37,7 @@ export const getCustomCollectionLivePreview = async ({ data, req }): Promise<str
     })
 
     const slug = await getSiteSlug(req, data.site)
-    const path = `${record.collectionConfig.slug}/${record.slug}`
+    const path = `${record.collectionType?.slug}/${record.slug}`
 
     return choosePreviewUrl(slug, path)
   } catch (error) {
