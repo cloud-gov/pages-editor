@@ -52,6 +52,14 @@ const UserRolesAndPermissionsView: AdminViewConfig = {
   },
 }
 
+const SiteComplianceView: AdminViewConfig = {
+  Component: '@/components/SiteCompliance',
+  path: '/site-compliance',
+  meta: {
+    title: 'Payload - Sites Compliance',
+  },
+}
+
 const config = {
   admin: {
     theme: 'light' as const,
@@ -72,6 +80,7 @@ const config = {
           Component: '@/components/CustomDashboard',
         },
         userRolesAndPermissions: UserRolesAndPermissionsView,
+        siteCompliance: SiteComplianceView,
       },
     },
     user: Users.slug,

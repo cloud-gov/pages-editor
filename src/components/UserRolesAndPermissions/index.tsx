@@ -4,8 +4,8 @@ import { DefaultTemplate } from "@payloadcms/next/templates";
 import { Gutter } from "@payloadcms/ui";
 import Link from "next/link";
 import { Check, X } from "lucide-react";
-import { USWDSInit } from "./USWDSInPageNavInit.client";
-import { SetStepNav } from "./SetStepNav.client";
+import { USWDSInit } from "../utilities/USWDSInPageNavInit.client";
+import { SetStepNav } from "../utilities/SetStepNav.client";
 import { redirect } from "next/navigation";
 
 /**
