@@ -11,7 +11,6 @@ import Callout from '@/components/ui/callout'
 import { H2, H3, H4 } from '@/components/ui/prose-headings'
 import { SlimAlert } from '@/components/ui/alert'
 import Accordion from '@/components/ui/accordion'
-import { Sign } from 'crypto'
 
 const SignatureBlock = () => {
   return (

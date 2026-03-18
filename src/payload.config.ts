@@ -48,15 +48,23 @@ const UserRolesAndPermissionsView: AdminViewConfig = {
   Component: '@/components/UserRolesAndPermissions',
   path: '/sites-roles-and-permissions',
   meta: {
-    title: 'Payload - Sites Roles and Permissions',
+    title: 'Sites Roles and Permissions',
   },
 }
 
-const SiteComplianceView: AdminViewConfig = {
-  Component: '@/components/SiteCompliance',
-  path: '/site-compliance',
+const ATUGuidView: AdminViewConfig = {
+  Component: '@/components/ATUGuide',
+  path: '/atu-guide',
   meta: {
-    title: 'Payload - Sites Compliance',
+    title: 'Site Security and Compliance ATU Guide',
+  },
+}
+
+const ATUPackageView: AdminViewConfig = {
+  Component: '@/components/ATUPackage',
+  path: '/atu-package',
+  meta: {
+    title: 'Site Security and Compliance ATU Package',
   },
 }
 
@@ -80,7 +88,8 @@ const config = {
           Component: '@/components/CustomDashboard',
         },
         userRolesAndPermissions: UserRolesAndPermissionsView,
-        siteCompliance: SiteComplianceView,
+        atuGuide: ATUGuidView,
+        atuPackage: ATUPackageView,
       },
     },
     user: Users.slug,
