@@ -19,6 +19,7 @@ import { SiteConfig as SiteConfigConfig } from './globals/SiteConfig'
 import { HomePage as HomePageConfig } from './globals/HomePage'
 import { NotFoundPage as NotFoundPageConfig } from './globals/NotFoundPage'
 import { SearchAnalyticsPage as SearchAnalyticsPageConfig } from './globals/SearchAnalyticsPage'
+import { SiteAuth as SiteAuthoriationConfig } from './globals/SiteAuth'
 import { plugins } from './plugins'
 import endpoints from './endpoints'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -39,6 +40,7 @@ const [PreFooter, PreFooterCollection] = createSiteGlobal(PreFooterConfig)
 const [NotFoundPage, NotFoundPageCollection] = createSiteGlobal(NotFoundPageConfig)
 const [SearchAnalyticsPage, SearchAnalyticsPageCollection] =
   createSiteGlobal(SearchAnalyticsPageConfig)
+const [SiteAuth, SiteAuthCollection] = createSiteGlobal(SiteAuthoriationConfig)
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -157,9 +159,19 @@ const config = {
     PreFooterCollection,
     NotFoundPageCollection,
     SearchAnalyticsPageCollection,
+    SiteAuthCollection,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [SiteConfig, Menu, HomePage, Footer, PreFooter, NotFoundPage, SearchAnalyticsPage],
+  globals: [
+    SiteConfig,
+    Menu,
+    HomePage,
+    Footer,
+    PreFooter,
+    NotFoundPage,
+    SearchAnalyticsPage,
+    SiteAuth,
+  ],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,

@@ -149,10 +149,10 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
       <Section title="Site Compliance and Security">
         <div className="grid-row grid-gap-2">
           <CardLink
-            href="/admin/globals/compliance-config"
-            title="ATU Compliance Configuration"
-            description="Forms for completing and managing your site compliance."
-            label="View configuration"
+            href="/admin/globals/site-auth"
+            title="Authorization Forms"
+            description="Forms for completing and managing your site Authority to Use (ATU)."
+            label="View authorization"
           />
 
           <CardLink

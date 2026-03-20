@@ -5,6 +5,7 @@ import { DefaultTemplate } from '@payloadcms/next/templates'
 import { Gutter } from '@payloadcms/ui'
 import { USWDSInit } from '@/components/utilities/USWDSInPageNavInit.client'
 import { SetStepNav } from '@/components/utilities/SetStepNav.client'
+import { getSiteATUPackage } from '@/components/utilities'
 import Package from './Package'
 
 /**
@@ -12,15 +13,12 @@ import Package from './Package'
  * Wrapped in DefaultTemplate so the admin chrome (header, sidebar, breadcrumbs) renders.
  * The in-page nav aside + headings in <main> are picked up by USWDS JS initialized by the client component.
  */
-export default function SiteCompliance(props: AdminViewServerProps) {
+export default async function SiteCompliance(props: AdminViewServerProps) {
   const { initPageResult, params, searchParams } = props
   const { req, permissions, locale, visibleEntities } = initPageResult
-  const user = req.user
-
-  if (!user) {
-    // redirect to login if not logged in
-    redirect(`/admin/login`)
-  }
+  const { user, siteUsers, atuPackage } = await getSiteATUPackage(req.payload, req.headers).catch(
+    (err) => redirect(`/admin/login`),
+  )
 
   return (
     <DefaultTemplate
@@ -50,7 +48,7 @@ export default function SiteCompliance(props: AdminViewServerProps) {
             data-root-margin="0px 0px 0px 0px"
             data-threshold="1"
           />
-          <Package />
+          <Package siteUsers={siteUsers} atuPackage={atuPackage} />
         </div>
       </Gutter>
     </DefaultTemplate>

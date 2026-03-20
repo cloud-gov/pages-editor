@@ -5,10 +5,88 @@ import Link from 'next/link'
 import { H2, H3 } from '@/components/ui/prose-headings'
 import { SlimAlert } from '@/components/ui/alert'
 import Callout from '@/components/ui/callout'
+import Table from '@/components/ui/table'
 import DownloadButton from './DownloadButton'
 
-const Package = () => {
+const userTableRows = (siteUsers) => {
+  return siteUsers.map((user) => [
+    {
+      column: 'Email',
+      value: user.email,
+    },
+    {
+      column: 'Role',
+      value: user.role,
+    },
+  ])
+}
+
+const requiredFields = (props) => {
+  return Object.keys(props)
+    .filter((key) => {
+      if (props[key] === '' || props[key] === null || props[key] === undefined) {
+        return `${key} is required`
+      }
+    })
+    .filter((field) => typeof field === 'string')
+}
+
+const ManagerCallout = ({
+  sectionName,
+  fullName,
+  title,
+  email,
+  phoneNumber,
+  program,
+}: {
+  sectionName: string
+  fullName?: string
+  title?: string
+  email?: string
+  phoneNumber?: string
+  program?: string
+}) => {
+  const missingFields = requiredFields({ fullName, email, phoneNumber })
+  const calloutColorClass = missingFields.length > 0 ? 'bg-secondary-lighter' : 'bg-base-lightest'
+
+  return (
+    <>
+      {missingFields.length > 0 && (
+        <SlimAlert type="error">
+          The following required fields are missing for <strong>{sectionName}</strong>:{' '}
+          {missingFields.join(', ')}
+        </SlimAlert>
+      )}
+      <H3>{sectionName}</H3>
+      <Callout backgroundColorClass={calloutColorClass}>
+        <p>
+          <strong>Full Name:</strong> {fullName}
+        </p>
+        <p>
+          <strong>Title:</strong> {title}
+        </p>
+        <p>
+          <strong>Email:</strong> {email}
+        </p>
+        <p>
+          <strong>Phone Number:</strong> {phoneNumber}
+        </p>
+        {program && (
+          <p>
+            <strong>Agency, Program office or Division:</strong> {program}
+          </p>
+        )}
+      </Callout>
+    </>
+  )
+}
+
+const Package = ({ siteUsers, atuPackage }) => {
   const printableSectionRef = useRef<HTMLDivElement | null>(null)
+  const userRows = userTableRows(siteUsers)
+
+  console.log('ATU Package data:', atuPackage)
+
   return (
     <main id="atu-package" ref={printableSectionRef}>
       <section className="usa-section section section--white align-left">
@@ -30,90 +108,47 @@ const Package = () => {
                       then download a copy for Pages Compliance.
                     </SlimAlert>
                     <H2>Site Point of Contacts (POCs)</H2>
-                    <Callout>
-                      <H3>Agency Website Owner</H3>
-                      <p>
-                        <strong>Full Name:</strong>
-                      </p>
-                      <p>Test Name</p>
-                      <p>
-                        <strong>Title:</strong>
-                      </p>
-                      <p>The managers of contacts</p>
-                      <p>
-                        <strong>Email:</strong>
-                      </p>
-                      <p>user@example.com</p>
-                      <p>
-                        <strong>Phone Number:</strong>
-                      </p>
-                      <p>123-456-7890</p>
-                    </Callout>
-                    <Callout>
-                      <H3>Agency Website Manager</H3>
-                      <p>
-                        <strong>Full Name:</strong>
-                      </p>
-                      <p>Test Name</p>
-                      <p>
-                        <strong>Title:</strong>
-                      </p>
-                      <p>The managers of contacts</p>
-                      <p>
-                        <strong>Email:</strong>
-                      </p>
-                      <p>user@example.com</p>
-                      <p>
-                        <strong>Phone Number:</strong>
-                      </p>
-                      <p>123-456-7890</p>
-                    </Callout>
-                    <Callout>
-                      <H3>Agency Information Security Office Representative</H3>
-                      <p>
-                        <strong>Full Name:</strong>
-                      </p>
-                      <p>Test Name</p>
-                      <p>
-                        <strong>Title:</strong>
-                      </p>
-                      <p>The managers of contacts</p>
-                      <p>
-                        <strong>Email:</strong>
-                      </p>
-                      <p>user@example.com</p>
-                      <p>
-                        <strong>Phone Number:</strong>
-                      </p>
-                      <p>123-456-7890</p>
-                      <p>
-                        <strong>Agency, Program office or Division</strong>
-                      </p>
-                      <p>Test Agency</p>
-                    </Callout>
-                    <Callout>
-                      <H3>Third Party Organization/ Company Representative(s)r</H3>
-                      <p>
-                        <strong>Full Name:</strong>
-                      </p>
-                      <p>Test Name</p>
-                      <p>
-                        <strong>Title:</strong>
-                      </p>
-                      <p>The managers of contacts</p>
-                      <p>
-                        <strong>Email:</strong>
-                      </p>
-                      <p>user@example.com</p>
-                      <p>
-                        <strong>Phone Number:</strong>
-                      </p>
-                      <p>123-456-7890</p>
-                      <p>
-                        <strong>Agency, Program office or Division</strong>
-                      </p>
-                      <p>Test Agency</p>
-                    </Callout>
+                    <ManagerCallout
+                      sectionName="Agency Website Owner"
+                      fullName={atuPackage?.agencyOwner?.fullName}
+                      title={atuPackage?.agencyOwner?.title}
+                      email={atuPackage?.agencyOwner?.email}
+                      phoneNumber={atuPackage?.agencyOwner?.phone}
+                    />
+                    <ManagerCallout
+                      sectionName="Agency Website Manager"
+                      fullName={atuPackage?.agencySiteManager?.fullName}
+                      title={atuPackage?.agencySiteManager?.title}
+                      email={atuPackage?.agencySiteManager?.email}
+                      phoneNumber={atuPackage?.agencySiteManager?.phone}
+                    />
+                    <ManagerCallout
+                      sectionName="Agency Information Security Office Representative"
+                      fullName={atuPackage?.agencySecurityOfficer?.fullName}
+                      title={atuPackage?.agencySecurityOfficer?.title}
+                      email={atuPackage?.agencySecurityOfficer?.email}
+                      phoneNumber={atuPackage?.agencySecurityOfficer?.phone}
+                      program={atuPackage?.agencySecurityOfficer?.program}
+                    />
+                    {!atuPackage?.thirdPartyReps ||
+                      (atuPackage?.thirdPartyReps?.length === 0 && (
+                        <SlimAlert type="info">
+                          No third party representatives are listed. If this site is managed by a
+                          third party contractor, please add a
+                        </SlimAlert>
+                      ))}
+                    {atuPackage?.thirdPartyReps?.length > 0 &&
+                      atuPackage.thirdPartyReps.map((rep, index) => (
+                        <ManagerCallout
+                          key={index}
+                          sectionName={`Third Party Organization/ Company Representative #${index + 1}`}
+                          fullName={rep.fullName}
+                          title={rep.title}
+                          email={rep.email}
+                          phoneNumber={rep.phone}
+                          program={rep.program}
+                        />
+                      ))}
                     <H2>Website Information</H2>
                     <p>
                       Provide foundational information about the website, including mission,
@@ -188,6 +223,7 @@ const Package = () => {
                         <li>User Access Reviews</li>
                         <li>Authentication Mechanism</li>
                       </ul>
+                      <Table columns={['Email', 'Role']} rows={userRows} />
                     </Callout>
                     <Callout>
                       <H3>Identification and Authentication (IA)</H3>

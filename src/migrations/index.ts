@@ -55,6 +55,7 @@ import * as migration_20260225_201403_improve_related_items_field from './202602
 import * as migration_20260225_210621_standardize_pages_collection_data_model from './20260225_210621_standardize_pages_collection_data_model';
 import * as migration_20260310_225243_deprecatge_unused_collections from './20260310_225243_deprecatge_unused_collections';
 import * as migration_20260313_212604_add_side_navigation_to_collection_entries_and_pages from './20260313_212604_add_side_navigation_to_collection_entries_and_pages';
+import * as migration_20260319_220515_site_authorization_table from './20260319_220515_site_authorization_table';
 
 export const migrations = [
   {
@@ -340,6 +341,11 @@ export const migrations = [
   {
     up: migration_20260313_212604_add_side_navigation_to_collection_entries_and_pages.up,
     down: migration_20260313_212604_add_side_navigation_to_collection_entries_and_pages.down,
-    name: '20260313_212604_add_side_navigation_to_collection_entries_and_pages'
+    name: '20260313_212604_add_side_navigation_to_collection_entries_and_pages',
+  },
+  {
+    up: migration_20260319_220515_site_authorization_table.up,
+    down: migration_20260319_220515_site_authorization_table.down,
+    name: '20260319_220515_site_authorization_table'
   },
 ];
