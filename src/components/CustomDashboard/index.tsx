@@ -146,29 +146,31 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
         </div>
       </Section>
 
-      <Section title="Site Compliance and Security">
-        <div className="grid-row grid-gap-2">
-          <CardLink
-            href="/admin/globals/site-auth"
-            title="Authorization Forms"
-            description="Forms for completing and managing your site Authority to Use (ATU)."
-            label="View authorization"
-          />
+      {(selectedSiteRole === 'manager' || user.isAdmin) && (
+        <Section title="Site Compliance and Security">
+          <div className="grid-row grid-gap-2">
+            <CardLink
+              href="/admin/globals/site-auth"
+              title="Authorization Forms"
+              description="Forms for completing and managing your site Authority to Use (ATU)."
+              label="View authorization"
+            />
 
-          <CardLink
-            href="/admin/atu-package"
-            title="ATU Package"
-            description="Authority to Use (ATU) package with your sites compliance documentation."
-            label="Get ATU package"
-          />
-          <CardLink
-            href="/admin/atu-guide"
-            title="ATU Guide"
-            description="Authority to Use (ATU) guide with steps and resources to help you meet compliance requirements."
-            label="Review guide"
-          />
-        </div>
-      </Section>
+            <CardLink
+              href="/admin/atu-package"
+              title="ATU Package"
+              description="Authority to Use (ATU) package with your sites compliance documentation."
+              label="Get ATU package"
+            />
+            <CardLink
+              href="/admin/atu-guide"
+              title="ATU Guide"
+              description="Authority to Use (ATU) guide with steps and resources to help you meet compliance requirements."
+              label="Review guide"
+            />
+          </div>
+        </Section>
+      )}
     </div>
   )
 }

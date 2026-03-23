@@ -4,6 +4,9 @@ const PrintSection = ({ ref }: { ref: React.RefObject<HTMLDivElement | null> }) 
   const handlePrint = () => {
     const printContents = ref?.current?.innerHTML
     const printWindow = window.open('', '_blank')
+    const styles = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'))
+      .map((node) => node.outerHTML)
+      .join('\n')
 
     if (!printWindow || !printContents) {
       console.error('Failed to open print window')
@@ -13,13 +16,12 @@ const PrintSection = ({ ref }: { ref: React.RefObject<HTMLDivElement | null> }) 
     printWindow.document.write(`
             <html>
                 <head>
-                    <title>Print Section</title>
+                    <title>site-atu-package</title>
                     <style>
                         body { font-family: Arial, sans-serif; padding: 20px; }
                     </style>
 
-                    <link rel="stylesheet" href="/_next/static/css/app/(payload)/layout.css" />
-                    <link rel="stylesheet" href="/_next/static/css/app/(payload)/custom.scss" />
+                    ${styles}
                 </head>
                 <body>
                     ${printContents}

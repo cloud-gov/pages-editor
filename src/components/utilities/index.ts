@@ -81,7 +81,7 @@ export const getSiteATUPackage = async (
     },
   })
 
-  if (!atuPackage || atuPackage.totalDocs === 0) throw new Error('ATU Package not found for site')
+  if (!atuPackage) throw new Error('ATU Package not found for site')
 
   const siteUsersList = await payload.find({
     collection: 'users',

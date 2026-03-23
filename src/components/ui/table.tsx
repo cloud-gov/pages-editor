@@ -13,7 +13,7 @@ interface TableProps {
 const Table = ({ columns, rows, showHeader = true, scrollable = false }: TableProps) => {
   return (
     <div className={`${scrollable ? 'usa-table-container--scrollable' : ''}`}>
-      <table className="usa-table usa-table--borderless">
+      <table className="usa-table usa-table--borderless width-full">
         {showHeader && columns && (
           <thead className="bg-base-lighter">
             <tr>

@@ -1520,6 +1520,7 @@ export interface SiteAuthSiteCollection {
   sensitiveCheck?: ('yes' | 'no') | null;
   linksCheck?: ('yes' | 'no') | null;
   formatCheck?: ('yes' | 'no') | null;
+  finalReviewCheck?: ('yes' | 'no') | null;
   updatedBy?: (number | null) | User;
   reviewReady?: boolean | null;
   site: number | Site;
@@ -2722,6 +2723,7 @@ export interface SiteAuthSiteCollectionSelect<T extends boolean = true> {
   sensitiveCheck?: T;
   linksCheck?: T;
   formatCheck?: T;
+  finalReviewCheck?: T;
   updatedBy?: T;
   reviewReady?: T;
   site?: T;
@@ -3791,6 +3793,7 @@ export interface SiteAuth {
   sensitiveCheck?: ('yes' | 'no') | null;
   linksCheck?: ('yes' | 'no') | null;
   formatCheck?: ('yes' | 'no') | null;
+  finalReviewCheck?: ('yes' | 'no') | null;
   updatedBy?: (number | null) | User;
   reviewReady?: boolean | null;
   _status?: ('draft' | 'published') | null;
@@ -4291,6 +4294,7 @@ export interface SiteAuthSelect<T extends boolean = true> {
   sensitiveCheck?: T;
   linksCheck?: T;
   formatCheck?: T;
+  finalReviewCheck?: T;
   updatedBy?: T;
   reviewReady?: T;
   _status?: T;

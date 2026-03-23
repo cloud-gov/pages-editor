@@ -16,11 +16,11 @@ const SignatureBlock = () => {
   return (
     <div>
       <br />
-      <p className="font-sans-md">Name: _________________________________</p>
+      <p className="font-sans-md">Name: John Doe</p>
       <br />
-      <p className="font-sans-md">Signature: ____________________________</p>
+      <p className="font-sans-md">Signature: John Doe</p>
       <br />
-      <p className="font-sans-md">Date: _________________________________</p>
+      <p className="font-sans-md">Date: 1/1/1</p>
     </div>
   )
 }
@@ -155,12 +155,15 @@ export default function SiteCompliance(props: AdminViewServerProps) {
                             Provide the required Points of Contact (POC) information on the
                             designated website.
                           </p>
-                          {/* TODO: Add POC information */}
-                          <pre className="bg-red font-bold">TODO!!! Add POC information</pre>
-                          <H4>Website Owner/Manager</H4>
-                          {/* TODO: Add POC information */}
-                          <pre className="bg-red font-bold">TODO!!! Add POC information</pre>
-                          <H4>Developer Organization/Company Representative(s)</H4>
+                          <ul>
+                            <li className="text-bold">Website Owner/Manager</li>
+                            <li className="text-bold">
+                              Agency Information Security Office Representative
+                            </li>
+                            <li className="text-bold">
+                              Developer Organization/Company Representative(s)
+                            </li>
+                          </ul>
                           <H2>Website Information</H2>
                           <p>
                             Capture foundational information about the website, including mission,
@@ -230,10 +233,13 @@ export default function SiteCompliance(props: AdminViewServerProps) {
                             been included in the ATU template, so no further action is required on
                             your part.
                           </p>
-                          {/* TODO: Get link to site diagrams */}
-                          <pre className="bg-red font-bold">TODO!!! Get link to site diagrams</pre>
-                          <Link href={'#'}>
-                            Link to the sample diagram: Flow Diagram of Site Architecture
+                          <Link
+                            className="padding-y-2 text-bold"
+                            href={
+                              'https://github.com/cloud-gov/system-diagrams/blob/main/source/diagrams/pages/editor-builds.mmd'
+                            }
+                          >
+                            Flow Diagram of Publishing and Editing Site Architecture in Pages
                           </Link>
                           <H2>Website Content</H2>
                           <p>
@@ -314,11 +320,12 @@ export default function SiteCompliance(props: AdminViewServerProps) {
                             the content, escalating it for further review, or approving it for
                             release.
                           </p>
-                          {/* TODO: Get link to content review decision tree */}
-                          <pre className="bg-red font-bold">
-                            TODO!!! Get link to content review decision tree
-                          </pre>
-                          <Link href={'#'}>Guide for Public Content Review - Decision Tree</Link>
+                          <Link
+                            className="padding-y-2 text-bold"
+                            href={'/assets/guide_for_public_content_review_decision_tree.pdf'}
+                          >
+                            Guide for Public Content Review - Decision Tree
+                          </Link>
                           <SlimAlert type="info">
                             If, after following the steps in the decision tree, it is evident that
                             the content clearly qualifies as public information, you can skip the
@@ -459,14 +466,12 @@ export default function SiteCompliance(props: AdminViewServerProps) {
                             </li>
                           </ul>
                           <p>For more information:</p>
-                          {/* TODO: Get the agency privacy policy link */}
-                          <pre className="bg-red font-bold">
-                            TODO!!! Get the agency privacy policy link
-                          </pre>
-                          <pre className="bg-red font-bold">TODO!!! Get NARA link</pre>
                           <ul>
-                            <li>Your www.agency.gov/privacy website</li>
-                            <li>National Archives and Records Administration (NARA)</li>
+                            <li className="text-bold">Your agency privacy policy</li>
+                            <li className="text-bold">
+                              National Archives and Records Administration{' '}
+                              <Link href={'https://www.archives.gov/'}>(NARA)</Link>
+                            </li>
                           </ul>
                           <Callout>
                             <p>
@@ -746,16 +751,13 @@ export default function SiteCompliance(props: AdminViewServerProps) {
                             accountability requirements.
                           </SlimAlert>
                           <H2>Content Review Checklist</H2>
-                          {/* TODO: Add POC information */}
-                          <pre className="bg-red font-bold">TODO!!! Fill in site domain</pre>
                           <p>
                             Before any content is released to the public, complete this checklist to
                             confirm that it meets your agency&apos;s policies and standards. This is
                             the final step in the{' '}
-                            <strong>Site Content Review Before Publication</strong> for
-                            <span className="bg-red">[website.domain.gov]</span> and serves as a
-                            quality assurance tool for accuracy, security, privacy, compliance, and
-                            accessibility.
+                            <strong>Site Content Review Before Publication</strong> for the website
+                            domain and serves as a quality assurance tool for accuracy, security,
+                            privacy, compliance, and accessibility.
                           </p>
                           <p>Use this checklist to ensure:</p>
                           <ul className="add-list-reset">
@@ -844,11 +846,7 @@ export default function SiteCompliance(props: AdminViewServerProps) {
                             Note: Insert additional rows as necessary. Once complete, copy and paste
                             the table into the appropriate section of the ATU template.
                           </SlimAlert>
-                          {/* TODO: Add [Site Name] User Access Management From */}
-                          <pre className="bg-red font-bold">
-                            TODO!!! Add [Site Name] User Access Management Form
-                          </pre>
-                          <H4>[Site Name] User Access Management</H4>
+                          <H4>User Access Management</H4>
                           <H3>Agency-specific Website Compliance Policies Requirements</H3>
                           <p>
                             Review this section of the template to ensure you have accounted for any
@@ -862,10 +860,6 @@ export default function SiteCompliance(props: AdminViewServerProps) {
                             <li>&#10003; Review is complete</li>
                             <li>&#10003; Final approval granted</li>
                           </ul>
-                          {/* TODO: Add Confirmation from Data */}
-                          <pre className="bg-red font-bold">
-                            TODO!!! TODO: Add Confirmation from Data
-                          </pre>
                           <Callout>
                             <p>☐ Yes — All items above are confirmed complete</p>
                             <p>☐ No — Add comments:</p>
@@ -889,14 +883,10 @@ export default function SiteCompliance(props: AdminViewServerProps) {
                             </li>
                           </ul>
                           <H4>Collect the required signatures</H4>
-                          {/* TODO: Add website name from data */}
-                          <pre className="bg-red font-bold">
-                            TODO!!! TODO: Add website name from data
-                          </pre>
                           <p>
                             The signatures of the Site Owner and Manager affirm that the information
                             presented in this document is an accurate and comprehensive
-                            representation of [Website Name].
+                            representation of your-website.gov.
                           </p>
                           <Callout>
                             <p>
@@ -921,26 +911,28 @@ export default function SiteCompliance(props: AdminViewServerProps) {
                               <legend className="usa-legend">Select site approval status</legend>
                               <div className="usa-radio">
                                 <input
+                                  disabled
                                   className="usa-radio__input"
                                   id="atu-is-approved"
                                   type="radio"
                                   name="site-atu-approval"
-                                  value="The ATU for [Website Name] is approved."
+                                  value="The ATU for your-website.gov is approved."
                                 />
                                 <label className="usa-radio__label" htmlFor="atu-is-approved">
-                                  The ATU for [Website Name] is approved.
+                                  The ATU for your-website.gov is approved.
                                 </label>
                               </div>
                               <div className="usa-radio">
                                 <input
+                                  disabled
                                   className="usa-radio__input"
                                   id="atu-is-not-approved"
                                   type="radio"
                                   name="site-atu-approval"
-                                  value="The ATU for [Website Name] is not approved."
+                                  value="The ATU for your-website.gov is not approved."
                                 />
                                 <label className="usa-radio__label" htmlFor="atu-is-not-approved">
-                                  The ATU for [Website Name] is not approved.
+                                  The ATU for your-website.gov is not approved.
                                 </label>
                               </div>
                             </fieldset>

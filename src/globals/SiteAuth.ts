@@ -2,6 +2,7 @@ import { Field, GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { updatedByField } from '@/fields/relationships'
 import { readyForReviewField } from '@/fields'
+import { populateGlobalUpdatedBy } from '@/hooks/populateUpdatedBy'
 
 export const roleGroup = (name: string, fields: Field[] = []): Field => ({
   name,
@@ -132,9 +133,27 @@ export const SiteAuth: GlobalConfig = {
         },
       ],
     },
+    {
+      name: 'finalReviewCheck',
+      type: 'radio',
+      label: 'Final Review',
+      options: [
+        {
+          label: 'Yes: Review has been completed and final approval has been provided.',
+          value: 'yes',
+        },
+        {
+          label: 'No: Review has not been completed and final approval has not been provided.',
+          value: 'no',
+        },
+      ],
+    },
     updatedByField,
     readyForReviewField,
   ],
+  hooks: {
+    beforeChange: [populateGlobalUpdatedBy],
+  },
   versions: {
     drafts: {
       autosave: true,
