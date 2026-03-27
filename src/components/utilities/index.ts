@@ -5,7 +5,7 @@ type UserSiteInfo = {
   user: User
   sites: Site[]
   selectedSiteId: string | null
-  selectedSiteRole?: 'manager' | 'user' | 'bot'
+  selectedSiteRole?: 'manager' | 'user' | 'bot' | null
 }
 
 export const buildFilteredUrl = (collectionTypeId: string | number) => {
