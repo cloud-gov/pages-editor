@@ -1,6 +1,5 @@
 import type { BasePayload } from 'payload'
 import { Site, SiteAuthSiteCollection, User } from '@/payload-types'
-import { redirect } from 'next/dist/server/api-utils'
 
 type UserSiteInfo = {
   user: User

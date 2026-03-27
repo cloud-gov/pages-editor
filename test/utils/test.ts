@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid'
 import type { LocalTestContext } from './context.types'
 import { create, find } from './localHelpers'
 import type { CollectionSlug } from 'payload'
+import { siteAuthItemFieldsPick } from './globals'
 
 const alertCollectionName: CollectionSlug = 'alerts' as CollectionSlug
 const footerCollectionName: CollectionSlug = 'footer-site-collection' as CollectionSlug
@@ -217,6 +218,20 @@ export const test = vitest.extend<LocalTestContext>({
       }),
     )
     await use(footerSiteCollection)
+  },
+  siteAuthSiteCollection: async ({ payload, tid, sites }, use) => {
+    const siteAuthSiteCollection = await Promise.all(
+      sites.map(async (site) => {
+        return create(payload, tid, {
+          collection: 'site-auth-site-collection',
+          data: {
+            ...siteAuthItemFieldsPick(),
+            site,
+          },
+        })
+      }),
+    )
+    await use(siteAuthSiteCollection)
   },
   payload: global.payload,
 })
