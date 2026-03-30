@@ -13,7 +13,10 @@ const Nav: React.FC = async (props: { payload: BasePayload }) => {
   return (
     <aside className="nav nav--nav-open nav--nav-animate nav--nav-hydrated">
       <div className="nav__scroll" style={{ overscrollBehavior: 'auto' }}>
-        <Link className="link-button margin-bottom-2" href="/admin/collections/collection-types/create">
+        <Link
+          className="link-button margin-bottom-2"
+          href="/admin/collections/collection-types/create"
+        >
           &oplus; Create Collection Type
         </Link>
         <NavGroup label="&#128193; Content Collections">
@@ -80,10 +83,20 @@ const Nav: React.FC = async (props: { payload: BasePayload }) => {
           <Link className="nav__link" href="/admin/globals/search-analytics-page">
             Web Analytics
           </Link>
-          <Link className="nav__link" href="/admin/site-compliance">
-            Site Compliance
-          </Link>
         </NavGroup>
+          {(selectedSiteRole === 'manager' || user.isAdmin) && (
+            <NavGroup label="&#128272; Site Compliance and Security">
+              <Link className="nav__link" href="/admin/globals/site-auth">
+                Authorization Forms
+              </Link>
+              <Link className="nav__link" href="/admin/atu-package">
+                ATU Package
+              </Link>
+              <Link className="nav__link" href="/admin/atu-guide">
+                ATU Guide
+              </Link>
+            </NavGroup>
+          )}
         <div className="nav__controls">
           <Link aria-label="Logout" tabIndex={0} className="nav__log-out" href="/admin/logout">
             <svg

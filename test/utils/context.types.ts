@@ -7,6 +7,7 @@ import {
   SideNavigation,
   Alert,
   FooterSiteCollection,
+  SiteAuthSiteCollection,
 } from '@/payload-types'
 import { BasePayload } from 'payload'
 import type { Role } from '@/access/adminOrSite'
@@ -25,5 +26,6 @@ export interface LocalTestContext {
   users: User[]
   alerts: Alert[]
   footerSiteCollection: FooterSiteCollection[]
+  siteAuthSiteCollection: SiteAuthSiteCollection[]
   payload: BasePayload
 }

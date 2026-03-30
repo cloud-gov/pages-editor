@@ -82,6 +82,7 @@ export interface Config {
     'pre-footer-site-collection': PreFooterSiteCollection;
     'not-found-page-site-collection': NotFoundPageSiteCollection;
     'search-analytics-page-site-collection': SearchAnalyticsPageSiteCollection;
+    'site-auth-site-collection': SiteAuthSiteCollection;
     forms: Form;
     'form-submissions': FormSubmission;
     search: Search;
@@ -112,6 +113,7 @@ export interface Config {
     'pre-footer-site-collection': PreFooterSiteCollectionSelect<false> | PreFooterSiteCollectionSelect<true>;
     'not-found-page-site-collection': NotFoundPageSiteCollectionSelect<false> | NotFoundPageSiteCollectionSelect<true>;
     'search-analytics-page-site-collection': SearchAnalyticsPageSiteCollectionSelect<false> | SearchAnalyticsPageSiteCollectionSelect<true>;
+    'site-auth-site-collection': SiteAuthSiteCollectionSelect<false> | SiteAuthSiteCollectionSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
@@ -133,6 +135,7 @@ export interface Config {
     'pre-footer': PreFooter;
     'not-found-page': NotFoundPage;
     'search-analytics-page': SearchAnalyticsPage;
+    'site-auth': SiteAuth;
   };
   globalsSelect: {
     'site-config': SiteConfigSelect<false> | SiteConfigSelect<true>;
@@ -142,6 +145,7 @@ export interface Config {
     'pre-footer': PreFooterSelect<false> | PreFooterSelect<true>;
     'not-found-page': NotFoundPageSelect<false> | NotFoundPageSelect<true>;
     'search-analytics-page': SearchAnalyticsPageSelect<false> | SearchAnalyticsPageSelect<true>;
+    'site-auth': SiteAuthSelect<false> | SiteAuthSelect<true>;
   };
   locale: null;
   user: User;
@@ -1468,6 +1472,63 @@ export interface SearchAnalyticsPageSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * The site authorization is used to manage the information related to the Authority to Use (ATU) documentation.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-auth-site-collection".
+ */
+export interface SiteAuthSiteCollection {
+  id: number;
+  agencyOwner?: {
+    fullName?: string | null;
+    title?: string | null;
+    email?: string | null;
+    phone?: string | null;
+  };
+  agencySiteManager?: {
+    fullName?: string | null;
+    title?: string | null;
+    email?: string | null;
+    phone?: string | null;
+  };
+  agencySecurityOfficer?: {
+    fullName?: string | null;
+    title?: string | null;
+    email?: string | null;
+    phone?: string | null;
+    program?: string | null;
+  };
+  thirdPartyReps?:
+    | {
+        thirdPartyRepresentative?: {
+          fullName?: string | null;
+          title?: string | null;
+          email?: string | null;
+          phone?: string | null;
+          company?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  websiteInfo?: {
+    siteName?: string | null;
+    accronym?: string | null;
+    agency?: string | null;
+    description?: string | null;
+  };
+  piiCheck?: ('yes' | 'no') | null;
+  sensitiveCheck?: ('yes' | 'no') | null;
+  linksCheck?: ('yes' | 'no') | null;
+  formatCheck?: ('yes' | 'no') | null;
+  finalReviewCheck?: ('yes' | 'no') | null;
+  updatedBy?: (number | null) | User;
+  reviewReady?: boolean | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
@@ -1771,6 +1832,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'search-analytics-page-site-collection';
         value: number | SearchAnalyticsPageSiteCollection;
+      } | null)
+    | ({
+        relationTo: 'site-auth-site-collection';
+        value: number | SiteAuthSiteCollection;
       } | null)
     | ({
         relationTo: 'forms';
@@ -2596,6 +2661,70 @@ export interface SearchAnalyticsPageSiteCollectionSelect<T extends boolean = tru
         dapAgencyCode?: T;
         dapSubAgencyCode?: T;
       };
+  reviewReady?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-auth-site-collection_select".
+ */
+export interface SiteAuthSiteCollectionSelect<T extends boolean = true> {
+  agencyOwner?:
+    | T
+    | {
+        fullName?: T;
+        title?: T;
+        email?: T;
+        phone?: T;
+      };
+  agencySiteManager?:
+    | T
+    | {
+        fullName?: T;
+        title?: T;
+        email?: T;
+        phone?: T;
+      };
+  agencySecurityOfficer?:
+    | T
+    | {
+        fullName?: T;
+        title?: T;
+        email?: T;
+        phone?: T;
+        program?: T;
+      };
+  thirdPartyReps?:
+    | T
+    | {
+        thirdPartyRepresentative?:
+          | T
+          | {
+              fullName?: T;
+              title?: T;
+              email?: T;
+              phone?: T;
+              company?: T;
+            };
+        id?: T;
+      };
+  websiteInfo?:
+    | T
+    | {
+        siteName?: T;
+        accronym?: T;
+        agency?: T;
+        description?: T;
+      };
+  piiCheck?: T;
+  sensitiveCheck?: T;
+  linksCheck?: T;
+  formatCheck?: T;
+  finalReviewCheck?: T;
+  updatedBy?: T;
   reviewReady?: T;
   site?: T;
   updatedAt?: T;
@@ -3616,6 +3745,62 @@ export interface SearchAnalyticsPage {
   createdAt?: string | null;
 }
 /**
+ * The site authorization is used to manage the information related to the Authority to Use (ATU) documentation.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-auth".
+ */
+export interface SiteAuth {
+  id: number;
+  agencyOwner?: {
+    fullName?: string | null;
+    title?: string | null;
+    email?: string | null;
+    phone?: string | null;
+  };
+  agencySiteManager?: {
+    fullName?: string | null;
+    title?: string | null;
+    email?: string | null;
+    phone?: string | null;
+  };
+  agencySecurityOfficer?: {
+    fullName?: string | null;
+    title?: string | null;
+    email?: string | null;
+    phone?: string | null;
+    program?: string | null;
+  };
+  thirdPartyReps?:
+    | {
+        thirdPartyRepresentative?: {
+          fullName?: string | null;
+          title?: string | null;
+          email?: string | null;
+          phone?: string | null;
+          company?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  websiteInfo?: {
+    siteName?: string | null;
+    accronym?: string | null;
+    agency?: string | null;
+    description?: string | null;
+  };
+  piiCheck?: ('yes' | 'no') | null;
+  sensitiveCheck?: ('yes' | 'no') | null;
+  linksCheck?: ('yes' | 'no') | null;
+  formatCheck?: ('yes' | 'no') | null;
+  finalReviewCheck?: ('yes' | 'no') | null;
+  updatedBy?: (number | null) | User;
+  reviewReady?: boolean | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-config_select".
  */
@@ -4047,6 +4232,70 @@ export interface SearchAnalyticsPageSelect<T extends boolean = true> {
         dapAgencyCode?: T;
         dapSubAgencyCode?: T;
       };
+  reviewReady?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-auth_select".
+ */
+export interface SiteAuthSelect<T extends boolean = true> {
+  agencyOwner?:
+    | T
+    | {
+        fullName?: T;
+        title?: T;
+        email?: T;
+        phone?: T;
+      };
+  agencySiteManager?:
+    | T
+    | {
+        fullName?: T;
+        title?: T;
+        email?: T;
+        phone?: T;
+      };
+  agencySecurityOfficer?:
+    | T
+    | {
+        fullName?: T;
+        title?: T;
+        email?: T;
+        phone?: T;
+        program?: T;
+      };
+  thirdPartyReps?:
+    | T
+    | {
+        thirdPartyRepresentative?:
+          | T
+          | {
+              fullName?: T;
+              title?: T;
+              email?: T;
+              phone?: T;
+              company?: T;
+            };
+        id?: T;
+      };
+  websiteInfo?:
+    | T
+    | {
+        siteName?: T;
+        accronym?: T;
+        agency?: T;
+        description?: T;
+      };
+  piiCheck?: T;
+  sensitiveCheck?: T;
+  linksCheck?: T;
+  formatCheck?: T;
+  finalReviewCheck?: T;
+  updatedBy?: T;
   reviewReady?: T;
   _status?: T;
   updatedAt?: T;

@@ -1,6 +1,7 @@
 import { BasePayload, getPayload, Payload } from 'payload'
 import config from '@payload-config'
 import { expect, it } from 'vitest'
+import type { SiteAuthSiteCollection } from '@/payload-types'
 
 interface User {
   id: string
@@ -10,15 +11,15 @@ interface User {
   sites: { site: number; role: string }[]
 }
 interface AdminUser {
-  id: string;
-  email: string;
+  id: string
+  email: string
   isAdmin: boolean
 }
 interface Users {
-  adminUser: AdminUser,
-  managerUser: User,
-  normalUser: User,
-  botUser: User,
+  adminUser: AdminUser
+  managerUser: User
+  normalUser: User
+  botUser: User
 }
 
 export function initGlobalTest(): Users {
@@ -56,6 +57,32 @@ export function initGlobalTest(): Users {
     sites: [{ site: siteId, role: 'bot' }],
   }
   return { adminUser, managerUser, normalUser, botUser }
+}
+
+export const siteAuthItemFieldsPick: (
+  id?: number,
+) => Pick<SiteAuthSiteCollection, 'agencyOwner' | 'websiteInfo'> &
+  Partial<Pick<SiteAuthSiteCollection, 'id'>> = (id?: number) => {
+  const base: Pick<SiteAuthSiteCollection, 'agencyOwner' | 'websiteInfo'> = {
+    agencyOwner: {
+      fullName: 'John Doe',
+      title: 'Agency Owner',
+      email: 'john@example.gov',
+      phone: '555-1234',
+    },
+    websiteInfo: {
+      siteName: 'Agency Site',
+      accronym: 'ABC',
+      agency: 'Example Agency',
+      description: 'This is an example agency site.',
+    },
+  }
+
+  if (id != null) {
+    return { id, ...base }
+  }
+
+  return base
 }
 
 export async function globalBeforeAll(
