@@ -51,23 +51,25 @@ const ItemCallout = ({ sectionName, attributes, data }: ItemCalloutProps) => {
   }, {})
   const missingFields = requiredFields({ ...requiredDataValues })
   const calloutColorClass = missingFields.length > 0 ? 'bg-secondary-lighter' : 'bg-base-lightest'
+  const borderClass = missingFields.length > 0 ? 'section-border-error' : 'section-border'
 
   return (
     <>
-      {sectionName && <H3>{sectionName}</H3>}
+      {sectionName && <H3 className="no-print">{sectionName}</H3>}
+      {sectionName && <p className="print-h3">{sectionName}</p>}
       {missingFields.length > 0 && (
         <SlimAlert type="error">
           The following required fields are missing for <strong>{sectionName}</strong>:{' '}
           {missingFields.join(', ')} <Link href="/admin/globals/site-auth">Update ATU forms</Link>
         </SlimAlert>
       )}
-      <Callout backgroundColorClass={calloutColorClass}>
+      <PrintCallout className={borderClass} backgroundColorClass={calloutColorClass}>
         {orderedAttributes.map((attr) => (
           <p key={attr.key}>
             <strong>{attr.label}:</strong> {data[attr.key]}
           </p>
         ))}
-      </Callout>
+      </PrintCallout>
     </>
   )
 }
@@ -83,10 +85,12 @@ const ItemVerification = ({
 }) => {
   const isVerified = value === 'yes'
   const calloutColorClass = !isVerified ? 'bg-secondary-lighter' : 'bg-base-lightest'
+  const borderClass = !isVerified ? 'section-border-error' : 'section-border'
 
   return (
     <>
-      <H3>{sectionName}</H3>
+      <H3 className="no-print">{sectionName}</H3>
+      <p className="print-h3">{sectionName}</p>
       {!isVerified && (
         <SlimAlert type="error">
           This item is marked as &ldquo;No&ldquo;. Please review the content and update the
@@ -94,21 +98,19 @@ const ItemVerification = ({
           <Link href="/admin/globals/site-auth">Update ATU forms</Link>
         </SlimAlert>
       )}
-      <Callout backgroundColorClass={calloutColorClass}>
+      <PrintCallout className={borderClass} backgroundColorClass={calloutColorClass}>
         <p className="padding-bottom-2">{description}</p>
         <div
           className={`grid-row ${isVerified ? 'text-bold text-underline' : 'text-normal text-strike'}`}
         >
-          {/* <div className="grid-col-auto border-4px font-mono-md">{yesCheck}</div> */}
           <div className="grid-col-fill">Yes</div>
         </div>
         <div
           className={`grid-row ${!isVerified ? 'text-bold text-underline' : 'text-normal text-strike'}`}
         >
-          {/* <div className="grid-col-auto border-4px font-mono-md">{noCheck}</div> */}
           <div className="grid-col-fill">No</div>
         </div>
-      </Callout>
+      </PrintCallout>
     </>
   )
 }
@@ -138,6 +140,26 @@ const SignatureCallout = ({ fullName }: { fullName?: string }) => {
   )
 }
 
+const PrintCallout = ({
+  children,
+  className,
+  backgroundColorClass,
+  ...props
+}: {
+  children: React.ReactNode
+  className?: string
+  backgroundColorClass?: string
+}) => {
+  return (
+    <Callout
+      {...props}
+      className={`print-margins ${className || ''} ${backgroundColorClass || ''}`}
+    >
+      {children}
+    </Callout>
+  )
+}
+
 const Package = ({ siteUsers, atuPackage }) => {
   const printableSectionRef = useRef<HTMLDivElement | null>(null)
   const userRows = userTableRows(siteUsers)
@@ -147,15 +169,38 @@ const Package = ({ siteUsers, atuPackage }) => {
       <style>{`@media print { .no-print { display: none !important; } }`}</style>
       <style>
         {`
-          .print-heading {
+          .print-h2 {
             font-size: 20px;
             font-weight: bold;
             color: #000;
             display: none;
           }
+          .print-h3 {
+            font-size: 18px;
+            color: #000;
+            display: none;
+          }
+          .print-h4 {
+            font-size: 16px;
+            color: #000;
+            font-weight: bold;
+            display: none;
+          }
           @media print {
-            .print-heading {
+            .print-h2, .print-h3, .print-h4 {
               display: block !important;
+            }
+            .print-margins {
+              margin-top: 16px;
+              margin-bottom: 16px;
+              padding-top: 8px;
+              padding-bottom: 8px;
+            }
+            .section-border {
+              border: 1px solid #000;
+            }
+            .section-border-error {
+              border: 2px solid red;
             }
           }`}
       </style>
@@ -167,13 +212,13 @@ const Package = ({ siteUsers, atuPackage }) => {
                 <div className="section__slot">
                   <div className="flex-column margin-bottom-5">
                     <h1 style={{ marginBottom: '1rem' }}>Authority to Use (ATU) Package</h1>
-                    <Callout>
+                    <PrintCallout>
                       <p>
                         This ATU package is related to{' '}
                         <strong>{atuPackage?.websiteInfo?.siteName}</strong>.{' '}
                         {atuPackage?.websiteInfo?.description}
                       </p>
-                    </Callout>
+                    </PrintCallout>
                     <p className="margin-top-2 no-print">
                       ATU template for external (non-GSA) agencies. See ATU guide here.
                     </p>
@@ -185,7 +230,7 @@ const Package = ({ siteUsers, atuPackage }) => {
                       download a copy for Pages Compliance.
                     </SlimAlert>
                     <H2 className="no-print">Purpose</H2>
-                    <p className="print-heading">Purpose</p>
+                    <p className="print-h2">Purpose</p>
                     <p>
                       The ATU Process described in the document is intended for static websites
                       hosted on Cloud.gov Pages Content Management System (CMS) known as Cloud.gov
@@ -193,8 +238,9 @@ const Package = ({ siteUsers, atuPackage }) => {
                       hosting application.
                     </p>
                     <H2 className="no-print">Hosting and Platform Overview</H2>
-                    <p className="print-heading">Hosting and Platform Overview</p>
-                    <H3>Leveraged Authorizations</H3>
+                    <p className="print-h2">Hosting and Platform Overview</p>
+                    <H3 className="no-print">Leveraged Authorizations</H3>
+                    <p className="print-h3">Leveraged Authorizations</p>
                     <Table
                       columns={[
                         'Leveraged Information System Name',
@@ -232,18 +278,20 @@ const Package = ({ siteUsers, atuPackage }) => {
                         ],
                       ]}
                     />
-                    <H4>Hosting Type</H4>
+                    <H4 className="no-print">Hosting Type</H4>
+                    <p className="print-h4">Hosting Type</p>
                     <p>
                       Software-as-a-Service (SaaS) Authorized by FedRAMP for government use only.
                     </p>
-                    <H4>Functionality</H4>
+                    <H4 className="no-print">Functionality</H4>
+                    <p className="print-h4">Functionality</p>
                     <p>
                       Pages is a FedRAMP-approved application designed to host static, public-facing
                       websites that do not require user authentication. It offers a secure platform
                       for managing, editing, and publishing website content.{' '}
                     </p>
                     <H2 className="no-print">Site Point of Contacts (POCs)</H2>
-                    <p className="print-heading">Site Point of Contacts (POCs)</p>
+                    <p className="print-h2">Site Point of Contacts (POCs)</p>
                     <ItemCallout
                       sectionName="Agency Website Owner"
                       attributes={[
@@ -308,7 +356,7 @@ const Package = ({ siteUsers, atuPackage }) => {
                         />
                       ))}
                     <H2 className="no-print">Website Information</H2>
-                    <p className="print-heading">Website Information</p>
+                    <p className="print-h2">Website Information</p>
                     <p>
                       Provide foundational information about the website, including mission,
                       audience, content type, sensitivity, and FIPS-199 Categorization.
@@ -333,7 +381,7 @@ const Package = ({ siteUsers, atuPackage }) => {
                       data={atuPackage?.websiteInfo || {}}
                     />
                     <H2 className="no-print">Content Review Checklist</H2>
-                    <p className="print-heading">Content Review Checklist</p>
+                    <p className="print-h2">Content Review Checklist</p>
                     <ItemVerification
                       sectionName="Personally Identifiable Information (PII)"
                       description="Content was carefully reviewed to confirm it does not contain PII that could compromise privacy or violate compliance standards."
@@ -355,13 +403,13 @@ const Package = ({ siteUsers, atuPackage }) => {
                       value={atuPackage?.formatCheck}
                     />
                     <H2 className="no-print">Security Controls Review Summary</H2>
-                    <p className="print-heading">Security Controls Review Summary</p>
-                    <Callout>
+                    <p className="print-h2">Security Controls Review Summary</p>
+                    <PrintCallout>
                       <H3>Access Control (AC)</H3>
                       <H4>Administrative Access</H4>
                       <p>
-                        Access to the website&apos;s Content Management System (CMS) customer portal is
-                        restricted to authorized personnel using at least multi-factor
+                        Access to the website&apos;s Content Management System (CMS) customer portal
+                        is restricted to authorized personnel using at least multi-factor
                         authentication (MFA). All org/space user accounts are managed through the
                         User Account and Authentication (UAA) service provided by Cloud.gov.
                       </p>
@@ -370,6 +418,7 @@ const Package = ({ siteUsers, atuPackage }) => {
                         Permissions are assigned based on roles to limit access and enforce least
                         privilege.
                       </p>
+                      <p>Customer managed roles:</p>
                       <ul>
                         <li>
                           <strong>User:</strong> Content editor (no publishing rights)
@@ -378,12 +427,20 @@ const Package = ({ siteUsers, atuPackage }) => {
                           <strong>Manager:</strong> Reviews and publishes content, and can add or
                           remove User
                         </li>
+                      </ul>
+                      <p>Platform managed roles:</p>
+                      <ul>
                         <li>
                           <strong>Admin:</strong> Pages engineer/Pages Operator (technical
                           oversight)
                         </li>
+                        <li>
+                          <strong>Bot:</strong> System-generated automation account for CI/CD and
+                          maintenance.
+                        </li>
                       </ul>
-                      <H4>Account Creation</H4>
+                      <H4 className="no-print">Account Creation</H4>
+                      <p className="print-h4">Account Creation</p>
                       <p>
                         The customer is responsible for identifying their authorized users and
                         designating who oversees internal approval processes. They must notify
@@ -393,7 +450,8 @@ const Package = ({ siteUsers, atuPackage }) => {
                         and transfer procedures. It is important to note that cloud.gov does not
                         support or assume responsibility for account sharing.
                       </p>
-                      <H4>Account Management</H4>
+                      <H4 className="no-print">Account Management</H4>
+                      <p className="print-h4">Account Management</p>
                       <p>
                         Cloud.gov regularly monitors usage of all Pages org and space accounts and
                         conducts periodic reviews to ensure proper oversight. Inactive or terminated
@@ -408,8 +466,8 @@ const Package = ({ siteUsers, atuPackage }) => {
                         <li>Authentication Mechanism</li>
                       </ul>
                       <Table columns={['Email', 'Role']} rows={userRows} />
-                    </Callout>
-                    <Callout>
+                    </PrintCallout>
+                    <PrintCallout>
                       <H3>Audit and Accountability (AU)</H3>
                       <H4>Action Logging</H4>
                       <p>
@@ -432,15 +490,15 @@ const Package = ({ siteUsers, atuPackage }) => {
                         individual responsible for actions such as creating, editing, publishing
                         content, uploading or deleting files.
                       </p>
-                    </Callout>
-                    <Callout>
+                    </PrintCallout>
+                    <PrintCallout>
                       <H3>Privacy Awareness Training (AT)</H3>
                       <p>
                         Inherited from agencies through the specific Security and Privacy Awareness
                         trainings.
                       </p>
-                    </Callout>
-                    <Callout>
+                    </PrintCallout>
+                    <PrintCallout>
                       <H3>Identification and Authentication (IA)</H3>
                       <p>
                         Access to Cloud.gov Publisher begins with an invitation. Site owners or
@@ -449,16 +507,16 @@ const Package = ({ siteUsers, atuPackage }) => {
                         enforces MFA and allows customer agencies to authenticate using their PIV
                         via their enterprise identity systems.
                       </p>
-                    </Callout>
-                    <Callout>
+                    </PrintCallout>
+                    <PrintCallout>
                       <H3>Security Assessment and Authorization (CA)</H3>
                       <p>
                         Site owners and managers complete the ATU process and propose the final
                         document to their agency&apos;s security and compliance official for
                         approval.
                       </p>
-                    </Callout>
-                    <Callout>
+                    </PrintCallout>
+                    <PrintCallout>
                       <H3>Configuration Management (CM)</H3>
                       <H4>Change Control Process</H4>
                       <p>
@@ -478,8 +536,8 @@ const Package = ({ siteUsers, atuPackage }) => {
                         Cloud.gov Publisher configuration settings are documented and reviewed by
                         the Cloud.gov Pages at least annually or when major updates occur.
                       </p>
-                    </Callout>
-                    <Callout>
+                    </PrintCallout>
+                    <PrintCallout>
                       <H3>System and Communications Protection (SC)</H3>
                       <H4>Secure Access</H4>
                       <p>
@@ -497,29 +555,29 @@ const Package = ({ siteUsers, atuPackage }) => {
                         Any uploaded files (e.g., PDFs, images) are scanned for malware before
                         publication to the site.
                       </p>
-                    </Callout>
-                    <Callout>
+                    </PrintCallout>
+                    <PrintCallout>
                       <H3>System Integrity and Maintenance (SI)</H3>
                       <H4>Platform Updates</H4>
                       <p>
                         Cloud.gov Pages, the provider is responsible for routine patching and
                         vulnerability remediation, security advisories or planned maintenance.
                       </p>
-                    </Callout>
-                    <Callout>
+                    </PrintCallout>
+                    <PrintCallout>
                       <H3>Contingency Planning (CP)</H3>
                       <H4>Data Backup</H4>
                       <p>
-                        Website code and content are backed up at regular intervals (daily
-                        incremental and weekly full snapshots).
+                        The cloud.gov platform automatically retains daily backups of website code
+                        and content for 14 days, helping ensure recovery from unexpected issues.
                       </p>
                       <H4>Restoration Plan</H4>
                       <p>
-                        An internal documented process exists to restore websites in the event of
-                        intentional or unintentional deletion, corruption, or other disruptions.
+                        A documented process is in place to restore websites in the event of
+                        intentional or accidental deletion, data corruption, or other disruptions.
                       </p>
-                    </Callout>
-                    <Callout>
+                    </PrintCallout>
+                    <PrintCallout>
                       <H3>Agency-specific Website Compliance Policies Requirements</H3>
                       <p>
                         <strong>
@@ -533,15 +591,16 @@ const Package = ({ siteUsers, atuPackage }) => {
                         Cloud.gov Pages maintains an overarching System Security Plan (SSP) that is
                         updated annually or as significant changes occur.
                       </p>
-                    </Callout>
+                    </PrintCallout>
                     <H2 className="no-print">Final Review and Signature</H2>
-                    <p className="print-heading">Final Review and Signature</p>
+                    <p className="print-h2">Final Review and Signature</p>
                     <ItemVerification
                       sectionName="Final quality and compliance checks must be completed before publishing."
                       description="Confirm the following: Review has been completed by the designated content reviewer; Final approval has been provided by the appropriate content owner or manager; All content was reviewed and approved according to agency publishing procedures."
                       value={atuPackage?.finalReviewCheck}
                     />
-                    <H3>Required Signatures</H3>
+                    <H3 className="no-print">Required Signatures</H3>
+                    <p className="print-h2">Required Signatures</p>
                     <p>
                       This Site Authority to Use (ATU) is valid until one of the following
                       conditions occurs which will require a new site ATU review.
@@ -556,32 +615,35 @@ const Package = ({ siteUsers, atuPackage }) => {
                         regarding content review and its alignment with the ATU process.
                       </li>
                     </ul>
-                    <H3>Agency Website Owner</H3>
-                    <Callout>
+                    <H3 className="no-print">Agency Website Owner</H3>
+                    <p className="print-h3">Agency Website Owner</p>
+                    <PrintCallout>
                       <SignatureCallout fullName={atuPackage?.agencyOwner?.fullName} />
-                    </Callout>
-                    <H3>Agency Website Manager</H3>
-                    <Callout>
+                    </PrintCallout>
+                    <H3 className="no-print">Agency Website Manager</H3>
+                    <p className="print-h3">Agency Website Manager</p>
+                    <PrintCallout>
                       <SignatureCallout fullName={atuPackage?.agencySiteManager?.fullName} />
-                    </Callout>
-                    <H3>Information Security Office Representative</H3>
+                    </PrintCallout>
+                    <H3 className="no-print">Information Security Office Representative</H3>
+                    <p className="print-h3">Information Security Office Representative</p>
                     <p>
                       The Agency&apos;s Information Security Office Representative signature
                       certifies that the information contained in this document has been reviewed
                       and that the site is appropriately configured to what is required for its
                       operation.
                     </p>
-                    <Callout>
+                    <PrintCallout>
                       <SignatureCallout fullName={atuPackage?.agencySecurityOfficer?.fullName} />
-                    </Callout>
-                    <Callout className="no-print" backgroundColorClass="bg-primary-lighter">
+                    </PrintCallout>
+                    <PrintCallout className="no-print" backgroundColorClass="bg-primary-lighter">
                       <H2>Download a copy of the ATU document</H2>
                       <p>
                         Forward a copy of the signed ATU document to Pages Compliance for filing.
                         Email: pages-support@cloud.gov
                       </p>
                       <DownloadButton ref={printableSectionRef} />
-                    </Callout>
+                    </PrintCallout>
                   </section>
                 </div>
               </div>
