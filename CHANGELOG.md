@@ -1,3 +1,29 @@
+## 0.4.0 (2026-04-02)
+
+### Added
+
+- Refine ATU package and dashboard
+- add active state to admin nav links
+- **ci**: Add access tests to SiteAuth collection and ATU package
+- Add site ATU package for managers to download
+- Add site auth global collection to manage ATU
+- Add site compliance ATU Package and compliance section
+- Add site compliance ATU docs page
+- Add side nav collection to collection entries and pages
+- Add collection type edit link in type card
+- Add build site hook on record unpublish or delete
+
+### Fixed
+
+- typescript errors
+- Table heading width to allow the first heading to expand based on content
+- Collection entry preview and dev site gantry version build
+
+### Maintenance
+
+- replace merged Nav components
+- Remove security considerations action
+
 ## 0.3.0 (2026-03-11)
 
 ### Added
