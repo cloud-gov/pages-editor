@@ -5,7 +5,7 @@ import { buildFilteredUrl, getCollectionTypes, getUserSiteInfo } from '@/compone
 import NavClient from './NavClient'
 
 const Nav: React.FC<{ payload: BasePayload }> = async ({ payload }) => {
-  const headers = nextHeaders()
+  const headers = await nextHeaders()
 
   const collectionTypes = await getCollectionTypes(payload, headers)
   const collectionTypeLinks = collectionTypes.docs.map(ct => ({
