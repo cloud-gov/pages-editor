@@ -38,6 +38,16 @@ Docker compose will provide hardcoded PAYLOAD_API_KEY and EDITOR_APP_URL to the 
 #### Launch the app locally
 `npm run dc:up`
 
+#### Launch the app
+```bash
+# Copy the .env.example into the .env file
+# The .env.example has populated with the local dev setup
+cp .env.example .env
+
+# Start the payload server
+npm run dev
+```
+
 After this, the editor is available at localhost:3000/admin; the first load will take a few seconds while the app is compiled.
 
 The database is seeded with the following for local development:
@@ -56,22 +66,7 @@ Using the local seed (`npm run dc:seed`) command creates the live preview experi
 
 #### Seeding and Exporting Data
 
-The `npm run dc:seed` command seeds the database with initial data including sites, users, and collection content. For global data (like Home Page, Menu, Footer, PreFooter, and Site Config), you can export the current state from a running instance:
-
-```bash
-# Export global data to seed files
-npm run export:globals
-```
-
-This command exports the current state of all global collections to `scripts/datasets/globals/` directory. These exported files are then used by the seed script to populate globals when running `npm run dc:seed`.
-
-**Note:** The `export:globals` command only handles global types. Collection data (like Pages, Posts, Events, etc.) is managed separately and seeded from the dataset files in `scripts/datasets/collections/`.
-
-To update seed data:
-1. Make changes to globals in the admin UI or via API
-2. Run `npm run export:globals` to capture the current state
-3. Commit the updated seed files
-4. Future `npm run dc:seed` runs will use the updated data
+To seed the database run `npm run dc:seed` to drop and remigrate the database and seed it with some dev data.
 
 ### Creating database migrations
 
@@ -108,7 +103,7 @@ If you want to make adjustments to the schema as you are working locally, you sh
 
 Once you like the status of the migration, make sure to run `npm run dc:generate:types` to generate the related typescript types of the schema.
 
-**Note: If you are weary of a migration, you can push the branch up but do not create a Pull Request. When a Pull Request is created, the development env will run the migrations and deploy the app. Ask for additional engineering eyes to help confirm the update.
+**Note: If you are weary of a migration, you can push the branch up but do not create a Pull Request. When a Pull Request is created, the development env will run the migrations and deploy the app. Ask for additional engineering eyes to help confirm the update.*
 
 ### Infrastructure Notes
 
@@ -204,7 +199,7 @@ Use a typical favicon.ico and place it in a directory like `/public/assets/favic
 Add to `admin.meta.icons` in payload.config.ts
 ```
 admin {
-   ... 
+   ...
    meta: {
       icons: [
          {

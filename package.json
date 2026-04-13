@@ -33,7 +33,9 @@
     "dc:generate:db-schema": "docker compose run --rm app npm run generate:db-schema",
     "dc:generate:importmap": "docker compose run --rm app npm run generate:importmap",
     "dc:generate:types": "docker compose run --rm app npm run generate:types",
-    "dc:install": "docker compose run --rm app npm ci",
+    "dc:install": "docker compose run --rm app npm install && npm install --os=linux --cpu=arm64 sharp",
+    "dc:install:site1": "docker compose run --rm site1 npm install",
+    "dc:install:site2": "docker compose run --rm site1 npm install",
     "dc:migrate:create": "docker compose run --rm app npx payload migrate:create",
     "dc:migrate:down": "docker compose run --rm app npx payload migrate:down",
     "dc:migrate:fresh": "docker compose run --rm app npx payload migrate:fresh",
@@ -82,7 +84,7 @@
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-hook-form": "7.45.4",
-    "sharp": "^0.34.3",
+    "sharp": "^0.34.5",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.7.2"
@@ -125,6 +127,7 @@
   },
   "optionalDependencies": {
     "@esbuild/darwin-arm64": "^0.25.2",
+    "@next/swc-linux-arm64-gnu": "^16.2.3",
     "@rollup/rollup-linux-x64-gnu": "^4.39.0"
   }
 }
