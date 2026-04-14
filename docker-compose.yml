@@ -122,9 +122,8 @@ services:
     build:
       dockerfile: Dockerfile-pages-site-gantry
       context: ./docker
-      args: &site_gantry_args
-        # Update this tag to test with a different version of the site gantry
-        SITE_GANTRY_TAG: '0.2.0'
+      args: &site_gantry_args # Update this tag to test with a different version of the site gantry
+        SITE_GANTRY_TAG: '0.3.0'
     command: ['npm', 'run', 'dev']
     ports:
       - 4561:4321
@@ -143,6 +142,10 @@ services:
     depends_on:
       app:
         condition: service_started
+      db:
+        condition: service_healthy
+      storage:
+        condition: service_healthy
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://localhost:4321']
       interval: 10s
@@ -172,6 +175,10 @@ services:
     depends_on:
       app:
         condition: service_started
+      db:
+        condition: service_healthy
+      storage:
+        condition: service_healthy
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://localhost:4321']
       interval: 10s

@@ -148,6 +148,9 @@ export interface Config {
     'site-auth': SiteAuthSelect<false> | SiteAuthSelect<true>;
   };
   locale: null;
+  widgets: {
+    collections: CollectionsWidget;
+  };
   user: User;
   jobs: {
     tasks: unknown;
@@ -276,6 +279,7 @@ export interface CollectionType {
    * The collection type's description or summary
    */
   description?: string | null;
+  layoutType?: ('list' | 'grid') | null;
   /**
    * This image will be used as the thumbnail
    */
@@ -1923,6 +1927,7 @@ export interface CollectionTypesSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   description?: T;
+  layoutType?: T;
   image?: T;
   updatedBy?: T;
   reviewReady?: T;
@@ -4301,6 +4306,16 @@ export interface SiteAuthSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collections_widget".
+ */
+export interface CollectionsWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -59,6 +59,19 @@ export const CollectionTypes: CollectionConfig = {
       },
     },
     {
+      name: 'layoutType',
+      label: 'Layout: Are the collection items displayed in a list or card grid?',
+      type: 'radio',
+      defaultValue: 'list',
+      options: [
+        { label: 'List', value: 'list' },
+        { label: 'Card Grid', value: 'grid' },
+      ],
+      admin: {
+        layout: 'vertical',
+      },
+    },
+    {
       name: 'image',
       label: 'Image',
       type: 'upload',
