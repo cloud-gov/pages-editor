@@ -1,3 +1,9 @@
+## 0.4.1 (2026-04-23)
+
+### Fixed
+
+- Leaving EMAIL_HOST on .env.example empty
+
 ## 0.4.0 (2026-04-14)
 
 ### Added
