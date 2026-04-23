@@ -6,6 +6,7 @@ import type {
   TextField,
   UploadField,
 } from 'payload'
+import { hyperlinkLabel } from './hyperlinks'
 
 export { relatedItems } from './relatedItems'
 export * from './content'
@@ -313,3 +314,21 @@ export const titleField: TextField = {
     description: 'The title of the entry',
   },
 }
+
+export const externalLink: any = {
+  name: 'externalLink',
+  label: 'External Link',
+  type: 'group',
+  fields: [
+    hyperlinkLabel,
+    {
+      name: 'url',
+      type: 'text',
+    }
+  ],
+  maxRows: 1,
+  admin: {
+    description: 'Add an external link URL if the source of the information is on another website.',
+  }
+}
+
