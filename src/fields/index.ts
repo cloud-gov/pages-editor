@@ -6,7 +6,7 @@ import type {
   TextField,
   UploadField,
 } from 'payload'
-import { hyperlinkLabel } from './hyperlinks'
+import { validateExternalLinkGroup } from '@/utilities/validators/externalLinkGroup'
 
 export { relatedItems } from './relatedItems'
 export * from './content'
@@ -320,15 +320,19 @@ export const externalLink: any = {
   label: 'External Link',
   type: 'group',
   fields: [
-    hyperlinkLabel,
+    {
+      name: 'label',
+      label: 'The label used for this link',
+      type: 'text',
+      validate: validateExternalLinkGroup('url'),
+    },
     {
       name: 'url',
       type: 'text',
-    }
+      validate: validateExternalLinkGroup('label'),
+    },
   ],
-  maxRows: 1,
   admin: {
     description: 'Add an external link URL if the source of the information is on another website.',
-  }
+  },
 }
-
