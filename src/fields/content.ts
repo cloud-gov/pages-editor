@@ -58,7 +58,7 @@ export const contentField: BlocksField = {
           type: 'array',
           label: 'Content Cards',
           minRows: 1,
-          maxRows: 24,
+          maxRows: 90,
           fields: [
             {
               name: 'title',
