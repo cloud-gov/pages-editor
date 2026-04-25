@@ -20,8 +20,10 @@ import {
   tagsField,
   titleField,
   updatedByField,
+  externalLink,
 } from '@/fields'
 import { getCustomCollectionLivePreview, getCustomCollectionPreview } from '@/utilities/previews'
+import { commonLinkBlocks } from '@/fields/hyperlinks'
 
 export const CollectionEntries: CollectionConfig = {
   slug: 'collection-entries',
@@ -70,6 +72,7 @@ export const CollectionEntries: CollectionConfig = {
     descriptionField,
     imageField,
     filesField,
+    externalLink,
     contentField,
     relatedItems,
     updatedByField,
