@@ -72,6 +72,7 @@ const ATUPackageView: AdminViewConfig = {
 
 const config = {
   admin: {
+    avatar: 'default' as const,
     theme: 'light' as const,
     importMap: {
       baseDir: path.resolve(dirname),
