@@ -377,6 +377,20 @@ export interface CollectionEntry {
   content?:
     | (
         | {
+            title: string;
+            subtitle?: string | null;
+            description?: string | null;
+            bgImage?: (number | null) | Media;
+            ctaButton?: {
+              text?: string | null;
+              url?: string | null;
+              style?: ('primary' | 'secondary' | 'outline') | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
             /**
              * Main content body
              */
@@ -599,6 +613,20 @@ export interface Page {
   image?: (number | null) | Media;
   content?:
     | (
+        | {
+            title: string;
+            subtitle?: string | null;
+            description?: string | null;
+            bgImage?: (number | null) | Media;
+            ctaButton?: {
+              text?: string | null;
+              url?: string | null;
+              style?: ('primary' | 'secondary' | 'outline') | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
         | {
             /**
              * Main content body
@@ -954,6 +982,29 @@ export interface HomePageSiteCollection {
             id?: string | null;
             blockName?: string | null;
             blockType: 'hero';
+          }
+        | {
+            /**
+             * Main content body
+             */
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'richText';
           }
         | {
             title?: string | null;
@@ -1975,6 +2026,23 @@ export interface CollectionEntriesSelect<T extends boolean = true> {
   content?:
     | T
     | {
+        hero?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              description?: T;
+              bgImage?: T;
+              ctaButton?:
+                | T
+                | {
+                    text?: T;
+                    url?: T;
+                    style?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
         richText?:
           | T
           | {
@@ -2066,6 +2134,23 @@ export interface PagesSelect<T extends boolean = true> {
   content?:
     | T
     | {
+        hero?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              description?: T;
+              bgImage?: T;
+              ctaButton?:
+                | T
+                | {
+                    text?: T;
+                    url?: T;
+                    style?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
         richText?:
           | T
           | {
@@ -2393,6 +2478,13 @@ export interface HomePageSiteCollectionSelect<T extends boolean = true> {
                     url?: T;
                     style?: T;
                   };
+              id?: T;
+              blockName?: T;
+            };
+        richText?:
+          | T
+          | {
+              content?: T;
               id?: T;
               blockName?: T;
             };
@@ -3241,6 +3333,29 @@ export interface HomePage {
             blockType: 'hero';
           }
         | {
+            /**
+             * Main content body
+             */
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'richText';
+          }
+        | {
             title?: string | null;
             description?: string | null;
             cards?:
@@ -3964,6 +4079,13 @@ export interface HomePageSelect<T extends boolean = true> {
                     url?: T;
                     style?: T;
                   };
+              id?: T;
+              blockName?: T;
+            };
+        richText?:
+          | T
+          | {
+              content?: T;
               id?: T;
               blockName?: T;
             };
