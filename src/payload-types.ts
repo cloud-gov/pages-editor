@@ -367,6 +367,13 @@ export interface CollectionEntry {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Add an external link URL if the source of the information is on another website.
+   */
+  externalLink?: {
+    label?: string | null;
+    url?: string | null;
+  };
   content?:
     | (
         | {
@@ -1958,6 +1965,12 @@ export interface CollectionEntriesSelect<T extends boolean = true> {
         file?: T;
         label?: T;
         id?: T;
+      };
+  externalLink?:
+    | T
+    | {
+        label?: T;
+        url?: T;
       };
   content?:
     | T

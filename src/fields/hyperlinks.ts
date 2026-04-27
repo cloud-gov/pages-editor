@@ -1,8 +1,6 @@
-import { BlockFields } from '@payloadcms/richtext-lexical'
 import { Block, Field } from 'payload'
-import { blocks } from 'payload/shared'
 
-const hyperlinkLabel: Field = {
+export const hyperlinkLabel: Field = {
   name: 'label',
   label: 'The label used for this link',
   type: 'text',
