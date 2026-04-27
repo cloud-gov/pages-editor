@@ -18,6 +18,71 @@ export const contentField: BlocksField = {
   label: 'Page Content',
   blocks: [
     {
+      slug: 'hero',
+      labels: {
+        singular: 'Hero Section',
+        plural: 'Hero Sections',
+      },
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Hero Title',
+          required: true,
+          defaultValue: 'Welcome to Our Site',
+        },
+        {
+          name: 'subtitle',
+          type: 'text',
+          label: 'Hero Subtitle',
+          defaultValue: 'A modern, accessible website built with the best tools',
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Hero Description',
+          defaultValue:
+            'This is a description of what your site offers and why visitors should care.',
+        },
+        {
+          name: 'bgImage',
+          type: 'upload',
+          label: 'Hero Background Image',
+          relationTo: 'media',
+        },
+        {
+          name: 'ctaButton',
+          type: 'group',
+          label: 'Call to Action Button',
+          fields: [
+            {
+              name: 'text',
+              type: 'text',
+              label: 'Button Text',
+              defaultValue: 'Get Started',
+            },
+            {
+              name: 'url',
+              type: 'text',
+              label: 'Button URL',
+              defaultValue: '/about',
+            },
+            {
+              name: 'style',
+              type: 'select',
+              label: 'Button Style',
+              options: [
+                { label: 'Primary', value: 'primary' },
+                { label: 'Secondary', value: 'secondary' },
+                { label: 'Outline', value: 'outline' },
+              ],
+              defaultValue: 'primary',
+            },
+          ],
+        },
+      ],
+    },
+    {
       slug: 'richText',
       labels: {
         singular: 'Rich Text Section',
