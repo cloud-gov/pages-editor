@@ -1,3 +1,22 @@
+## 0.5.0 (2026-04-27)
+
+### Added
+
+- standardized content field
+- Add validator to external link group
+- add collections external link
+- add collections item link
+
+### Fixed
+
+- misapplication of typing
+- Leaving EMAIL_HOST on .env.example empty
+- Leaving EMAIL_HOST on .env.example empty
+- refactor link field as a simple label + url array
+- refactor externalLink schema
+- Increase card grid max rows to 90 (https://github.com/cloud-gov/private/issues/2901)
+- Leaving EMAIL_HOST on .env.example empty
+
 ## 0.4.0 (2026-04-14)
 
 ### Added
