@@ -121,7 +121,7 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
           <Section title="Global Assets">
             <div className="grid-row grid-gap-2">
               <CardLink
-                href="/admin/globals/alerts"
+                href="admin/collections/alerts"
                 title="Alerts"
                 description="Informational banners for announcements such as deadlines, outages or news."
                 label="View all alerts"

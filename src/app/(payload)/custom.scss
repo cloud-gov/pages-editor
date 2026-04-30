@@ -118,7 +118,7 @@ label.field-label:not(.unstyled) {
 }
 
 .list-header .btn:not(.btn--style-none) {
-    background-color: var(--color-primary-darker);
+  background-color: var(--color-primary-darker);
 }
 
 // Hide any theme selector components
@@ -618,4 +618,39 @@ button {
 
 .link-button:hover {
   background-color: var(--color-base-darker);
+}
+
+// Logo styling
+
+.graphic-logo {
+  max-height: 50px;
+}
+
+.graphic-icon {
+  height: 19px;
+}
+
+.cls-1 {
+  fill: #2d2e2f;
+}
+
+.cls-2 {
+  fill: #c2c2be;
+}
+
+.cls-3 {
+  fill: #0fadd0;
+}
+
+.cls-4 {
+  fill: #fff;
+}
+
+.cls-5 {
+  fill: #2e2e2e;
+  fill-rule: evenodd;
+}
+
+.cls-6 {
+  fill: #333;
 }

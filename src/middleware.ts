@@ -5,17 +5,18 @@ const cgSources = '*.app.cloud.gov *.cloud.gov'
 export function middleware(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
   const isDev = process.env.NODE_ENV === 'development'
+  const cgSources = `*.app.cloud.gov *.cloud.gov ${isDev ? 'localhost:4321 localhost:4561 localhost:4562' : ''}`
   const cspHeader = `
-    default-src 'self';
+    default-src 'self' ${cgSources};
     script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''};
     style-src 'self' 'nonce-${nonce}';
     img-src 'self' blob: data:;
     font-src 'self';
-    object-src 'none';
+    object-src 'self';
     base-uri 'self';
     form-action 'self';
-    frame-ancestors 'self' ${cgSources};
-    frame-src: ${cgSources};
+    frame-src: 'self' ${cgSources};
+    child-src: 'self' ${cgSources};
     upgrade-insecure-requests;
 `
   // Replace newline characters and spaces

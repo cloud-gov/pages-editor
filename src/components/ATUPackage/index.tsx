@@ -17,7 +17,7 @@ export default async function SiteCompliance(props: AdminViewServerProps) {
   const { initPageResult, params, searchParams } = props
   const { req, permissions, locale, visibleEntities } = initPageResult
   const { user, siteUsers, atuPackage } = await getSiteATUPackage(req.payload, req.headers).catch(
-    (err) => redirect(`/admin/login`),
+    () => redirect(`/admin/login`),
   )
 
   return (
