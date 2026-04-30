@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+const cgSources = '*.app.cloud.gov *.cloud.gov'
+
 export function middleware(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
   const isDev = process.env.NODE_ENV === 'development'
@@ -12,7 +14,8 @@ export function middleware(request: NextRequest) {
     object-src 'none';
     base-uri 'self';
     form-action 'self';
-    frame-ancestors 'none';
+    frame-ancestors 'self' ${cgSources};
+    frame-src: ${cgSources};
     upgrade-insecure-requests;
 `
   // Replace newline characters and spaces
