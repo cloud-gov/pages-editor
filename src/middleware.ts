@@ -12,12 +12,12 @@ export function middleware(request: NextRequest) {
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data:;
     font-src 'self';
-    object-src 'self';
+    object-src 'none';
     base-uri 'self';
     form-action 'self';
-    frame-ancestors: 'none';
-    frame-src: 'self' ${cgSources};
-    child-src: 'self' ${cgSources};
+    connect-src 'self';
+    frame-ancestors 'none';
+    frame-src 'self' ${cgSources};
     upgrade-insecure-requests;
 `
   // Replace newline characters and spaces
