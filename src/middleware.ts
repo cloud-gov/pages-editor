@@ -9,12 +9,13 @@ export function middleware(request: NextRequest) {
   const cspHeader = `
     default-src 'self' ${cgSources};
     script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''};
-    style-src 'self' 'nonce-${nonce}';
+    style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data:;
     font-src 'self';
     object-src 'self';
     base-uri 'self';
     form-action 'self';
+    frame-ancestors: 'none';
     frame-src: 'self' ${cgSources};
     child-src: 'self' ${cgSources};
     upgrade-insecure-requests;
