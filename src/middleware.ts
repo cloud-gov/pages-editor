@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const cgSources = '*.app.cloud.gov *.cloud.gov'
-
 export function middleware(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
   const isDev = process.env.NODE_ENV === 'development'
