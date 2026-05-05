@@ -416,6 +416,7 @@ export interface CollectionEntry {
         | {
             title?: string | null;
             description?: string | null;
+            amountCards?: ('3' | '2' | '1') | null;
             cards?:
               | {
                   title: string;
@@ -653,6 +654,7 @@ export interface Page {
         | {
             title?: string | null;
             description?: string | null;
+            amountCards?: ('3' | '2' | '1') | null;
             cards?:
               | {
                   title: string;
@@ -1009,6 +1011,7 @@ export interface HomePageSiteCollection {
         | {
             title?: string | null;
             description?: string | null;
+            amountCards?: ('3' | '2' | '1') | null;
             cards?:
               | {
                   title: string;
@@ -2055,6 +2058,7 @@ export interface CollectionEntriesSelect<T extends boolean = true> {
           | {
               title?: T;
               description?: T;
+              amountCards?: T;
               cards?:
                 | T
                 | {
@@ -2163,6 +2167,7 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               title?: T;
               description?: T;
+              amountCards?: T;
               cards?:
                 | T
                 | {
@@ -2493,6 +2498,7 @@ export interface HomePageSiteCollectionSelect<T extends boolean = true> {
           | {
               title?: T;
               description?: T;
+              amountCards?: T;
               cards?:
                 | T
                 | {
@@ -3358,6 +3364,7 @@ export interface HomePage {
         | {
             title?: string | null;
             description?: string | null;
+            amountCards?: ('3' | '2' | '1') | null;
             cards?:
               | {
                   title: string;
@@ -4094,6 +4101,7 @@ export interface HomePageSelect<T extends boolean = true> {
           | {
               title?: T;
               description?: T;
+              amountCards?: T;
               cards?:
                 | T
                 | {

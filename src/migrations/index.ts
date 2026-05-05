@@ -60,6 +60,7 @@ import * as migration_20260325_223552_add_final_review_question from './20260325
 import * as migration_20260409_214841_add_layout_type_to_collection_types from './20260409_214841_add_layout_type_to_collection_types';
 import * as migration_20260424_194948_add_external_link_field_to_collections from './20260424_194948_add_external_link_field_to_collections';
 import * as migration_20260427_180144_standerize_content_fields from './20260427_180144_standerize_content_fields';
+import * as migration_20260505_140937_add_amount_card_property from './20260505_140937_add_amount_card_property';
 
 export const migrations = [
   {
@@ -370,6 +371,11 @@ export const migrations = [
   {
     up: migration_20260427_180144_standerize_content_fields.up,
     down: migration_20260427_180144_standerize_content_fields.down,
-    name: '20260427_180144_standerize_content_fields'
+    name: '20260427_180144_standerize_content_fields',
+  },
+  {
+    up: migration_20260505_140937_add_amount_card_property.up,
+    down: migration_20260505_140937_add_amount_card_property.down,
+    name: '20260505_140937_add_amount_card_property'
   },
 ];
