@@ -503,6 +503,15 @@ export interface Tag {
   slug?: string | null;
   slugLock?: boolean | null;
   site: number | Site;
+  parent?: (number | null) | Tag;
+  breadcrumbs?:
+    | {
+        doc?: (number | null) | Tag;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2254,6 +2263,15 @@ export interface TagsSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   site?: T;
+  parent?: T;
+  breadcrumbs?:
+    | T
+    | {
+        doc?: T;
+        url?: T;
+        label?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

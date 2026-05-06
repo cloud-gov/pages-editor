@@ -9,6 +9,7 @@ import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { getServerSideURL } from '@/utilities/getURL'
+import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 
 const generateTitle: GenerateTitle = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
@@ -80,6 +81,12 @@ export const plugins: Plugin[] = [
         return [...defaultFields, ...searchFields]
       },
     },
+  }),
+  nestedDocsPlugin({
+    collections: ['tags'],
+    generateLabel: (_, doc) => String(doc.title),
+    generateURL: (docs) =>
+      docs.reduce((url, doc) => `${url}/${String(doc.slug)}`, ''),
   }),
   payloadCloudPlugin(),
   uaaOauth,
