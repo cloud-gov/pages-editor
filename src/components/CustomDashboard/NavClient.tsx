@@ -4,9 +4,16 @@ import React from 'react'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { NavGroup } from '@payloadcms/ui'
+import { buildFilteredUrl } from '../utilities'
 
 type NavClientProps = {
   collectionTypeLinks: {
+    id: string
+    title: string
+    slug: string | null | undefined
+    href: string
+  }[]
+  tagTypeLinks: {
     id: string
     title: string
     slug: string | null | undefined
@@ -16,7 +23,7 @@ type NavClientProps = {
   selectedSiteRole: 'user' | 'manager' | 'bot' | null | undefined
 }
 
-const NavClient: React.FC<NavClientProps> = ({ collectionTypeLinks, user, selectedSiteRole }) => {
+const NavClient: React.FC<NavClientProps> = ({ collectionTypeLinks, tagTypeLinks, user, selectedSiteRole }) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -95,6 +102,14 @@ const NavClient: React.FC<NavClientProps> = ({ collectionTypeLinks, user, select
               &oplus; Create Collection Type
             </Link>
             <NavGroup label="&#128193; Content Collections">
+              {collectionTypeLinks.length === 0 && (
+                <Link
+                  href="/admin/collections/collection-types/create"
+                    className={`nav__link ${isActive('/admin/collections/collection-types/create') ? 'nav__link--active' : ''}`}
+                >
+                  No Collections created. Create your first collection.
+                </Link>
+              )}
               {collectionTypeLinks.map((type) => {
                 return (
                   <Link
@@ -122,6 +137,40 @@ const NavClient: React.FC<NavClientProps> = ({ collectionTypeLinks, user, select
                 HomePage
               </Link>
             </NavGroup>
+            <Link
+              className="link-button margin-bottom-2 width-full"
+              href="/admin/collections/tag-types/create"
+            >
+              &oplus; Create Tag Type
+            </Link>
+            <NavGroup label=" Tag Types">
+              {tagTypeLinks.length === 0 && (
+                <Link
+                  href="/admin/collections/tag-types/create"
+                    className={`nav__link ${isActive('/admin/collections/tag-types/create') ? 'nav__link--active' : ''}`}
+                >
+                  No Tag Types created. Create your first tag type.
+                </Link>
+              )}
+              {tagTypeLinks.map((type) => {
+                return (
+                  <Link
+                    key={type.id}
+                    href={type.href}
+                    className={`nav__link ${isCollectionTypeActive(type.id) ? 'nav__link--active' : ''}`}
+                  >
+                    {type.title}
+                  </Link>
+                )
+              })}
+              <Link
+                href={buildFilteredUrl(null, 'tags', 'tagTypes')}
+                title="Ungrouped Tags"
+                className={`nav__link ${isActive('/admin/collections/tags') ? 'nav__link--active' : ''}`}
+              >
+                Ungrouped Tags
+              </Link>
+            </NavGroup>
             <NavGroup label="&#x1F30F; Global Assets">
               <Link
                 href="/admin/collections/alerts"
@@ -135,13 +184,6 @@ const NavClient: React.FC<NavClientProps> = ({ collectionTypeLinks, user, select
                 className={`nav__link ${isActive('/admin/collections/media') ? 'nav__link--active' : ''}`}
               >
                 Media
-              </Link>
-
-              <Link
-                href="/admin/collections/tags"
-                className={`nav__link ${isActive('/admin/collections/tags') ? 'nav__link--active' : ''}`}
-              >
-                Tags
               </Link>
 
               <Link

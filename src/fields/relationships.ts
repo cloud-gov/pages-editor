@@ -32,6 +32,17 @@ export const tagsField: RelationshipField = {
   },
 }
 
+export const tagTypeField: RelationshipField = {
+  name: 'tagTypes',
+  label: 'Tag Type',
+  type: 'relationship',
+  relationTo: 'tag-types',
+  required: false,
+  admin: {
+    description: 'Select which collection type this page belongs to',
+  },
+}
+
 export const sideNavigationField: RelationshipField = {
   name: 'sideNavigation',
   type: 'relationship',

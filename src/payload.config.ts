@@ -30,6 +30,7 @@ import { migrations } from './migrations'
 import { Alerts } from './collections/Alerts'
 import { CollectionTypes } from './collections/CollectionTypes'
 import { CollectionEntries } from './collections/CollectionEntries'
+import { TagTypes } from './collections/TagTypes'
 
 // Any site global fields must use the `createSiteGlobal` function
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
@@ -148,6 +149,7 @@ const config = {
     // Global Assets group
     Media,
     Tags,
+    TagTypes,
     // User Management group
     Users,
     // Site Configuration group

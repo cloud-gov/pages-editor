@@ -8,16 +8,20 @@ type UserSiteInfo = {
   selectedSiteRole?: 'manager' | 'user' | 'bot' | null
 }
 
-export const buildFilteredUrl = (collectionTypeId: string | number) => {
+export const buildFilteredUrl = (
+  collectionTypeId: string | number | null,
+  collectionType: string,
+  urlType: string,
+) => {
   const params = new URLSearchParams({
     limit: '10',
     page: '1',
   })
 
   // Add the where filter with the proper structure
-  params.append('where[or][0][and][0][collectionType][equals]', String(collectionTypeId))
+  params.append(`where[or][0][and][0][${urlType}][equals]`, String(collectionTypeId))
 
-  return `/admin/collections/collection-entries?${params.toString()}`
+  return `/admin/collections/${collectionType}?${params.toString()}`
 }
 
 export const getUserSiteInfo = async (
@@ -124,4 +128,20 @@ export const getCollectionTypes = async (payload: BasePayload, headers) => {
   })
 
   return collectionTypes
+}
+
+export const getTagTypes = async (payload: BasePayload, headers) => {
+  const { selectedSiteId } = await getUserSiteInfo(payload, headers)
+
+  const tagTypes = await payload.find({
+    collection: 'tag-types',
+    where: {
+      site: {
+        equals: selectedSiteId,
+      },
+    },
+    limit: 100,
+  })
+
+  return tagTypes;
 }

@@ -1,19 +1,20 @@
 import React from 'react'
 import { BasePayload } from 'payload'
 import { headers as nextHeaders } from 'next/headers'
-import { getUserSiteInfo, getCollectionTypes } from '@/components/utilities'
+import { getUserSiteInfo, getCollectionTypes, getTagTypes } from '@/components/utilities'
 import TopTasks from './TopTasks'
 import SiteSelect from './SiteSelect'
 import ListSiteCollectionTypes from './ListSiteCollectionTypes'
 import Section from './Section'
 import CardLink from './CardLink'
+import ListSiteTagTypes from './ListSiteTagTypes'
 
 const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
   const { payload } = props
   const headers = await nextHeaders()
   const { user, sites, selectedSiteId, selectedSiteRole } = await getUserSiteInfo(payload, headers)
   const collectionTypes = await getCollectionTypes(payload, headers)
-
+  const tagTypes = await getTagTypes(payload, headers)
   return (
     <div className="grid-container">
       <div className="grid-row margin-top-0">
@@ -101,6 +102,9 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
 
           <ListSiteCollectionTypes collectionTypes={collectionTypes} />
 
+          <ListSiteTagTypes tagTypes={tagTypes} />
+
+
           <Section title="Content Pages">
             <div className="grid-row grid-gap-2">
               <CardLink
@@ -131,12 +135,6 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
                 title="Media"
                 description="Site-wide images, videos, and files used across pages and content."
                 label="View all media"
-              />
-              <CardLink
-                href="/admin/collections/tags"
-                title="Tags"
-                description="Tags used to organize and filter content across the site."
-                label="View all tags"
               />
               <CardLink
                 href="/admin/globals/not-found-page"
