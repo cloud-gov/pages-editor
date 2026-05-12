@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
-import { siteField } from '@/fields/relationships'
+import { siteField, tagTypeField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 
 export const Tags: CollectionConfig = {
@@ -29,6 +29,7 @@ export const Tags: CollectionConfig = {
       required: false,
     },
     ...slugField(),
+    tagTypeField,
     siteField,
   ],
 }

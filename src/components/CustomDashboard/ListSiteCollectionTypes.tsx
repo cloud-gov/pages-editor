@@ -37,7 +37,7 @@ export default function ListSiteCollectionTypes({
       {docs.length > 0 && (
         <div className="grid-row grid-gap-2">
           {docs.map((type) => {
-            const filteredUrl = buildFilteredUrl(type.id)
+            const filteredUrl = buildFilteredUrl(type.id, 'collection-entries', 'collectionType')
             return (
               <CardLink
                 key={type.id}

@@ -61,6 +61,7 @@ import * as migration_20260409_214841_add_layout_type_to_collection_types from '
 import * as migration_20260424_194948_add_external_link_field_to_collections from './20260424_194948_add_external_link_field_to_collections';
 import * as migration_20260427_180144_standerize_content_fields from './20260427_180144_standerize_content_fields';
 import * as migration_20260505_140937_add_amount_card_property from './20260505_140937_add_amount_card_property';
+import * as migration_20260508_190303_add_tag_types_collection from './20260508_190303_add_tag_types_collection';
 
 export const migrations = [
   {
@@ -376,6 +377,11 @@ export const migrations = [
   {
     up: migration_20260505_140937_add_amount_card_property.up,
     down: migration_20260505_140937_add_amount_card_property.down,
-    name: '20260505_140937_add_amount_card_property'
+    name: '20260505_140937_add_amount_card_property',
+  },
+  {
+    up: migration_20260508_190303_add_tag_types_collection.up,
+    down: migration_20260508_190303_add_tag_types_collection.down,
+    name: '20260508_190303_add_tag_types_collection'
   },
 ];

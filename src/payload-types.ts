@@ -73,6 +73,7 @@ export interface Config {
     pages: Page;
     media: Media;
     tags: Tag;
+    'tag-types': TagType;
     sites: Site;
     'side-navigation': SideNavigation;
     'menu-site-collection': MenuSiteCollection;
@@ -104,6 +105,7 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
+    'tag-types': TagTypesSelect<false> | TagTypesSelect<true>;
     sites: SitesSelect<false> | SitesSelect<true>;
     'side-navigation': SideNavigationSelect<false> | SideNavigationSelect<true>;
     'menu-site-collection': MenuSiteCollectionSelect<false> | MenuSiteCollectionSelect<true>;
@@ -503,9 +505,41 @@ export interface Tag {
   description?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
+  /**
+   * Select which collection type this page belongs to
+   */
+  tagTypes?: (number | null) | TagType;
   site: number | Site;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * Organize Tags under defined Tag Types.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tag-types".
+ */
+export interface TagType {
+  id: number;
+  /**
+   * The display name for this tag type
+   */
+  title: string;
+  /**
+   * The URL slug for this tag type
+   */
+  slug?: string | null;
+  slugLock?: boolean | null;
+  /**
+   * The tag type's description or summary
+   */
+  description?: string | null;
+  updatedBy?: (number | null) | User;
+  reviewReady?: boolean | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * Create and manage side navigation menus for single pages and collections.
@@ -1863,6 +1897,10 @@ export interface PayloadLockedDocument {
         value: number | Tag;
       } | null)
     | ({
+        relationTo: 'tag-types';
+        value: number | TagType;
+      } | null)
+    | ({
         relationTo: 'sites';
         value: number | Site;
       } | null)
@@ -2258,9 +2296,26 @@ export interface TagsSelect<T extends boolean = true> {
   description?: T;
   slug?: T;
   slugLock?: T;
+  tagTypes?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tag-types_select".
+ */
+export interface TagTypesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  slugLock?: T;
+  description?: T;
+  updatedBy?: T;
+  reviewReady?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
