@@ -237,6 +237,8 @@ const Package = ({ siteUsers, atuPackage }) => {
                       Publisher. Cloud.gov Pages is a FedRAMP-approved Software as a Service (SaaS)
                       hosting application.
                     </p>
+
+                    {/* Hosting and Platform Overview */}
                     <H2 className="no-print">Hosting and Platform Overview</H2>
                     <p className="print-h2">Hosting and Platform Overview</p>
                     <H3 className="no-print">Leveraged Authorizations</H3>
@@ -290,6 +292,8 @@ const Package = ({ siteUsers, atuPackage }) => {
                       websites that do not require user authentication. It offers a secure platform
                       for managing, editing, and publishing website content.{' '}
                     </p>
+
+                    {/* Site Point of Contacts */}
                     <H2 className="no-print">Site Point of Contacts (POCs)</H2>
                     <p className="print-h2">Site Point of Contacts (POCs)</p>
                     <ItemCallout
@@ -355,6 +359,8 @@ const Package = ({ siteUsers, atuPackage }) => {
                           data={rep.thirdPartyRepresentative || {}}
                         />
                       ))}
+
+                    {/* Website Information */}
                     <H2 className="no-print">Website Information</H2>
                     <p className="print-h2">Website Information</p>
                     <p>
@@ -380,6 +386,56 @@ const Package = ({ siteUsers, atuPackage }) => {
                       ]}
                       data={atuPackage?.websiteInfo || {}}
                     />
+
+
+                    {/* Flow Diagrams */}
+                    <H2 className="no-print">Flow Diagram of Site Architecture</H2>
+                    <p className="print-h2">Flow Diagram of Site Architecture</p>
+                    <p>
+                      This diagram illustrates how your site fits within the Pages infrastructure.
+                      It depicts the editing, publish, and deployment flow of the Pages site
+                    </p>
+                    <img
+                      src="/assets/images/atu-edit-publish-flow-diagram.png"
+                      alt="The flow diagram outlining the edit and publish flow within the Pages platform."
+                    />
+
+                    {/* Site Categorization and Privacy */}
+                    <H2 className="no-print">Site Categorization and Privacy</H2>
+                    <p className="print-h2">Site Categorization and Privacy</p>
+                    <p>
+                      All websites hosted on Cloud.gov Pages are designed exclusively for
+                      non-Personally Identifiable Information (PII), non-sensitive data, publicly
+                      accessible information and do not require a login from the site visitors.
+                    </p>
+                    <Table
+                      columns={['Type', 'Value']}
+                      rows={[
+                        [
+                          {
+                            column: 'Type',
+                            value: 'Security Categorization (FIPS 199)',
+                          },
+                          {
+                            column: 'Value',
+                            value: 'Low',
+                          },
+                        ],
+                        [
+                          {
+                            column: 'Type',
+                            value: 'Privacy',
+                          },
+                          {
+                            column: 'Value',
+                            value: 'No Personally Identifiable Information (PII)',
+                          },
+                        ],
+                      ]}
+                      showHeader={false}
+                    />
+
+                    {/* Content Review Checklist */}
                     <H2 className="no-print">Content Review Checklist</H2>
                     <p className="print-h2">Content Review Checklist</p>
                     <ItemVerification
@@ -402,6 +458,8 @@ const Package = ({ siteUsers, atuPackage }) => {
                       description="Content was reviewed to confirm accessibility compliance and clarity for all users."
                       value={atuPackage?.formatCheck}
                     />
+
+                    {/* Security Controls Review Summary */}
                     <H2 className="no-print">Security Controls Review Summary</H2>
                     <p className="print-h2">Security Controls Review Summary</p>
                     <PrintCallout>
@@ -592,6 +650,8 @@ const Package = ({ siteUsers, atuPackage }) => {
                         updated annually or as significant changes occur.
                       </p>
                     </PrintCallout>
+
+                    {/* Final Review and Signature */}
                     <H2 className="no-print">Final Review and Signature</H2>
                     <p className="print-h2">Final Review and Signature</p>
                     <ItemVerification
