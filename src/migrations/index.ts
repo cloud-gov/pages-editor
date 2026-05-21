@@ -62,6 +62,7 @@ import * as migration_20260424_194948_add_external_link_field_to_collections fro
 import * as migration_20260427_180144_standerize_content_fields from './20260427_180144_standerize_content_fields';
 import * as migration_20260505_140937_add_amount_card_property from './20260505_140937_add_amount_card_property';
 import * as migration_20260508_190303_add_tag_types_collection from './20260508_190303_add_tag_types_collection';
+import * as migration_20260526_134306_published_build_status_collection from './20260526_134306_published_build_status_collection';
 
 export const migrations = [
   {
@@ -382,6 +383,11 @@ export const migrations = [
   {
     up: migration_20260508_190303_add_tag_types_collection.up,
     down: migration_20260508_190303_add_tag_types_collection.down,
-    name: '20260508_190303_add_tag_types_collection'
+    name: '20260508_190303_add_tag_types_collection',
+  },
+  {
+    up: migration_20260526_134306_published_build_status_collection.up,
+    down: migration_20260526_134306_published_build_status_collection.down,
+    name: '20260526_134306_published_build_status_collection'
   },
 ];
