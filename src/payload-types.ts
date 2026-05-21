@@ -991,6 +991,24 @@ export interface SiteConfigSiteCollection {
     | null;
   favicon?: (number | null) | Media;
   logo?: (number | null) | Media;
+  theme?: {
+    colorPrimary?: string | null;
+    colorPrimaryOn?: string | null;
+    colorSecondary?: string | null;
+    colorSecondaryOn?: string | null;
+    colorAccent?: string | null;
+    colorText?: string | null;
+    colorBg?: string | null;
+    colorSurface?: string | null;
+    colorBorder?: string | null;
+    colorLink?: string | null;
+    fontBody?: string | null;
+    fontHeading?: string | null;
+    layoutMaxWidth?: string | null;
+    spaceSectionY?: string | null;
+    radiusMd?: string | null;
+    customCss?: string | null;
+  };
   reviewReady?: boolean | null;
   site: number | Site;
   updatedAt: string;
@@ -2533,6 +2551,26 @@ export interface SiteConfigSiteCollectionSelect<T extends boolean = true> {
   primaryFont?: T;
   favicon?: T;
   logo?: T;
+  theme?:
+    | T
+    | {
+        colorPrimary?: T;
+        colorPrimaryOn?: T;
+        colorSecondary?: T;
+        colorSecondaryOn?: T;
+        colorAccent?: T;
+        colorText?: T;
+        colorBg?: T;
+        colorSurface?: T;
+        colorBorder?: T;
+        colorLink?: T;
+        fontBody?: T;
+        fontHeading?: T;
+        layoutMaxWidth?: T;
+        spaceSectionY?: T;
+        radiusMd?: T;
+        customCss?: T;
+      };
   reviewReady?: T;
   site?: T;
   updatedAt?: T;
@@ -3304,6 +3342,24 @@ export interface SiteConfig {
     | null;
   favicon?: (number | null) | Media;
   logo?: (number | null) | Media;
+  theme?: {
+    colorPrimary?: string | null;
+    colorPrimaryOn?: string | null;
+    colorSecondary?: string | null;
+    colorSecondaryOn?: string | null;
+    colorAccent?: string | null;
+    colorText?: string | null;
+    colorBg?: string | null;
+    colorSurface?: string | null;
+    colorBorder?: string | null;
+    colorLink?: string | null;
+    fontBody?: string | null;
+    fontHeading?: string | null;
+    layoutMaxWidth?: string | null;
+    spaceSectionY?: string | null;
+    radiusMd?: string | null;
+    customCss?: string | null;
+  };
   reviewReady?: boolean | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
@@ -4044,6 +4100,26 @@ export interface SiteConfigSelect<T extends boolean = true> {
   primaryFont?: T;
   favicon?: T;
   logo?: T;
+  theme?:
+    | T
+    | {
+        colorPrimary?: T;
+        colorPrimaryOn?: T;
+        colorSecondary?: T;
+        colorSecondaryOn?: T;
+        colorAccent?: T;
+        colorText?: T;
+        colorBg?: T;
+        colorSurface?: T;
+        colorBorder?: T;
+        colorLink?: T;
+        fontBody?: T;
+        fontHeading?: T;
+        layoutMaxWidth?: T;
+        spaceSectionY?: T;
+        radiusMd?: T;
+        customCss?: T;
+      };
   reviewReady?: T;
   _status?: T;
   updatedAt?: T;
