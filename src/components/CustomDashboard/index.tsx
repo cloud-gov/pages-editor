@@ -206,6 +206,12 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
                 description="Configure site search settings and digital analytics integrations."
                 label="View"
               />
+              <CardLink
+                href="admin/collections/published-build-status"
+                title="Published Build Statis"
+                description="Manage Published Buid status."
+                label="View"
+              />
             </div>
           </Section>
 

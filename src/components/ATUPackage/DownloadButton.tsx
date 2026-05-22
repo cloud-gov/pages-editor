@@ -16,7 +16,7 @@ const PrintSection = ({ ref }: { ref: React.RefObject<HTMLDivElement | null> }) 
     printWindow.document.write(`
             <html>
                 <head>
-                    <title>site-atu-package</title>
+                    <title>Site Authority to Use (ATU) Package</title>
                     <style>
                         body { font-family: Arial, sans-serif; padding: 20px; }
                     </style>

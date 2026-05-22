@@ -221,7 +221,7 @@ resources:
       access_token: ((gh-access-token))
       base_branch: main
       disable_forks: true
-      ignore_drafts: false
+      ignore_drafts: true
 
   #@ if/end env == 'staging':
   - name: src

@@ -253,6 +253,14 @@ const NavClient: React.FC<NavClientProps> = ({ collectionTypeLinks, tagTypeLinks
               >
                 Web Analytics
               </Link>
+            {(selectedSiteRole === 'manager' || user.isAdmin) && (
+              <Link
+                  href="/admin/collections/published-build-status"
+                  className={`nav__link ${isActive('/admin/collections/published-build-status') ? 'nav__link--active' : ''}`}
+              >
+                Published Build Status
+              </Link>
+            )}
             </NavGroup>
             {selectedSiteRole === 'manager' && (
               <NavGroup label="&#128272; Site Compliance and Security">

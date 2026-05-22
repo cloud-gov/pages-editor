@@ -31,6 +31,7 @@ import { Alerts } from './collections/Alerts'
 import { CollectionTypes } from './collections/CollectionTypes'
 import { CollectionEntries } from './collections/CollectionEntries'
 import { TagTypes } from './collections/TagTypes'
+import { PublishedBuildStatus } from './collections/PublishedBuildStatus'
 
 // Any site global fields must use the `createSiteGlobal` function
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
@@ -163,6 +164,7 @@ const config = {
     NotFoundPageCollection,
     SearchAnalyticsPageCollection,
     SiteAuthCollection,
+    PublishedBuildStatus,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [

@@ -233,5 +233,24 @@ export const test = vitest.extend<LocalTestContext>({
     )
     await use(siteAuthSiteCollection)
   },
+    publishedBuildStatus: async ({ payload, tid, sites }, use) => {
+    const publishedBuildStatuses = await Promise.all(
+      sites.map(async (site) => {
+        return create(payload, tid, {
+          collection: 'published-build-status',
+          data: {
+            site,
+            error:null,
+            state:'success',
+            pagesBuildId:1,
+            completedAt:new Date().toISOString(),
+            startedAt:new Date().toISOString(),
+          },
+        })
+      }),
+    )
+
+    await use(publishedBuildStatuses)
+  },
   payload: global.payload,
 })
