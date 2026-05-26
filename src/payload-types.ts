@@ -84,6 +84,7 @@ export interface Config {
     'not-found-page-site-collection': NotFoundPageSiteCollection;
     'search-analytics-page-site-collection': SearchAnalyticsPageSiteCollection;
     'site-auth-site-collection': SiteAuthSiteCollection;
+    'published-build-status': PublishedBuildStatus;
     forms: Form;
     'form-submissions': FormSubmission;
     search: Search;
@@ -116,6 +117,7 @@ export interface Config {
     'not-found-page-site-collection': NotFoundPageSiteCollectionSelect<false> | NotFoundPageSiteCollectionSelect<true>;
     'search-analytics-page-site-collection': SearchAnalyticsPageSiteCollectionSelect<false> | SearchAnalyticsPageSiteCollectionSelect<true>;
     'site-auth-site-collection': SiteAuthSiteCollectionSelect<false> | SiteAuthSiteCollectionSelect<true>;
+    'published-build-status': PublishedBuildStatusSelect<false> | PublishedBuildStatusSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
@@ -1628,6 +1630,23 @@ export interface SiteAuthSiteCollection {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Build Status List
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "published-build-status".
+ */
+export interface PublishedBuildStatus {
+  id: number;
+  pagesBuildId?: number | null;
+  completedAt?: string | null;
+  state?: string | null;
+  startedAt?: string | null;
+  error?: string | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
@@ -1939,6 +1958,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'site-auth-site-collection';
         value: number | SiteAuthSiteCollection;
+      } | null)
+    | ({
+        relationTo: 'published-build-status';
+        value: number | PublishedBuildStatus;
       } | null)
     | ({
         relationTo: 'forms';
@@ -2901,6 +2924,20 @@ export interface SiteAuthSiteCollectionSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "published-build-status_select".
+ */
+export interface PublishedBuildStatusSelect<T extends boolean = true> {
+  pagesBuildId?: T;
+  completedAt?: T;
+  state?: T;
+  startedAt?: T;
+  error?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

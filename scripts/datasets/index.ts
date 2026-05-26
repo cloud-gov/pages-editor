@@ -4,6 +4,7 @@ import collectionEntries from './collection-entries'
 import collectionTypes from './collection-types'
 import tags from './tags'
 import pages from './pages'
+import publishedBuildStatus from './published-build-status'
 
 class Loader {
   payload: BasePayload
@@ -64,6 +65,11 @@ class Loader {
     return this.loadList('pages', data)
   }
 
+  async loadPublishedBuildStatus(siteId: number){
+    const data = publishedBuildStatus(siteId)
+    return this.loadList('published-build-status', data)
+  }
+
   async runLoading(siteId: number) {
     try {
       const tags = await this.loadtags(siteId)
@@ -71,6 +77,7 @@ class Loader {
       // @ts-ignore
       await this.loadCollectionEntries(siteId, collectionTypes, tags)
       await this.loadPages(siteId)
+      await this.loadPublishedBuildStatus(siteId)
     } catch (error) {
       console.error(`\nError occurred during dataset load for site ${siteId}...`)
       console.error(error.message)
