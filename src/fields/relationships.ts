@@ -29,6 +29,14 @@ export const tagsField: RelationshipField = {
   admin: {
     description: 'Select one or more tags to associate with this content',
     position: 'sidebar',
+    components: {
+      Field: '@/components/RelationshipField#RelationshipField',
+    },
+    custom: {
+      createLabel: 'Create new Tag',
+      minChars: 2,
+      maxResults: 10,
+    },
   },
 }
 
