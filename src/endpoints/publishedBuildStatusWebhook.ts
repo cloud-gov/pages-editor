@@ -23,17 +23,24 @@ const endpoint = {
         const completedAt = decrypt(encryptypedCompletedAt, process.env.PAGES_ENCRYPTION_KEY)
         const error = decrypt(encryptypedError, process.env.PAGES_ENCRYPTION_KEY)
 
-        const site = await req.payload.findByID({
+        const sites = await req.payload.find({
           collection: 'sites',
-          id: pagesSiteId
+          where:{
+            pagesSiteId:{
+              equals: pagesSiteId,
+            }
+         }
         })
 
+        if(!sites || sites.totalDocs === 0){
+          return Response.json({ message: `site not found for published build status: ${pagesSiteId}` })
+        }
+
+        const site = sites.docs[0];
         const publishedBuildStatusExists = await req.payload.find({
           collection:'published-build-status',
-          where:{
-            pagesBuildId:{
-              equals: buildId
-            }
+          where: {
+            and: [{ pagesBuildId: { equals: buildId } }, { pagesSiteId: { equals: site.id } }],
           },
           req
         })
