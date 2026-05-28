@@ -1,3 +1,62 @@
+## 0.5.0 (2026-05-28)
+
+### Added
+
+- Create Published Status Collection
+- Create Published Status Collection
+- remove card grid from rich text blocks
+- remove card grid from rich text blocks
+- add dropdown for user to select amount cards per row
+- Add nince to CSP headers
+- standardized content field
+- Add validator to external link group
+- add collections external link
+- add collections item link
+
+### Fixed
+
+- add tests and missing fields
+- fix down migration
+- bug with showing new tag label
+- add tests and missing fields
+- fix down migration
+- bad character in test
+- edit link for collection types
+- Trigger pipeline
+- Trigger pipeline
+- Rebased with main
+- IFrame CSP headers to allow cloud.gov preview urls
+- Payload config CSP headers and gravatar reference
+- misapplication of typing
+- Leaving EMAIL_HOST on .env.example empty
+- Leaving EMAIL_HOST on .env.example empty
+- refactor link field as a simple label + url array
+- refactor externalLink schema
+- Increase card grid max rows to 90 (https://github.com/cloud-gov/private/issues/2901)
+- Leaving EMAIL_HOST on .env.example empty
+
+### Maintenance
+
+- Update ATU package with flow diagram
+- update related tags input removes inline style
+- add testing to related collection component
+- formatting cleanup
+- Update ATU package with flow diagram
+- Update ATU package with flow diagram
+- refactor out support utilities from main ui component
+- solve lint warnings
+- add test case to check for style attributes
+- move Modal to its own component
+- Update ATU package with flow diagram
+- group tag collections under tag type
+- add tag type ui to dashboard
+- restore migrations
+- add access test for TagTypes
+- include card for ungrouped tags, allow for message in nav for no tag types
+- Remove unused CSP source variable
+- Add connect-src to self
+- Adjusting CSP configs for built in component styles
+
 ## 0.4.0 (2026-04-14)
 
 ### Added
