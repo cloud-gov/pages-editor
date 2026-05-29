@@ -10,7 +10,7 @@ const endpoint = {
       const { buildId } = req.routeParams
       if (!buildId) return Response.json({ message: 'error' })
       const {
-        siteId: encryptedPagesSiteId,
+        pagesSiteId: encryptedPagesSiteId,
         state: encryptedState,
         startedAt: encryptypedStartedAt,
         completedAt: encryptypedCompletedAt,
@@ -23,20 +23,14 @@ const endpoint = {
         const completedAt = decrypt(encryptypedCompletedAt, process.env.PAGES_ENCRYPTION_KEY)
         const error = decrypt(encryptypedError, process.env.PAGES_ENCRYPTION_KEY)
 
-        const sites = await req.payload.find({
-          collection: 'sites',
-          where:{
-            pagesSiteId:{
-              equals: pagesSiteId,
-            }
-         }
+        const site = await req.payload.findByID({
+          collection: 'sites',id: pagesSiteId
         })
-
-        if(!sites || sites.totalDocs === 0){
-          return Response.json({ message: `site not found for published build status: ${pagesSiteId}` })
+        
+        if(!site){
+          return Response.json({ message: `Site ${pagesSiteId} not found` })
         }
-
-        const site = sites.docs[0];
+        
         const publishedBuildStatusExists = await req.payload.find({
           collection:'published-build-status',
           where: {
@@ -44,7 +38,7 @@ const endpoint = {
           },
           req
         })
-
+        
         if(!publishedBuildStatusExists || publishedBuildStatusExists.totalDocs === 0){
           const publishedBuildStatus = await req.payload.create({
             collection: 'published-build-status',
@@ -59,7 +53,7 @@ const endpoint = {
           })
           return Response.json(publishedBuildStatus)
       }else{
-        const updatedUser = await payload.update({
+        const updatedUser = await req.payload.update({
           collection: 'published-build-status',
           id: publishedBuildStatusExists[0].id,
           data: {
