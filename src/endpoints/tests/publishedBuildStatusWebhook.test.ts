@@ -1,12 +1,8 @@
 import { expect, describe, beforeAll, vi, afterAll } from 'vitest'
-import { create, find, findByID, update, del, setUserSite } from '@test/utils/localHelpers'
 import { test } from '@test/utils/test'
 import endpoint from '../publishedBuildStatusWebhook'
-import { siteIdHelper } from '@/utilities/idHelper'
-import { isAccessError, notFoundError } from '@test/utils/errors'
 import { encrypt } from '@/utilities/encryptor'
-import type { Site } from '@/payload-types'
-import { except } from '@payloadcms/db-postgres/drizzle/pg-core'
+
 beforeAll(()=>{
     vi.stubEnv('PAGES_ENCRYPTION_KEY', 'test-key')
 })
@@ -43,10 +39,9 @@ describe('Published Build Status', () => {
             json: async () => webhookData,
             payload:mockPayload,
         }
-      const response = await endpoint.handler(mockRequest as any)
-      const result = await response.json()
-      expect(mockCreate).toHaveBeenCalledOnce()
-      expect(mockUpdate).not.toHaveBeenCalled()
+        await endpoint.handler(mockRequest as any)
+        expect(mockCreate).toHaveBeenCalledOnce()
+        expect(mockUpdate).not.toHaveBeenCalled()
     })
 
     test('Update a existing published build status if exists', async () => {
@@ -79,10 +74,9 @@ describe('Published Build Status', () => {
             json: async () => webhookData,
             payload:mockPayload,
         }
-      const response = await endpoint.handler(mockRequest as any)
-      const result = await response.json()
-      expect(mockUpdate).toHaveBeenCalledOnce()
-      expect(mockCreate).not.toHaveBeenCalled()
+        await endpoint.handler(mockRequest as any)
+        expect(mockUpdate).toHaveBeenCalledOnce()
+        expect(mockCreate).not.toHaveBeenCalled()
     })
 
 
