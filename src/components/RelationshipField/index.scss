@@ -1,0 +1,57 @@
+@import '~@payloadcms/ui/scss';
+
+.rs__value-container {
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+  flex: 1 1 0%;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.rs__input-container {
+  visibility: visible;
+  flex: 1 1 auto;
+  display: inline-grid;
+  grid-area: 1 / 1 / 2 / 3;
+  grid-template-columns: 0px min-content;
+  box-sizing: border-box;
+}
+
+.rs__control--is-focused .rs__input-container {
+  grid-template-columns: none;
+}
+
+.rs__control--is-empty .rs__input-container {
+  grid-template-columns: none;
+}
+
+#rel-tags-input {
+  border: none;
+  padding: 3px;
+}
+
+.rs__option {
+  padding-inline: 16px;
+  padding-block: 8px;
+  &:hover {
+    background-color: var(--color-base-200);
+  }
+}
+
+.rs__indicators {
+  -webkit-box-align: center;
+  align-items: center;
+  align-self: stretch;
+  display: flex;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.clear-indicator {
+  background: none;
+  border: none;
+  padding: 0;
+}
