@@ -63,6 +63,7 @@ import * as migration_20260427_180144_standerize_content_fields from './20260427
 import * as migration_20260505_140937_add_amount_card_property from './20260505_140937_add_amount_card_property';
 import * as migration_20260508_190303_add_tag_types_collection from './20260508_190303_add_tag_types_collection';
 import * as migration_20260526_134306_published_build_status_collection from './20260526_134306_published_build_status_collection';
+import * as migration_20260528_222308_site_theme from './20260528_222308_site_theme';
 
 export const migrations = [
   {
@@ -388,6 +389,11 @@ export const migrations = [
   {
     up: migration_20260526_134306_published_build_status_collection.up,
     down: migration_20260526_134306_published_build_status_collection.down,
-    name: '20260526_134306_published_build_status_collection'
+    name: '20260526_134306_published_build_status_collection',
+  },
+  {
+    up: migration_20260528_222308_site_theme.up,
+    down: migration_20260528_222308_site_theme.down,
+    name: '20260528_222308_site_theme'
   },
 ];
