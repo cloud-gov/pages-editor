@@ -12,18 +12,37 @@ export const roleGroup = (name: string, fields: Field[] = []): Field => ({
       name: 'fullName',
       type: 'text',
       label: 'Full Name',
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     {
       name: 'title',
       type: 'text',
       label: 'Job Title',
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     {
       name: 'email',
       type: 'email',
       label: 'Email Address',
     },
-    { name: 'phone', type: 'text', label: 'Phone Number' },
+    { 
+      name: 'phone', 
+      type: 'text', 
+      label: 'Phone Number',
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
+    },
     ...fields,
   ],
 })
@@ -31,10 +50,27 @@ export const roleGroup = (name: string, fields: Field[] = []): Field => ({
 const agencyOwnwer = roleGroup('agencyOwner')
 const agencySiteManager = roleGroup('agencySiteManager')
 const agencySecurityOfficer = roleGroup('agencySecurityOfficer', [
-  { name: 'program', type: 'text', label: 'Agency, Program office or Division' },
+  {
+    name: 'program',
+    type: 'text', 
+    label: 'Agency, Program office or Division',
+    admin: {
+      components: {
+        Field: '@/components/fields/CustomTextField#CustomTextField',
+      },
+    }
+  },
 ])
 const thirdPartyRepresntative = roleGroup('thirdPartyRepresentative', [
-  { name: 'company', type: 'text', label: 'Agency, Program Office, Company Name' },
+  { name: 'company',
+    type: 'text', 
+    label: 'Agency, Program Office, Company Name',
+    admin: {
+      components: {
+        Field: '@/components/fields/CustomTextField#CustomTextField',
+      },
+    }
+  },
 ])
 
 export const SiteAuth: GlobalConfig = {
@@ -64,9 +100,36 @@ export const SiteAuth: GlobalConfig = {
       type: 'group',
       label: 'Website Information',
       fields: [
-        { name: 'siteName', type: 'text', label: 'Name of the site' },
-        { name: 'accronym', type: 'text', label: 'Acronym or abbreviation of the agency' },
-        { name: 'agency', type: 'text', label: 'Agency or Site Organization' },
+        { 
+          name: 'siteName',
+          type: 'text', 
+          label: 'Name of the site',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
+          }
+        },
+        { 
+          name: 'accronym', 
+          type: 'text', 
+          label: 'Acronym or abbreviation of the agency',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
+          }
+        },
+        { 
+          name: 'agency', 
+          type: 'text', 
+          label: 'Agency or Site Organization',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
+          } 
+        },
         {
           name: 'description',
           type: 'textarea',

@@ -35,6 +35,11 @@ export const Footer: GlobalConfig = {
       label: 'Site domain',
       required: true,
       validate: validateTextRequired,
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     {
       type: 'collapsible',
@@ -91,6 +96,11 @@ export const Footer: GlobalConfig = {
               type: 'text',
               required: true,
               validate: validateTextRequired,
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                },
+              }
             },
             {
               ...imageField,

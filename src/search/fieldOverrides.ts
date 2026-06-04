@@ -7,6 +7,9 @@ export const searchFields: Field[] = [
     index: true,
     admin: {
       readOnly: true,
+      components: {
+        Field: '@/components/fields/CustomTextField#CustomTextField',
+      },
     },
   },
   {
@@ -22,11 +25,21 @@ export const searchFields: Field[] = [
         type: 'text',
         name: 'title',
         label: 'Title',
+        admin: {
+          components: {
+            Field: '@/components/fields/CustomTextField#CustomTextField',
+          },
+        }
       },
       {
         type: 'text',
         name: 'description',
         label: 'Description',
+        admin: {
+          components: {
+            Field: '@/components/fields/CustomTextField#CustomTextField',
+          },
+        }
       },
       {
         name: 'image',
@@ -47,14 +60,29 @@ export const searchFields: Field[] = [
       {
         name: 'relationTo',
         type: 'text',
+        admin: {
+          components: {
+            Field: '@/components/fields/CustomTextField#CustomTextField',
+          },
+        }
       },
       {
         name: 'id',
         type: 'text',
+        admin: {
+          components: {
+            Field: '@/components/fields/CustomTextField#CustomTextField',
+          },
+        }
       },
       {
         name: 'title',
         type: 'text',
+        admin: {
+          components: {
+            Field: '@/components/fields/CustomTextField#CustomTextField',
+          },
+        }
       },
     ],
   },

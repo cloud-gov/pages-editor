@@ -31,10 +31,20 @@ export const SiteConfig: GlobalConfig = {
       type: 'text',
       required: true,
       defaultValue: 'Agency Name',
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     {
       name: 'tagline',
       type: 'text',
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     colorOptions({
       name: 'primaryColor',
@@ -125,15 +135,52 @@ export const SiteConfig: GlobalConfig = {
           type: 'text',
           defaultValue:
             '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
+          }
         },
         {
           name: 'fontHeading',
           type: 'text',
           defaultValue: '"Playfair Display", Georgia, "Times New Roman", Times, serif',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
+          }
         },
-        { name: 'layoutMaxWidth', type: 'text', defaultValue: '75rem' },
-        { name: 'spaceSectionY', type: 'text', defaultValue: '2rem' },
-        { name: 'radiusMd', type: 'text', defaultValue: '0.25rem' },
+        { 
+          name: 'layoutMaxWidth', 
+          type: 'text', 
+          defaultValue: '75rem',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
+          } 
+        },
+        { 
+          name: 'spaceSectionY', 
+          type: 'text', 
+          defaultValue: '2rem',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
+          }
+        },
+        { 
+          name: 'radiusMd', 
+          type: 'text', 
+          defaultValue: '0.25rem',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
+          }
+        },
         { name: 'customCss', type: 'textarea', defaultValue: '' },
       ],
     },

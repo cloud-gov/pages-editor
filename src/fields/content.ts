@@ -39,12 +39,22 @@ export const contentField: BlocksField = {
           label: 'Hero Title',
           required: true,
           defaultValue: 'Welcome to Our Site',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            }
+          }
         },
         {
           name: 'subtitle',
           type: 'text',
           label: 'Hero Subtitle',
           defaultValue: 'A modern, accessible website built with the best tools',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            }
+          }
         },
         {
           name: 'description',
@@ -69,12 +79,22 @@ export const contentField: BlocksField = {
               type: 'text',
               label: 'Button Text',
               defaultValue: 'Get Started',
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                }
+              }
             },
             {
               name: 'url',
               type: 'text',
               label: 'Button URL',
               defaultValue: '/about',
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                }
+              }
             },
             {
               name: 'style',
@@ -120,6 +140,11 @@ export const contentField: BlocksField = {
           type: 'text',
           label: 'Section Title',
           defaultValue: 'Featured Content',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            }
+          }
         },
         {
           name: 'description',
@@ -160,6 +185,11 @@ export const contentField: BlocksField = {
               label: 'Card Title',
               required: true,
               validate: validateTextRequired,
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                }
+              }
             },
             {
               name: 'description',
@@ -181,12 +211,22 @@ export const contentField: BlocksField = {
                   name: 'url',
                   type: 'text',
                   label: 'Link URL',
+                  admin: {
+                    components: {
+                      Field: '@/components/fields/CustomTextField#CustomTextField',
+                    }
+                  }
                 },
                 {
                   name: 'text',
                   type: 'text',
                   label: 'Link Text',
                   defaultValue: 'Learn More',
+                  admin: {
+                    components: {
+                      Field: '@/components/fields/CustomTextField#CustomTextField',
+                    }
+                  }
                 },
               ],
             },
@@ -205,6 +245,11 @@ export const contentField: BlocksField = {
           name: 'title',
           type: 'text',
           label: 'Block Title',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            }
+          }
         },
         {
           name: 'content',

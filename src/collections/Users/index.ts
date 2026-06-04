@@ -63,7 +63,10 @@ export const Users: CollectionConfig = {
       },
       admin: {
         disableListColumn: true,
-        disableListFilter: true
+        disableListFilter: true,
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       }
     },
     {
@@ -164,7 +167,10 @@ export const Users: CollectionConfig = {
       },
       admin: {
         disableListColumn: true,
-        disableListFilter: true
+        disableListFilter: true,
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       }
     },
     {

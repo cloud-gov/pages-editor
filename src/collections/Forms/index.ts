@@ -70,6 +70,9 @@ export const SiteForms: CollectionConfig = {
           label: 'Field Name',
           admin: {
             description: 'Machine-readable name (no spaces, lowercase, e.g., "first_name")',
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
           },
           validate: (value: string | null | undefined) => {
             if (!value) return 'Field name is required'
@@ -86,6 +89,9 @@ export const SiteForms: CollectionConfig = {
           label: 'Field Label',
           admin: {
             description: 'The label shown to users (e.g., "First Name")',
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
           },
         },
         {
@@ -94,6 +100,9 @@ export const SiteForms: CollectionConfig = {
           label: 'Help Text',
           admin: {
             description: 'Additional guidance shown below the field',
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
           },
         },
         {
@@ -102,6 +111,9 @@ export const SiteForms: CollectionConfig = {
           label: 'Placeholder',
           admin: {
             description: 'Placeholder text shown inside the field',
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
           },
         },
         {
@@ -125,12 +137,22 @@ export const SiteForms: CollectionConfig = {
               type: 'text',
               required: true,
               label: 'Option Label',
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                },
+              }
             },
             {
               name: 'value',
               type: 'text',
               required: true,
               label: 'Option Value',
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                },
+              }
             },
           ],
         },
@@ -146,6 +168,11 @@ export const SiteForms: CollectionConfig = {
           type: 'text',
           defaultValue: 'Submit',
           label: 'Submit Button Text',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
+          }
         },
         {
           name: 'successMessage',

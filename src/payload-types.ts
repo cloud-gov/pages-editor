@@ -529,7 +529,7 @@ export interface Tag {
   slug?: string | null;
   slugLock?: boolean | null;
   /**
-   * Select which collection type this page belongs to
+   * Select which tag type this content belongs to
    */
   tagTypes?: (number | null) | TagType;
   site: number | Site;

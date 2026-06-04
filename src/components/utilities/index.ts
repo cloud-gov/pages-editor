@@ -145,3 +145,11 @@ export const getTagTypes = async (payload: BasePayload, headers) => {
 
   return tagTypes;
 }
+
+export function resolveStaticText(
+  value: unknown,
+  fallback?: string,
+): string | undefined {
+  if (typeof value === 'string') return value
+  return fallback
+}

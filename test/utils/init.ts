@@ -3,6 +3,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import { config } from '@payload-config'
 import { v4 as uuid } from 'uuid'
 import { afterSchemaInit } from '@/utilities/cascade'
+import '@testing-library/jest-dom'
 
 // The Forms feature is gated behind FEATURE_FORMS. Tests exercise the forms
 // collections/endpoints, so ensure the flag is enabled before the config is

@@ -39,6 +39,9 @@ export const CollectionTypes: CollectionConfig = {
       admin: {
         description:
           'The display name for this collection type (e.g., "Articles", "Resources", "Blog Posts")',
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       },
     },
     ...slugField('title', {
@@ -55,6 +58,9 @@ export const CollectionTypes: CollectionConfig = {
       type: 'text',
       admin: {
         description: "The collection type's description or summary",
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       },
     },
     {

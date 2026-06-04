@@ -32,6 +32,11 @@ export const Sites: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     {
       name: 'slug',
@@ -39,6 +44,9 @@ export const Sites: CollectionConfig = {
       index: true,
       admin: {
         readOnly: true,
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       },
     },
     {
@@ -51,6 +59,11 @@ export const Sites: CollectionConfig = {
       name: 'pagesOrg',
       label: 'Pages Organization',
       type: 'text',
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     {
       name: 'pagesSiteId',
@@ -71,6 +84,9 @@ export const Sites: CollectionConfig = {
       type: 'text',
       admin: {
         readOnly: true,
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       },
     },
     {
