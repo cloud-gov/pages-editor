@@ -77,6 +77,7 @@ const endpoint = {
             collection: 'published-build-status',
             id: publishedBuildStatusExists.docs[0].id,
             data: {
+              startedAt,
               completedAt,
               error,
               state,
