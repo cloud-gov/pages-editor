@@ -38,6 +38,11 @@ export const PublishedBuildStatus: CollectionConfig = {
       name:'error',
       type:'text',
     },
+    {
+      name:'pagesSiteId',
+      type:'number',
+      hidden: true,
+    },
     siteField,
   ]
 }
