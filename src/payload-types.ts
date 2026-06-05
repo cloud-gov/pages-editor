@@ -1660,6 +1660,7 @@ export interface PublishedBuildStatus {
   state?: string | null;
   startedAt?: string | null;
   error?: string | null;
+  pagesSiteId?: number | null;
   site: number | Site;
   updatedAt: string;
   createdAt: string;
@@ -2973,6 +2974,7 @@ export interface PublishedBuildStatusSelect<T extends boolean = true> {
   state?: T;
   startedAt?: T;
   error?: T;
+  pagesSiteId?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
