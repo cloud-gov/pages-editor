@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { admin } from '@/access/admin'
-import { siteField } from '@/fields'
+import { siteField } from '@/fields/relationships'
 export const PublishedBuildStatus: CollectionConfig = {
   slug: 'published-build-status',
   admin:{

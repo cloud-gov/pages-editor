@@ -6,24 +6,25 @@ import { completeReview } from '@/hooks/completeReview'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
 import {
   collectionTypeField,
-  contentField,
+  sideNavigationField,
+  siteField,
+  tagsField,
+  updatedByField,
+} from '@/fields/relationships'
+import { contentField } from '@/fields/content'
+import {
   contentDateField,
   descriptionField,
   filesField,
   imageField,
   publishedAtField,
   readyForReviewField,
-  relatedItems,
-  sideNavigationField,
-  siteField,
-  slugField,
-  tagsField,
   titleField,
-  updatedByField,
   externalLink,
-} from '@/fields'
+} from '@/fields/commonFields'
+import { relatedItems } from '@/fields/relatedItems'
+import { slugField } from '@/fields/slug'
 import { getCustomCollectionLivePreview, getCustomCollectionPreview } from '@/utilities/previews'
-import { commonLinkBlocks } from '@/fields/hyperlinks'
 
 export const CollectionEntries: CollectionConfig = {
   slug: 'collection-entries',

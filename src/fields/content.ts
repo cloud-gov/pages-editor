@@ -1,6 +1,7 @@
 import { editor } from '@/utilities/editor'
 import { validateTextRequired } from '@/utilities/validators/text'
-import { BlocksField } from 'payload'
+import { BlocksField, CollectionSlug } from 'payload'
+import { descriptionField, titleField } from './commonFields'
 
 export const richTextField = {
   name: 'content',
@@ -208,6 +209,36 @@ export const contentField: BlocksField = {
           type: 'upload',
           label: 'Background Image',
           relationTo: 'media',
+        },
+      ],
+    },
+    {
+      slug: 'formBlock',
+      labels: {
+        singular: 'Form',
+        plural: 'Forms',
+      },
+      fields: [
+        {
+          ...titleField,
+          label: 'Section Title',
+        },
+        {
+          ...descriptionField,
+          label: 'Section Description',
+          admin: {
+            description: 'Optional text to display above the form',
+          },
+        },
+        {
+          name: 'form',
+          type: 'relationship',
+          label: 'Form',
+          relationTo: 'site-forms' as CollectionSlug,
+          required: true,
+          admin: {
+            description: 'Select a form to display',
+          },
         },
       ],
     },

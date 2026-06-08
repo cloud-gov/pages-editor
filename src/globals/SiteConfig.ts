@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
-import { colorOptions, readyForReviewField } from '@/fields'
+import { colorOptions, readyForReviewField } from '@/fields/commonFields'
 import { uswdsColorField } from '@/fields/styles/uswdsColors'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 

@@ -1,7 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
-import { readyForReviewField } from '@/fields'
+import { readyForReviewField } from '@/fields/commonFields'
 import { contentField } from '@/fields/content'
 
 export const HomePage: GlobalConfig = {

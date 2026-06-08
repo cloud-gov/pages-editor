@@ -4,20 +4,22 @@ import { addSite } from '@/hooks/addSite'
 import buildSite from '@/hooks/buildSite'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
 import {
-  contentField,
+  siteField,
+  tagsField,
+  updatedByField,
+  sideNavigationField,
+} from '@/fields/relationships'
+import { contentField } from '@/fields/content'
+import {
   contentDateField,
   descriptionField,
   imageField,
   publishedAtField,
   readyForReviewField,
-  relatedItems,
-  siteField,
-  slugField,
-  tagsField,
   titleField,
-  updatedByField,
-  sideNavigationField,
-} from '@/fields'
+} from '@/fields/commonFields'
+import { relatedItems } from '@/fields/relatedItems'
+import { slugField } from '@/fields/slug'
 import { completeReview } from '@/hooks/completeReview'
 import { getAdminCollectionPreview, getPagePreviewUrl } from '@/utilities/previews'
 

@@ -3,7 +3,7 @@ import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { validateTextRequired } from '@/utilities/validators/text'
 import { commonLinkBlocks } from '@/fields/hyperlinks'
-import { readyForReviewField } from '@/fields'
+import { readyForReviewField } from '@/fields/commonFields'
 
 function bigFooterCondition(data): true | false {
   return data?.type === 'big' ? true : false

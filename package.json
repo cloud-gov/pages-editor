@@ -41,7 +41,7 @@
     "dc:migrate:down": "docker compose run --rm app npx payload migrate:down",
     "dc:migrate:fresh": "docker compose run --rm app npx payload migrate:fresh",
     "dc:migrate:status": "docker compose run --rm app npx payload migrate:status",
-    "dc:migrate:up": "docker compose run --rm app npx payload migrate",
+    "dc:migrate:up": "docker compose run --rm app sh -c 'yes | npx payload migrate'",
     "dc:seed": "docker compose run --rm app npm run seed",
     "dc:seed:data": "docker compose run --rm app npx payload run scripts/seed.ts",
     "dc:test": "docker compose run --rm app npm run test",

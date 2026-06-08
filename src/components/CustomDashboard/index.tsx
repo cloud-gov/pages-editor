@@ -84,6 +84,23 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
               />
             </div>
           </Section>
+
+          <Section title="Forms">
+            <div className="grid-row grid-gap-2">
+              <CardLink
+                href="/admin/collections/site-forms"
+                title="Site Forms"
+                description="All forms across all sites."
+                label="View all forms"
+              />
+              <CardLink
+                href="/admin/collections/site-form-submissions"
+                title="Form Submissions"
+                description="All form submissions across all sites."
+                label="View all submissions"
+              />
+            </div>
+          </Section>
         </>
       )}
 
@@ -119,6 +136,25 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
                 description="A customizable homepage with flexible content blocks."
                 label="View homepage"
               />
+            </div>
+          </Section>
+
+          <Section title="Forms">
+            <div className="grid-row grid-gap-2">
+              <CardLink
+                href="/admin/collections/site-forms"
+                title="Site Forms"
+                description="Create and manage forms for visitors to submit inquiries."
+                label="View all forms"
+              />
+              {selectedSiteRole === 'manager' && (
+                <CardLink
+                  href="/admin/collections/site-form-submissions"
+                  title="Form Submissions"
+                  description="View and manage submissions from your forms."
+                  label="View submissions"
+                />
+              )}
             </div>
           </Section>
 

@@ -115,6 +115,22 @@ Once you like the status of the migration, make sure to run `npm run dc:generate
   - ...
 - Relies on [pages-site-gantry](https://github.com/cloud-gov/pages-site-gantry) for live previewing
 
+### Collections
+
+The application includes the following main collections:
+
+- **Sites**: Multi-tenant site management
+- **Users**: User accounts with site-specific roles (admin, manager, user, bot)
+- **Pages**: Individual content pages
+- **Collection Entries**: Content entries belonging to collection types
+- **Collection Types**: Define custom content collection structures
+- **Tags / Tag Types**: Organize content with tags
+- **Alerts**: Site-wide notification banners
+- **Media**: Asset management for images and files
+- **Side Navigation**: Secondary navigation menus
+- **Site Forms**: Build and manage forms with versioning and draft/publish workflow. Only managers can publish forms.
+- **Form Submissions**: View and manage form submissions. Managers and users can read; only managers can update/delete.
+
 ### Cloud Foundry Setup
 
 This repository's CI deploys the `pages-editor-((env))` application and [`pages-site-gantry`](https://github.com/cloud-gov/pages-site-gantry) deploys the preview application. There are four other services which are manually created per-environment:

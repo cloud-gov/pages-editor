@@ -8,11 +8,6 @@ import type {
 } from 'payload'
 import { validateExternalLinkGroup } from '@/utilities/validators/externalLinkGroup'
 
-export { relatedItems } from './relatedItems'
-export * from './content'
-export * from './relationships'
-export * from './slug'
-
 export const contentDateField: DateField = {
   name: 'contentDate',
   label: 'Content Date',

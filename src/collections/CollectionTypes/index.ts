@@ -3,10 +3,9 @@ import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { siteField, updatedByField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { addSite } from '@/hooks/addSite'
-import { editor } from '@/utilities/editor'
 import { completeReview } from '@/hooks/completeReview'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
-import { readyForReviewField } from '@/fields'
+import { readyForReviewField } from '@/fields/commonFields'
 
 export const CollectionTypes: CollectionConfig = {
   slug: 'collection-types',

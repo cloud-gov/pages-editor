@@ -5,7 +5,7 @@ import { addSite } from '@/hooks/addSite'
 import { completeReview } from '@/hooks/completeReview'
 import buildSite from '@/hooks/buildSite'
 import { commonLinkBlocks } from '@/fields/hyperlinks'
-import { publishedAtField, readyForReviewField } from '@/fields'
+import { publishedAtField, readyForReviewField } from '@/fields/commonFields'
 
 export const SideNavigation: CollectionConfig = {
   slug: 'side-navigation',

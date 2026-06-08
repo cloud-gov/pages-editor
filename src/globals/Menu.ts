@@ -3,7 +3,7 @@ import { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { commonLinkBlocks, dropdownBlock } from '@/fields/hyperlinks'
-import { readyForReviewField } from '@/fields'
+import { readyForReviewField } from '@/fields/commonFields'
 
 export const Menu: GlobalConfig = {
   slug: 'menu',
