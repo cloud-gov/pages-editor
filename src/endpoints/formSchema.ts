@@ -33,7 +33,7 @@ interface Form {
 }
 
 const endpoint = {
-  path: '/site-forms/:id/schema',
+  path: '/public/forms/:id/schema',
   method: get,
   handler: async (req: PayloadRequest) => {
     const id = req.routeParams?.id as string

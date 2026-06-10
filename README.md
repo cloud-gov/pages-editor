@@ -129,7 +129,89 @@ The application includes the following main collections:
 - **Media**: Asset management for images and files
 - **Side Navigation**: Secondary navigation menus
 - **Site Forms**: Build and manage forms with versioning and draft/publish workflow. Only managers can publish forms.
-- **Form Submissions**: View and manage form submissions. Managers and users can read; only managers can update/delete.
+- **Form Submissions**: View and manage form submissions. Managers and users can read; only managers can update/delete. Submissions can only be created via unauthenticated API requests (external forms).
+
+### Testing Form Endpoints Locally
+
+After seeding the database (`npm run dc:seed`), you can test the form API endpoints with curl. First, find a published form ID via the admin UI or database.
+
+#### Get Form Schema
+
+Retrieve the public-facing form schema (fields, labels, validation rules):
+
+```bash
+# Replace {FORM_ID} with an actual form ID (e.g., 1)
+curl -X GET http://localhost:3000/api/public/forms/{FORM_ID}/schema
+```
+
+Example response:
+```json
+{
+  "id": 1,
+  "title": "Contact Form",
+  "fields": [
+    {
+      "fieldType": "text",
+      "name": "name",
+      "label": "Your Name",
+      "required": true
+    },
+    {
+      "fieldType": "email",
+      "name": "email",
+      "label": "Email Address",
+      "required": true
+    }
+  ],
+  "settings": {
+    "submitButtonText": "Submit",
+    "successMessage": "Thank you for your submission!"
+  }
+}
+```
+
+#### Submit Form Data
+
+Submit data to a form (simulates an external website form submission):
+
+```bash
+# Replace {FORM_ID} with an actual form ID
+curl -X POST http://localhost:3000/api/public/forms/{FORM_ID}/submit \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data": {
+      "name": "John Doe",
+      "email": "john@example.gov",
+      "message": "Hello from the API!"
+    }
+  }'
+```
+
+Example success response:
+```json
+{
+  "success": true,
+  "message": "Thank you for your submission!",
+  "submissionId": 1
+}
+```
+
+Example validation error response (400):
+```json
+{
+  "error": "Validation failed",
+  "details": [
+    { "field": "email", "message": "Invalid email format" }
+  ]
+}
+```
+
+#### Notes
+
+- The `/schema` endpoint is public (GET, no authentication required)
+- The `/submit` endpoint only accepts unauthenticated requests (simulating external form submissions)
+- Forms must be in `published` status to accept submissions
+- Rate limiting is applied per IP address (default: 10 submissions per hour per form)
 
 ### Cloud Foundry Setup
 

@@ -1,10 +1,12 @@
 import type { BasePayload, CollectionSlug } from 'payload'
-import type { CollectionType, Tag } from '@/payload-types'
+import type { CollectionType, Tag, SiteForm } from '@/payload-types'
 import collectionEntries from './collection-entries'
 import collectionTypes from './collection-types'
 import tags from './tags'
 import pages from './pages'
 import publishedBuildStatus from './published-build-status'
+import forms from './forms'
+import formSubmissions from './form-submissions'
 
 class Loader {
   payload: BasePayload
@@ -70,6 +72,34 @@ class Loader {
     return this.loadList('published-build-status', data)
   }
 
+  async loadForms(siteId: number): Promise<SiteForm[]> {
+    const data = forms(siteId)
+    // Use overrideAccess and disable hooks to bypass access control and buildSite hook for seeding
+    return Promise.all(
+      data.map((form) =>
+        this.payload.create({
+          collection: 'site-forms' as CollectionSlug,
+          data: form,
+          overrideAccess: true,
+        })
+      )
+    ) as Promise<SiteForm[]>
+  }
+
+  async loadFormSubmissions(formId: number, siteId: number, count: number = 10) {
+    const data = formSubmissions(formId, siteId, count)
+    const results: unknown[] = []
+    for (let i = 0; i < data.length; i++) {
+      const result = await this.payload.create({
+        collection: 'site-form-submissions' as CollectionSlug,
+        data: data[i],
+        overrideAccess: true,
+      })
+      results.push(result)
+    }
+    return results
+  }
+
   async runLoading(siteId: number) {
     try {
       const tags = await this.loadtags(siteId)
@@ -78,6 +108,13 @@ class Loader {
       await this.loadCollectionEntries(siteId, collectionTypes, tags)
       await this.loadPages(siteId)
       await this.loadPublishedBuildStatus(siteId)
+
+      // Load forms and submissions
+      const createdForms = await this.loadForms(siteId)
+      for (const form of createdForms) {
+        const submissionCount = Math.floor(Math.random() * 6) + 10 // 10-15 submissions
+        await this.loadFormSubmissions(form.id, siteId, submissionCount)
+      }
     } catch (error) {
       console.error(`\nError occurred during dataset load for site ${siteId}...`)
       console.error(error.message)

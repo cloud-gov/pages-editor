@@ -176,7 +176,7 @@ function validateFormData(
 }
 
 const endpoint = {
-  path: '/site-forms/:id/submit',
+  path: '/public/forms/:id/submit',
   method: post,
   handler: async (req: PayloadRequest & { json?: () => Promise<unknown> }) => {
     const id = req.routeParams?.id as string

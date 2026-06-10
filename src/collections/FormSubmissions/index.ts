@@ -44,8 +44,9 @@ export const SiteFormSubmissions: CollectionConfig = {
   access: {
     // Site-scoped: users can only see submissions for forms in their sites
     read: getAdminOrSiteUser(siteFormSubmissionsCollectionName, ['manager', 'user']),
-    // Public API can create submissions (handled by custom endpoint with validation)
-    create: () => true,
+    // Only allow unauthenticated API requests to create submissions
+    // This allows external forms to submit while blocking admin UI creation
+    create: ({ req }) => !req.user,
     update: getAdminOrSiteUser(siteFormSubmissionsCollectionName, ['manager']),
     delete: getAdminOrSiteUser(siteFormSubmissionsCollectionName, ['manager']),
   },
@@ -76,6 +77,9 @@ export const SiteFormSubmissions: CollectionConfig = {
       admin: {
         description: 'The submitted form data',
         readOnly: true,
+        components: {
+          Field: '@/components/SubmissionDataField',
+        },
       },
     },
     {
