@@ -2,6 +2,7 @@ import { editor } from '@/utilities/editor'
 import { validateTextRequired } from '@/utilities/validators/text'
 import { BlocksField, CollectionSlug } from 'payload'
 import { descriptionField, titleField } from './commonFields'
+import { isFormsEnabled } from '@/utilities/featureFlags'
 
 export const richTextField = {
   name: 'content',
@@ -17,6 +18,13 @@ export const contentField: BlocksField = {
   name: 'content',
   type: 'blocks',
   label: 'Page Content',
+  // The formBlock is always registered (so its tables stay in the schema and
+  // toggling the feature never produces a migration). When the Forms feature is
+  // disabled, hide it from the editor's block picker via `filterOptions`.
+  // Returning `true` allows every block; returning an explicit slug list omits
+  // `formBlock`.
+  filterOptions: () =>
+    isFormsEnabled() ? true : ['hero', 'richText', 'cardGrid', 'textBlock'],
   blocks: [
     {
       slug: 'hero',
@@ -212,6 +220,9 @@ export const contentField: BlocksField = {
         },
       ],
     },
+    // formBlock is always registered so its tables persist in the schema. It is
+    // hidden from the block picker via `filterOptions` above when the Forms
+    // feature is disabled.
     {
       slug: 'formBlock',
       labels: {

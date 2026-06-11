@@ -21,6 +21,7 @@ type NavClientProps = {
   }[]
   user: any
   selectedSiteRole: 'user' | 'manager' | 'bot' | null | undefined
+  formsEnabled?: boolean
 }
 
 const NavClient: React.FC<NavClientProps> = ({
@@ -28,6 +29,7 @@ const NavClient: React.FC<NavClientProps> = ({
   tagTypeLinks,
   user,
   selectedSiteRole,
+  formsEnabled = false,
 }) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -95,20 +97,22 @@ const NavClient: React.FC<NavClientProps> = ({
                 Authorization Forms
               </Link>
             </NavGroup>
-            <NavGroup label="&#128221; Forms">
-              <Link
-                href="/admin/collections/site-forms"
-                className={`nav__link ${isActive('/admin/collections/site-forms') ? 'nav__link--active' : ''}`}
-              >
-                Forms
-              </Link>
-              <Link
-                href="/admin/collections/site-form-submissions"
-                className={`nav__link ${isActive('/admin/collections/site-form-submissions') ? 'nav__link--active' : ''}`}
-              >
-                Form Submissions
-              </Link>
-            </NavGroup>
+            {formsEnabled && (
+              <NavGroup label="&#128221; Forms">
+                <Link
+                  href="/admin/collections/site-forms"
+                  className={`nav__link ${isActive('/admin/collections/site-forms') ? 'nav__link--active' : ''}`}
+                >
+                  Forms
+                </Link>
+                <Link
+                  href="/admin/collections/site-form-submissions"
+                  className={`nav__link ${isActive('/admin/collections/site-form-submissions') ? 'nav__link--active' : ''}`}
+                >
+                  Form Submissions
+                </Link>
+              </NavGroup>
+            )}
           </>
         )}
 
@@ -184,20 +188,22 @@ const NavClient: React.FC<NavClientProps> = ({
                 Ungrouped Tags
               </Link>
             </NavGroup>
-            <NavGroup label="&#128221; Forms">
-              <Link
-                href="/admin/collections/site-forms"
-                className={`nav__link ${isActive('/admin/collections/site-forms') ? 'nav__link--active' : ''}`}
-              >
-                Forms
-              </Link>
-              <Link
-                href="/admin/collections/site-form-submissions"
-                className={`nav__link ${isActive('/admin/collections/site-form-submissions') ? 'nav__link--active' : ''}`}
-              >
-                Form Submissions
-              </Link>
-            </NavGroup>
+            {formsEnabled && (
+              <NavGroup label="&#128221; Forms">
+                <Link
+                  href="/admin/collections/site-forms"
+                  className={`nav__link ${isActive('/admin/collections/site-forms') ? 'nav__link--active' : ''}`}
+                >
+                  Forms
+                </Link>
+                <Link
+                  href="/admin/collections/site-form-submissions"
+                  className={`nav__link ${isActive('/admin/collections/site-form-submissions') ? 'nav__link--active' : ''}`}
+                >
+                  Form Submissions
+                </Link>
+              </NavGroup>
+            )}
             <NavGroup label="&#x1F30F; Global Assets">
               <Link
                 href="/admin/collections/alerts"

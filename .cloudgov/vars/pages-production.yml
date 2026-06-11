@@ -5,3 +5,4 @@ log_level: info
 node_env: production
 postfix:
 route: publisher.cloud.gov
+feature_forms: disabled
