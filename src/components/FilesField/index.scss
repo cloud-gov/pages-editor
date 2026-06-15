@@ -1,0 +1,110 @@
+.files-field {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--base) / 2);
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--base) / 2);
+  }
+
+  &--has-no-error {
+    > .files-field__header .files-field__header-content {
+      color: var(--theme-text);
+    }
+  }
+
+  &__header-content {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--base) / 2);
+  }
+
+  &__header-wrap {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  &__header-actions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    color: var(--color-primary-darker, #1a4480);
+  }
+
+  &__header-action {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: var(--color-primary-darker, #1a4480);
+    cursor: pointer;
+    font: inherit;
+    margin-left: calc(var(--base) / 2);
+    padding: 0;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+      color: var(--color-primary-darker, #1a4480);
+    }
+  }
+
+  &__rows {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--base) / 2);
+  }
+
+  &__title {
+    margin-bottom: 0;
+    color: var(--color-primary-darker, #1a4480);
+  }
+
+  &__add-row.btn {
+    align-self: flex-start;
+    margin: 2px 0;
+    --btn-color: var(--theme-elevation-400);
+
+    &:hover:not(:disabled) {
+      --btn-color: var(--theme-elevation-800);
+    }
+
+    &:disabled {
+      --btn-color: var(--theme-elevation-300);
+    }
+
+    .btn__label {
+      color: var(--btn-color);
+    }
+
+    .btn__icon {
+      border-color: var(--btn-color);
+
+      path {
+        stroke: var(--btn-color);
+      }
+    }
+  }
+
+  &--has-error {
+    > .files-field__header .files-field__header-content {
+      color: var(--theme-error-500);
+    }
+  }
+}
+
+html[data-theme='light'] {
+  .files-field--has-error {
+    > .files-field__header .files-field__header-content {
+      color: var(--theme-error-750);
+    }
+  }
+}
+
+svg[data-file-placeholder='true'] {
+  background-color: var(--color-gray-90, #1b1b1b);
+}

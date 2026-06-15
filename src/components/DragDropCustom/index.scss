@@ -1,0 +1,15 @@
+.files-draggable {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--base) / 2);
+
+  &__item {
+    position: relative;
+
+    &--is-dragging {
+      z-index: 2;
+      cursor: grabbing;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
