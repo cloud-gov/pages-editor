@@ -7,6 +7,8 @@ import { siteAuthItemFieldsPick } from './globals'
 
 const alertCollectionName: CollectionSlug = 'alerts' as CollectionSlug
 const footerCollectionName: CollectionSlug = 'footer-site-collection' as CollectionSlug
+const siteFormsCollectionName: CollectionSlug = 'site-forms' as CollectionSlug
+const siteFormSubmissionsCollectionName: CollectionSlug = 'site-form-submissions' as CollectionSlug
 
 export const test = vitest.extend<LocalTestContext>({
   tid: async ({ payload }, use) => {
@@ -251,6 +253,67 @@ export const test = vitest.extend<LocalTestContext>({
     )
 
     await use(publishedBuildStatuses)
+  },
+  siteForms: async ({ payload, tid, sites }, use) => {
+    const siteForms = await Promise.all(
+      sites.map(async (site) => {
+        return create(payload, tid, {
+          collection: siteFormsCollectionName,
+          data: {
+            title: `${site.name} Form`,
+            status: 'published',
+            fields: [
+              {
+                fieldType: 'text',
+                name: 'full_name',
+                label: 'Full Name',
+                required: true,
+              },
+              {
+                fieldType: 'email',
+                name: 'email',
+                label: 'Email Address',
+                required: true,
+              },
+              {
+                fieldType: 'textarea',
+                name: 'message',
+                label: 'Message',
+                required: true,
+              },
+            ],
+            settings: {
+              submitButtonText: 'Submit',
+              successMessage: 'Thank you for your submission!',
+            },
+            site,
+          },
+        })
+      }),
+    )
+    await use(siteForms)
+  },
+  siteFormSubmissions: async ({ payload, tid, siteForms }, use) => {
+    const siteFormSubmissions = await Promise.all(
+      siteForms.map(async (form) => {
+        // Extract the site ID from the form - it may be a number or an object
+        const siteId = typeof form.site === 'number' ? form.site : form.site.id
+        return create(payload, tid, {
+          collection: siteFormSubmissionsCollectionName,
+          data: {
+            form: form.id,
+            data: {
+              full_name: 'Test User',
+              email: 'test@example.gov',
+              message: 'This is a test submission.',
+            },
+            status: 'pending',
+            site: siteId,
+          },
+        })
+      }),
+    )
+    await use(siteFormSubmissions)
   },
   payload: global.payload,
 })

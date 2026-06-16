@@ -34,6 +34,7 @@ import { default as default_bb883d8fc74a725ff20c3ef60d4dfc94 } from '@/component
 import { default as default_f967c60f6377f5e5f926b470261849bd } from '@/components/PreFooter/YoutubeLinkRowLabel'
 import { default as default_90b8d5a91e08c500fbf5a5d70d0d0124 } from '@/components/PreFooter/InstagramLinkRowLabel'
 import { default as default_707151937a19fc13838f6e137374a905 } from '@/components/PreFooter/RssFeedLinkRowLabel'
+import { default as default_9cb0cf96bfebf55b2a660742046aa08e } from '@/components/SubmissionDataField'
 import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { default as default_0c3317dc490d2187d9715694656ec3d3 } from '@/components/SiteCell'
@@ -52,6 +53,7 @@ import { default as default_cc06bbd7390846308c5b17cb1960f1cd } from '@/component
 import { default as default_31499de47bbccc0e241472797e3de2f3 } from '@/components/ATUPackage'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
+/** @type import('payload').ImportMap */
 export const importMap = {
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalField": RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -89,6 +91,7 @@ export const importMap = {
   "@/components/PreFooter/YoutubeLinkRowLabel#default": default_f967c60f6377f5e5f926b470261849bd,
   "@/components/PreFooter/InstagramLinkRowLabel#default": default_90b8d5a91e08c500fbf5a5d70d0d0124,
   "@/components/PreFooter/RssFeedLinkRowLabel#default": default_707151937a19fc13838f6e137374a905,
+  "@/components/SubmissionDataField#default": default_9cb0cf96bfebf55b2a660742046aa08e,
   "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
   "@/components/SiteCell#default": default_0c3317dc490d2187d9715694656ec3d3,

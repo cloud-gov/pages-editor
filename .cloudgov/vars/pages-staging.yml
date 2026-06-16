@@ -5,3 +5,4 @@ log_level: verbose
 node_env: production
 postfix: -staging
 route: publisher-staging.cloud.gov
+feature_forms: enabled

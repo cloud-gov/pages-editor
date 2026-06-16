@@ -8,7 +8,9 @@ import {
   Alert,
   FooterSiteCollection,
   SiteAuthSiteCollection,
-  PublishedBuildStatus
+  PublishedBuildStatus,
+  SiteForm,
+  SiteFormSubmission,
 } from '@/payload-types'
 import { BasePayload } from 'payload'
 import type { Role } from '@/access/adminOrSite'
@@ -30,4 +32,6 @@ export interface LocalTestContext {
   siteAuthSiteCollection: SiteAuthSiteCollection[]
   payload: BasePayload
   publishedBuildStatus: PublishedBuildStatus[]
+  siteForms: SiteForm[]
+  siteFormSubmissions: SiteFormSubmission[]
 }

@@ -85,6 +85,8 @@ export interface Config {
     'search-analytics-page-site-collection': SearchAnalyticsPageSiteCollection;
     'site-auth-site-collection': SiteAuthSiteCollection;
     'published-build-status': PublishedBuildStatus;
+    'site-forms': SiteForm;
+    'site-form-submissions': SiteFormSubmission;
     forms: Form;
     'form-submissions': FormSubmission;
     search: Search;
@@ -118,6 +120,8 @@ export interface Config {
     'search-analytics-page-site-collection': SearchAnalyticsPageSiteCollectionSelect<false> | SearchAnalyticsPageSiteCollectionSelect<true>;
     'site-auth-site-collection': SiteAuthSiteCollectionSelect<false> | SiteAuthSiteCollectionSelect<true>;
     'published-build-status': PublishedBuildStatusSelect<false> | PublishedBuildStatusSelect<true>;
+    'site-forms': SiteFormsSelect<false> | SiteFormsSelect<true>;
+    'site-form-submissions': SiteFormSubmissionsSelect<false> | SiteFormSubmissionsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
@@ -459,6 +463,23 @@ export interface CollectionEntry {
             blockName?: string | null;
             blockType: 'textBlock';
           }
+        | {
+            /**
+             * The title of the entry
+             */
+            title: string;
+            /**
+             * Optional text to display above the form
+             */
+            description?: string | null;
+            /**
+             * Select a form to display
+             */
+            form: number | SiteForm;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'formBlock';
+          }
       )[]
     | null;
   /**
@@ -729,6 +750,23 @@ export interface Page {
             blockName?: string | null;
             blockType: 'textBlock';
           }
+        | {
+            /**
+             * The title of the entry
+             */
+            title: string;
+            /**
+             * Optional text to display above the form
+             */
+            description?: string | null;
+            /**
+             * Select a form to display
+             */
+            form: number | SiteForm;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'formBlock';
+          }
       )[]
     | null;
   /**
@@ -761,6 +799,74 @@ export interface Page {
     | null;
   updatedBy?: (number | null) | User;
   reviewReady?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Create and manage forms for your site.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-forms".
+ */
+export interface SiteForm {
+  id: number;
+  /**
+   * The title of the entry
+   */
+  title: string;
+  /**
+   * Internal description for admins (not shown on the form)
+   */
+  description?: string | null;
+  /**
+   * Add the fields that will appear on your form
+   */
+  fields: {
+    fieldType: 'text' | 'email' | 'textarea' | 'number' | 'phone' | 'select' | 'radio' | 'checkbox' | 'date';
+    /**
+     * Machine-readable name (no spaces, lowercase, e.g., "first_name")
+     */
+    name: string;
+    /**
+     * The label shown to users (e.g., "First Name")
+     */
+    label: string;
+    /**
+     * Additional guidance shown below the field
+     */
+    helpText?: string | null;
+    /**
+     * Placeholder text shown inside the field
+     */
+    placeholder?: string | null;
+    required?: boolean | null;
+    /**
+     * Add options for select, radio, or checkbox fields
+     */
+    options?:
+      | {
+          label: string;
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+    id?: string | null;
+  }[];
+  settings?: {
+    submitButtonText?: string | null;
+    /**
+     * Message shown after successful form submission
+     */
+    successMessage?: string | null;
+    /**
+     * Send email notification to this address when form is submitted
+     */
+    notificationEmail?: string | null;
+  };
+  reviewReady?: boolean | null;
+  updatedBy?: (number | null) | User;
+  site: number | Site;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1103,6 +1209,23 @@ export interface HomePageSiteCollection {
             id?: string | null;
             blockName?: string | null;
             blockType: 'textBlock';
+          }
+        | {
+            /**
+             * The title of the entry
+             */
+            title: string;
+            /**
+             * Optional text to display above the form
+             */
+            description?: string | null;
+            /**
+             * Select a form to display
+             */
+            form: number | SiteForm;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'formBlock';
           }
       )[]
     | null;
@@ -1666,6 +1789,39 @@ export interface PublishedBuildStatus {
   createdAt: string;
 }
 /**
+ * View and manage form submissions.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-form-submissions".
+ */
+export interface SiteFormSubmission {
+  id: number;
+  form: number | SiteForm;
+  /**
+   * The submitted form data
+   */
+  data:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  status?: ('pending' | 'reviewed' | 'spam' | 'archived') | null;
+  metadata?: {
+    submittedAt?: string | null;
+  };
+  /**
+   * Internal notes about this submission
+   */
+  notes?: string | null;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
@@ -1983,6 +2139,14 @@ export interface PayloadLockedDocument {
         value: number | PublishedBuildStatus;
       } | null)
     | ({
+        relationTo: 'site-forms';
+        value: number | SiteForm;
+      } | null)
+    | ({
+        relationTo: 'site-form-submissions';
+        value: number | SiteFormSubmission;
+      } | null)
+    | ({
         relationTo: 'forms';
         value: number | Form;
       } | null)
@@ -2165,6 +2329,15 @@ export interface CollectionEntriesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        formBlock?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              form?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   relatedItems?:
     | T
@@ -2271,6 +2444,15 @@ export interface PagesSelect<T extends boolean = true> {
               title?: T;
               content?: T;
               bgImage?: T;
+              id?: T;
+              blockName?: T;
+            };
+        formBlock?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              form?: T;
               id?: T;
               blockName?: T;
             };
@@ -2642,6 +2824,15 @@ export interface HomePageSiteCollectionSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        formBlock?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              form?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   reviewReady?: T;
   site?: T;
@@ -2975,6 +3166,63 @@ export interface PublishedBuildStatusSelect<T extends boolean = true> {
   startedAt?: T;
   error?: T;
   pagesSiteId?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-forms_select".
+ */
+export interface SiteFormsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  fields?:
+    | T
+    | {
+        fieldType?: T;
+        name?: T;
+        label?: T;
+        helpText?: T;
+        placeholder?: T;
+        required?: T;
+        options?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  settings?:
+    | T
+    | {
+        submitButtonText?: T;
+        successMessage?: T;
+        notificationEmail?: T;
+      };
+  reviewReady?: T;
+  updatedBy?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-form-submissions_select".
+ */
+export interface SiteFormSubmissionsSelect<T extends boolean = true> {
+  form?: T;
+  data?: T;
+  status?: T;
+  metadata?:
+    | T
+    | {
+        submittedAt?: T;
+      };
+  notes?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -3552,6 +3800,23 @@ export interface HomePage {
             id?: string | null;
             blockName?: string | null;
             blockType: 'textBlock';
+          }
+        | {
+            /**
+             * The title of the entry
+             */
+            title: string;
+            /**
+             * Optional text to display above the form
+             */
+            description?: string | null;
+            /**
+             * Select a form to display
+             */
+            form: number | SiteForm;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'formBlock';
           }
       )[]
     | null;
@@ -4295,6 +4560,15 @@ export interface HomePageSelect<T extends boolean = true> {
               title?: T;
               content?: T;
               bgImage?: T;
+              id?: T;
+              blockName?: T;
+            };
+        formBlock?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              form?: T;
               id?: T;
               blockName?: T;
             };

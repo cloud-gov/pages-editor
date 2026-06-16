@@ -4,6 +4,11 @@ import { config } from '@payload-config'
 import { v4 as uuid } from 'uuid'
 import { afterSchemaInit } from '@/utilities/cascade'
 
+// The Forms feature is gated behind FEATURE_FORMS. Tests exercise the forms
+// collections/endpoints, so ensure the flag is enabled before the config is
+// built (the flag is read at module-load time).
+process.env.FEATURE_FORMS = process.env.FEATURE_FORMS ?? 'enabled'
+
 const initOptions = {
   secret: uuid(),
   db: postgresAdapter({

@@ -1,7 +1,7 @@
 import { Field, GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { updatedByField } from '@/fields/relationships'
-import { readyForReviewField } from '@/fields'
+import { readyForReviewField } from '@/fields/commonFields'
 import { populateGlobalUpdatedBy } from '@/hooks/populateUpdatedBy'
 
 export const roleGroup = (name: string, fields: Field[] = []): Field => ({
