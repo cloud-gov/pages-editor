@@ -22,14 +22,14 @@ import { scrollToID } from '@payloadcms/ui/utilities/scrollToID'
 import { getTranslation } from '@payloadcms/translations'
 import { toast } from 'sonner'
 
-import { FilesDraggableItem, FilesDraggableList } from './FilesDraggable'
-import { FilesRow } from './FilesRow'
+import { FilesDraggableItem, FilesDraggableList } from '../FilesDraggable'
+import { FilesRow } from '../FilesRow'
 import {
   clipboardCopy,
   clipboardPaste,
   mergeFormStateFromClipboard,
   reduceFormStateByPath,
-} from './clipboard'
+} from '../utilities/clipboard'
 import './index.scss'
 
 const baseClass = 'files-field'

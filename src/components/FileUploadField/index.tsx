@@ -3,15 +3,6 @@ import React, { useCallback, useMemo } from 'react'
 import type { UploadFieldClientComponent } from 'payload'
 import { useConfig, useField, UploadInput } from '@payloadcms/ui'
 
-/**
- * Custom replacement for Payload's `UploadComponent`.
- *
- * Payload's stock upload field renders the wrapper `<div className="field-type
- * upload">` with an inline `style` attribute (computed by `mergeFieldStyles`,
- * which sets `flex` / `--field-width`). This component renders the same
- * `UploadInput` but deliberately omits the `style` prop so no inline CSS is
- * produced. Width/flex is handled via the stylesheet instead.
- */
 export const FileUploadField: UploadFieldClientComponent = (props) => {
   const {
     field,

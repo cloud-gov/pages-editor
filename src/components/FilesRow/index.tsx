@@ -9,7 +9,7 @@ import { getTranslation } from '@payloadcms/translations'
 import type { HTMLAttributes } from 'react'
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities'
 
-import { FilesRowActions } from './FilesRowActions'
+import { FilesRowActions } from '../FilesRowActions'
 
 const baseClass = 'files-field'
 

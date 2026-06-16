@@ -8,7 +8,7 @@ import { MoreIcon } from '@payloadcms/ui/icons/More'
 import { PlusIcon } from '@payloadcms/ui/icons/Plus'
 import { XIcon } from '@payloadcms/ui/icons/X'
 
-import './FilesRowActions.scss'
+import './index.scss'
 
 const baseClass = 'files-row-actions'
 const arrayActionsClass = 'array-actions'

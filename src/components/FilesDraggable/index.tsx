@@ -14,7 +14,7 @@ import { SortableContext, sortableKeyboardCoordinates, useSortable } from '@dnd-
 import type { DraggableAttributes } from '@dnd-kit/core'
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities'
 
-import './FilesDraggable.scss'
+import './index.scss'
 
 const baseClass = 'files-draggable'
 

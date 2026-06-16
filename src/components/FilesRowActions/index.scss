@@ -36,8 +36,7 @@
     transform: translateX(-50%);
   }
 
-  // Reduce the font size and allow the list to grow tall enough so every
-  // action fits without an inner scrollbar (the stock popup has fewer items).
+  
   &__content {
     .popup__scroll-container {
       max-height: none;

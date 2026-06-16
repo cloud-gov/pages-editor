@@ -251,7 +251,7 @@ export const filesField: ArrayField = {
   admin: {
     description: 'Add downloadable files or attachments',
     components: {
-      Field: '@/fields/files/FilesFieldComponent#FilesFieldComponent',
+      Field: '@/components/FilesFieldComponent#FilesFieldComponent',
     },
   },
   fields: [
@@ -262,7 +262,7 @@ export const filesField: ArrayField = {
       required: true,
       admin: {
         components: {
-          Field: '@/fields/files/FileUploadField#FileUploadField',
+          Field: '@/components/FileUploadField#FileUploadField',
         },
       },
     },
