@@ -3,10 +3,9 @@ import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { siteField, updatedByField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { addSite } from '@/hooks/addSite'
-import { editor } from '@/utilities/editor'
 import { completeReview } from '@/hooks/completeReview'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
-import { readyForReviewField } from '@/fields'
+import { readyForReviewField } from '@/fields/commonFields'
 
 export const CollectionTypes: CollectionConfig = {
   slug: 'collection-types',
@@ -40,6 +39,9 @@ export const CollectionTypes: CollectionConfig = {
       admin: {
         description:
           'The display name for this collection type (e.g., "Articles", "Resources", "Blog Posts")',
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       },
     },
     ...slugField('title', {
@@ -56,6 +58,9 @@ export const CollectionTypes: CollectionConfig = {
       type: 'text',
       admin: {
         description: "The collection type's description or summary",
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       },
     },
     {

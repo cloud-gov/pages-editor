@@ -21,9 +21,16 @@ type NavClientProps = {
   }[]
   user: any
   selectedSiteRole: 'user' | 'manager' | 'bot' | null | undefined
+  formsEnabled?: boolean
 }
 
-const NavClient: React.FC<NavClientProps> = ({ collectionTypeLinks, tagTypeLinks, user, selectedSiteRole }) => {
+const NavClient: React.FC<NavClientProps> = ({
+  collectionTypeLinks,
+  tagTypeLinks,
+  user,
+  selectedSiteRole,
+  formsEnabled = false,
+}) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -90,6 +97,22 @@ const NavClient: React.FC<NavClientProps> = ({ collectionTypeLinks, tagTypeLinks
                 Authorization Forms
               </Link>
             </NavGroup>
+            {formsEnabled && (
+              <NavGroup label="&#128221; Forms">
+                <Link
+                  href="/admin/collections/site-forms"
+                  className={`nav__link ${isActive('/admin/collections/site-forms') ? 'nav__link--active' : ''}`}
+                >
+                  Forms
+                </Link>
+                <Link
+                  href="/admin/collections/site-form-submissions"
+                  className={`nav__link ${isActive('/admin/collections/site-form-submissions') ? 'nav__link--active' : ''}`}
+                >
+                  Form Submissions
+                </Link>
+              </NavGroup>
+            )}
           </>
         )}
 
@@ -105,7 +128,7 @@ const NavClient: React.FC<NavClientProps> = ({ collectionTypeLinks, tagTypeLinks
               {collectionTypeLinks.length === 0 && (
                 <Link
                   href="/admin/collections/collection-types/create"
-                    className={`nav__link ${isActive('/admin/collections/collection-types/create') ? 'nav__link--active' : ''}`}
+                  className={`nav__link ${isActive('/admin/collections/collection-types/create') ? 'nav__link--active' : ''}`}
                 >
                   No Collections created. Create your first collection.
                 </Link>
@@ -137,32 +160,26 @@ const NavClient: React.FC<NavClientProps> = ({ collectionTypeLinks, tagTypeLinks
                 HomePage
               </Link>
             </NavGroup>
-            <Link
-              className="link-button margin-bottom-2 width-full"
-              href="/admin/collections/tag-types/create"
-            >
-              &oplus; Create Tag Type
-            </Link>
-            <NavGroup label=" Tag Types">
-              {tagTypeLinks.length === 0 && (
-                <Link
-                  href="/admin/collections/tag-types/create"
-                    className={`nav__link ${isActive('/admin/collections/tag-types/create') ? 'nav__link--active' : ''}`}
-                >
-                  No Tag Types created. Create your first tag type.
-                </Link>
-              )}
-              {tagTypeLinks.map((type) => {
-                return (
-                  <Link
-                    key={type.id}
-                    href={type.href}
-                    className={`nav__link ${isCollectionTypeActive(type.id) ? 'nav__link--active' : ''}`}
-                  >
-                    {type.title}
-                  </Link>
-                )
-              })}
+            <NavGroup label="&#x1F3F7; Tags">
+              <Link
+                className={`nav__link ${isActive('/admin/collections/tag-types/create') ? 'nav__link--active' : ''}`}
+                href="/admin/collections/tag-types/create"
+              >
+                &oplus; Create Tag Type
+              </Link>
+              {tagTypeLinks
+                .filter((type) => type.title)
+                .map((type) => {
+                  return (
+                    <Link
+                      key={type.id}
+                      href={type.href}
+                      className={`nav__link ${isCollectionTypeActive(type.id) ? 'nav__link--active' : ''}`}
+                    >
+                      {type.title}
+                    </Link>
+                  )
+                })}
               <Link
                 href={buildFilteredUrl(null, 'tags', 'tagTypes')}
                 title="Ungrouped Tags"
@@ -171,6 +188,22 @@ const NavClient: React.FC<NavClientProps> = ({ collectionTypeLinks, tagTypeLinks
                 Ungrouped Tags
               </Link>
             </NavGroup>
+            {formsEnabled && (
+              <NavGroup label="&#128221; Forms">
+                <Link
+                  href="/admin/collections/site-forms"
+                  className={`nav__link ${isActive('/admin/collections/site-forms') ? 'nav__link--active' : ''}`}
+                >
+                  Forms
+                </Link>
+                <Link
+                  href="/admin/collections/site-form-submissions"
+                  className={`nav__link ${isActive('/admin/collections/site-form-submissions') ? 'nav__link--active' : ''}`}
+                >
+                  Form Submissions
+                </Link>
+              </NavGroup>
+            )}
             <NavGroup label="&#x1F30F; Global Assets">
               <Link
                 href="/admin/collections/alerts"
@@ -253,14 +286,14 @@ const NavClient: React.FC<NavClientProps> = ({ collectionTypeLinks, tagTypeLinks
               >
                 Web Analytics
               </Link>
-            {(selectedSiteRole === 'manager' || user.isAdmin) && (
-              <Link
+              {(selectedSiteRole === 'manager' || user.isAdmin) && (
+                <Link
                   href="/admin/collections/published-build-status"
                   className={`nav__link ${isActive('/admin/collections/published-build-status') ? 'nav__link--active' : ''}`}
-              >
-                Published Build Status
-              </Link>
-            )}
+                >
+                  Published Build Status
+                </Link>
+              )}
             </NavGroup>
             {selectedSiteRole === 'manager' && (
               <NavGroup label="&#128272; Site Compliance and Security">

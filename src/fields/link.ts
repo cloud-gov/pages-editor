@@ -73,6 +73,9 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       type: 'text',
       admin: {
         condition: (_, siblingData) => siblingData?.type === 'custom',
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       },
       label: 'Custom URL',
       required: true,
@@ -97,6 +100,9 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
           type: 'text',
           admin: {
             width: '50%',
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
           },
           label: 'Label',
           required: true,

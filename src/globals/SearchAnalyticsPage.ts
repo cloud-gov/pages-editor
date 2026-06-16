@@ -1,7 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
-import { readyForReviewField } from '@/fields'
+import { readyForReviewField } from '@/fields/commonFields'
 
 export const SearchAnalyticsPage: GlobalConfig = {
   slug: 'search-analytics-page',
@@ -33,11 +33,21 @@ export const SearchAnalyticsPage: GlobalConfig = {
           name: 'searchAccessKey',
           label: 'Key obtained from Search.gov admin center',
           type: 'text',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
+          }
         },
         {
           name: 'searchAffiliate',
           label: 'Search.gov Site Handle',
           type: 'text',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
+          }
         },
       ],
     },
@@ -49,11 +59,21 @@ export const SearchAnalyticsPage: GlobalConfig = {
           name: 'dapAgencyCode',
           label: 'DAP Agency Code',
           type: 'text',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
+          }
         },
         {
           name: 'dapSubAgencyCode',
           label: 'DAP Sub Agency Code',
           type: 'text',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
+          }
         },
       ],
     },

@@ -2,6 +2,7 @@ import React from 'react'
 import { BasePayload } from 'payload'
 import { headers as nextHeaders } from 'next/headers'
 import { getUserSiteInfo, getCollectionTypes, getTagTypes } from '@/components/utilities'
+import { isFormsEnabled } from '@/utilities/featureFlags'
 import TopTasks from './TopTasks'
 import SiteSelect from './SiteSelect'
 import ListSiteCollectionTypes from './ListSiteCollectionTypes'
@@ -15,6 +16,7 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
   const { user, sites, selectedSiteId, selectedSiteRole } = await getUserSiteInfo(payload, headers)
   const collectionTypes = await getCollectionTypes(payload, headers)
   const tagTypes = await getTagTypes(payload, headers)
+  const formsEnabled = isFormsEnabled()
   return (
     <div className="grid-container">
       <div className="grid-row margin-top-0">
@@ -84,6 +86,25 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
               />
             </div>
           </Section>
+
+          {formsEnabled && (
+            <Section title="Forms">
+              <div className="grid-row grid-gap-2">
+                <CardLink
+                  href="/admin/collections/site-forms"
+                  title="Site Forms"
+                  description="All forms across all sites."
+                  label="View all forms"
+                />
+                <CardLink
+                  href="/admin/collections/site-form-submissions"
+                  title="Form Submissions"
+                  description="All form submissions across all sites."
+                  label="View all submissions"
+                />
+              </div>
+            </Section>
+          )}
         </>
       )}
 
@@ -121,6 +142,27 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
               />
             </div>
           </Section>
+
+          {formsEnabled && (
+            <Section title="Forms">
+              <div className="grid-row grid-gap-2">
+                <CardLink
+                  href="/admin/collections/site-forms"
+                  title="Site Forms"
+                  description="Create and manage forms for visitors to submit inquiries."
+                  label="View all forms"
+                />
+                {selectedSiteRole === 'manager' && (
+                  <CardLink
+                    href="/admin/collections/site-form-submissions"
+                    title="Form Submissions"
+                    description="View and manage submissions from your forms."
+                    label="View submissions"
+                  />
+                )}
+              </div>
+            </Section>
+          )}
 
           <Section title="Global Assets">
             <div className="grid-row grid-gap-2">

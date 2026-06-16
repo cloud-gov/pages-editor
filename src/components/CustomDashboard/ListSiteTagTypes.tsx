@@ -14,7 +14,7 @@ export default function ListSiteTagTypes({
 }) {
   return (
     <Section
-      title="Tag Types"
+      title="Tags"
       action={
         <>
           <Link href="/admin/collections/tag-types/create">
@@ -35,13 +35,13 @@ export default function ListSiteTagTypes({
               Create your first tag type now.
             </Link>
           </p>
-          
+
           <p className="margin-top-1">
             <Link href={buildFilteredUrl(null, 'tags', 'tagTypes')}>
               View ungrouped tags
             </Link>
           </p>
-          
+
         </div>
       )}
       {docs.length > 0 && (

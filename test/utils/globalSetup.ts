@@ -9,7 +9,7 @@ let teardownHappened = false
 export default async function () {
 
     async function clearDatabase() {
-        await exec('yes | DATABASE_URI=$TEST_DATABASE_URI npm run payload migrate:fresh')
+        await exec('yes | FEATURE_FORMS=enabled DATABASE_URI=$TEST_DATABASE_URI npm run payload migrate:fresh')
         return true
       }
 

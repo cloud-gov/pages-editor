@@ -32,5 +32,6 @@ applications:
       PREVIEW_ROOT: app.cloud.gov
       NEXT_TELEMETRY_DISABLED: 1
       NEXT_PUBLIC_SERVER_URL: https://((route))
+      FEATURE_FORMS: ((feature_forms))
     health-check-type: http
     health-check-http-endpoint: /admin

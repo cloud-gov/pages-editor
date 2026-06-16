@@ -8,11 +8,6 @@ import type {
 } from 'payload'
 import { validateExternalLinkGroup } from '@/utilities/validators/externalLinkGroup'
 
-export { relatedItems } from './relatedItems'
-export * from './content'
-export * from './relationships'
-export * from './slug'
-
 export const contentDateField: DateField = {
   name: 'contentDate',
   label: 'Content Date',
@@ -241,6 +236,9 @@ export const descriptionField: TextField = {
   type: 'text',
   admin: {
     description: 'A description to be used as a summary',
+    components: {
+      Field: '@/components/fields/CustomTextField#CustomTextField',
+    },
   },
 }
 
@@ -271,6 +269,9 @@ export const filesField: ArrayField = {
       type: 'text',
       admin: {
         description: 'Optional label for the file (e.g., "Download PDF")',
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       },
     },
   ],
@@ -320,6 +321,9 @@ export const titleField: TextField = {
   required: true,
   admin: {
     description: 'The title of the entry',
+    components: {
+      Field: '@/components/fields/CustomTextField#CustomTextField',
+    },
   },
 }
 
@@ -333,11 +337,21 @@ export const externalLink: any = {
       label: 'The label used for this link',
       type: 'text',
       validate: validateExternalLinkGroup('url'),
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     {
       name: 'url',
       type: 'text',
       validate: validateExternalLinkGroup('label'),
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
   ],
   admin: {

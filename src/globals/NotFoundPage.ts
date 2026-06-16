@@ -25,6 +25,11 @@ export const NotFoundPage: GlobalConfig = {
       label: 'Page Title',
       required: true,
       defaultValue: 'Page Not Found',
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     {
       name: 'heading',
@@ -32,6 +37,11 @@ export const NotFoundPage: GlobalConfig = {
       label: 'Heading',
       required: true,
       defaultValue: '404 - Page Not Found',
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     {
       name: 'content',

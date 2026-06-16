@@ -29,6 +29,9 @@ export const defaultLexical: Config['editor'] = lexicalEditor({
               type: 'text',
               admin: {
                 condition: ({ linkType }) => linkType !== 'internal',
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                },
               },
               label: ({ t }) => t('fields:enterURL'),
               required: true,

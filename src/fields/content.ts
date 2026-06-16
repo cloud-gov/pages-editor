@@ -1,6 +1,8 @@
 import { editor } from '@/utilities/editor'
 import { validateTextRequired } from '@/utilities/validators/text'
-import { BlocksField } from 'payload'
+import { BlocksField, CollectionSlug } from 'payload'
+import { descriptionField, titleField } from './commonFields'
+import { isFormsEnabled } from '@/utilities/featureFlags'
 
 export const richTextField = {
   name: 'content',
@@ -16,6 +18,13 @@ export const contentField: BlocksField = {
   name: 'content',
   type: 'blocks',
   label: 'Page Content',
+  // The formBlock is always registered (so its tables stay in the schema and
+  // toggling the feature never produces a migration). When the Forms feature is
+  // disabled, hide it from the editor's block picker via `filterOptions`.
+  // Returning `true` allows every block; returning an explicit slug list omits
+  // `formBlock`.
+  filterOptions: () =>
+    isFormsEnabled() ? true : ['hero', 'richText', 'cardGrid', 'textBlock'],
   blocks: [
     {
       slug: 'hero',
@@ -30,12 +39,22 @@ export const contentField: BlocksField = {
           label: 'Hero Title',
           required: true,
           defaultValue: 'Welcome to Our Site',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            }
+          }
         },
         {
           name: 'subtitle',
           type: 'text',
           label: 'Hero Subtitle',
           defaultValue: 'A modern, accessible website built with the best tools',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            }
+          }
         },
         {
           name: 'description',
@@ -60,12 +79,22 @@ export const contentField: BlocksField = {
               type: 'text',
               label: 'Button Text',
               defaultValue: 'Get Started',
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                }
+              }
             },
             {
               name: 'url',
               type: 'text',
               label: 'Button URL',
               defaultValue: '/about',
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                }
+              }
             },
             {
               name: 'style',
@@ -111,6 +140,11 @@ export const contentField: BlocksField = {
           type: 'text',
           label: 'Section Title',
           defaultValue: 'Featured Content',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            }
+          }
         },
         {
           name: 'description',
@@ -151,6 +185,11 @@ export const contentField: BlocksField = {
               label: 'Card Title',
               required: true,
               validate: validateTextRequired,
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                }
+              }
             },
             {
               name: 'description',
@@ -172,12 +211,22 @@ export const contentField: BlocksField = {
                   name: 'url',
                   type: 'text',
                   label: 'Link URL',
+                  admin: {
+                    components: {
+                      Field: '@/components/fields/CustomTextField#CustomTextField',
+                    }
+                  }
                 },
                 {
                   name: 'text',
                   type: 'text',
                   label: 'Link Text',
                   defaultValue: 'Learn More',
+                  admin: {
+                    components: {
+                      Field: '@/components/fields/CustomTextField#CustomTextField',
+                    }
+                  }
                 },
               ],
             },
@@ -196,6 +245,11 @@ export const contentField: BlocksField = {
           name: 'title',
           type: 'text',
           label: 'Block Title',
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            }
+          }
         },
         {
           name: 'content',
@@ -208,6 +262,39 @@ export const contentField: BlocksField = {
           type: 'upload',
           label: 'Background Image',
           relationTo: 'media',
+        },
+      ],
+    },
+    // formBlock is always registered so its tables persist in the schema. It is
+    // hidden from the block picker via `filterOptions` above when the Forms
+    // feature is disabled.
+    {
+      slug: 'formBlock',
+      labels: {
+        singular: 'Form',
+        plural: 'Forms',
+      },
+      fields: [
+        {
+          ...titleField,
+          label: 'Section Title',
+        },
+        {
+          ...descriptionField,
+          label: 'Section Description',
+          admin: {
+            description: 'Optional text to display above the form',
+          },
+        },
+        {
+          name: 'form',
+          type: 'relationship',
+          label: 'Form',
+          relationTo: 'site-forms' as CollectionSlug,
+          required: true,
+          admin: {
+            description: 'Select a form to display',
+          },
         },
       ],
     },

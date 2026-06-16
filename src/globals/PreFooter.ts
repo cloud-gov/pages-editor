@@ -3,7 +3,7 @@ import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { validateTextRequired } from '@/utilities/validators/text'
 import { commonLinkBlocks } from '@/fields/hyperlinks'
-import { readyForReviewField } from '@/fields'
+import { readyForReviewField } from '@/fields/commonFields'
 
 function bigFooterCondition(data): true | false {
   return data?.type === 'big' ? true : false
@@ -96,6 +96,11 @@ export const PreFooter: GlobalConfig = {
               label: 'Group Name',
               required: true,
               validate: validateTextRequired,
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                },
+              }
             },
             {
               name: 'link',
@@ -181,12 +186,20 @@ export const PreFooter: GlobalConfig = {
               type: 'text',
               admin: {
                 condition: bigFooterCondition,
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                },
               },
             },
             {
               name: 'phone',
               label: 'Phone',
               type: 'text',
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                },
+              }
             },
             {
               name: 'email',
@@ -217,6 +230,11 @@ export const PreFooter: GlobalConfig = {
               label: 'Url',
               required: true,
               validate: validateTextRequired,
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                },
+              }
             },
           ],
         },
@@ -246,6 +264,11 @@ export const PreFooter: GlobalConfig = {
               label: 'Url',
               required: true,
               validate: validateTextRequired,
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                },
+              }
             },
           ],
         },
@@ -275,6 +298,11 @@ export const PreFooter: GlobalConfig = {
               label: 'Url',
               required: true,
               validate: validateTextRequired,
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                },
+              }
             },
           ],
         },
@@ -304,6 +332,11 @@ export const PreFooter: GlobalConfig = {
               label: 'Url',
               required: true,
               validate: validateTextRequired,
+              admin: {
+                components: {
+                Field: '@/components/fields/CustomTextField#CustomTextField',
+              },
+              }
             },
           ],
         },
@@ -333,6 +366,11 @@ export const PreFooter: GlobalConfig = {
               label: 'Url',
               required: true,
               validate: validateTextRequired,
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                },
+              }
             },
           ],
         },

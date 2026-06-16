@@ -5,7 +5,7 @@ import { addSite } from '@/hooks/addSite'
 import { completeReview } from '@/hooks/completeReview'
 import buildSite from '@/hooks/buildSite'
 import { commonLinkBlocks } from '@/fields/hyperlinks'
-import { publishedAtField, readyForReviewField } from '@/fields'
+import { publishedAtField, readyForReviewField } from '@/fields/commonFields'
 
 export const SideNavigation: CollectionConfig = {
   slug: 'side-navigation',
@@ -33,6 +33,9 @@ export const SideNavigation: CollectionConfig = {
       required: true,
       admin: {
         description: 'Internal name for this side navigation (e.g., "About Us Navigation")',
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       },
     },
     {
@@ -42,6 +45,9 @@ export const SideNavigation: CollectionConfig = {
       defaultValue: 'Page Navigation',
       admin: {
         description: 'The title that appears above the side navigation',
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       },
     },
     {

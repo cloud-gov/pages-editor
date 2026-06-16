@@ -49,6 +49,10 @@ services:
       AWS_REGION: us-gov-west-1
       BUCKET_MANAGER_AWS_ACCESS_KEY_ID: pages-editor-access-key
       BUCKET_MANAGER_AWS_SECRET_ACCESS_KEY: pages-editor-secret-key
+      # Toggle the Forms feature without editing this file:
+      #   FEATURE_FORMS=disabled docker compose up
+      # Defaults to enabled for local development.
+      FEATURE_FORMS: ${FEATURE_FORMS:-enabled}
     healthcheck:
       test: ['CMD', 'curl', '-F', 'http://localhost:3000']
       interval: 10s

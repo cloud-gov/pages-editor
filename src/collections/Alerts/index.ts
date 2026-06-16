@@ -5,7 +5,7 @@ import { addSite } from '@/hooks/addSite'
 import buildSite from '@/hooks/buildSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { completeReview } from '@/hooks/completeReview'
-import { publishedAtField, readyForReviewField } from '@/fields'
+import { publishedAtField, readyForReviewField } from '@/fields/commonFields'
 import { editor } from '@/utilities/editor'
 
 const alertsCollectionName: CollectionSlug = 'alerts' as CollectionSlug
@@ -42,6 +42,11 @@ export const Alerts: CollectionConfig = {
       name: 'title',
       type: 'text',
       label: 'Title',
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     {
       name: 'content',

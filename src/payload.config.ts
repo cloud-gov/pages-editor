@@ -12,6 +12,8 @@ import { Users } from './collections/Users'
 import { Pages } from './collections/Pages'
 import { Sites } from './collections/Sites'
 import { SideNavigation } from './collections/SideNavigation'
+import { SiteForms } from './collections/Forms'
+import { SiteFormSubmissions } from './collections/FormSubmissions'
 import { Menu as MenuConfig } from './globals/Menu'
 import { PreFooter as PreFooterConfig } from './globals/PreFooter'
 import { Footer as FooterConfig } from './globals/Footer'
@@ -165,6 +167,9 @@ const config = {
     SearchAnalyticsPageCollection,
     SiteAuthCollection,
     PublishedBuildStatus,
+    // Forms group
+    SiteForms,
+    SiteFormSubmissions,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [

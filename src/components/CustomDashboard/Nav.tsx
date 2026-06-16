@@ -2,6 +2,7 @@ import React from 'react'
 import { BasePayload } from 'payload'
 import { headers as nextHeaders } from 'next/headers'
 import { buildFilteredUrl, getCollectionTypes, getTagTypes, getUserSiteInfo } from '@/components/utilities'
+import { isFormsEnabled } from '@/utilities/featureFlags'
 import NavClient from './NavClient'
 
 const Nav: React.FC<{ payload: BasePayload }> = async ({ payload }) => {
@@ -31,6 +32,7 @@ const Nav: React.FC<{ payload: BasePayload }> = async ({ payload }) => {
       user={user}
       selectedSiteRole={selectedSiteRole}
       tagTypeLinks={tagTypeLinks}
+      formsEnabled={isFormsEnabled()}
     />
   );
 };

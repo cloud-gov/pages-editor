@@ -2,7 +2,7 @@ import { GlobalConfig } from 'payload'
 import { getAdminOrSiteUserGlobals } from '@/access/adminOrSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
-import { colorOptions, imageField, readyForReviewField } from '@/fields'
+import { colorOptions, imageField, readyForReviewField } from '@/fields/commonFields'
 import { validateRichTextRequired } from '@/utilities/validators/richText'
 import { validateTextRequired } from '@/utilities/validators/text'
 import { commonLinkBlocks } from '@/fields/hyperlinks'
@@ -35,6 +35,11 @@ export const Footer: GlobalConfig = {
       label: 'Site domain',
       required: true,
       validate: validateTextRequired,
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     {
       type: 'collapsible',
@@ -91,6 +96,11 @@ export const Footer: GlobalConfig = {
               type: 'text',
               required: true,
               validate: validateTextRequired,
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomTextField#CustomTextField',
+                },
+              }
             },
             {
               ...imageField,

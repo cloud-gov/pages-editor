@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { slugField } from '@/fields/slug'
 import { siteField, updatedByField } from '@/fields/relationships'
-import { readyForReviewField } from '@/fields'
+import { readyForReviewField } from '@/fields/commonFields'
 import { addSite } from '@/hooks/addSite'
 import { completeReview } from '@/hooks/completeReview'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
@@ -39,6 +39,9 @@ export const TagTypes: CollectionConfig = {
       admin: {
         description:
           'The display name for this tag type',
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       }
     },
     ...slugField('title', {
@@ -55,6 +58,9 @@ export const TagTypes: CollectionConfig = {
       type: 'text',
       admin: {
         description: "The tag type's description or summary",
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       },
     },
     updatedByField,
