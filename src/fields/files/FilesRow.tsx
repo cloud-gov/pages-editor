@@ -1,24 +1,22 @@
 'use client'
 import React from 'react'
 import type { ClientField } from 'payload'
-import {
-  Collapsible,
-  ErrorPill,
-  RenderFields,
-  useFormSubmitted,
-  useTranslation,
-} from '@payloadcms/ui'
+import { ErrorPill, RenderFields, useFormSubmitted, useTranslation } from '@payloadcms/ui'
 import { useThrottledValue } from '@payloadcms/ui/hooks/useThrottledValue'
-import { ArrayAction } from '@payloadcms/ui/elements/ArrayAction'
+import { ChevronIcon } from '@payloadcms/ui/icons/Chevron'
+import { DragHandleIcon } from '@payloadcms/ui/icons/DragHandle'
 import { getTranslation } from '@payloadcms/translations'
 import type { HTMLAttributes } from 'react'
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities'
+
+import { FilesRowActions } from './FilesRowActions'
 
 const baseClass = 'files-field'
 
 type FilesRowProps = {
   addRow: (rowIndex: number) => void
   attributes: HTMLAttributes<unknown>
+  copyRow: (rowIndex: number) => void
   duplicateRow: (rowIndex: number) => void
   errorCount?: number
   fields?: ClientField[]
@@ -32,6 +30,7 @@ type FilesRowProps = {
   moveRow: (from: number, to: number) => void
   parentPath: string
   path: string
+  pasteRow: (rowIndex: number) => void
   permissions: unknown
   readOnly?: boolean
   removeRow: (rowIndex: number) => void
@@ -41,20 +40,17 @@ type FilesRowProps = {
   schemaPath?: string
   scrollIdPrefix: string
   setCollapse: (rowID: string, collapsed: boolean) => void
-  setNodeRef?: (node: HTMLElement | null) => void
-  transform?: string
-  transition?: string
 }
 
 export const FilesRow: React.FC<FilesRowProps> = ({
   addRow,
   attributes,
+  copyRow,
   duplicateRow,
   errorCount,
   fields,
   forceRender = false,
   hasMaxRows = false,
-  isDragging,
   isLoading: isLoadingFromProps,
   isSortable,
   labels,
@@ -62,6 +58,7 @@ export const FilesRow: React.FC<FilesRowProps> = ({
   moveRow,
   parentPath,
   path,
+  pasteRow,
   permissions,
   readOnly,
   removeRow,
@@ -71,11 +68,8 @@ export const FilesRow: React.FC<FilesRowProps> = ({
   schemaPath,
   scrollIdPrefix,
   setCollapse,
-  setNodeRef,
-  transform,
-  transition,
 }) => {
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
   const hasSubmitted = useFormSubmitted()
 
   const isLoading = useThrottledValue(isLoadingFromProps, 500)
@@ -85,79 +79,95 @@ export const FilesRow: React.FC<FilesRowProps> = ({
   ).padStart(2, '0')}`
 
   const fieldHasErrors = (errorCount ?? 0) > 0 && hasSubmitted
+  const isCollapsed = Boolean(row.collapsed)
 
   const classNames = [
     `${baseClass}__row`,
     fieldHasErrors ? `${baseClass}__row--has-errors` : `${baseClass}__row--no-errors`,
-    isDragging ? `${baseClass}__row--is-dragging` : '',
+    isCollapsed ? `${baseClass}__row--collapsed` : `${baseClass}__row--open`,
+    fieldHasErrors ? `${baseClass}__row--style-error` : `${baseClass}__row--style-default`,
   ]
     .filter(Boolean)
     .join(' ')
 
   return (
     <div
-      className={`${baseClass}__draggable-row`}
+      className={classNames}
       id={`${parentPath.split('.').join('-')}-row-${rowIndex}`}
-      ref={setNodeRef}
-      style={{ transform, transition, zIndex: isDragging ? 1 : undefined }}
     >
-      <Collapsible
-        actions={
-          !readOnly ? (
-            <ArrayAction
+      <div className={`${baseClass}__row-toggle-wrap`}>
+        <button
+          aria-expanded={!isCollapsed}
+          className={`${baseClass}__row-toggle`}
+          onClick={() => setCollapse(row.id, !isCollapsed)}
+          type="button"
+        >
+          <span>{t('fields:toggleBlock')}</span>
+        </button>
+        {isSortable && (
+          <div
+            className={`${baseClass}__row-drag`}
+            {...attributes}
+            {...listeners}
+          >
+            <DragHandleIcon />
+          </div>
+        )}
+        <div className={`${baseClass}__row-header`} id={`${scrollIdPrefix}-row-${rowIndex}`}>
+          {isLoading ? (
+            <span className={`${baseClass}__row-shimmer`} />
+          ) : (
+            <span className={`${baseClass}__row-label`}>{fallbackLabel}</span>
+          )}
+          {fieldHasErrors && <ErrorPill count={errorCount ?? 0} i18n={i18n} withMessage />}
+        </div>
+        <div className={`${baseClass}__row-actions-wrap`}>
+          {!readOnly && (
+            <FilesRowActions
               addRow={addRow}
-              copyRow={() => {}}
+              copyRow={copyRow}
               duplicateRow={duplicateRow}
               hasMaxRows={hasMaxRows}
               index={rowIndex}
               isSortable={isSortable}
               moveRow={moveRow}
-              pasteRow={() => {}}
+              pasteRow={pasteRow}
               removeRow={removeRow}
               rowCount={rowCount}
             />
-          ) : undefined
-        }
-        className={classNames}
-        collapsibleStyle={fieldHasErrors ? 'error' : 'default'}
-        dragHandleProps={
-          isSortable
-            ? ({
-                id: row.id,
-                attributes,
-                listeners,
-              } as never)
-            : undefined
-        }
-        header={
-          <div className={`${baseClass}__row-header`} id={`${scrollIdPrefix}-row-${rowIndex}`}>
+          )}
+          <button
+            aria-expanded={!isCollapsed}
+            aria-label={t('fields:toggleBlock')}
+            className={`${baseClass}__row-indicator`}
+            onClick={() => setCollapse(row.id, !isCollapsed)}
+            type="button"
+          >
+            <ChevronIcon direction={isCollapsed ? undefined : 'up'} />
+          </button>
+        </div>
+      </div>
+      <div className={`${baseClass}__row-content-wrap`}>
+        <div className={`${baseClass}__row-content`}>
+          <div className={`${baseClass}__row-content-inner`}>
             {isLoading ? (
-              <span className={`${baseClass}__row-shimmer`} />
+              <span className={`${baseClass}__fields-shimmer`} />
             ) : (
-              <span className={`${baseClass}__row-label`}>{fallbackLabel}</span>
+              <RenderFields
+                className={`${baseClass}__fields`}
+                fields={fields ?? []}
+                forceRender={forceRender}
+                margins="small"
+                parentIndexPath=""
+                parentPath={path}
+                parentSchemaPath={schemaPath ?? ''}
+                permissions={permissions === true ? permissions : (permissions as any)?.fields}
+                readOnly={readOnly}
+              />
             )}
-            {fieldHasErrors && <ErrorPill count={errorCount ?? 0} i18n={i18n} withMessage />}
           </div>
-        }
-        isCollapsed={row.collapsed}
-        onToggle={(collapsed) => setCollapse(row.id, collapsed)}
-      >
-        {isLoading ? (
-          <span className={`${baseClass}__fields-shimmer`} />
-        ) : (
-          <RenderFields
-            className={`${baseClass}__fields`}
-            fields={fields ?? []}
-            forceRender={forceRender}
-            margins="small"
-            parentIndexPath=""
-            parentPath={path}
-            parentSchemaPath={schemaPath ?? ''}
-            permissions={permissions === true ? permissions : (permissions as any)?.fields}
-            readOnly={readOnly}
-          />
-        )}
-      </Collapsible>
+        </div>
+      </div>
     </div>
   )
 }

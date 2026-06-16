@@ -260,6 +260,11 @@ export const filesField: ArrayField = {
       type: 'upload',
       relationTo: 'media',
       required: true,
+      admin: {
+        components: {
+          Field: '@/fields/files/FileUploadField#FileUploadField',
+        },
+      },
     },
     {
       name: 'label',

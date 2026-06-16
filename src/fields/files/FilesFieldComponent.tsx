@@ -4,8 +4,6 @@ import type { ArrayFieldClientComponent } from 'payload'
 import {
   Banner,
   Button,
-  DraggableSortable,
-  DraggableSortableItem,
   ErrorPill,
   FieldDescription,
   FieldError,
@@ -22,8 +20,16 @@ import {
 } from '@payloadcms/ui'
 import { scrollToID } from '@payloadcms/ui/utilities/scrollToID'
 import { getTranslation } from '@payloadcms/translations'
+import { toast } from 'sonner'
 
+import { FilesDraggableItem, FilesDraggableList } from './FilesDraggable'
 import { FilesRow } from './FilesRow'
+import {
+  clipboardCopy,
+  clipboardPaste,
+  mergeFormStateFromClipboard,
+  reduceFormStateByPath,
+} from './clipboard'
 import './index.scss'
 
 const baseClass = 'files-field'
@@ -88,7 +94,15 @@ export const FilesFieldComponent: ArrayFieldClientComponent = (props) => {
   const minRows = minRowsProp ?? (required ? 1 : 0)
 
   const { setDocFieldPreferences } = useDocumentInfo()
-  const { addFieldRow, dispatchFields, moveFieldRow, removeFieldRow, setModified } = useForm()
+  const {
+    addFieldRow,
+    dispatchFields,
+    getFields,
+    moveFieldRow,
+    removeFieldRow,
+    replaceState,
+    setModified,
+  } = useForm()
   const submitted = useFormSubmitted()
   const { code: locale } = useLocale()
   const { i18n, t } = useTranslation()
@@ -173,6 +187,51 @@ export const FilesFieldComponent: ArrayFieldClientComponent = (props) => {
       removeFieldRow({ path, rowIndex })
     },
     [removeFieldRow, path],
+  )
+
+  const copyRow = useCallback(
+    (rowIndex: number) => {
+      const formState = { ...getFields() }
+      const clipboardResult = clipboardCopy({
+        type: 'array',
+        fields: fields ?? [],
+        getDataToCopy: () => reduceFormStateByPath({ formState, path, rowIndex }),
+        path,
+        rowIndex,
+        t,
+      })
+      if (typeof clipboardResult === 'string') {
+        toast.error(clipboardResult)
+      } else {
+        toast.success(t('general:copied'))
+      }
+    },
+    [fields, getFields, path, t],
+  )
+
+  const pasteRow = useCallback(
+    (rowIndex: number) => {
+      const formState = { ...getFields() }
+      const clipboardResult = clipboardPaste({
+        onPaste: (dataFromClipboard) => {
+          const newState = mergeFormStateFromClipboard({
+            dataFromClipboard,
+            formState,
+            path,
+            rowIndex,
+          })
+          replaceState(newState as never)
+          setModified(true)
+        },
+        path,
+        schemaFields: fields ?? [],
+        t,
+      })
+      if (typeof clipboardResult === 'string') {
+        toast.error(clipboardResult)
+      }
+    },
+    [fields, getFields, path, replaceState, setModified, t],
   )
 
   const moveRow = useCallback(
@@ -295,7 +354,7 @@ export const FilesFieldComponent: ArrayFieldClientComponent = (props) => {
       {BeforeInput}
 
       {(rows?.length > 0 || (!valid && (showRequired || showMinRows))) && (
-        <DraggableSortable
+        <FilesDraggableList
           className={`${baseClass}__rows`}
           ids={rows.map((row) => row.id)}
           onDragEnd={({ moveFromIndex, moveToIndex }) => moveRow(moveFromIndex, moveToIndex)}
@@ -308,25 +367,29 @@ export const FilesFieldComponent: ArrayFieldClientComponent = (props) => {
             ).length
 
             return (
-              <DraggableSortableItem
+              <FilesDraggableItem
                 disabled={readOnly || disabled || !isSortable}
                 id={rowID}
                 key={rowID}
               >
-                {(draggableSortableItemProps) => (
+                {({ attributes, isDragging, listeners }) => (
                   <FilesRow
-                    {...draggableSortableItemProps}
                     addRow={addRow}
+                    attributes={attributes}
+                    copyRow={copyRow}
                     duplicateRow={duplicateRow}
                     errorCount={rowErrorCount}
                     fields={fields}
                     hasMaxRows={hasMaxRows}
+                    isDragging={isDragging}
                     isLoading={isLoading}
                     isSortable={Boolean(isSortable)}
                     labels={labels}
+                    listeners={listeners}
                     moveRow={moveRow}
                     parentPath={path}
                     path={rowPath}
+                    pasteRow={pasteRow}
                     permissions={permissions}
                     readOnly={readOnly || disabled}
                     removeRow={removeRow}
@@ -338,7 +401,7 @@ export const FilesFieldComponent: ArrayFieldClientComponent = (props) => {
                     setCollapse={setCollapse}
                   />
                 )}
-              </DraggableSortableItem>
+              </FilesDraggableItem>
             )
           })}
           {!valid && (
@@ -362,7 +425,7 @@ export const FilesFieldComponent: ArrayFieldClientComponent = (props) => {
               )}
             </Fragment>
           )}
-        </DraggableSortable>
+        </FilesDraggableList>
       )}
 
       {!hasMaxRows && !readOnly && (
