@@ -27,10 +27,9 @@ import { TableFeatureClient as TableFeatureClient_e70f5e05f09f93e00b997edb1ef0c8
 import { FixedToolbarFeatureClient as FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { SlugComponent as SlugComponent_92cc057d0a2abb4f6cf0307edf59f986 } from '@/fields/slug/SlugComponent'
 import { default as default_ad353b06f24a8b84aa5b713b301b2c62 } from 'src/components/UpdatedByCellData/'
-import { RelationshipField as RelationshipField_0b9d6eb78a805ef26280e524b240b564 } from '@/components/RelationshipField'
+import { RelationshipField as RelationshipField_25000ababc07f3d3a330f7afaf35f496 } from '@/components/fields/RelationshipField'
 import { FileUploadField as FileUploadField_89975e5460f876d1cd61ed8c059aae35 } from '@/components/FileUploadField'
 import { FilesFieldComponent as FilesFieldComponent_be1050606608bf15ea9aed9dc421cb9f } from '@/components/FilesFieldComponent'
-import { RelationshipField as RelationshipField_25000ababc07f3d3a330f7afaf35f496 } from '@/components/fields/RelationshipField'
 import { UswdsColorSelect as UswdsColorSelect_c5ee67a32f6c03c5e346f5f1b5ad0635 } from '@/fields/styles/UswdsColorSelect'
 import { default as default_9c394c8955c2623071876ecbca9cadca } from '@/components/PreFooter/ContactCenterRowLabel'
 import { default as default_8bfd6f3f91a8dc4d92146132e8cad3de } from '@/components/PreFooter/FacebookLinkRowLabel'
@@ -88,10 +87,9 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#FixedToolbarFeatureClient": FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/fields/slug/SlugComponent#SlugComponent": SlugComponent_92cc057d0a2abb4f6cf0307edf59f986,
   "src/components/UpdatedByCellData/#default": default_ad353b06f24a8b84aa5b713b301b2c62,
-  "@/components/RelationshipField#RelationshipField": RelationshipField_0b9d6eb78a805ef26280e524b240b564,
+  "@/components/fields/RelationshipField#RelationshipField": RelationshipField_25000ababc07f3d3a330f7afaf35f496,
   "@/components/FileUploadField#FileUploadField": FileUploadField_89975e5460f876d1cd61ed8c059aae35,
   "@/components/FilesFieldComponent#FilesFieldComponent": FilesFieldComponent_be1050606608bf15ea9aed9dc421cb9f,
-  "@/components/fields/RelationshipField#RelationshipField": RelationshipField_25000ababc07f3d3a330f7afaf35f496,
   "@/fields/styles/UswdsColorSelect#UswdsColorSelect": UswdsColorSelect_c5ee67a32f6c03c5e346f5f1b5ad0635,
   "@/components/PreFooter/ContactCenterRowLabel#default": default_9c394c8955c2623071876ecbca9cadca,
   "@/components/PreFooter/FacebookLinkRowLabel#default": default_8bfd6f3f91a8dc4d92146132e8cad3de,
