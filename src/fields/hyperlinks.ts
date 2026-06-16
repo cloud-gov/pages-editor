@@ -4,6 +4,11 @@ export const hyperlinkLabel: Field = {
   name: 'label',
   label: 'The label used for this link',
   type: 'text',
+  admin: {
+    components: {
+      Field: '@/components/fields/CustomTextField#CustomTextField',
+    },
+  }
 }
 
 export const pageLinkBlock: Block = {
@@ -76,6 +81,11 @@ export const externalLinkBlock: Block = {
       name: 'url',
       label: 'Url',
       type: 'text',
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
   ],
 }
@@ -96,6 +106,11 @@ export const linkBlock: Block = {
       name: 'url',
       label: 'Url',
       type: 'text',
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
   ],
 }
@@ -112,6 +127,11 @@ export const dropdownBlock: Block = {
       name: 'label',
       label: 'The name used on your dropdown link label',
       type: 'text',
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     {
       name: 'links',

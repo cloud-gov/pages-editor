@@ -8,9 +8,9 @@ export default defineConfig({
   test: {
     globals: true,
     fileParallelism: false,
-    environment: 'node',
+    environment: 'jsdom',
     passWithNoTests: true,
-    include: ['src/**/*.test.ts'],
+    include: ['src/**/*.test.ts','src/**/*.test.tsx'],
     exclude: ['**/node_modules/**', '**/dist/**', '**/cypress/**', '**/.{idea,git,cache,output,temp}/**', '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*'],
     setupFiles: ['test/utils/init.ts'],
     globalSetup: ['test/utils/globalSetup.ts'],

@@ -1,58 +1,90 @@
-/* TODO: move to components for reusability */
-
 'use client'
 
 import React, { useEffect, useMemo, useRef } from 'react'
-import styles from './Modal.module.scss'
 import { createPortal } from 'react-dom'
+import styles from './Modal.module.scss'
+import { FieldWrapper } from '../fields/FieldWrapper'
+
+export type ModalFieldOption = {
+  label: string
+  value: string
+}
+
+export type ModalFieldType =
+  | 'text'
+  | 'textarea'
+  | 'checkbox'
+  | 'radio'
+  | 'select'
+
+export type ModalFieldConfig = {
+  name: string
+  label: string
+  type: ModalFieldType
+  required?: boolean
+  description?: string
+  placeholder?: string
+  options?: ModalFieldOption[]
+  disabled?: boolean
+}
 
 type Props = {
   isOpen: boolean
   path: string
   mode: 'create' | 'edit'
+  title?: string
   description?: string
-  titleValue: string
+  metaText?: string
+  fields: ModalFieldConfig[]
+  values: Record<string, any>
   error?: string | null
   saving?: boolean
-  onTitleChange: (next: string) => void
+  onChange: (name: string, value: any) => void
   onSubmit: () => void
   onClose: () => void
-  // Optional: show a meta line like "Creating new Tag" to mirror doc-controls
-  metaText?: string
 }
 
 export function Modal({
   isOpen,
   path,
   mode,
+  title,
   description,
-  titleValue,
+  metaText,
+  fields,
+  values,
   error,
   saving,
-  onTitleChange,
+  onChange,
   onSubmit,
   onClose,
-  metaText,
 }: Props) {
   const headingId = useMemo(() => `doc-drawer_${path}__heading`, [path])
   const dialogId = useMemo(() => `doc-drawer_${path}`, [path])
-  const inputId = useMemo(() => `create-${path}-title`, [path])
 
   const dialogRef = useRef<HTMLDialogElement | null>(null)
-  const initialFocusRef = useRef<HTMLInputElement | null>(null)
+  const initialFocusRef = useRef<HTMLElement | null>(null)
 
-  // Basic focus management: focus title input on open
+  const headingText =
+    title ?? (mode === 'edit' ? 'Edit item' : 'Create new item')
+
+  const primaryButtonText =
+    saving
+      ? mode === 'edit'
+        ? 'Saving…'
+        : 'Creating…'
+      : mode === 'edit'
+        ? 'Save'
+        : 'Create'
+
   useEffect(() => {
     if (!isOpen) return
-    // If <dialog> is supported, ensure it is "open" and focus input.
-    // We intentionally avoid showModal() to keep markup simple and avoid UA-added inline styles.
-    // (USWDS modal wrapper/backdrop provides the overlay behavior.)
+
     requestAnimationFrame(() => {
       initialFocusRef.current?.focus()
     })
   }, [isOpen])
 
-  // Escape closes
   useEffect(() => {
     if (!isOpen) return
 
@@ -69,13 +101,140 @@ export function Modal({
 
   if (!isOpen) return null
 
-  const headingText = mode === 'edit' ? 'Edit Tag' : 'Create new Tag'
-  const primaryButtonText =
-    saving ? (mode === 'edit' ? 'Saving…' : 'Creating…') : (mode === 'edit' ? 'Save' : 'Create')
+  const renderField = (field: ModalFieldConfig, index: number) => {
+    const fieldId = `modal-${path}-${field.name}`
+    const value = values[field.name]
+
+    const focusRef =
+      index === 0
+        ? (node: HTMLElement | null) => {
+            initialFocusRef.current = node
+          }
+        : undefined
+
+    // Checkbox already renders its own label element internally,
+    // so skip FieldWrapper's outer label for that one.
+    if (field.type === 'checkbox') {
+      return (
+        <FieldWrapper
+          key={field.name}
+          id={fieldId}
+          description={field.description}
+          variant="default"
+          type={field.type}
+        >
+          <div className="usa-checkbox">
+            <input
+              ref={focusRef as React.Ref<HTMLInputElement>}
+              id={fieldId}
+              className="usa-checkbox__input"
+              type="checkbox"
+              checked={Boolean(value)}
+              disabled={field.disabled || Boolean(saving)}
+              onChange={(e) => onChange(field.name, e.target.checked)}
+            />
+            <label className="usa-checkbox__label" htmlFor={fieldId}>
+              {field.label}
+            </label>
+          </div>
+        </FieldWrapper>
+      )
+    }
+
+    return (
+      <FieldWrapper
+        key={field.name}
+        id={fieldId}
+        label={field.label}
+        required={field.required}
+        description={field.description}
+        variant="default"
+        type={field.type}
+      >
+        {field.type === 'text' && (
+          <input
+            ref={focusRef as React.Ref<HTMLInputElement>}
+            id={fieldId}
+            className="usa-input"
+            type="text"
+            value={value ?? ''}
+            placeholder={field.placeholder}
+            disabled={field.disabled || Boolean(saving)}
+            autoComplete="off"
+            onChange={(e) => onChange(field.name, e.target.value)}
+          />
+        )}
+
+        {field.type === 'textarea' && (
+          <textarea
+            ref={focusRef as React.Ref<HTMLTextAreaElement>}
+            id={fieldId}
+            className="usa-textarea"
+            value={value ?? ''}
+            placeholder={field.placeholder}
+            disabled={field.disabled || Boolean(saving)}
+            onChange={(e) => onChange(field.name, e.target.value)}
+          />
+        )}
+
+        {field.type === 'select' && (
+          <select
+            ref={focusRef as React.Ref<HTMLSelectElement>}
+            id={fieldId}
+            className="usa-select"
+            value={value ?? ''}
+            disabled={field.disabled || Boolean(saving)}
+            onChange={(e) => onChange(field.name, e.target.value)}
+          >
+            <option value="">
+              {field.placeholder ?? 'Select a value'}
+            </option>
+
+            {(field.options ?? []).map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        )}
+
+        {field.type === 'radio' && (
+          <fieldset className="usa-fieldset">
+            <legend className="usa-sr-only">{field.label}</legend>
+
+            {(field.options ?? []).map((opt, optIndex) => {
+              const radioId = `${fieldId}-${opt.value}`
+              return (
+                <div key={opt.value} className="usa-radio">
+                  <input
+                    ref={
+                      index === 0 && optIndex === 0
+                        ? (focusRef as React.Ref<HTMLInputElement>)
+                        : undefined
+                    }
+                    id={radioId}
+                    className="usa-radio__input"
+                    type="radio"
+                    name={field.name}
+                    value={opt.value}
+                    checked={value === opt.value}
+                    disabled={field.disabled || Boolean(saving)}
+                    onChange={(e) => onChange(field.name, e.target.value)}
+                  />
+                  <label className="usa-radio__label" htmlFor={radioId}>
+                    {opt.label}
+                  </label>
+                </div>
+              )
+            })}
+          </fieldset>
+        )}
+      </FieldWrapper>
+    )
+  }
 
   return createPortal(
     <div className={styles.modalContainer}>
-      {/* Drawer-style dialog shell (no inline z-index; set via CSS class) */}
       <dialog
         ref={dialogRef}
         id={dialogId}
@@ -87,7 +246,7 @@ export function Modal({
           'drawer--is-open',
           'payload__modal-item--appearDone',
           'payload__modal-item--enterDone',
-          'payload-rel-drawer', // <-- hook class to override styles without inline attrs
+          'payload-rel-drawer',
         ].join(' ')}
         open
         aria-modal="true"
@@ -102,12 +261,11 @@ export function Modal({
           onClick={onClose}
         />
 
-        {/* Content wrapper (Payload sets width inline; do it via CSS class) */}
         <div className="drawer__content payload-rel-drawer__content">
           <div className="drawer__blur-bg-content" />
 
           <div className="gutter drawer__content-children">
-            <main className="collection-edit collection-edit--tags">
+            <main className="collection-edit">
               {/* Header */}
               <div className="gutter gutter--left gutter--right doc-drawer__header">
                 <div className="doc-drawer__header-content">
@@ -123,27 +281,40 @@ export function Modal({
                     type="button"
                     onClick={onClose}
                   >
-                    <svg className="icon icon--x" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
-                      <path className="stroke" d="M14 6L6 14M6 6L14 14" stroke-linecap="square"></path>
+                    <svg
+                      className="icon icon--x"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      width="20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        className="stroke"
+                        d="M14 6L6 14M6 6L14 14"
+                        strokeLinecap="square"
+                      />
                     </svg>
                   </button>
                 </div>
 
-                {description && (
+                {description ? (
                   <div className="doc-drawer__after-header">
                     <div className="custom-view-description">{description}</div>
                   </div>
-                )}
+                ) : null}
               </div>
 
-              {/* Controls row (Save button area) */}
+              {/* Controls row */}
               <div className="gutter gutter--left gutter--right doc-controls">
                 <div className="doc-controls__wrapper">
                   <div className="doc-controls__content">
                     <ul className="doc-controls__meta">
                       <li className="doc-controls__list-item">
                         <p className="doc-controls__value">
-                          {metaText ?? (mode === 'edit' ? 'Editing Tag' : 'Creating new Tag')}
+                          {metaText ??
+                            (mode === 'edit'
+                              ? `Editing ${headingText}`
+                              : `Creating ${headingText}`)}
                         </p>
                       </li>
                     </ul>
@@ -181,40 +352,26 @@ export function Modal({
                 <div className="doc-controls__divider" />
               </div>
 
-              {/* Main body (fields) */}
+              {/* Main body */}
               <div className="collection-edit__main-wrapper">
                 <div className="collection-edit__main">
                   <div className="document-fields document-fields--has-sidebar">
                     <div className="document-fields__main">
                       <div className="gutter gutter--left gutter--right document-fields__edit">
                         <div className="render-fields document-fields__fields">
-                          {error && (
+                          {error ? (
                             <div className="usa-alert usa-alert--error" role="alert">
                               <div className="usa-alert__body">
                                 <p className="usa-alert__text">{error}</p>
                               </div>
                             </div>
-                          )}
+                          ) : null}
 
-                          <div className="field-type text payload-rel-drawer__field">
-                            <label className="field-label" htmlFor={inputId}>
-                              Title<span className="required">*</span>
-                            </label>
-                            <div className="field-type__wrap">
-                              <input
-                                ref={initialFocusRef}
-                                id={inputId}
-                                type="text"
-                                value={titleValue}
-                                name="title"
-                                onChange={(e) => onTitleChange(e.target.value)}
-                                autoComplete="off"
-                              />
-                            </div>
-                          </div>
+                          {fields.map(renderField)}
                         </div>
                       </div>
                     </div>
+
                     <div className="document-fields__sidebar-wrap">
                       <div className="document-fields__sidebar">
                         <div className="document-fields__sidebar-fields" />
@@ -228,6 +385,6 @@ export function Modal({
         </div>
       </dialog>
     </div>,
-    document.body
+    document.body,
   )
 }

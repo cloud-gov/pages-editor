@@ -31,6 +31,11 @@ export const Media: CollectionConfig = {
       name: 'altText',
       label: 'Alt Text to describe the media and improve accessibility',
       type: 'text',
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     siteField,
   ],

@@ -39,6 +39,9 @@ export const TagTypes: CollectionConfig = {
       admin: {
         description:
           'The display name for this tag type',
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       }
     },
     ...slugField('title', {
@@ -55,6 +58,9 @@ export const TagTypes: CollectionConfig = {
       type: 'text',
       admin: {
         description: "The tag type's description or summary",
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       },
     },
     updatedByField,

@@ -34,6 +34,9 @@ export const ProcessListBlock: Block = {
           admin: {
             width: '75%',
             description: 'Heading text',
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
           }
         },
         {

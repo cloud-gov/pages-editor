@@ -42,6 +42,11 @@ export const Alerts: CollectionConfig = {
       name: 'title',
       type: 'text',
       label: 'Title',
+      admin: {
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
+      }
     },
     {
       name: 'content',

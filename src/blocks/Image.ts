@@ -20,6 +20,9 @@ export const ImageBlock: Block = {
       label: 'Alt Text',
       admin: {
         description: 'Image description for accessibility',
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       },
     },
     {
@@ -46,6 +49,9 @@ export const ImageBlock: Block = {
       admin: {
         condition: (data, siblingData) => siblingData?.width === 'custom' || data?.width === 'custom',
         description: 'Enter a custom width (e.g., "600px", "50%", "40rem")',
+        components: {
+          Field: '@/components/fields/CustomTextField#CustomTextField',
+        },
       },
     },
     {

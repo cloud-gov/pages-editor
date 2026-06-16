@@ -33,6 +33,9 @@ export const AccordionBlock: Block = {
           required: true,
           admin: {
             description: 'Heading text',
+            components: {
+              Field: '@/components/fields/CustomTextField#CustomTextField',
+            },
           }
         },
         {
