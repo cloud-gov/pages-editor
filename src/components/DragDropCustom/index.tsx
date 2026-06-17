@@ -20,7 +20,7 @@ const baseClass = 'files-draggable'
 
 type DragEndArgs = { moveFromIndex: number; moveToIndex: number }
 
-type FilesDraggableListProps = {
+type DragDropCustomListProps = {
   children: React.ReactNode
   className?: string
   ids: string[]
@@ -33,7 +33,7 @@ type FilesDraggableListProps = {
  * Note: we deliberately use @dnd-kit directly (instead of Payload's
  * `DraggableSortable`) so that no inline `style` attributes are produced.
  */
-export const FilesDraggableList: React.FC<FilesDraggableListProps> = ({
+export const DragDropCustomList: React.FC<DragDropCustomListProps> = ({
   children,
   className,
   ids,
@@ -81,14 +81,14 @@ export const FilesDraggableList: React.FC<FilesDraggableListProps> = ({
   )
 }
 
-export type FilesDraggableItemRenderProps = {
+export type DragDropCustomItemRenderProps = {
   attributes: DraggableAttributes
   isDragging: boolean
   listeners: SyntheticListenerMap | undefined
 }
 
-type FilesDraggableItemProps = {
-  children: (props: FilesDraggableItemRenderProps) => React.ReactNode
+type DragDropCustomItemProps = {
+  children: (props: DragDropCustomItemRenderProps) => React.ReactNode
   className?: string
   disabled?: boolean
   id: string
@@ -105,7 +105,7 @@ type FilesDraggableItemProps = {
  * The render-prop children receive only `attributes`, `listeners` and
  * `isDragging` — never any inline style.
  */
-export const FilesDraggableItem: React.FC<FilesDraggableItemProps> = ({
+export const DragDropCustomItem: React.FC<DragDropCustomItemProps> = ({
   children,
   className,
   disabled,

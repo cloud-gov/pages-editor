@@ -22,7 +22,7 @@ import { scrollToID } from '@payloadcms/ui/utilities/scrollToID'
 import { getTranslation } from '@payloadcms/translations'
 import { toast } from 'sonner'
 
-import { FilesDraggableItem, FilesDraggableList } from '../FilesDraggable'
+import { DragDropCustomItem, DragDropCustomList } from '../DragDropCustom'
 import { FilesRow } from '../FilesRow'
 import {
   clipboardCopy,
@@ -70,7 +70,7 @@ const toggleAllRows = ({ collapsed, rows }: { collapsed: boolean; rows: Row[] })
     { collapsedIDs: [], updatedRows: [] },
   )
 
-export const FilesFieldComponent: ArrayFieldClientComponent = (props) => {
+export const FilesField: ArrayFieldClientComponent = (props) => {
   const {
     field,
     field: {
@@ -354,7 +354,7 @@ export const FilesFieldComponent: ArrayFieldClientComponent = (props) => {
       {BeforeInput}
 
       {(rows?.length > 0 || (!valid && (showRequired || showMinRows))) && (
-        <FilesDraggableList
+        <DragDropCustomList
           className={`${baseClass}__rows`}
           ids={rows.map((row) => row.id)}
           onDragEnd={({ moveFromIndex, moveToIndex }) => moveRow(moveFromIndex, moveToIndex)}
@@ -367,7 +367,7 @@ export const FilesFieldComponent: ArrayFieldClientComponent = (props) => {
             ).length
 
             return (
-              <FilesDraggableItem
+              <DragDropCustomItem
                 disabled={readOnly || disabled || !isSortable}
                 id={rowID}
                 key={rowID}
@@ -401,7 +401,7 @@ export const FilesFieldComponent: ArrayFieldClientComponent = (props) => {
                     setCollapse={setCollapse}
                   />
                 )}
-              </FilesDraggableItem>
+              </DragDropCustomItem>
             )
           })}
           {!valid && (
@@ -425,7 +425,7 @@ export const FilesFieldComponent: ArrayFieldClientComponent = (props) => {
               )}
             </Fragment>
           )}
-        </FilesDraggableList>
+        </DragDropCustomList>
       )}
 
       {!hasMaxRows && !readOnly && (

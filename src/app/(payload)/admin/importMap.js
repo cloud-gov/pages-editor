@@ -29,7 +29,7 @@ import { SlugComponent as SlugComponent_92cc057d0a2abb4f6cf0307edf59f986 } from 
 import { default as default_ad353b06f24a8b84aa5b713b301b2c62 } from 'src/components/UpdatedByCellData/'
 import { RelationshipField as RelationshipField_25000ababc07f3d3a330f7afaf35f496 } from '@/components/fields/RelationshipField'
 import { FileUploadField as FileUploadField_89975e5460f876d1cd61ed8c059aae35 } from '@/components/FileUploadField'
-import { FilesFieldComponent as FilesFieldComponent_be1050606608bf15ea9aed9dc421cb9f } from '@/components/FilesFieldComponent'
+import { FilesField as FilesField_38e938fec57b6cbc3acc8934574dc824 } from '@/components/FilesField'
 import { UswdsColorSelect as UswdsColorSelect_c5ee67a32f6c03c5e346f5f1b5ad0635 } from '@/fields/styles/UswdsColorSelect'
 import { default as default_9c394c8955c2623071876ecbca9cadca } from '@/components/PreFooter/ContactCenterRowLabel'
 import { default as default_8bfd6f3f91a8dc4d92146132e8cad3de } from '@/components/PreFooter/FacebookLinkRowLabel'
@@ -89,7 +89,7 @@ export const importMap = {
   "src/components/UpdatedByCellData/#default": default_ad353b06f24a8b84aa5b713b301b2c62,
   "@/components/fields/RelationshipField#RelationshipField": RelationshipField_25000ababc07f3d3a330f7afaf35f496,
   "@/components/FileUploadField#FileUploadField": FileUploadField_89975e5460f876d1cd61ed8c059aae35,
-  "@/components/FilesFieldComponent#FilesFieldComponent": FilesFieldComponent_be1050606608bf15ea9aed9dc421cb9f,
+  "@/components/FilesField#FilesField": FilesField_38e938fec57b6cbc3acc8934574dc824,
   "@/fields/styles/UswdsColorSelect#UswdsColorSelect": UswdsColorSelect_c5ee67a32f6c03c5e346f5f1b5ad0635,
   "@/components/PreFooter/ContactCenterRowLabel#default": default_9c394c8955c2623071876ecbca9cadca,
   "@/components/PreFooter/FacebookLinkRowLabel#default": default_8bfd6f3f91a8dc4d92146132e8cad3de,
