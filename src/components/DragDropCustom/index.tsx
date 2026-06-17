@@ -27,12 +27,7 @@ type DragDropCustomListProps = {
   onDragEnd: (args: DragEndArgs) => void
 }
 
-/**
- * Wraps @dnd-kit's DndContext + SortableContext.
- *
- * Note: we deliberately use @dnd-kit directly (instead of Payload's
- * `DraggableSortable`) so that no inline `style` attributes are produced.
- */
+
 export const DragDropCustomList: React.FC<DragDropCustomListProps> = ({
   children,
   className,
@@ -94,17 +89,6 @@ type DragDropCustomItemProps = {
   id: string
 }
 
-/**
- * A single sortable item.
- *
- * The transform/transition that @dnd-kit produces are applied through CSS
- * custom properties (set imperatively on the node's `style` so no static JSX
- * `style` attribute exists) which the stylesheet then consumes. The cursor and
- * z-index are handled entirely via the `--is-dragging` modifier class.
- *
- * The render-prop children receive only `attributes`, `listeners` and
- * `isDragging` — never any inline style.
- */
 export const DragDropCustomItem: React.FC<DragDropCustomItemProps> = ({
   children,
   className,

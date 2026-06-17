@@ -151,9 +151,6 @@
   &__row-content-inner {
     padding: var(--base);
 
-    // The upload sub-field's wrapper (`.field-type.upload`) no longer receives
-    // the inline `flex` style that Payload's `mergeFieldStyles` would set, so
-    // restore the default field flex behaviour here.
     > .field-type.upload,
     .render-fields > .field-type.upload {
       flex: 1 1 auto;

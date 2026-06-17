@@ -26,18 +26,6 @@ type FilesRowActionsProps = {
   rowCount: number
 }
 
-/**
- * Custom replacement for Payload's `ArrayAction`.
- *
- * Payload's `ArrayAction` relies on the `Popup` element, which positions the
- * menu by imperatively writing `style.top` / `style.left` / `--caret-left`.
- * This implementation positions the menu purely via the stylesheet and manages
- * open/close state locally, so no inline `style` attributes are produced.
- *
- * It reuses Payload's existing popup classNames (`popup__content`,
- * `popup-button-list`, `array-actions`) so it visually matches the stock
- * array-row action menu.
- */
 export const FilesRowActions: React.FC<FilesRowActionsProps> = ({
   addRow,
   copyRow,

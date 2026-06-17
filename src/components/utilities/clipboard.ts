@@ -42,9 +42,7 @@ type ClipboardPasteActionArgs = {
   t: TFunction
 } & ({ schemaBlocks: ClientBlock[] } | { schemaFields: ClientField[] })
 
-/**
- * @note Uses localStorage (not the Clipboard API). See Payload #11513.
- */
+
 export function clipboardCopy(args: ClipboardCopyActionArgs): string | true {
   const { getDataToCopy, t, ...rest } = args
   const dataToWrite = { data: getDataToCopy(), ...rest }
@@ -56,9 +54,6 @@ export function clipboardCopy(args: ClipboardCopyActionArgs): string | true {
   }
 }
 
-/**
- * @note Uses localStorage (not the Clipboard API). See Payload #11513.
- */
 export function clipboardPaste({
   onPaste,
   path: fieldPath,

@@ -1,12 +1,3 @@
-// This component reuses Payload's own popup classes (`popup__content`,
-// `popup__scroll-container`, `popup__caret`, `popup-button-list`,
-// `array-actions`) for all visual styling so it matches the stock array/blocks
-// row action menu exactly. This stylesheet only handles the relative
-// positioning of the menu (Payload's `Popup` does that imperatively with inline
-// styles, which we avoid here) and points the caret at the trigger.
-//
-// To match the Blocks field, the popup is centered under the trigger
-// (`horizontalAlign="center"`).
 .files-row-actions {
   position: relative;
   display: flex;
@@ -19,8 +10,6 @@
     justify-content: center;
   }
 
-  // Anchor the popup centered under the trigger and overlay the collapsible
-  // rows below it. The extra top offset leaves room for the caret.
   &__content {
     position: absolute;
     top: calc(100% + (var(--popup-caret-size, 8px) * 2));
@@ -29,8 +18,6 @@
     z-index: var(--z-popup, 100);
   }
 
-  // The caret renders below the popup (popup--v-bottom). Point it at the
-  // horizontal center of the menu, which lines up with the trigger.
   &__content .popup__caret {
     left: 50%;
     transform: translateX(-50%);
