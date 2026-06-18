@@ -9,13 +9,19 @@ import {
   BlocksFeature
 } from '@payloadcms/richtext-lexical'
 
+export const editorFeatures = ({ defaultFeatures }: any) => [
+  ...defaultFeatures,
+  FixedToolbarFeature(),
+  EXPERIMENTAL_TableFeature(),
+  BlocksFeature({
+    blocks: [
+      ProcessListBlock,
+      AccordionBlock,
+      ImageBlock,
+    ]
+  })
+]
+
 export const editor = lexicalEditor({
-  features: ({ defaultFeatures }) => [
-    ...defaultFeatures,
-    FixedToolbarFeature(),
-    EXPERIMENTAL_TableFeature(),
-    BlocksFeature({
-      blocks: [ProcessListBlock, AccordionBlock, ImageBlock],
-    }),
-  ],
+  features: editorFeatures,
 })

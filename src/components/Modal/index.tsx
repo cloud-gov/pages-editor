@@ -16,6 +16,8 @@ export type ModalFieldType =
   | 'checkbox'
   | 'radio'
   | 'select'
+  | 'upload'
+  | 'relationship'
 
 export type ModalFieldConfig = {
   name: string
@@ -42,6 +44,7 @@ type Props = {
   onChange: (name: string, value: any) => void
   onSubmit: () => void
   onClose: () => void
+  children?: React.ReactNode
 }
 
 export function Modal({
@@ -58,6 +61,7 @@ export function Modal({
   onChange,
   onSubmit,
   onClose,
+  children,
 }: Props) {
   const headingId = useMemo(() => `doc-drawer_${path}__heading`, [path])
   const dialogId = useMemo(() => `doc-drawer_${path}`, [path])
@@ -367,7 +371,7 @@ export function Modal({
                             </div>
                           ) : null}
 
-                          {fields.map(renderField)}
+                          {children ?? fields.map(renderField)}
                         </div>
                       </div>
                     </div>

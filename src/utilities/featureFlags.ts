@@ -18,3 +18,7 @@
 export function isFormsEnabled(): boolean {
   return process.env.FEATURE_FORMS === 'enabled'
 }
+
+export function isCustomContentInputEnabled(): boolean {
+  return process.env.CUSTOM_CONTENT_INPUT === 'enabled'
+}
