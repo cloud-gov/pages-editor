@@ -134,7 +134,9 @@
     "js-cookie": "3.0.7",
     "postcss": "^8.5.15",
     "esbuild": "0.28.0",
-    "@eslint/plugin-kit": "^0.3.4"
+    "@eslint/plugin-kit": "^0.3.4",
+    "@img/sharp-linux-x64": "0.34.5",
+    "@img/sharp-libvips-linux-x64": "1.2.4"
   },
   "optionalDependencies": {
     "@esbuild/darwin-arm64": "^0.25.2",

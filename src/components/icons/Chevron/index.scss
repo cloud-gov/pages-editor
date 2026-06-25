@@ -1,0 +1,33 @@
+.icon--chevron {
+  height: var(--base);
+  width: var(--base);
+
+  .stroke {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1px;
+    vector-effect: non-scaling-stroke;
+  }
+
+  &.icon--size-large {
+    height: var(--base);
+    width: var(--base);
+  }
+
+  &.icon--size-small {
+    height: 12px;
+    width: 12px;
+  }
+
+  &.icon--chevron--up {
+    transform: rotate(180deg);
+  }
+
+  &.icon--chevron--left {
+    transform: rotate(90deg);
+  }
+
+  &.icon--chevron--right {
+    transform: rotate(-90deg);
+  }
+}
