@@ -254,6 +254,12 @@ const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
                 description="Manage Published Buid status."
                 label="View"
               />
+              <CardLink
+                href="/admin/ready-for-review"
+                title="Ready for Review"
+                description="Manage Ready for Review items."
+                label="View"
+              />
             </div>
           </Section>
 

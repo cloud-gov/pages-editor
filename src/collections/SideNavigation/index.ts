@@ -3,6 +3,7 @@ import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { siteField } from '@/fields/relationships'
 import { addSite } from '@/hooks/addSite'
 import { completeReview } from '@/hooks/completeReview'
+import { syncReviewQueueAfterChange, syncReviewQueueAfterDelete } from '@/hooks/syncReviewQueue'
 import buildSite from '@/hooks/buildSite'
 import { commonLinkBlocks } from '@/fields/hyperlinks'
 import { publishedAtField, readyForReviewField } from '@/fields/commonFields'
@@ -73,8 +74,8 @@ export const SideNavigation: CollectionConfig = {
     siteField,
   ],
   hooks: {
-    afterChange: [buildSite.afterChange],
-    afterDelete: [buildSite.afterDelete],
+    afterChange: [buildSite.afterChange, syncReviewQueueAfterChange],
+    afterDelete: [buildSite.afterDelete, syncReviewQueueAfterDelete],
     beforeChange: [addSite, completeReview],
   },
   versions: {

@@ -153,3 +153,26 @@ export function resolveStaticText(
   if (typeof value === 'string') return value
   return fallback
 }
+
+export const getReviewQueueItems = async (
+  payload: BasePayload,
+  headers,
+  options?: { page?: number; limit?: number },
+) => {
+  const { selectedSiteId } = await getManagerSiteInfo(payload, headers)
+
+  const items = await payload.find({
+    collection: 'review-queue',
+    where: {
+      site: {
+        equals: selectedSiteId,
+      },
+    },
+    sort: '-lastModified',
+    page: options?.page ?? 1,
+    limit: options?.limit ?? 10,
+    depth: 0,
+  })
+
+  return items
+}

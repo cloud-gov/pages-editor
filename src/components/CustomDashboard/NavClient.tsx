@@ -287,12 +287,20 @@ const NavClient: React.FC<NavClientProps> = ({
                 Web Analytics
               </Link>
               {(selectedSiteRole === 'manager' || user.isAdmin) && (
-                <Link
-                  href="/admin/collections/published-build-status"
-                  className={`nav__link ${isActive('/admin/collections/published-build-status') ? 'nav__link--active' : ''}`}
-                >
-                  Published Build Status
-                </Link>
+                <React.Fragment>
+                  <Link
+                    href="/admin/collections/published-build-status"
+                    className={`nav__link ${isActive('/admin/collections/published-build-status') ? 'nav__link--active' : ''}`}
+                  >
+                    Published Build Status
+                  </Link>
+                  <Link
+                    className={`nav__link ${isActive('/admin/ready-for-review') ? 'nav__link--active' : ''}`}
+                    href="/admin/ready-for-review"
+                  >
+                    Ready for Review
+                  </Link>
+                </React.Fragment>
               )}
             </NavGroup>
             {selectedSiteRole === 'manager' && (

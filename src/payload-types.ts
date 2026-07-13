@@ -85,6 +85,7 @@ export interface Config {
     'search-analytics-page-site-collection': SearchAnalyticsPageSiteCollection;
     'site-auth-site-collection': SiteAuthSiteCollection;
     'published-build-status': PublishedBuildStatus;
+    'review-queue': ReviewQueue;
     'site-forms': SiteForm;
     'site-form-submissions': SiteFormSubmission;
     forms: Form;
@@ -120,6 +121,7 @@ export interface Config {
     'search-analytics-page-site-collection': SearchAnalyticsPageSiteCollectionSelect<false> | SearchAnalyticsPageSiteCollectionSelect<true>;
     'site-auth-site-collection': SiteAuthSiteCollectionSelect<false> | SiteAuthSiteCollectionSelect<true>;
     'published-build-status': PublishedBuildStatusSelect<false> | PublishedBuildStatusSelect<true>;
+    'review-queue': ReviewQueueSelect<false> | ReviewQueueSelect<true>;
     'site-forms': SiteFormsSelect<false> | SiteFormsSelect<true>;
     'site-form-submissions': SiteFormSubmissionsSelect<false> | SiteFormSubmissionsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -1789,6 +1791,24 @@ export interface PublishedBuildStatus {
   createdAt: string;
 }
 /**
+ * Content that has been marked "Ready for Review" across the site.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "review-queue".
+ */
+export interface ReviewQueue {
+  id: number;
+  title: string;
+  contentType: string;
+  sourceCollection: string;
+  sourceId: string;
+  editUrl: string;
+  lastModified: string;
+  site: number | Site;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * View and manage form submissions.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2137,6 +2157,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'published-build-status';
         value: number | PublishedBuildStatus;
+      } | null)
+    | ({
+        relationTo: 'review-queue';
+        value: number | ReviewQueue;
       } | null)
     | ({
         relationTo: 'site-forms';
@@ -3166,6 +3190,21 @@ export interface PublishedBuildStatusSelect<T extends boolean = true> {
   startedAt?: T;
   error?: T;
   pagesSiteId?: T;
+  site?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "review-queue_select".
+ */
+export interface ReviewQueueSelect<T extends boolean = true> {
+  title?: T;
+  contentType?: T;
+  sourceCollection?: T;
+  sourceId?: T;
+  editUrl?: T;
+  lastModified?: T;
   site?: T;
   updatedAt?: T;
   createdAt?: T;

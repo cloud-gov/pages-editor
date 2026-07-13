@@ -66,6 +66,7 @@ import * as migration_20260526_134306_published_build_status_collection from './
 import * as migration_20260528_222308_site_theme from './20260528_222308_site_theme';
 import * as migration_20260605_144614_add_page_site_id_published_build_status from './20260605_144614_add_page_site_id_published_build_status';
 import * as migration_20260609_223757_add_forms_and_form_submissions from './20260609_223757_add_forms_and_form_submissions';
+import * as migration_20260713_150245_add_review_queue from './20260713_150245_add_review_queue';
 
 export const migrations = [
   {
@@ -406,6 +407,11 @@ export const migrations = [
   {
     up: migration_20260609_223757_add_forms_and_form_submissions.up,
     down: migration_20260609_223757_add_forms_and_form_submissions.down,
-    name: '20260609_223757_add_forms_and_form_submissions'
+    name: '20260609_223757_add_forms_and_form_submissions',
+  },
+  {
+    up: migration_20260713_150245_add_review_queue.up,
+    down: migration_20260713_150245_add_review_queue.down,
+    name: '20260713_150245_add_review_queue'
   },
 ];
