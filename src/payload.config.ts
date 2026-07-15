@@ -34,6 +34,7 @@ import { CollectionTypes } from './collections/CollectionTypes'
 import { CollectionEntries } from './collections/CollectionEntries'
 import { TagTypes } from './collections/TagTypes'
 import { PublishedBuildStatus } from './collections/PublishedBuildStatus'
+import { ReviewQueue } from './collections/ReviewQueue'
 
 // Any site global fields must use the `createSiteGlobal` function
 const [SiteConfig, SiteConfigCollection] = createSiteGlobal(SiteConfigConfig)
@@ -74,6 +75,14 @@ const ATUPackageView: AdminViewConfig = {
   },
 }
 
+const ReadyForReviewView: AdminViewConfig = {
+  Component: '@/components/ReviewQueue',
+  path: '/ready-for-review',
+  meta: {
+    title: 'Ready for Review',
+  },
+}
+
 const config = {
   admin: {
     avatar: 'default' as const,
@@ -97,6 +106,7 @@ const config = {
         userRolesAndPermissions: UserRolesAndPermissionsView,
         atuGuide: ATUGuidView,
         atuPackage: ATUPackageView,
+        readyForReview: ReadyForReviewView,
       },
     },
     user: Users.slug,
@@ -167,6 +177,7 @@ const config = {
     SearchAnalyticsPageCollection,
     SiteAuthCollection,
     PublishedBuildStatus,
+    ReviewQueue,
     // Forms group
     SiteForms,
     SiteFormSubmissions,

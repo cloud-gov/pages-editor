@@ -54,6 +54,7 @@ import { default as default_6d0fe59af291eda0374bdc5d5f9a5829 } from '@/component
 import { default as default_7bac276e3812125fd6b97470a9f2783d } from '@/components/UserRolesAndPermissions'
 import { default as default_cc06bbd7390846308c5b17cb1960f1cd } from '@/components/ATUGuide'
 import { default as default_31499de47bbccc0e241472797e3de2f3 } from '@/components/ATUPackage'
+import { default as default_96b3dd5fc158f4ab00c35e8a888a0dd7 } from '@/components/ReviewQueue'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -114,5 +115,6 @@ export const importMap = {
   "@/components/UserRolesAndPermissions#default": default_7bac276e3812125fd6b97470a9f2783d,
   "@/components/ATUGuide#default": default_cc06bbd7390846308c5b17cb1960f1cd,
   "@/components/ATUPackage#default": default_31499de47bbccc0e241472797e3de2f3,
+  "@/components/ReviewQueue#default": default_96b3dd5fc158f4ab00c35e8a888a0dd7,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

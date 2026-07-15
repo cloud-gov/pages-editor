@@ -21,6 +21,7 @@ import {
 import { relatedItems } from '@/fields/relatedItems'
 import { slugField } from '@/fields/slug'
 import { completeReview } from '@/hooks/completeReview'
+import { syncReviewQueueAfterChange, syncReviewQueueAfterDelete } from '@/hooks/syncReviewQueue'
 import { getAdminCollectionPreview, getPagePreviewUrl } from '@/utilities/previews'
 
 export const Pages: CollectionConfig<'pages'> = {
@@ -68,8 +69,8 @@ export const Pages: CollectionConfig<'pages'> = {
     readyForReviewField,
   ],
   hooks: {
-    afterChange: [buildSite.afterChange],
-    afterDelete: [buildSite.afterDelete],
+    afterChange: [buildSite.afterChange, syncReviewQueueAfterChange],
+    afterDelete: [buildSite.afterDelete, syncReviewQueueAfterDelete],
     beforeChange: [addSite, completeReview, populateUpdatedBy],
   },
   versions: {

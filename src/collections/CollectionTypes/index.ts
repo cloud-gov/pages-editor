@@ -4,6 +4,7 @@ import { siteField, updatedByField } from '@/fields/relationships'
 import { slugField } from '@/fields/slug'
 import { addSite } from '@/hooks/addSite'
 import { completeReview } from '@/hooks/completeReview'
+import { syncReviewQueueAfterChange, syncReviewQueueAfterDelete } from '@/hooks/syncReviewQueue'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
 import { readyForReviewField } from '@/fields/commonFields'
 
@@ -90,6 +91,8 @@ export const CollectionTypes: CollectionConfig = {
     siteField,
   ],
   hooks: {
+    afterChange: [syncReviewQueueAfterChange],
+    afterDelete: [syncReviewQueueAfterDelete],
     beforeChange: [addSite, completeReview, populateUpdatedBy],
   },
   versions: {

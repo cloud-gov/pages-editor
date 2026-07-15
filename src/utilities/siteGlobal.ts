@@ -3,6 +3,7 @@ import { adminField } from '@/access/admin'
 import { SiteConfig } from '@/payload-types'
 import buildSite from '@/hooks/buildSite'
 import { completeReview } from '@/hooks/completeReview'
+import { syncReviewQueueAfterChange, syncReviewQueueAfterDelete } from '@/hooks/syncReviewQueue'
 
 export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, CollectionConfig] => {
   const fields = config.fields
@@ -117,8 +118,8 @@ export const createSiteGlobal = (config: GlobalConfig): [GlobalConfig, Collectio
     },
     // hooks should be passed to the global, not the collection, since the global is the main interface.
     hooks: {
-      afterChange: [buildSite.afterChange],
-      afterDelete: [buildSite.afterDelete],
+      afterChange: [buildSite.afterChange, syncReviewQueueAfterChange],
+      afterDelete: [buildSite.afterDelete, syncReviewQueueAfterDelete],
       beforeChange: [completeReview],
     },
     // custom site field is passed here to manage ownership of collections.

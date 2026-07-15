@@ -3,6 +3,7 @@ import { getAdminOrSiteUser } from '@/access/adminOrSite'
 import { addSite } from '@/hooks/addSite'
 import buildSite from '@/hooks/buildSite'
 import { completeReview } from '@/hooks/completeReview'
+import { syncReviewQueueAfterChange, syncReviewQueueAfterDelete } from '@/hooks/syncReviewQueue'
 import { populateUpdatedBy } from '@/hooks/populateUpdatedBy'
 import {
   collectionTypeField,
@@ -80,8 +81,8 @@ export const CollectionEntries: CollectionConfig = {
     readyForReviewField,
   ],
   hooks: {
-    afterChange: [buildSite.afterChange],
-    afterDelete: [buildSite.afterDelete],
+    afterChange: [buildSite.afterChange, syncReviewQueueAfterChange],
+    afterDelete: [buildSite.afterDelete, syncReviewQueueAfterDelete],
     beforeChange: [addSite, completeReview, populateUpdatedBy],
   },
   versions: {

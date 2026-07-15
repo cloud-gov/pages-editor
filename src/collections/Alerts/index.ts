@@ -5,6 +5,7 @@ import { addSite } from '@/hooks/addSite'
 import buildSite from '@/hooks/buildSite'
 import { getGlobalPreviewUrl } from '@/utilities/previews'
 import { completeReview } from '@/hooks/completeReview'
+import { syncReviewQueueAfterChange, syncReviewQueueAfterDelete } from '@/hooks/syncReviewQueue'
 import { publishedAtField, readyForReviewField } from '@/fields/commonFields'
 import { editor } from '@/utilities/editor'
 
@@ -138,8 +139,8 @@ export const Alerts: CollectionConfig = {
     siteField,
   ],
   hooks: {
-    afterChange: [buildSite.afterChange],
-    afterDelete: [buildSite.afterDelete],
+    afterChange: [buildSite.afterChange, syncReviewQueueAfterChange],
+    afterDelete: [buildSite.afterDelete, syncReviewQueueAfterDelete],
     beforeChange: [addSite, completeReview],
   },
   versions: {
