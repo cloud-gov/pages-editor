@@ -356,5 +356,8 @@ export const externalLink: any = {
   ],
   admin: {
     description: 'Add an external link URL if the source of the information is on another website.',
+    components: {
+      Field: '@/components/fields/CustomGroupField#CustomGroupField'
+    }
   },
 }
