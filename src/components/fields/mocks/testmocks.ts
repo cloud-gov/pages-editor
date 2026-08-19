@@ -1,4 +1,5 @@
 // test/mocks/payloadUI.ts
+import { GroupFieldClient } from 'payload'
 import { vi } from 'vitest'
 
 export const mockSetValue = vi.fn()
@@ -43,4 +44,16 @@ export function resetPayloadMocks(overrides?: {
       selectedSiteId: overrides?.selectedSiteId ?? 123,
     },
   })
+}
+
+export function createMockGroupField(
+  overrides: Partial<GroupFieldClient> = {},
+): GroupFieldClient {
+  return {
+    name: 'externalLink',
+    label: 'External Link',
+    type: 'group',
+    fields: [],
+    ...overrides,
+  } as GroupFieldClient
 }
