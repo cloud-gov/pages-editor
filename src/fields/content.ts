@@ -2,7 +2,7 @@ import { editor } from '@/utilities/editor'
 import { validateTextRequired } from '@/utilities/validators/text'
 import { BlocksField, CollectionSlug } from 'payload'
 import { descriptionField, titleField } from './commonFields'
-import { isFormsEnabled } from '@/utilities/featureFlags'
+import { isCustomContentInputEnabled, isFormsEnabled } from '@/utilities/featureFlags'
 
 export const richTextField = {
   name: 'content',
@@ -13,6 +13,8 @@ export const richTextField = {
     description: 'Main content body',
   },
 }
+
+const customBlocksFieldComponent = isCustomContentInputEnabled() ? {Field: '@/components/fields/CustomBlocksField#CustomBlocksField'} : {};
 
 export const contentField: BlocksField = {
   name: 'content',
@@ -25,6 +27,11 @@ export const contentField: BlocksField = {
   // `formBlock`.
   filterOptions: () =>
     isFormsEnabled() ? true : ['hero', 'richText', 'cardGrid', 'textBlock'],
+
+
+  admin: {
+    components: customBlocksFieldComponent
+  },
   blocks: [
     {
       slug: 'hero',

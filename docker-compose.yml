@@ -53,6 +53,9 @@ services:
       #   FEATURE_FORMS=disabled docker compose up
       # Defaults to enabled for local development.
       FEATURE_FORMS: ${FEATURE_FORMS:-enabled}
+      # Toggle the custom content input feature
+      # Uncomment to enable in development
+      # CUSTOM_CONTENT_INPUT: ${CUSTOM_CONTENT_INPUT:-enabled}
     healthcheck:
       test: ['CMD', 'curl', '-F', 'http://localhost:3000']
       interval: 10s

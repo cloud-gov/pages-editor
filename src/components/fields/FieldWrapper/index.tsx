@@ -40,6 +40,7 @@ export const FieldWrapper: React.FC<FieldWrapperProps> = ({
         'usa-form-group',
         'payload-field',
         'field-type',
+        'margin-bottom-3',
         type,
         variant === 'sidebar' && 'payload-field--sidebar',
         variant === 'compact' && 'payload-field--compact',
