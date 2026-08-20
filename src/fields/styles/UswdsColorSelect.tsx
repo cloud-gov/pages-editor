@@ -83,8 +83,14 @@ export const UswdsColorSelect: React.FC<TextFieldClientProps> = ({
         aria-expanded={isOpen}
       >
         <span
-          className="uswds-color-select__swatch"
-          style={{ backgroundColor: value || 'transparent' }}
+          className={[
+            'uswds-color-select__swatch',
+
+            value &&
+            ` bg-${selected?.token}`
+
+          ].filter(Boolean).join('')}
+          
           aria-hidden
         />
         <span className="uswds-color-select__trigger-text">
@@ -124,8 +130,14 @@ export const UswdsColorSelect: React.FC<TextFieldClientProps> = ({
                     onClick={() => handleSelect(c.hex)}
                   >
                     <span
-                      className="uswds-color-select__swatch"
-                      style={{ backgroundColor: c.hex }}
+                      className={[
+                        'uswds-color-select__swatch',
+
+                        value &&
+                        ` bg-${c.token}`
+
+                      ].filter(Boolean).join('')}
+                      
                       aria-hidden
                     />
                     <span className="uswds-color-select__token">{c.token}</span>

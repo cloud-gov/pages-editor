@@ -211,7 +211,7 @@ const Package = ({ siteUsers, atuPackage }) => {
               <div className="section__container">
                 <div className="section__slot">
                   <div className="flex-column margin-bottom-5">
-                    <h1 style={{ marginBottom: '1rem' }}>Authority to Use (ATU) Package</h1>
+                    <h1 className="margin-bottom-2">Authority to Use (ATU) Package</h1>
                     <PrintCallout>
                       <p>
                         This ATU package is related to{' '}
