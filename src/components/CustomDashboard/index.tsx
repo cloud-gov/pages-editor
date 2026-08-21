@@ -9,6 +9,7 @@ import ListSiteCollectionTypes from './ListSiteCollectionTypes'
 import Section from './Section'
 import CardLink from './CardLink'
 import ListSiteTagTypes from './ListSiteTagTypes'
+import './index.scss'
 
 const CustomDashboard: React.FC = async (props: { payload: BasePayload }) => {
   const { payload } = props

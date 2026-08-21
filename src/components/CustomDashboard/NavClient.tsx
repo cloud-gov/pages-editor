@@ -50,7 +50,7 @@ const NavClient: React.FC<NavClientProps> = ({
 
   return (
     <aside className="nav nav--nav-open nav--nav-animate nav--nav-hydrated">
-      <div className="nav__scroll" style={{ overscrollBehavior: 'auto' }}>
+      <div className="nav__scroll">
         <Link className="margin-bottom-2" href="/admin/">
           &#127968; Homepage
         </Link>

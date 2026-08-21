@@ -678,3 +678,23 @@ button {
 .LexicalEditorTheme__h6 span {
   font-size: 13px;
 }
+
+// Prose headings
+.usa-prose {
+  .prose__h2 {
+    margin: .5rem 0 .2rem 0;
+    font-size: 1.40rem;
+    font-weight: 700
+  }
+
+  .prose__h3 {
+    margin: .5rem 0 .2rem 0;
+    font-size: 1.20rem;
+    font-weight: 600;
+  }
+
+  .prose__h4 {
+    margin: .5rem 0 .2rem 0;
+    font-size: 1.10rem;
+  }
+}
