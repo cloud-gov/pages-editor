@@ -112,6 +112,11 @@ export const contentField: BlocksField = {
                 { label: 'Secondary', value: 'secondary' },
                 { label: 'Outline', value: 'outline' },
               ],
+              admin: {
+                components: {
+                  Field: '@/components/fields/CustomSelectField#CustomSelectField',
+                },
+              },
               defaultValue: 'primary',
             },
           ],
@@ -178,6 +183,11 @@ export const contentField: BlocksField = {
               value: '1',
             },
           ],
+          admin: {
+            components: {
+              Field: '@/components/fields/CustomSelectField#CustomSelectField',
+            },
+          },
         },
         {
           name: 'cards',
