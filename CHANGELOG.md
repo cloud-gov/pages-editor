@@ -1,3 +1,153 @@
+## 0.6.0 (2026-08-25)
+
+### Added
+
+- added process list inline block
+- add review queue
+- add pagination
+- add published build status webhook
+- add published build status webhook
+- Add feature flag to gate forms in env
+- Refine the admin view for form submissions
+- Add forms collection to allow users to create forms for sites
+- add published build status webhook
+
+### Fixed
+
+- remove inline styles from components
+- clean up formatting and unused variable change
+- remove typo
+- remove typo
+- add custom field group component
+- remove unneeded import
+- bug with validation
+- styling on collapsable header buttons
+- styles for collapsible header elements
+- move remove button to collapsebar
+- drag and drop at handles only
+- Rich Text editor regression
+- refactor CardGrid feature
+- add content button styling
+- upgrade payload to fix migration bug
+- error with renamed imported module
+- remove unneeded component
+- type error with UploadField
+- type error
+- type errors
+- remove no longer needed util
+- remove old unsupported component call and enhance maximuRows barrier
+- fix css
+- fix importmap
+- fix comments
+- fix import map
+- fix pipeline?
+- fix svg file
+- fix styling
+- fix css styling
+- apply different style and address multi and single select relationship
+- fix headers styling
+- add endpoint
+- fix lint
+- fix query
+- fix lint
+- fix parameters
+- add startedAt to update on webhook
+- fix headers styling
+- add endpoint
+- fix lint
+- fix query
+- fix lint
+- fix parameters
+- add startedAt to update on webhook
+- remove module import
+- remove moved test file
+- include changes to Form component text field
+- add startedAt to update on webhook
+- add endpoint
+- fix lint
+- fix query
+- fix lint
+- fix parameters
+- fix headers styling
+
+### Maintenance
+
+- move from payload cms dropdown
+- add tests for custom group field
+- remove inline styles from content input
+- add block title to summary
+- add reordering, preview to content cards
+- added dynamic field changes. started adding rich text
+- added field for lexical editor, rough in JSON in textarea
+- added lexical hydration plugin. iterate on resolving content block
+- add lexical plugins, set correct version for lexical util
+- adds fix for lexical editor LinkNode in hydration plugin
+- adds failsafe for content editor where links exist
+- add toolbar buttons to custom rich text editor
+- added toolbar controls for headings, paragraphs, lists
+- add dynamic awareness to toolbar controls
+- move list type to dropdown element
+- add underline button and style
+- remove inline styles from content editor main block
+- enable link button in lexical editor
+- fixes rehydration of links in editor
+- add modal feature to link
+- added strikethrough super and subscript buttons
+- adds preformatted inline code formatting button
+- preliminary work on adding Accordion content element to editor
+- set blcok menu to optionally show
+- make accordion item heading configurable
+- add drag & drop to accordion items
+- refactor utilities and add expand close all buttons
+- realign content editor markup with stock payload elements
+- map accordion style divs to stock markup
+- optimize components files and fix accordion item styling
+- set accordion and content block heading styles
+- update rich text menu bar styles
+- rough in work on Hero Section background image field
+- add image browsing capability to Hero Section block
+- choose existing image functionality
+- implement Hero Background image upload + drag and drop
+- fit Payload specific style and markup to custom media modal
+- progress on adding Block Form and Card Block components
+- add a feature flag to custom content input work
+- resolve form field component
+- adds card grid card rows
+- add effective collapse/expand to card grid rows
+- style updates for custom card grid block
+- add reorder buttons to card grid cards
+- cleanup parent component card grid code
+- cleanup card grid field
+- cleanup card row component
+- add test for card grid row
+- add process list block components
+- remove inline css
+- add import map
+- create componenet from sctrach
+- make componenets more reusable
+- recreate drag and drop component
+- add copy/past component
+- add tests
+- update payload inputs with custom field component
+- revised RelationshipField and CustomTextField utilize a fieldwrapper
+- revise modal component to dynamically render edit/create form
+- add tests
+- add logs
+- add more logs
+- add checks
+- apply custom text field to hero text fields
+- provide custom text field overrides for lexical editor fields, collections text fields
+- add test for CustomTextField
+- add tests
+- add logs
+- add more logs
+- add checks
+- align description css class with existing Payload markup
+- add tests
+- add logs
+- add more logs
+- add checks
+
 ## 0.5.0 (2026-06-01)
 
 ### Added
