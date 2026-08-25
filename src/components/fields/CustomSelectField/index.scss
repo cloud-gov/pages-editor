@@ -1,0 +1,146 @@
+@import '~@payloadcms/ui/scss';
+
+@layer payload-default {
+  .react-select-container.custom-select {
+    width: 100%;
+
+    .react-select {
+      position: relative;
+
+      .rs__control {
+        @include formInput;
+        height: auto;
+        padding: base(0.35) base(0.6);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        width: 100%;
+        cursor: pointer;
+        text-align: left;
+      }
+
+      .rs__value-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1 1 0%;
+        flex-wrap: wrap;
+        overflow: hidden;
+        box-sizing: border-box;
+        gap: 2px;
+        position: relative;
+      }
+
+      .rs__single-value {
+        color: var(--theme-elevation-800);
+        font-family: var(--font-body);
+        font-size: $baseline-body-size;
+        text-align: center;
+      }
+
+      .rs__placeholder {
+        color: var(--theme-elevation-400);
+        font-family: var(--font-body);
+        font-size: $baseline-body-size;
+        text-align: center;
+      }
+
+      .rs__input {
+        flex: 1 1 40px;
+        min-width: 2px;
+        border: none;
+        outline: none;
+        padding: 0;
+        margin: 0;
+        background: transparent;
+        color: var(--theme-elevation-1000);
+        font-family: var(--font-body);
+        font-size: $baseline-body-size;
+        box-shadow: none;
+        text-align: center;
+
+        &::placeholder {
+          color: var(--theme-elevation-400);
+          text-align: center;
+        }
+
+        &:focus {
+          box-shadow: none;
+          outline: none;
+        }
+      }
+
+      .rs__indicators {
+        display: flex;
+        align-items: center;
+        align-self: stretch;
+        flex-shrink: 0;
+        box-sizing: border-box;
+      }
+
+      .rs__indicator {
+        padding: 0px 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
+
+      .rs__clear-indicator {
+        color: var(--theme-elevation-400);
+
+        &:hover {
+          color: var(--theme-elevation-800);
+        }
+      }
+
+      .rs__indicator-separator {
+        display: none;
+      }
+
+      .rs__menu {
+        position: absolute;
+        top: calc(100% + 2px);
+        left: 0;
+        right: 0;
+        z-index: 4;
+        border-radius: 0;
+        @include shadow-lg;
+        background: var(--theme-input-bg);
+        overflow: hidden;
+      }
+
+      .rs__option {
+        font-family: var(--font-body);
+        font-size: $baseline-body-size;
+        padding: base(0.375) base(0.75);
+        color: var(--theme-elevation-800);
+        cursor: pointer;
+
+        &--is-focused {
+          background-color: var(--theme-elevation-100);
+        }
+
+        &--is-selected {
+          background-color: var(--theme-elevation-300);
+        }
+      }
+
+      .rs__menu-notice {
+        font-family: var(--font-body);
+        font-size: $baseline-body-size;
+        padding: base(0.5) base(0.6);
+        color: var(--theme-elevation-400);
+      }
+
+      &--error,
+      &--error:hover,
+      &--error:focus-within {
+        .rs__control {
+          background-color: var(--theme-error-50);
+          border: 1px solid var(--theme-error-500);
+        }
+      }
+    }
+  }
+}

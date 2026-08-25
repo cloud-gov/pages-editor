@@ -31,7 +31,7 @@ import { RelationshipField as RelationshipField_25000ababc07f3d3a330f7afaf35f496
 import { FileUploadField as FileUploadField_89975e5460f876d1cd61ed8c059aae35 } from '@/components/FileUploadField'
 import { FilesField as FilesField_38e938fec57b6cbc3acc8934574dc824 } from '@/components/FilesField'
 import { CustomGroupField as CustomGroupField_ff2592d8c404e8587552770270b22401 } from '@/components/fields/CustomGroupField'
-import { CustomBlocksField as CustomBlocksField_d1a6c7270fb2d60b90e0118b6c1d1ff2 } from '@/components/fields/CustomBlocksField'
+import { CustomSelectField as CustomSelectField_b6612b470eeecf088cf6839502cff8bd } from '@/components/fields/CustomSelectField'
 import { UswdsColorSelect as UswdsColorSelect_c5ee67a32f6c03c5e346f5f1b5ad0635 } from '@/fields/styles/UswdsColorSelect'
 import { default as default_9c394c8955c2623071876ecbca9cadca } from '@/components/PreFooter/ContactCenterRowLabel'
 import { default as default_8bfd6f3f91a8dc4d92146132e8cad3de } from '@/components/PreFooter/FacebookLinkRowLabel'
@@ -94,7 +94,7 @@ export const importMap = {
   "@/components/FileUploadField#FileUploadField": FileUploadField_89975e5460f876d1cd61ed8c059aae35,
   "@/components/FilesField#FilesField": FilesField_38e938fec57b6cbc3acc8934574dc824,
   "@/components/fields/CustomGroupField#CustomGroupField": CustomGroupField_ff2592d8c404e8587552770270b22401,
-  "@/components/fields/CustomBlocksField#CustomBlocksField": CustomBlocksField_d1a6c7270fb2d60b90e0118b6c1d1ff2,
+  "@/components/fields/CustomSelectField#CustomSelectField": CustomSelectField_b6612b470eeecf088cf6839502cff8bd,
   "@/fields/styles/UswdsColorSelect#UswdsColorSelect": UswdsColorSelect_c5ee67a32f6c03c5e346f5f1b5ad0635,
   "@/components/PreFooter/ContactCenterRowLabel#default": default_9c394c8955c2623071876ecbca9cadca,
   "@/components/PreFooter/FacebookLinkRowLabel#default": default_8bfd6f3f91a8dc4d92146132e8cad3de,
