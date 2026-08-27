@@ -698,3 +698,9 @@ button {
     font-size: 1.10rem;
   }
 }
+
+// Add 'Account' next to button
+.app-header__account:after {
+  content: 'Account';
+  margin-left: .5rem;
+}
