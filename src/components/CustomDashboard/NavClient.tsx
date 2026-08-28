@@ -3,8 +3,8 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
-import { NavGroup } from '@payloadcms/ui'
 import { buildFilteredUrl } from '../utilities'
+import { NavClientGroup } from './NavClientGroup'
 
 type NavClientProps = {
   collectionTypeLinks: {
@@ -56,15 +56,15 @@ const NavClient: React.FC<NavClientProps> = ({
         </Link>
         {user?.isAdmin && (
           <>
-            <NavGroup label="&#128193; Admin">
+            <NavClientGroup label="&#128193; Admin">
               <Link
                 href="/admin/collections/sites"
                 className={`nav__link ${isActive('/admin/collections/sites') ? 'nav__link--active' : ''}`}
               >
                 Sites
               </Link>
-            </NavGroup>
-            <NavGroup label="&#128193; Content Pages and Collections">
+            </NavClientGroup>
+            <NavClientGroup label="&#128193; Content Pages and Collections">
               <Link
                 href="/admin/collections/pages"
                 className={`nav__link ${isActive('/admin/collections/pages') ? 'nav__link--active' : ''}`}
@@ -83,22 +83,22 @@ const NavClient: React.FC<NavClientProps> = ({
               >
                 Home Page Site Collection
               </Link>
-            </NavGroup>
-            <NavGroup label="&#x1F464; User Management">
+            </NavClientGroup>
+            <NavClientGroup label="&#x1F464; User Management">
               <Link
                 href="/admin/collections/users"
                 className={`nav__link ${isActive('/admin/collections/users') ? 'nav__link--active' : ''}`}
               >
                 Users
               </Link>
-            </NavGroup>
-            <NavGroup label="&#128272; Site Compliance and Security">
+            </NavClientGroup>
+            <NavClientGroup label="&#128272; Site Compliance and Security">
               <Link className="nav__link" href="/admin/collections/site-auth-site-collection">
                 Authorization Forms
               </Link>
-            </NavGroup>
+            </NavClientGroup>
             {formsEnabled && (
-              <NavGroup label="&#128221; Forms">
+              <NavClientGroup label="&#128221; Forms">
                 <Link
                   href="/admin/collections/site-forms"
                   className={`nav__link ${isActive('/admin/collections/site-forms') ? 'nav__link--active' : ''}`}
@@ -111,7 +111,7 @@ const NavClient: React.FC<NavClientProps> = ({
                 >
                   Form Submissions
                 </Link>
-              </NavGroup>
+              </NavClientGroup>
             )}
           </>
         )}
@@ -124,7 +124,7 @@ const NavClient: React.FC<NavClientProps> = ({
             >
               &oplus; Create Collection Type
             </Link>
-            <NavGroup label="&#128193; Content Collections">
+            <NavClientGroup label="&#128193; Content Collections">
               {collectionTypeLinks.length === 0 && (
                 <Link
                   href="/admin/collections/collection-types/create"
@@ -144,8 +144,8 @@ const NavClient: React.FC<NavClientProps> = ({
                   </Link>
                 )
               })}
-            </NavGroup>
-            <NavGroup label="&#x1F4C4; Content Pages">
+            </NavClientGroup>
+            <NavClientGroup label="&#x1F4C4; Content Pages">
               <Link
                 href="/admin/collections/pages"
                 className={`nav__link ${isActive('/admin/collections/pages') ? 'nav__link--active' : ''}`}
@@ -159,8 +159,8 @@ const NavClient: React.FC<NavClientProps> = ({
               >
                 HomePage
               </Link>
-            </NavGroup>
-            <NavGroup label="&#x1F3F7; Tags">
+            </NavClientGroup>
+            <NavClientGroup label="&#x1F3F7; Tags">
               <Link
                 className={`nav__link ${isActive('/admin/collections/tag-types/create') ? 'nav__link--active' : ''}`}
                 href="/admin/collections/tag-types/create"
@@ -187,9 +187,9 @@ const NavClient: React.FC<NavClientProps> = ({
               >
                 Ungrouped Tags
               </Link>
-            </NavGroup>
+            </NavClientGroup>
             {formsEnabled && (
-              <NavGroup label="&#128221; Forms">
+              <NavClientGroup label="&#128221; Forms">
                 <Link
                   href="/admin/collections/site-forms"
                   className={`nav__link ${isActive('/admin/collections/site-forms') ? 'nav__link--active' : ''}`}
@@ -202,9 +202,9 @@ const NavClient: React.FC<NavClientProps> = ({
                 >
                   Form Submissions
                 </Link>
-              </NavGroup>
+              </NavClientGroup>
             )}
-            <NavGroup label="&#x1F30F; Global Assets">
+            <NavClientGroup label="&#x1F30F; Global Assets">
               <Link
                 href="/admin/collections/alerts"
                 className={`nav__link ${isActive('/admin/collections/alerts') ? 'nav__link--active' : ''}`}
@@ -225,8 +225,8 @@ const NavClient: React.FC<NavClientProps> = ({
               >
                 Not Found 404 Error Page
               </Link>
-            </NavGroup>
-            <NavGroup label="&#x1F4D0; Structure">
+            </NavClientGroup>
+            <NavClientGroup label="&#x1F4D0; Structure">
               <Link
                 href="/admin/globals/menu"
                 className={`nav__link ${isActive('/admin/globals/menu') ? 'nav__link--active' : ''}`}
@@ -254,9 +254,9 @@ const NavClient: React.FC<NavClientProps> = ({
               >
                 Main Footer
               </Link>
-            </NavGroup>
+            </NavClientGroup>
             {(selectedSiteRole === 'manager' || user.isAdmin) && (
-              <NavGroup label="&#x1F464; User Management">
+              <NavClientGroup label="&#x1F464; User Management">
                 <Link
                   href="/admin/collections/users"
                   className={`nav__link ${isActive('/admin/collections/users') ? 'nav__link--active' : ''}`}
@@ -270,9 +270,9 @@ const NavClient: React.FC<NavClientProps> = ({
                 >
                   Sites, Roles, and Permissions
                 </Link>
-              </NavGroup>
+              </NavClientGroup>
             )}
-            <NavGroup label="&#x2699; Site Configuration">
+            <NavClientGroup label="&#x2699; Site Configuration">
               <Link
                 href="/admin/globals/site-config"
                 className={`nav__link ${isActive('/admin/globals/site-config') ? 'nav__link--active' : ''}`}
@@ -302,9 +302,9 @@ const NavClient: React.FC<NavClientProps> = ({
                   </Link>
                 </React.Fragment>
               )}
-            </NavGroup>
+            </NavClientGroup>
             {selectedSiteRole === 'manager' && (
-              <NavGroup label="&#128272; Site Compliance and Security">
+              <NavClientGroup label="&#128272; Site Compliance and Security">
                 <Link
                   className={`nav__link ${isActive('/admin/globals/site-auth') ? 'nav__link--active' : ''}`}
                   href="/admin/globals/site-auth"
@@ -323,7 +323,7 @@ const NavClient: React.FC<NavClientProps> = ({
                 >
                   ATU Guide
                 </Link>
-              </NavGroup>
+              </NavClientGroup>
             )}
           </>
         )}

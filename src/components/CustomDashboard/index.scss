@@ -3,3 +3,31 @@
     overscroll-behavior: auto;
   }
 }
+
+// NavClientGroup
+.nav-group__content-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 200ms ease;
+}
+
+.nav-group__content-wrapper--open {
+  grid-template-rows: 1fr;
+}
+
+.nav-group__content-wrapper > .nav-group__content {
+  min-height: 0;
+}
+
+.nav-group__indicator-icon {
+  transition: transform 200ms ease;
+}
+
+.nav-group__indicator-icon--open {
+  transform: rotate(180deg);
+}
+
+.nav-group__indicator-icon--collapsed {
+  transform: rotate(0deg);
+}

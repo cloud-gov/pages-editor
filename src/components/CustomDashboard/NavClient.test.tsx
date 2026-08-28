@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import NavClient from './NavClient'
 
 vi.mock('next/navigation', () => ({
@@ -8,10 +8,20 @@ vi.mock('next/navigation', () => ({
 }))
 
 vi.mock('@payloadcms/ui', () => ({
-  NavGroup: ({ label, children }: { label: string; children: React.ReactNode }) => (
+  NavClientGroup: ({ label, children }: { label: string; children: React.ReactNode }) => (
     <div data-testid="nav-group" aria-label={label}>
       {children}
     </div>
+  ),
+  ChevronIcon: ({
+    className,
+  }: {
+    className?: string
+  }) => (
+    <svg
+      data-testid="chevron-icon"
+      className={className}
+    />
   ),
 }))
 
