@@ -1,6 +1,6 @@
 'use client'
 
-import React, { DragEvent, useRef } from 'react'
+import React, { DragEvent, useEffect, useId, useRef } from 'react'
 
 export type SortableRowProps = {
   id: string
@@ -163,6 +163,30 @@ export function SortableRow({
     onDragStart(e, id)
   }
 
+  const contentRef = useRef<HTMLDivElement>(null)
+  const contentId = useId()
+  const wasExpanded = useRef(isExpanded)
+
+  useEffect(() => {
+    const justExpanded = !wasExpanded.current && isExpanded
+
+    if (justExpanded) {
+      const firstFocusable = contentRef.current?.querySelector<HTMLElement>(
+        `
+        input:not([disabled]),
+        textarea:not([disabled]),
+        select:not([disabled]),
+        button:not([disabled]),
+        [contenteditable="true"]
+        `
+      )
+
+      firstFocusable?.focus()
+    }
+
+    wasExpanded.current = isExpanded
+  }, [isExpanded])
+
   return (
     <div
       id={`content-row-${rowNumber}`}
@@ -234,6 +258,7 @@ export function SortableRow({
               className="collapsible__toggle custom-blocks-field__toggle"
               aria-expanded={isExpanded}
               onClick={onToggle}
+              aria-label={id}
             >
               <span className="visually-hidden">
                 Toggle row {rowNumber}
@@ -310,7 +335,9 @@ export function SortableRow({
 
           {isExpanded ? (
             <div className="collapsible__content">
-              {children}
+              <div role="region" aria-labelledby={id} ref={contentRef} id={contentId}>
+                {children}
+              </div>
             </div>
           ) : null}
         </div>
