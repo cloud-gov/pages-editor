@@ -22,7 +22,6 @@ export function CustomGroupField({
   permissions,
   readOnly,
 }: Props) {
-  console.log(JSON.stringify(field, null, 2))
   const label = 
   typeof field.label === 'string'
     ? field.label
