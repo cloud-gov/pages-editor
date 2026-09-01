@@ -1,3 +1,12 @@
+## 0.6.1 (2026-09-01)
+
+### Fixed
+
+- adds focus to content block when expanded, aria attributes
+- add aria-expand to side nav buttons
+- add account text to button
+- correct comment
+
 ## 0.6.0 (2026-08-25)
 
 ### Added
