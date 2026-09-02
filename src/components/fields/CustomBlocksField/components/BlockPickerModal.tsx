@@ -55,6 +55,8 @@ export const BlockPickerModal: React.FC<Props> = ({
       ...prev,
       [name]: value,
     }))
+    const createButton = document.getElementById('modalCreate');
+    createButton?.focus();
   }
 
   const handleSubmit = () => {
