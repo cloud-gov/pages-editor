@@ -329,9 +329,10 @@ export function Modal({
                       <div className="form-submit">
                         <button
                           type="button"
-                          className="btn btn--size-medium btn--style-primary"
+                          className={`btn btn--size-medium btn--style-primary ${styles.modalCreateButton}`}
                           onClick={onSubmit}
                           disabled={Boolean(saving)}
+                          id="modalCreate"
                         >
                           <span className="btn__content">
                             <span className="btn__label">{primaryButtonText}</span>

@@ -5,3 +5,8 @@
   inset: 0;
   z-index: 1000;
 }
+
+.modalCreateButton:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
