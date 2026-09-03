@@ -704,3 +704,8 @@ button {
   content: 'Account';
   margin-left: .5rem;
 }
+
+// Collection table headings
+.table thead {
+  color: var(--theme-elevation-600);
+}

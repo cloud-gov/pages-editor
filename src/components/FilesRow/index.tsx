@@ -122,7 +122,7 @@ export const FilesRow: React.FC<FilesRowProps> = ({
             <DragHandleIcon />
           </div>
         )}
-        <div className={`${baseClass}__row-header`} id={`${scrollIdPrefix}-row-${rowIndex}`}>
+        <div className={`${baseClass}__row-header`} id={`${scrollIdPrefix}-row-${rowIndex}`} tabIndex={-1}>
           {isLoading ? (
             <span className={`${baseClass}__row-shimmer`} />
           ) : (

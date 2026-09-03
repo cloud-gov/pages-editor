@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 
 import { FilesField } from './index'
+import { afterEach } from 'node:test'
 
 const mockUseField = vi.fn()
 const mockDispatchFields = vi.fn()
@@ -28,7 +29,7 @@ vi.mock('@payloadcms/ui', () => ({
   useDocumentInfo: () => ({ setDocFieldPreferences: mockSetDocFieldPreferences }),
   useField: (args: unknown) => mockUseField(args),
   useForm: () => ({
-    addFieldRow: vi.fn(),
+    addFieldRow: mockAddFieldRow,
     dispatchFields: mockDispatchFields,
     getFields: mockGetFields,
     moveFieldRow: mockMoveFieldRow,
@@ -47,10 +48,26 @@ vi.mock('@payloadcms/translations', () => ({
 }))
 vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }))
 
+const mockAddFieldRow = vi.fn();
+
 // Render rows shallowly so the test focuses on FilesField behaviour.
 vi.mock('../FilesRow', () => ({
-  FilesRow: ({ rowIndex }: { rowIndex: number }) => (
-    <div data-testid={`files-row-${rowIndex}`}>row {rowIndex}</div>
+  FilesRow: ({
+    rowIndex,
+    scrollIdPrefix,
+  }: {
+    rowIndex: number
+    scrollIdPrefix: string
+  }) => (
+    <div data-testid={`files-row-${rowIndex}`}>
+      <div
+        data-testid={`files-row-header-${rowIndex}`}
+        id={`${scrollIdPrefix}-row-${rowIndex}`}
+        tabIndex={-1}
+      >
+        Header {rowIndex}
+      </div>
+    </div>
   ),
 }))
 vi.mock('../FilesFieldActions', () => ({
@@ -102,7 +119,12 @@ const setField = (overrides: Record<string, unknown> = {}) => {
 describe('FilesField', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.useFakeTimers()
     setField()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
   })
 
   it('renders the field label and a row per value', () => {
@@ -157,5 +179,23 @@ describe('FilesField', () => {
   it('does not contain inline styles', () => {
     const { container } = render(<FilesField {...baseProps} />)
     expect(container.querySelector('[style]')).toBeNull()
+  })
+
+  it('looks up the newly added row header', () => {
+    render(<FilesField {...baseProps} />)
+
+    fireEvent.click(screen.getByTestId('add-row'))
+
+    vi.runAllTimers()
+
+    expect(document.querySelector('[id*="-row-"]')).toBeInTheDocument()
+  })
+
+  it('renders row headers with tabIndex -1', () => {
+    render(<FilesField {...baseProps} />)
+
+    const header = screen.getByTestId('files-row-header-0')
+
+    expect(header).toHaveAttribute('tabindex', '-1')
   })
 })
