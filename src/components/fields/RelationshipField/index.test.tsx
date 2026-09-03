@@ -428,4 +428,75 @@ describe('RelationshipField', () => {
 
     expect(fetchMock).toHaveBeenCalled()
   })
+
+  it('does not select when tabbing away', async () => {
+    const user = userEvent.setup()
+
+    render(<RelationshipField {...defaultProps} />)
+
+    const input = screen.getByRole('combobox')
+
+    await user.click(input)
+    await user.tab()
+
+    expect(mockSetValue).not.toHaveBeenCalled()
+  })
+
+  it('associates the Tags label with the combobox', () => {
+    render(<RelationshipField {...defaultProps} />)
+
+    expect(
+      screen.getByRole('combobox', {
+        name: /tags/i,
+      }),
+    ).toBeInTheDocument()
+  })
+
+  it('exposes the field label as the combobox accessible name', () => {
+    render(<RelationshipField {...defaultProps} />)
+
+    const input = screen.getByRole('combobox')
+
+    expect(input).toHaveAccessibleName('Tags')
+  })
+
+  it('announces when no search results are found', async () => {
+    const user = userEvent.setup()
+
+    mockRelationshipFieldSearchFetch()
+
+    render(<RelationshipField {...defaultProps} />)
+
+    const input = screen.getByRole('combobox', {
+      name: /tags/i,
+    })
+
+    await user.click(input)
+
+    // search term that does not match the fetch mock
+    await user.type(input, 'xyz')
+
+    expect(
+      await screen.findByText(/no tags found/i),
+    ).toBeInTheDocument()
+  })
+
+  it('announces the number of available search results', async () => {
+    const user = userEvent.setup()
+
+    mockRelationshipFieldSearchFetch()
+
+    render(<RelationshipField {...defaultProps} />)
+
+    const input = screen.getByRole('combobox', {
+      name: /tags/i,
+    })
+
+    await user.click(input)
+    await user.type(input, 're')
+
+    expect(
+      await screen.findByText(/2 tags available/i),
+    ).toBeInTheDocument()
+  })
 })

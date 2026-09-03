@@ -166,8 +166,16 @@ export const FilesField: ArrayFieldClientComponent = (props) => {
     (rowIndex: number) => {
       void addFieldRow({ path, rowIndex, schemaPath })
       setTimeout(() => {
-        scrollToID(`${scrollIdPrefix}-row-${rowIndex + 1}`)
+        const targetId = `${scrollIdPrefix}-row-${rowIndex}`
+        
+        const header = document.getElementById(targetId)
+        
+        if (header instanceof HTMLElement) {
+          scrollToID(targetId)
+          header.focus({ preventScroll: true })
+        }
       }, 0)
+      
     },
     [addFieldRow, path, schemaPath, scrollIdPrefix],
   )

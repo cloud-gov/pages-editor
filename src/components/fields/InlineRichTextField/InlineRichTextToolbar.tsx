@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 
 import {
   $createHeadingNode,
@@ -48,6 +48,123 @@ export function InlineRichTextToolbar({
 }: Props) {
   const [editor] = useLexicalComposerContext()
 
+  const toolbarRef = useRef<HTMLDivElement>(null)
+  const lastFocusedControlRef = useRef<HTMLElement | null>(null)
+
+  const getToolbarControls = useCallback(() => {
+    const toolbar = toolbarRef.current
+
+    if (!toolbar) {
+      return []
+    }
+
+    return Array.from(
+      toolbar.querySelectorAll<HTMLElement>(
+        [
+          'button:not([disabled])',
+          'select:not([disabled])',
+          '[role="button"]:not([aria-disabled="true"])',
+          '[role="menuitem"]:not([aria-disabled="true"])',
+        ].join(','),
+      ),
+    ).filter((control) => {
+      return !control.closest('[role="dialog"]')
+    })
+  }, [])
+
+  const setToolbarTabStop = useCallback(
+    (control: HTMLElement) => {
+      const controls = getToolbarControls()
+
+      controls.forEach((item) => {
+        item.tabIndex = item === control ? 0 : -1
+      })
+
+      lastFocusedControlRef.current = control
+    },
+    [getToolbarControls],
+  )
+
+  const focusToolbar = useCallback(() => {
+    const controls = getToolbarControls()
+
+    if (controls.length === 0) {
+      return
+    }
+
+    const lastFocusedControl =
+      lastFocusedControlRef.current
+
+    const target =
+      lastFocusedControl &&
+      controls.includes(lastFocusedControl)
+        ? lastFocusedControl
+        : controls[0]
+
+    setToolbarTabStop(target)
+    target.focus()
+  }, [getToolbarControls, setToolbarTabStop])
+
+  const focusEditor = useCallback(() => {
+    editor.focus()
+  }, [editor])
+
+  const handleToolbarKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>,
+  ) => {
+    const controls = getToolbarControls()
+    const currentControl = document.activeElement
+
+    if (
+      controls.length === 0 ||
+      !(currentControl instanceof HTMLElement)
+    ) {
+      return
+    }
+
+    const currentIndex = controls.indexOf(currentControl)
+
+    if (currentIndex === -1) {
+      return
+    }
+
+    let nextIndex: number | null = null
+
+    switch (event.key) {
+      case 'ArrowRight':
+        nextIndex = (currentIndex + 1) % controls.length
+        break
+
+      case 'ArrowLeft':
+        nextIndex =
+          (currentIndex - 1 + controls.length) %
+          controls.length
+        break
+
+      case 'Home':
+        nextIndex = 0
+        break
+
+      case 'End':
+        nextIndex = controls.length - 1
+        break
+
+      case 'Escape':
+        event.preventDefault()
+        focusEditor()
+        return
+
+      default:
+        return
+    }
+
+    event.preventDefault()
+
+    const nextControl = controls[nextIndex]
+    setToolbarTabStop(nextControl)
+    nextControl.focus()
+  }
+
   const [blockFormat, setBlockFormatState] =
     useState<BlockFormat>('paragraph')
   const [isBold, setIsBold] = useState(false)
@@ -66,6 +183,25 @@ export function InlineRichTextToolbar({
     url: '',
     newTab: false,
   })
+
+  useEffect(() => {
+    const controls = getToolbarControls()
+
+    if (controls.length === 0) {
+      return
+    }
+
+    const existingTabStop = controls.find(
+      (control) => control.tabIndex === 0,
+    )
+
+    setToolbarTabStop(existingTabStop ?? controls[0])
+  }, [
+    getToolbarControls,
+    isLink,
+    setToolbarTabStop,
+    showBlocksMenu,
+  ])
 
   const updateToolbarState = () => {
     
@@ -328,7 +464,23 @@ export function InlineRichTextToolbar({
   }
 
   return (
-    <div className="custom-blocks-field__rich-text-toolbar">
+    <div
+     className="custom-blocks-field__rich-text-toolbar" role="toolbar" aria-orientation="horizontal"
+     ref={toolbarRef}
+     aria-label="Rich text formatting"
+     onKeyDown={handleToolbarKeyDown}
+     onFocusCapture={(event) => {
+      const target = event.target
+
+      if (target instanceof HTMLElement) {
+        const controls = getToolbarControls()
+
+        if (controls.includes(target)) {
+          setToolbarTabStop(target)
+        }
+      }
+     }}
+     >
       <label
         className="usa-sr-only"
         htmlFor="inline-rich-text-block-format"
