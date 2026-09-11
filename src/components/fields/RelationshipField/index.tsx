@@ -875,10 +875,44 @@ export const RelationshipField = (props: any) => {
     .filter(Boolean)
     .join(' ')
 
+  const inputId = `rel-${sanitizedPath}-input`
+
+  const searchStatus = useMemo(() => {
+    if (loading) {
+      return `Searching ${pluralLabel.toLowerCase()}`
+    }
+
+    if (
+      open &&
+      query.trim().length >= minChars &&
+      menuOptions.length === 0
+    ) {
+      return 'No tags found'
+    }
+
+    if (
+      open &&
+      query.trim().length >= minChars &&
+      menuOptions.length > 0
+    ) {
+      return `${menuOptions.length} ${pluralLabel.toLowerCase()} available`
+    }
+
+    return `${selected.length} ${pluralLabel.toLowerCase()} selected`
+  }, [
+    loading,
+    menuOptions.length,
+    minChars,
+    open,
+    pluralLabel,
+    query,
+    selected.length,
+  ])
+
   return (
     <>
       <FieldWrapper
-        id={id}
+        id={inputId}
         label={fieldLabel}
         required={required}
         description={description}
@@ -915,8 +949,8 @@ export const RelationshipField = (props: any) => {
                   .filter(Boolean)
                   .join(' ')}
               >
-                <div aria-live="polite" className="sr-only">
-                  {selected.length} {pluralLabel.toLowerCase()} selected
+                <div role="status" aria-live="polite" className="sr-only">
+                  {searchStatus}
                 </div>
 
                 <div className="value-container">
