@@ -44,6 +44,13 @@ export const CollectionEntries: CollectionConfig = {
       url: getCustomCollectionLivePreview,
     },
     preview: getCustomCollectionPreview,
+    components: {
+      views: {
+        list: {
+          Component: '@/components/CustomCollectionsView'
+        }
+      }
+    }
   },
   access: {
     create: getAdminOrSiteUser('collection-entries'),

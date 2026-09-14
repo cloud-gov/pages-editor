@@ -36,6 +36,13 @@ export const Alerts: CollectionConfig = {
     },
     useAsTitle: 'title',
     hideAPIURL: true,
+    components: {
+      views: {
+        list: {
+          Component: '@/components/CustomCollectionsView'
+        }
+      }
+    }
   },
   defaultSort: ['-isActive', '-publishDate'],
   fields: [

@@ -17,6 +17,13 @@ export const Media: CollectionConfig = {
     hidden: false,
     defaultColumns: ['filename', '_status', 'reviewReady'],
     useAsTitle: 'filename',
+    components: {
+      views: {
+        list: {
+          Component: '@/components/CustomCollectionsView'
+        }
+      }
+    }
   },
   slug: 'media',
   access: {

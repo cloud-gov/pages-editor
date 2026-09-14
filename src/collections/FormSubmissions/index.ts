@@ -56,6 +56,13 @@ export const SiteFormSubmissions: CollectionConfig = {
     defaultColumns: ['form', 'status', 'createdAt'],
     useAsTitle: 'id',
     hideAPIURL: true,
+    components: {
+      views: {
+        list: {
+          Component: '@/components/CustomCollectionsView'
+        }
+      }
+    }
   },
   fields: [
     {

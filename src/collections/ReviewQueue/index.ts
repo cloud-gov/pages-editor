@@ -22,6 +22,13 @@ export const ReviewQueue: CollectionConfig = {
     // Surfaced through the dedicated `/admin/ready-for-review` view.
     hidden: true,
     hideAPIURL: true,
+    components: {
+      views: {
+        list: {
+          Component: '@/components/CustomCollectionsView'
+        }
+      }
+    }
   },
   access: {
     read: getAdminOrSiteUser('review-queue', ['manager']),

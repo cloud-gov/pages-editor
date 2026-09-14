@@ -23,6 +23,11 @@ export const Users: CollectionConfig = {
     group: 'User Management',
     components: {
       Description: 'src/components/UserCollectionDescription',
+      views: {
+        list: {
+          Component: '@/components/CustomCollectionsView'
+        }
+      }
     },
     description: 'Manage who can access and edit the site, including roles and permissions.',
     defaultColumns: ['email', 'updatedAt', 'sites'],
