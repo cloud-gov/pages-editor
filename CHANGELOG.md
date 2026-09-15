@@ -1,3 +1,16 @@
+## 0.7.1 (2026-09-15)
+
+### Fixed
+
+- collection list view a11y issues
+- adds aria feedback and improved keyboard navigation
+- include custom list view component
+- standardize component name
+- collection ally issues
+- resolves label association for a11y
+- tag field ally issues
+- add keyboard arrow nav to rich text toolbar
+
 ## 0.7.0 (2026-09-02)
 
 ### Added
