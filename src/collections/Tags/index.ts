@@ -16,6 +16,13 @@ export const Tags: CollectionConfig = {
     description: 'Tags used to organize and filter content across the site.',
     useAsTitle: 'title',
     hidden: false,
+    components: {
+      views: {
+        list: {
+          Component: '@/components/CustomCollectionsView'
+        }
+      }
+    }
   },
   fields: [
     {

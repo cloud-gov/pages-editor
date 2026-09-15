@@ -36,6 +36,13 @@ export const Pages: CollectionConfig<'pages'> = {
     preview: getAdminCollectionPreview('pages', false),
     useAsTitle: 'title',
     hideAPIURL: true,
+    components: {
+      views: {
+        list: {
+          Component: '@/components/CustomCollectionsView'
+        }
+      }
+    }
   },
   access: {
     create: getAdminOrSiteUser('pages'),

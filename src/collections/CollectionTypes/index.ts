@@ -21,6 +21,13 @@ export const CollectionTypes: CollectionConfig = {
     defaultColumns: ['title', 'slug', 'site', 'updatedAt'],
     useAsTitle: 'title',
     hideAPIURL: true,
+    components: {
+      views: {
+        list: {
+          Component: '@/components/CustomCollectionsView'
+        }
+      }
+    }
   },
   access: {
     create: getAdminOrSiteUser('collection-types'),

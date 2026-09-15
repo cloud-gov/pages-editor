@@ -25,6 +25,13 @@ export const SideNavigation: CollectionConfig = {
     description: 'Create and manage side navigation menus for single pages and collections.',
     useAsTitle: 'name',
     defaultColumns: ['name', 'title', 'enabled', 'updatedAt'],
+    components: {
+      views: {
+        list: {
+          Component: '@/components/CustomCollectionsView'
+        }
+      }
+    }
   },
   fields: [
     {

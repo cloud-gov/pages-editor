@@ -24,6 +24,13 @@ export const SiteForms: CollectionConfig = {
     defaultColumns: ['title', '_status', 'updatedAt'],
     useAsTitle: 'title',
     hideAPIURL: true,
+    components: {
+      views: {
+        list: {
+          Component: '@/components/CustomCollectionsView'
+        }
+      }
+    }
   },
   fields: [
     {

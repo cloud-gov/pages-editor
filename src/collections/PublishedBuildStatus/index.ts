@@ -8,6 +8,13 @@ export const PublishedBuildStatus: CollectionConfig = {
     group:'Site Management',
     useAsTitle:'completedAt',
     description:'Build Status List',
+    components: {
+      views: {
+        list: {
+          Component: '@/components/CustomCollectionsView'
+        }
+      }
+    }
   },
   access:{
      read: getAdminOrSiteUser('published-build-status', ['manager', 'user', 'bot']),
