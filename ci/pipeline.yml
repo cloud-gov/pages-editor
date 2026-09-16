@@ -29,8 +29,6 @@ jobs:
         instance_vars:
           deploy-env: ((deploy-env))
 
-  #! Temp until we deploy prod app
-  #@ if/end env != 'production':
   - name: test-db
     plan:
       - get: src
@@ -73,8 +71,6 @@ jobs:
         -  #@ pr_hook("success", "test-pages-editor")
 
 
-  #! Temp until we deploy prod app
-  #@ if/end env != 'production':
   - name: deploy-pages-editor
     plan:
       - get: src
@@ -152,8 +148,6 @@ jobs:
         #@ if/end env == 'dev':
         -  #@ pr_hook("success", "deploy-pages-editor")
 
-  #! Temp until we deploy prod app
-  #@ if/end env != 'production':
   - name: create-user-provided-service-pages-bucket-manager
     plan:
       - get: weekly-tuesdays-at-7am
