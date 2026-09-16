@@ -70,6 +70,87 @@ export const FileUploadField: UploadFieldClientComponent = (props) => {
     return () => observer.disconnect()
   })
 
+  // add id to field label and aria- attributes
+  
+  useEffect(() => {
+    const uploadFields = document.querySelectorAll<HTMLElement>(
+      '.field-type.upload[id]',
+    )
+
+    uploadFields.forEach((uploadField) => {
+      const uploadId = uploadField.id
+      if (!uploadId) return
+
+      const label = uploadField.querySelector<HTMLLabelElement>('.field-label')
+      const dropzone = uploadField.querySelector<HTMLElement>(
+        '.dropzone.dropzoneStyle--default',
+      )
+
+      if (!label || !dropzone) return
+
+      const labelId = `${uploadId}-label`
+
+      // Add ID to label
+      label.id = labelId
+
+      // Extract label text without HTML markup
+      const labelText =
+        label.childNodes[0]?.textContent?.trim() ??
+        label.textContent?.trim() ??
+        'File'
+
+      // Associate dropzone with label
+      dropzone.setAttribute('aria-labelledby', labelId)
+      dropzone.setAttribute('aria-label', `${labelText} Upload`)
+    })
+  }, [])
+
+  useEffect(() => {
+    const applyDrawerFixes = () => {
+      const drawerModal = document.querySelector(
+        '.payload__modal-container'
+      )
+
+      if (!(drawerModal instanceof HTMLElement)) {
+        return
+      }
+
+      const drawerDialog = document.querySelector(
+        '.payload__modal-container dialog'
+      )
+
+      const emptyButton = document.querySelector(
+        '.drawer__close'
+      )
+
+      const dragDesc = document.querySelector(
+        '.drawer__content-children main.collection-edit ~ div'
+      )
+
+      const dropZone = document.querySelector(
+        '.file-field__upload .dropzone'
+      )
+      
+      drawerDialog?.setAttribute('aria-label', 'Upload file')
+      emptyButton?.remove()
+      dragDesc?.setAttribute('id', 'drag-description')
+      dropZone?.setAttribute('aria-describedby', 'drag-description')
+    }
+
+    const observer = new MutationObserver(() => {
+      applyDrawerFixes()
+    })
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    })
+
+    applyDrawerFixes()
+
+    return () => observer.disconnect()
+  }, [])
+
   const memoizedValue = useMemo(() => {
     if (hasMany === true) {
       return Array.isArray(value)
@@ -89,7 +170,7 @@ export const FileUploadField: UploadFieldClientComponent = (props) => {
   }, [hasMany, value, isPolymorphic, relationToFromProps])
 
   return (
-    <div ref={wrapperRef}>
+    <div ref={wrapperRef} className="field-type upload">
       <UploadInput
         AfterInput={AfterInput}
         allowCreate={allowCreate !== false}

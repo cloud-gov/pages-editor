@@ -284,6 +284,9 @@ export const imageField: UploadField = {
   relationTo: 'media',
   admin: {
     description: 'This featured image will be used as a thumbnail and cover image',
+    components: {
+      Field: '@/components/FileUploadField#FileUploadField'
+    }
   },
 }
 
