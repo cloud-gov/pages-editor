@@ -41,6 +41,9 @@ export const Pages: CollectionConfig<'pages'> = {
         list: {
           Component: '@/components/CustomCollectionsView'
         }
+      },
+      edit: {
+        editMenuItems: ['@/components/CustomEditView/CustomEditMenuItem']
       }
     }
   },

@@ -49,6 +49,9 @@ export const CollectionEntries: CollectionConfig = {
         list: {
           Component: '@/components/CustomCollectionsView'
         }
+      }, 
+      edit: {
+        editMenuItems: ['@/components/CustomEditView/CustomEditMenuItem']
       }
     }
   },

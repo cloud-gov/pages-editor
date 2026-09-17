@@ -41,6 +41,9 @@ export const Alerts: CollectionConfig = {
         list: {
           Component: '@/components/CustomCollectionsView'
         }
+      },
+      edit: {
+        editMenuItems: ['@/components/CustomEditView/CustomEditMenuItem']
       }
     }
   },
