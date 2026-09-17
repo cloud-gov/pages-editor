@@ -1,3 +1,9 @@
+## 0.8.2 (2026-09-17)
+
+### Fixed
+
+- Fix postfix in production deployment file
+
 ## 0.8.1 (2026-09-17)
 
 ### Fixed
