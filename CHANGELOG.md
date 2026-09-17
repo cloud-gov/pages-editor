@@ -1,3 +1,9 @@
+## 0.8.3 (2026-09-17)
+
+### Fixed
+
+- fix prefix and add extra log
+
 ## 0.8.2 (2026-09-17)
 
 ### Fixed
