@@ -3,6 +3,6 @@ instances: 2
 env: production
 log_level: info
 node_env: production
-postfix:
+postfix: -production
 route: publisher.cloud.gov
 feature_forms: disabled
