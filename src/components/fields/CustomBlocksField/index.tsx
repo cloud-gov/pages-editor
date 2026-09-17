@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import type { BlocksFieldClientComponent, ClientBlock } from 'payload'
 import {
   Button,
@@ -146,7 +146,6 @@ export const CustomBlocksField: BlocksFieldClientComponent = (props) => {
       rowIndex: currentRows.length,
       schemaPath,
     })
-
     setIsPickerOpen(false)
   }
 
@@ -272,10 +271,6 @@ export const CustomBlocksField: BlocksFieldClientComponent = (props) => {
       })
     })
 
-    Object.keys(values).forEach((fieldPath) => {
-      const fullPath = `${rowPath}.${fieldPath}`
-    })
-
     replaceState(formState)
 
     setModified(true)
@@ -393,7 +388,7 @@ export const CustomBlocksField: BlocksFieldClientComponent = (props) => {
                   i18n={i18n}
                   draggingId={draggingId}
                   dragOverId={dragOverId}
-                  isExpanded={isRowExpanded(row.id)}
+                  isExpanded={!isRowExpanded(row.id)}
                   getFields={getFields}
                   onToggle={() => toggleRowExpanded(row.id)}
                   onRemove={() => removeBlock(index)}
@@ -417,11 +412,13 @@ export const CustomBlocksField: BlocksFieldClientComponent = (props) => {
 
         {!hasMaxRows ? (
           <Button
-            buttonStyle="transparent"
+            buttonStyle="icon-label"
             className="custom-blocks-field__add-button"
             disabled={readOnly}
+            icon="plus"
+            iconPosition="left"
+            iconStyle="with-border"
             onClick={() => setIsPickerOpen(true)}
-            type="button"
           >
             {t('fields:addLabel', {
               label: getTranslation(labels.singular, i18n),
