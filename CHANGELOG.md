@@ -1,3 +1,10 @@
+## 0.8.1 (2026-09-17)
+
+### Fixed
+
+- apply a11y remediation to feature image
+- remove prod restriction on pipeline
+
 ## 0.8.0 (2026-09-16)
 
 ### Added
