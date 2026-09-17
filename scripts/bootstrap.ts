@@ -65,6 +65,6 @@ async function bootstrap() {
 
 await bootstrap()
   .then(() => console.log('Bootstrap complete'))
-  .catch((err) => console.error(`Error running bootstrap ${err}`))
+  .catch((err) => { console.error(err); console.error('CAUSE:', err.cause); })
 
 process.exit(0)
