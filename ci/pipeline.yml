@@ -253,8 +253,6 @@ resources:
       url: ((slack-webhook-url-cg-pages))
   #@ end
 
-  #! Temp until we deploy prod app
-  #@ if env != 'production':
   - name: weekly-tuesdays-at-7am
     type: time
     source:
@@ -269,7 +267,6 @@ resources:
   - name: node24
   - name: postgres
   - name: slack
-  #@ end
 
   - name: general-task
   - name: pipeline-tasks
