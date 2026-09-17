@@ -16,7 +16,7 @@ import {
   type InlineBlockFieldConfig,
 } from '../blockModalUtils'
 import { UploadField } from './UploadField'
-import { FormRelationshipField } from './FormRelationshipField'
+import { BlockRelationshipField } from './BlockRelationshipField'
 import { CardGridField } from './CardGridField'
 
 type Props = {
@@ -102,7 +102,6 @@ export function InlineBlockEditor({
   readOnly,
   rowPath,
 }: Props) {
-  
   const fields = useMemo(() => blockToInlineFields(blockConfig), [blockConfig])
 
   const locallyManagedFields = useMemo(
@@ -338,7 +337,7 @@ const richTextFields = useMemo(
           variant="default"
           type={field.type}
         >
-          <FormRelationshipField
+          <BlockRelationshipField
             relationTo={field.sourceField?.relationTo}
             value={value}
             disabled={disabled}
