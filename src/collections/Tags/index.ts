@@ -21,6 +21,9 @@ export const Tags: CollectionConfig = {
         list: {
           Component: '@/components/CustomCollectionsView'
         }
+      },
+      edit: {
+        editMenuItems: ['@/components/CustomEditView/CustomEditMenuItem']
       }
     }
   },

@@ -27,6 +27,9 @@ export const Users: CollectionConfig = {
         list: {
           Component: '@/components/CustomCollectionsView'
         }
+      },
+      edit: {
+        editMenuItems: ['@/components/CustomEditView/CustomEditMenuItem']
       }
     },
     description: 'Manage who can access and edit the site, including roles and permissions.',

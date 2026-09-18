@@ -30,6 +30,9 @@ export const SideNavigation: CollectionConfig = {
         list: {
           Component: '@/components/CustomCollectionsView'
         }
+      },
+      edit: {
+        editMenuItems: ['@/components/CustomEditView/CustomEditMenuItem']
       }
     }
   },
