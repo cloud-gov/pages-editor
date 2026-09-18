@@ -1,3 +1,14 @@
+## 0.8.4 (2026-09-18)
+
+### Fixed
+
+- add aria-label to document menu button
+- case typo on component path
+
+### Maintenance
+
+- add component to remaining collections
+
 ## 0.8.3 (2026-09-17)
 
 ### Fixed
