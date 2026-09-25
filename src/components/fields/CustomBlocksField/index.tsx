@@ -146,6 +146,7 @@ export const CustomBlocksField: BlocksFieldClientComponent = (props) => {
       rowIndex: currentRows.length,
       schemaPath,
     })
+
     setIsPickerOpen(false)
   }
 
@@ -269,10 +270,6 @@ export const CustomBlocksField: BlocksFieldClientComponent = (props) => {
         path: `${rowPath}.${fieldPath}`,
         value: fieldValue,
       })
-    })
-
-    Object.keys(values).forEach((fieldPath) => {
-      const fullPath = `${rowPath}.${fieldPath}`
     })
 
     replaceState(formState)
