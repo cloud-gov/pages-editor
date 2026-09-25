@@ -271,6 +271,10 @@ export const CustomBlocksField: BlocksFieldClientComponent = (props) => {
       })
     })
 
+    Object.keys(values).forEach((fieldPath) => {
+      const fullPath = `${rowPath}.${fieldPath}`
+    })
+
     replaceState(formState)
 
     setModified(true)
@@ -388,7 +392,7 @@ export const CustomBlocksField: BlocksFieldClientComponent = (props) => {
                   i18n={i18n}
                   draggingId={draggingId}
                   dragOverId={dragOverId}
-                  isExpanded={!isRowExpanded(row.id)}
+                  isExpanded={isRowExpanded(row.id)}
                   getFields={getFields}
                   onToggle={() => toggleRowExpanded(row.id)}
                   onRemove={() => removeBlock(index)}
