@@ -6,6 +6,9 @@ export const relatedItems: BlocksField = {
   label: 'Related Item Links',
   type: 'blocks',
   admin: {
+    components: {
+      Field: '@/components/CustomRelatedItems#CustomRelatedItems'
+    },
     description:
       'Add related items to display at the bottom of this page. Can include internal items or external links.',
   },

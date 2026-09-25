@@ -102,7 +102,6 @@ export function InlineBlockEditor({
   readOnly,
   rowPath,
 }: Props) {
-  
   const fields = useMemo(() => blockToInlineFields(blockConfig), [blockConfig])
 
   const locallyManagedFields = useMemo(

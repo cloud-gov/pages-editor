@@ -28,7 +28,7 @@ export function FormRelationshipField({
   useEffect(() => {
     // fetch forms
     async function loadForms() {
-      const response = await fetch('/api/site-forms')
+      const response = await fetch(`/api/${relationTo}`)
 
       const data = await response.json()
 
@@ -53,7 +53,7 @@ export function FormRelationshipField({
       }}
     >
       <option value="">
-        Select a form
+        Select a value
       </option>
 
       {forms.map((form) => (
