@@ -272,10 +272,6 @@ export const CustomBlocksField: BlocksFieldClientComponent = (props) => {
       })
     })
 
-    Object.keys(values).forEach((fieldPath) => {
-      const fullPath = `${rowPath}.${fieldPath}`
-    })
-
     replaceState(formState)
 
     setModified(true)
@@ -417,11 +413,13 @@ export const CustomBlocksField: BlocksFieldClientComponent = (props) => {
 
         {!hasMaxRows ? (
           <Button
-            buttonStyle="transparent"
+            buttonStyle="icon-label"
             className="custom-blocks-field__add-button"
             disabled={readOnly}
+            icon="plus"
+            iconPosition="left"
+            iconStyle="with-border"
             onClick={() => setIsPickerOpen(true)}
-            type="button"
           >
             {t('fields:addLabel', {
               label: getTranslation(labels.singular, i18n),
