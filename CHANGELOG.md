@@ -1,3 +1,16 @@
+## 0.8.4 (2026-09-30)
+
+### Fixed
+
+- collection filter styles with csp enforcement
+- use custom component for related links
+- add aria-label to document menu button
+- case typo on component path
+
+### Maintenance
+
+- add component to remaining collections
+
 ## 0.8.3 (2026-09-17)
 
 ### Fixed
