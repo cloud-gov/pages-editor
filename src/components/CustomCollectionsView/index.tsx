@@ -3,7 +3,70 @@ import React, { useEffect, useRef } from 'react'
 import type { ListViewClientProps } from 'payload'
 import { DefaultListView } from '@payloadcms/ui'
 
+import './index.scss'
+
 export default function CustomClientListView(props: ListViewClientProps) {
+
+  // content collection filter and columns blocks
+  const selectors = [
+    '.rs__input',
+    '.list-controls__columns',
+    '.list-controls__columns > div',
+    '.list-controls__columns div',
+    '.list-controls__where',
+    '.list-controls__where > div',
+  ]
+
+  const removeStyleIfMatched = (element: Element) => {
+    if (selectors.some((s) => element.matches(s))) {
+      element.removeAttribute('style')
+    }
+  }
+
+  const removeInlineStyles = () => {
+    document
+      .querySelectorAll(selectors.join(', '))
+      .forEach((el) => el.removeAttribute('style'))
+  }
+
+  useEffect(() => {
+    removeInlineStyles()
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === 'attributes' &&
+          mutation.target instanceof Element
+        ) {
+          removeStyleIfMatched(mutation.target)
+        }
+
+        mutation.addedNodes.forEach((node) => {
+          if (!(node instanceof Element)) {
+            return
+          }
+
+          removeStyleIfMatched(node)
+
+          node
+            .querySelectorAll(selectors.join(', '))
+            .forEach((el) => el.removeAttribute('style'))
+        })
+      })
+    })
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['style'],
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  // fixes a11y issues for list checkboxes
+
   useEffect(() => {
     const rows = document.querySelectorAll(
       'tbody tr',
