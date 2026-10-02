@@ -1,6 +1,6 @@
 import { $createInlinePayloadBlockNode } from "../InlinePayloadBlockNode";
 import { $insertNodeToNearestRoot } from "@lexical/utils";
-import { COMMAND_PRIORITY_EDITOR, createCommand } from "node_modules/lexical";
+import { COMMAND_PRIORITY_EDITOR, createCommand } from "lexical";
 
 export const INSERT_INLINE_BLOCK_COMMAND =
   createCommand<string>()

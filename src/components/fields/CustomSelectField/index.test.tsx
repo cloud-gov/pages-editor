@@ -3,6 +3,7 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { CustomSelectField } from './index'
 import { resetPayloadMocks, mockSetValue } from '../mocks/testmocks'
+import { SelectFieldClient } from 'payload'
 
 // Mock Payload hooks
 vi.mock('@payloadcms/ui', async () => {
@@ -26,13 +27,16 @@ const defaultProps = {
     required: true,
     admin: {
       description: 'Choose how many cards appear per row.',
+      placeholder: 'Select a value',
+      isSortable: false,
+      isClearable: false,
     },
     options: [
       { label: 'Three', value: '3' },
       { label: 'Two', value: '2' },
       { label: 'One', value: '1' },
     ],
-  },
+  } satisfies Omit<SelectFieldClient, 'type'>,
 }
 
 describe('CustomSelectField', () => {

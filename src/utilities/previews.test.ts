@@ -1,3 +1,4 @@
+import { CollectionSlug } from 'payload'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
 beforeEach(() => {
@@ -10,7 +11,7 @@ afterEach(() => {
 })
 
 const mod = await import('./previews')
-const collection = 'posts'
+const collection = 'collection-entries' satisfies CollectionSlug
 
 describe('getCollectionPreviewUrl', () => {
   it('fetches site slug and returns http URL without PREVIEW_ROOT', async () => {
@@ -35,7 +36,7 @@ describe('getCollectionPreviewUrl', () => {
       collection: 'sites',
       id: 'site-1',
     })
-    expect(url).toBe('http://preview.example.com/posts/my-article')
+    expect(url).toBe('http://preview.example.com/collection-entries/my-article')
   })
 
   it('fetches site slug and returns https URL with PREVIEW_ROOT', async () => {
@@ -62,7 +63,7 @@ describe('getCollectionPreviewUrl', () => {
       collection: 'sites',
       id: 123,
     })
-    expect(url).toBe('https://mysite.example.com/posts/my-post')
+    expect(url).toBe('https://mysite.example.com/collection-entries/my-post')
   })
 
   it('coerces non-string slug values (defensive) and builds path', async () => {
@@ -90,7 +91,7 @@ describe('getCollectionPreviewUrl', () => {
       id: 's-1',
     })
     // choosePreviewUrl uses template literals → String(value) is applied
-    expect(url).toBe('http://host/posts/42')
+    expect(url).toBe('http://host/collection-entries/42')
   })
 })
 
@@ -207,7 +208,7 @@ describe('getGlobalPreviewUrl', () => {
 
 describe('getAdminCollectionPreview', () => {
   it('normalizes site (object.id) and slug (locale-aware) and returns URL', async () => {
-    const preview = mod.getAdminCollectionPreview('posts')
+    const preview = mod.getAdminCollectionPreview('collection-entries')
 
     const req = {
       payload: {
@@ -233,12 +234,12 @@ describe('getAdminCollectionPreview', () => {
     })
 
     // PREVIEW_ROOT not set → http://{slug}/{path}
-    expect(url).toBe('http://preview.example.com/posts/mon-article')
+    expect(url).toBe('http://preview.example.com/collection-entries/mon-article')
   })
 
   it('normalizes site (array, uses first) and plain slug; respects PREVIEW_ROOT', async () => {
     process.env.PREVIEW_ROOT = 'example.com'
-    const preview = mod.getAdminCollectionPreview('posts')
+    const preview = mod.getAdminCollectionPreview('collection-entries')
 
     const req = {
       payload: {
@@ -262,6 +263,6 @@ describe('getAdminCollectionPreview', () => {
       id: 'site-3',
     })
     // PREVIEW_ROOT set → https://{subdomain}.{root}/{path}
-    expect(url).toBe('https://mysite.example.com/posts/my-post')
+    expect(url).toBe('https://mysite.example.com/collection-entries/my-post')
   })
 })

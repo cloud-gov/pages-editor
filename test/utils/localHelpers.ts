@@ -7,18 +7,30 @@ import type { ByIDOptions as UpdateOptions } from 'node_modules/payload/dist/col
 import type { ByIDOptions as DeleteOptions } from 'node_modules/payload/dist/collections/operations/local/delete'
 
 // TODO: generalize these functions for other local methods; it's hard to type
-export async function create<TSlug extends CollectionSlug, TSelect extends SelectType>(
+export async function create<
+  TSlug extends CollectionSlug,
+  TSelect extends SelectType,
+>(
   payload: BasePayload,
   tid: string | number | undefined,
   options: CreateOptions<TSlug, TSelect>,
-  user?: User,
+  user?: Partial<User>,
 ) {
-  let localOptions = { ...options }
+  let localOptions: CreateOptions<TSlug, TSelect> = { ...options }
+
   if (tid) {
-    localOptions = { ...localOptions, req: { transactionID: tid } }
+    localOptions = {
+      ...localOptions,
+      req: { transactionID: tid },
+    }
   }
+
   if (user) {
-    localOptions = { ...localOptions, overrideAccess: false, user }
+    localOptions = {
+      ...localOptions,
+      overrideAccess: false,
+      user,
+    }
   }
 
   // @ts-ignore
@@ -70,7 +82,7 @@ export async function update<TSlug extends CollectionSlug, TSelect extends Selec
   options: UpdateOptions<TSlug, TSelect>,
   user?: User,
 ) {
-  let localOptions = { ...options }
+  let localOptions: UpdateOptions<TSlug, TSelect> = { ...options }
   if (tid) {
     localOptions = { ...localOptions, req: { transactionID: tid } }
   }

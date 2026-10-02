@@ -1,4 +1,5 @@
 import { withPayload } from '@payloadcms/next/withPayload'
+import path from 'path'
 
 import redirects from './redirects.js'
 
@@ -23,10 +24,10 @@ const nextConfig = {
   reactStrictMode: true,
   redirects,
   sassOptions: {
-    includePaths: [
-      './node_modules/@uswds/uswds/packages/',
-      './node_modules/@uswds/uswds',
-      './node_modules/@uswds/uswds/src/stylesheets',
+    loadPaths: [
+      path.join(process.cwd(), 'node_modules/@uswds/uswds/packages/'),
+      path.join(process.cwd(), 'node_modules/@uswds/uswds'),
+      path.join(process.cwd(), 'node_modules/@uswds/uswds/src/stylesheets'),
     ],
   },
   productionBrowserSourceMaps: isDev,
@@ -40,5 +41,4 @@ const nextConfig = {
     return config
   },
 }
-
 export default withPayload(nextConfig, { devBundleServerPackages: false })

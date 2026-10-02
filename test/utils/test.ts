@@ -2,13 +2,13 @@ import { test as vitest } from 'vitest'
 import { v4 as uuid } from 'uuid'
 import type { LocalTestContext } from './context.types'
 import { create, find } from './localHelpers'
-import type { CollectionSlug } from 'payload'
+import type { CollectionSlug, RequiredDataFromCollectionSlug } from 'payload'
 import { siteAuthItemFieldsPick } from './globals'
 
-const alertCollectionName: CollectionSlug = 'alerts' as CollectionSlug
-const footerCollectionName: CollectionSlug = 'footer-site-collection' as CollectionSlug
-const siteFormsCollectionName: CollectionSlug = 'site-forms' as CollectionSlug
-const siteFormSubmissionsCollectionName: CollectionSlug = 'site-form-submissions' as CollectionSlug
+const alertCollectionName = 'alerts' satisfies CollectionSlug
+const footerCollectionName = 'footer-site-collection' satisfies CollectionSlug
+const siteFormsCollectionName = 'site-forms' satisfies CollectionSlug
+const siteFormSubmissionsCollectionName = 'site-form-submissions' satisfies CollectionSlug
 
 export const test = vitest.extend<LocalTestContext>({
   tid: async ({ payload }, use) => {
@@ -133,11 +133,13 @@ export const test = vitest.extend<LocalTestContext>({
   alerts: async ({ payload, tid, sites }, use) => {
     const alerts = await Promise.all(
       sites.map(async (site) => {
-        return create(payload, tid, {
-          collection: alertCollectionName,
-          data: {
+        const alertData = {
             title: `${site.name} Alert Title`,
+            type: 'info',
+            isActive: false,
             alignment: 'center',
+            slim: false,
+            icon: false,
             site,
             content: {
               root: {
@@ -170,7 +172,11 @@ export const test = vitest.extend<LocalTestContext>({
                 direction: 'ltr',
               },
             },
-          },
+          } satisfies RequiredDataFromCollectionSlug<'alerts'>
+
+        return create(payload, tid, {
+          collection: alertCollectionName,
+          data: alertData,
         })
       }),
     )
@@ -257,11 +263,9 @@ export const test = vitest.extend<LocalTestContext>({
   siteForms: async ({ payload, tid, sites }, use) => {
     const siteForms = await Promise.all(
       sites.map(async (site) => {
-        return create(payload, tid, {
-          collection: siteFormsCollectionName,
-          data: {
+        const formsData = {
             title: `${site.name} Form`,
-            status: 'published',
+            _status: 'published',
             fields: [
               {
                 fieldType: 'text',
@@ -287,7 +291,10 @@ export const test = vitest.extend<LocalTestContext>({
               successMessage: 'Thank you for your submission!',
             },
             site,
-          },
+          }  satisfies RequiredDataFromCollectionSlug<'site-forms'>
+        return create(payload, tid, {
+          collection: siteFormsCollectionName,
+          data: formsData,
         })
       }),
     )

@@ -4,6 +4,7 @@ import { test } from '@test/utils/test';
 import { siteIdHelper, getUserSiteIds } from '@/utilities/idHelper';
 import { isAccessError, notFoundError } from '@test/utils/errors';
 import { v4 as uuid } from 'uuid';
+import { User } from '@/payload-types';
 
 describe('Users access',  () => {
     const hasBotRoleForSite = (user, siteId: number) => {
@@ -518,7 +519,10 @@ describe('Users access',  () => {
             // create a bot user on this user's current site (done with admin context)
             const siteId = testUser.selectedSiteId;
 
-            const adminUser = { isAdmin: true };
+            const adminUser = { 
+                isAdmin: true,
+                
+            } satisfies Partial<User>;
             const botUser = await create(payload, tid, {
                 collection: 'users',
                 data: {
