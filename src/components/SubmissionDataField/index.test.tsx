@@ -275,7 +275,7 @@ describe('SubmissionDataField', () => {
 
       render(<SubmissionDataField {...defaultProps} />)
 
-      const cell = screen.getByText('Optional').closest('tr')?.querySelector('.submission-data-field__value')
+      const cell = screen.getByText('Optional').closest('tr')?.querySelector('.submission-data-field__value') as HTMLElement
       expect(within(cell!).getByText('-')).toBeInTheDocument()
     })
   })

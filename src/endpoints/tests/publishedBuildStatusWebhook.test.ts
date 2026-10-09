@@ -7,8 +7,8 @@ beforeAll(()=>{
     vi.stubEnv('PAGES_ENCRYPTION_KEY', 'test-key')
 })
 afterAll(() => {
-    if (process.env.PAGES_ENCRYPTION_KEY) {
-      vi.stubEnv('PAGES_ENCRYPTION_KEY', process.env.PAGES_ENCRYPTION_KEY)
+    if (process.env.PAGES_ENCRYPTION_KEY || '') {
+      vi.stubEnv('PAGES_ENCRYPTION_KEY', process.env.PAGES_ENCRYPTION_KEY || '')
     }
 })
 describe('Published Build Status', () => {
@@ -18,11 +18,11 @@ describe('Published Build Status', () => {
 
         const buildId = '12345'
         const webhookData = {
-            pagesSiteId: encrypt('1', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            state: encrypt('success', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            startedAt: encrypt('2024-01-01T10:00:00Z', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            completedAt: encrypt('2024-01-01T10:30:00Z', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            error: encrypt('', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
+            pagesSiteId: encrypt('1', process.env.PAGES_ENCRYPTION_KEY || '' || '').ciphertext,
+            state: encrypt('success', process.env.PAGES_ENCRYPTION_KEY || '' || '').ciphertext,
+            startedAt: encrypt('2024-01-01T10:00:00Z', process.env.PAGES_ENCRYPTION_KEY || '' || '').ciphertext,
+            completedAt: encrypt('2024-01-01T10:30:00Z', process.env.PAGES_ENCRYPTION_KEY || '' || '').ciphertext,
+            error: encrypt('', process.env.PAGES_ENCRYPTION_KEY || '' || '').ciphertext,
         }
         const mockPayload = {
             ...payload, 
@@ -50,7 +50,7 @@ describe('Published Build Status', () => {
 
         const buildId = '12345'
         const webhookData = {
-            pagesSiteId: encrypt('1', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
+            pagesSiteId: encrypt('1', process.env.PAGES_ENCRYPTION_KEY || '' || '').ciphertext,
             state: null,
             startedAt: null,
             completedAt: null,
@@ -82,11 +82,11 @@ describe('Published Build Status', () => {
 
         const buildId = '12345'
         const webhookData = {
-            pagesSiteId: encrypt('1', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            state: encrypt('success', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            startedAt: encrypt('2024-01-01T10:00:00Z', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            completedAt: encrypt('2024-01-01T10:30:00Z', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            error: encrypt('', process.env.PAGES_ENCRYPTION_KEY).ciphertext
+            pagesSiteId: encrypt('1', process.env.PAGES_ENCRYPTION_KEY || '' || '').ciphertext,
+            state: encrypt('success', process.env.PAGES_ENCRYPTION_KEY || '' || '').ciphertext,
+            startedAt: encrypt('2024-01-01T10:00:00Z', process.env.PAGES_ENCRYPTION_KEY || '' || '').ciphertext,
+            completedAt: encrypt('2024-01-01T10:30:00Z', process.env.PAGES_ENCRYPTION_KEY || '' || '').ciphertext,
+            error: encrypt('', process.env.PAGES_ENCRYPTION_KEY || '' || '').ciphertext
         }
         const mockPayload = {
             ...payload,
@@ -117,7 +117,7 @@ describe('Published Build Status', () => {
 
         const buildId = '12345'
         const webhookData = {
-            pagesSiteId: encrypt('1', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
+            pagesSiteId: encrypt('1', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
             state: null,
             startedAt: null,
             completedAt: null,
@@ -152,11 +152,11 @@ describe('Published Build Status', () => {
 
         const buildId = '12345'
         const webhookData = {
-            pagesSiteId: encrypt('1', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            state: encrypt('success', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            startedAt: encrypt('2024-01-01T10:00:00Z', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            completedAt: encrypt('2024-01-01T10:30:00Z', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            error: encrypt('', process.env.PAGES_ENCRYPTION_KEY).ciphertext
+            pagesSiteId: encrypt('1', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            state: encrypt('success', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            startedAt: encrypt('2024-01-01T10:00:00Z', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            completedAt: encrypt('2024-01-01T10:30:00Z', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            error: encrypt('', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext
         }
         const mockPayload = {
             ...payload,
@@ -187,10 +187,10 @@ describe('Published Build Status', () => {
         const buildId = '12345'
         const webhookData = {
             pagesSiteId: null,
-            state: encrypt('success', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            startedAt: encrypt('2024-01-01T10:00:00Z', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            completedAt: encrypt('2024-01-01T10:30:00Z', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            error: encrypt('', process.env.PAGES_ENCRYPTION_KEY).ciphertext
+            state: encrypt('success', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            startedAt: encrypt('2024-01-01T10:00:00Z', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            completedAt: encrypt('2024-01-01T10:30:00Z', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            error: encrypt('', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext
         }
         const mockPayload = {
             ...payload,
@@ -221,11 +221,11 @@ describe('Published Build Status', () => {
 
         const buildId = null;
         const webhookData = {
-            pagesSiteId: encrypt('1', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            state: encrypt('success', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            startedAt: encrypt('2024-01-01T10:00:00Z', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            completedAt: encrypt('2024-01-01T10:30:00Z', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            error: encrypt('', process.env.PAGES_ENCRYPTION_KEY).ciphertext
+            pagesSiteId: encrypt('1', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            state: encrypt('success', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            startedAt: encrypt('2024-01-01T10:00:00Z', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            completedAt: encrypt('2024-01-01T10:30:00Z', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            error: encrypt('', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext
         }
         const mockPayload = {
             ...payload,
@@ -256,11 +256,11 @@ describe('Published Build Status', () => {
 
         const buildId = 1234;
         const webhookData = {
-            pagesSiteId: encrypt('1', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            state: encrypt('success', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            startedAt: encrypt('2024-01-01T10:00:00Z', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            completedAt: encrypt('2024-01-01T10:30:00Z', process.env.PAGES_ENCRYPTION_KEY).ciphertext,
-            error: encrypt('', process.env.PAGES_ENCRYPTION_KEY).ciphertext
+            pagesSiteId: encrypt('1', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            state: encrypt('success', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            startedAt: encrypt('2024-01-01T10:00:00Z', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            completedAt: encrypt('2024-01-01T10:30:00Z', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext,
+            error: encrypt('', process.env.PAGES_ENCRYPTION_KEY || '').ciphertext
         }
         const mockPayload = {
             ...payload,

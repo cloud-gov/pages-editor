@@ -5,8 +5,8 @@ import { siteIdHelper } from '@/utilities/idHelper'
 import { isAccessError, notFoundError } from '@test/utils/errors'
 import type { CollectionSlug } from 'payload'
 
-const siteFormSubmissionsCollectionName: CollectionSlug =
-  'site-form-submissions' as CollectionSlug
+const siteFormSubmissionsCollectionName =
+  'site-form-submissions' as const
 
 describe('SiteSiteFormSubmissions access', () => {
   describe('admins can...', async () => {

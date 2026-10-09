@@ -67,6 +67,7 @@ import * as migration_20260528_222308_site_theme from './20260528_222308_site_th
 import * as migration_20260605_144614_add_page_site_id_published_build_status from './20260605_144614_add_page_site_id_published_build_status';
 import * as migration_20260609_223757_add_forms_and_form_submissions from './20260609_223757_add_forms_and_form_submissions';
 import * as migration_20260713_150245_add_review_queue from './20260713_150245_add_review_queue';
+import * as migration_20261006_174434_add_objectkey_to_media_unless_exists from './20261006_174434_add_objectkey_to_media_unless_exists';
 
 export const migrations = [
   {
@@ -412,6 +413,11 @@ export const migrations = [
   {
     up: migration_20260713_150245_add_review_queue.up,
     down: migration_20260713_150245_add_review_queue.down,
-    name: '20260713_150245_add_review_queue'
+    name: '20260713_150245_add_review_queue',
+  },
+  {
+    up: migration_20261006_174434_add_objectkey_to_media_unless_exists.up,
+    down: migration_20261006_174434_add_objectkey_to_media_unless_exists.down,
+    name: '20261006_174434_add_objectkey_to_media_unless_exists'
   },
 ];

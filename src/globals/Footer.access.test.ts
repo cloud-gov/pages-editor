@@ -5,7 +5,7 @@ import { FooterSiteCollection } from '@/payload-types'
 import  { CollectionSlug, Payload } from 'payload'
 import { globalBeforeAll, initGlobalTest, testRead, testUpdate } from '@test/utils/globals'
 
-const footerCollectionName: CollectionSlug = 'footer-site-collection' as CollectionSlug
+const footerCollectionName = 'footer-site-collection' satisfies CollectionSlug
 
 const fieldsToFill: Pick<FooterSiteCollection, 'domain' | 'id' | 'content'> = {
   id: 1,

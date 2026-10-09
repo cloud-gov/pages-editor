@@ -65,7 +65,7 @@ describe('CustomGroupField', () => {
         {...defaultProps}
         field={{
           ...defaultProps.field,
-          label: false,
+          label: {},
         }}
       />
     )

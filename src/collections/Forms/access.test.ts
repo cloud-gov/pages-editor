@@ -4,9 +4,9 @@ import { test } from '@test/utils/test'
 import { siteIdHelper } from '@/utilities/idHelper'
 import { isAccessError, notFoundError } from '@test/utils/errors'
 import { SiteForm } from '@/payload-types'
-import type { CollectionSlug } from 'payload'
+import type { CollectionSlug, RequiredDataFromCollectionSlug } from 'payload'
 
-const siteFormsCollectionName: CollectionSlug = 'site-forms' as CollectionSlug
+const siteFormsCollectionName = 'site-forms' as const
 
 const fieldsToFill: Pick<SiteForm, 'title' | '_status' | 'fields' | 'settings'> = {
   title: 'Test Form',
@@ -56,14 +56,16 @@ describe('SiteForms access', () => {
     test('write a Form to any site', async ({ tid, testUser, sites }) => {
       const newForms = await Promise.all(
         sites.map(async (site) => {
+          const formData = {
+            ...fieldsToFill,
+            site,
+          } satisfies RequiredDataFromCollectionSlug<'site-forms'>
           return create(
             payload,
             tid,
             {
               collection: siteFormsCollectionName,
-              data: {
-                ...fieldsToFill,
-              },
+              data: formData,
             },
             testUser,
           )

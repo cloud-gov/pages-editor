@@ -4,15 +4,24 @@ import { test } from '@test/utils/test'
 import { siteIdHelper } from '@/utilities/idHelper'
 import { isAccessError, notFoundError } from '@test/utils/errors'
 import { Alert } from '@/payload-types'
-import type { CollectionSlug } from 'payload'
+import type { CollectionSlug, RequiredDataFromCollectionSlug } from 'payload'
 
-const alertCollectionName: CollectionSlug = 'alerts' as CollectionSlug
+const alertCollectionName = 'alerts' satisfies CollectionSlug
 
-const fieldsToFill: Pick<Alert, 'title' | 'type' | 'isActive' | 'alignment' | 'content'> = {
+type AlertFieldsToFill = Required<
+  Pick<
+    Alert,
+    'title' | 'type' | 'isActive' | 'alignment' | 'content' | 'slim' | 'icon'
+  >
+>
+
+const fieldsToFill: AlertFieldsToFill = {
   title: 'Alert Title',
   type: 'info',
   isActive: false,
   alignment: 'center',
+  slim: false,
+  icon: false,
   content: {
     "root": {
       "type": "root",
@@ -44,7 +53,10 @@ const fieldsToFill: Pick<Alert, 'title' | 'type' | 'isActive' | 'alignment' | 'c
       "direction": "ltr"
     }
   },
-}
+} satisfies Pick<
+  RequiredDataFromCollectionSlug<'alerts'>,
+  'title' | 'type' | 'isActive' | 'alignment' | 'content' | 'slim' | 'icon'
+>
 
 describe('Alerts access', () => {
   describe('admins can...', async () => {
@@ -65,14 +77,16 @@ describe('Alerts access', () => {
     test('write a Alert to any site', async ({ tid, testUser, sites }) => {
       const newAlerts = await Promise.all(
         sites.map(async (site) => {
+          const formData = {
+            ...fieldsToFill,
+            site,
+          } satisfies RequiredDataFromCollectionSlug<'alerts'>
           return create(
             payload,
             tid,
             {
               collection: alertCollectionName,
-              data: {
-                ...fieldsToFill,
-              },
+              data: formData,
             },
             testUser,
           )
@@ -182,9 +196,9 @@ describe('Alerts access', () => {
         {
           collection: alertCollectionName,
           data: {
+            ...fieldsToFill,
             title: `Alert Title - ${siteId}`,
             site: siteId,
-            ...fieldsToFill,
           },
         },
         testUser,
@@ -193,24 +207,30 @@ describe('Alerts access', () => {
       expect(newAlert).toBeTruthy()
     })
 
-    test('not write a Alert to not-their site', async ({ tid, testUser, sites }) => {
+    test('not write an Alert to not-their site', async ({
+      tid,
+      testUser,
+      sites,
+    }) => {
       const siteId = testUser.selectedSiteId
 
       const notTheirSites = sites.filter((site) => site.id !== siteId)
 
       await Promise.all(
         notTheirSites.map(async (site) => {
+          const alertData = {
+            ...fieldsToFill,
+            title: `${site.name} - Title`,
+            site,
+          } satisfies RequiredDataFromCollectionSlug<'alerts'>
+
           return isAccessError(
             create(
               payload,
               tid,
               {
                 collection: alertCollectionName,
-                data: {
-                  title: `${site.name} - Title`,
-                  site,
-                  ...fieldsToFill,
-                },
+                data: alertData,
               },
               testUser,
             ),
@@ -387,9 +407,9 @@ describe('Alerts access', () => {
         {
           collection: alertCollectionName,
           data: {
-            title: `Alert Title - ${siteId}`,
             site: siteId,
             ...fieldsToFill,
+            title: `Alert Title - ${siteId}`,
           },
         },
         testUser,
@@ -408,9 +428,9 @@ describe('Alerts access', () => {
         {
           collection: alertCollectionName,
           data: {
-            title: `alert Title - ${newSiteId}`,
             site: newSiteId,
             ...fieldsToFill,
+            title: `alert Title - ${newSiteId}`,
           },
         },
         testUser,
@@ -531,9 +551,9 @@ describe('Alerts access', () => {
               {
                 collection: alertCollectionName,
                 data: {
-                  title: `${site.name} - Title`,
                   site,
                   ...fieldsToFill,
+                  title: `${site.name} - Title`,
                 },
               },
               testUser,
