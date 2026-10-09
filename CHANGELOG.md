@@ -1,3 +1,18 @@
+## 0.8.4 (2026-10-09)
+
+### Fixed
+
+- update critical and high dependencies
+- collection filter styles with csp enforcement
+- use custom component for related links
+- add aria-label to document menu button
+- case typo on component path
+
+### Maintenance
+
+- update vitest
+- add component to remaining collections
+
 ## 0.8.3 (2026-09-17)
 
 ### Fixed
