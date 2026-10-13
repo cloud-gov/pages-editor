@@ -84,7 +84,9 @@ export function LexicalHydrationPlugin({
 
       queueMicrotask(() => {
 
-        editor.setEditorState(editorState)
+        const HYDRATION_TAG = 'inline-rich-text-hydration'
+
+        editor.setEditorState(editorState, {tag: HYDRATION_TAG})
 
         initializedRef.current = true
         onHydrated?.()

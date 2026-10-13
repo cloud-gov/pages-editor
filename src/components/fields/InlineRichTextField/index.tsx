@@ -128,7 +128,7 @@ export function InlineRichTextField({
     }),
     [disabled, path],
   )
-
+  const HYDRATION_TAG = 'inline-rich-text-hydration'
   return (
     <FieldWrapper
       id={path || ''}
@@ -167,10 +167,10 @@ export function InlineRichTextField({
             />
 
             <OnChangePlugin
-              onChange={(editorState: EditorState) => {
+              onChange={(editorState: EditorState, editor, tags) => {
                 const json = editorState.toJSON()
 
-                if (!hydratedRef.current) {
+                if (!hydratedRef.current || tags.has(HYDRATION_TAG)) {
                   return
                 }
 
